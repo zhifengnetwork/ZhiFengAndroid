@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:background="@color/colorBackground"
+                android:layout_height="match_parent">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/myToolBar"
+            android:layout_marginRight="10dp"
+            android:layout_above="@+id/operationLayout"
+            android:layout_height="match_parent"/>
+
+    <LinearLayout
+            android:id="@+id/operationLayout"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:background="@color/whit"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:orientation="horizontal">
+
+        <CheckBox android:layout_width="wrap_content"
+                  android:drawableLeft="@drawable/selector_all_choose"
+                  android:drawablePadding="10dp"
+                  android:layout_marginLeft="20dp"
+                  android:textSize="12sp"
+                  android:textColor="@color/colorPrimaryText"
+                  android:id="@+id/allChoose"
+                  android:button="@null"
+                  android:layout_height="wrap_content"
+                  android:text="全选"/>
+
+        <!--<CheckBox android:layout_width="wrap_content"-->
+        <!--android:drawableLeft="@drawable/selector_all_choose"-->
+        <!--android:drawablePadding="10dp"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:textSize="12sp"-->
+        <!--android:textColor="@color/colorPrimaryText"-->
+        <!--android:id="@+id/testCheck"-->
+        <!--android:button="@null"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="全选"/>-->
+
+        <Space android:layout_width="0dp" android:layout_height="1dp"
+               android:layout_weight="1"/>
+
+        <TextView
+                android:id="@+id/delete"
+                android:layout_width="50dp"
+                android:layout_height="27dp"
+                android:textColor="@color/whit"
+                android:gravity="center"
+                android:background="@drawable/shape_small_red_btn"
+                android:layout_marginRight="20dp"
+                android:text="删除"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

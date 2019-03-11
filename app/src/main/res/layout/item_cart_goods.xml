@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:paddingLeft="10dp"
+              android:paddingTop="5dp"
+              android:paddingBottom="5dp"
+              android:background="@color/whit"
+              android:paddingRight="10dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <TextView
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="#e51c23"
+                android:text="满赠"/>
+
+        <TextView
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="11sp"
+                android:textColor="#4d4d4d"
+                android:maxLines="1"
+                android:text="已购物1900.00，可领取赠品"/>
+
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                   android:src="@drawable/ic_arrow"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+
+        <CheckBox android:layout_width="wrap_content"
+                  android:drawableLeft="@drawable/selector_all_choose"
+                  android:textSize="12sp"
+                  android:layout_marginLeft="10dp"
+                  android:id="@+id/checkBox"
+                  android:layout_gravity="center_vertical"
+                  android:textColor="@color/colorPrimaryText"
+                  android:layout_centerVertical="true"
+                  android:button="@null"
+                  android:visibility="visible"
+                  android:layout_height="wrap_content"/>
+
+        <ImageView
+                android:layout_width="110dp"
+                android:layout_marginLeft="12dp"
+                android:layout_height="85dp"
+                android:src="@drawable/pi_picture3"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:paddingLeft="10dp"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/goodsName"
+                    android:textSize="11sp"
+                    android:textColor="#4d4d4d"
+                    android:maxLines="2"
+                    android:text="Apple iphone xs 128G 金色 移动联通4G手机"/>
+
+            <LinearLayout
+                    android:id="@+id/sizeLayout"
+                    android:layout_below="@+id/goodsName"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                           android:src="@drawable/selector_reduce"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:paddingLeft="10dp"
+                          android:textSize="12sp"
+                          android:textColor="@color/colorBlackText"
+                          android:paddingRight="10dp"
+                          android:text="1"/>
+
+                <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                           android:src="@drawable/increase"/>
+
+                <Space android:layout_width="0dp" android:layout_height="1dp"
+                       android:layout_weight="1"/>
+
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:gravity="center_vertical"
+                              android:background="#f9f9f9"
+                              android:paddingLeft="12dp"
+                              android:paddingRight="12dp"
+                              android:paddingTop="5dp"
+                              android:paddingBottom="5dp"
+                              android:orientation="horizontal">
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textSize="9sp"
+                              android:textColor="#999999"
+                              android:text="套餐"/>
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:drawableRight="@drawable/down"
+                              android:textSize="12sp"
+                              android:textColor="#666666"
+                              android:drawablePadding="5dp"
+                              android:layout_marginLeft="3dp"
+                              android:text="官方标配"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_below="@+id/sizeLayout"
+                      android:background="@drawable/shape_service_red"
+                      android:paddingLeft="8dp"
+                      android:paddingRight="8dp"
+                      android:layout_marginTop="10dp"
+                      android:paddingTop="2dp"
+                      android:paddingBottom="2dp"
+                      android:textColor="@color/whit"
+                      android:textSize="12sp"
+                      android:text="选服务"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_alignParentRight="true"
+                      android:layout_below="@+id/sizeLayout"
+                      android:textSize="13sp"
+                      android:textColor="@color/colorBlackText"
+                      android:layout_marginTop="10dp"
+                      android:text="￥1476.00"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="25dp"
+                  android:gravity="center_vertical"
+                  android:layout_marginTop="10dp"
+                  android:orientation="horizontal">
+
+        <Space android:layout_width="0dp" android:layout_height="1dp"
+               android:layout_weight="1"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_marginRight="15dp"
+                  android:textSize="10sp"
+                  android:textColor="#6a6a6a"
+                  android:text="优惠"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textSize="10sp"
+                  android:textColor="#9f9f9f"
+                  android:text="满100.00可换购商品"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_marginLeft="12dp"
+                  android:layout_marginRight="12dp"
+                  android:textSize="15sp"
+                  android:textColor="@color/colorBlackText"
+                  android:text="|"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textSize="12sp"
+                  android:textColor="#393939"
+                  android:text="修改"/>
+
+    </LinearLayout>
+
+</LinearLayout>

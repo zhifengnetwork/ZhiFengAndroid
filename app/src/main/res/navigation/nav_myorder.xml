@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/nav_myorder">
+
+    <fragment
+            android:id="@+id/myOrderFragment"
+            android:name="com.zf.mart.ui.fragment.MyOrderFragment"
+            android:label="竞拍"
+            tools:layout="@layout/fragment_auction">
+
+    </fragment>
+
+</navigation>

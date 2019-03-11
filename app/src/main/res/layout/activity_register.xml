@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.core.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:background="@drawable/ic_background"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textSize="24sp"
+                  android:layout_gravity="center_horizontal"
+                  android:layout_marginTop="63dp"
+                  android:textColor="@color/colorBlackText"
+                  android:text="智丰商城注册"/>
+
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_marginTop="25dp"
+                        android:paddingRight="10dp"
+                        android:layout_height="wrap_content">
+
+            <TextView android:layout_width="70dp"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/accountTxt"
+                      android:layout_centerVertical="true"
+                      android:layout_alignTop="@+id/account"
+                      android:layout_alignBottom="@+id/account"
+                      android:gravity="right|center_vertical"
+                      android:textSize="15sp"
+                      android:layout_marginRight="3dp"
+                      android:textColor="@color/colorPrimaryText"
+                      android:text="账号:"/>
+
+            <EditText
+                    android:id="@+id/account"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="12dp"
+                    android:layout_toRightOf="@+id/accountTxt"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/shape_login_input"
+                    android:textSize="12sp"
+                    android:hint="请输入账号"/>
+
+            <TextView android:layout_width="match_parent"
+                      android:layout_below="@+id/account"
+                      android:layout_height="20dp"
+                      android:layout_marginTop="5dp"
+                      android:layout_alignLeft="@+id/account"
+                      android:textSize="12sp"
+                      android:background="#ffe8cb"
+                      android:gravity="center_vertical"
+                      android:paddingLeft="10dp"
+                      android:textColor="#101010"
+                      android:drawablePadding="12dp"
+                      android:drawableLeft="@drawable/ic_asterisk"
+                      android:text="您的账号不正确"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_height="wrap_content">
+
+            <TextView android:layout_width="70dp"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/phoneTxt"
+                      android:layout_centerVertical="true"
+                      android:layout_alignTop="@+id/phone"
+                      android:layout_alignBottom="@+id/phone"
+                      android:gravity="right|center_vertical"
+                      android:textSize="15sp"
+                      android:layout_marginRight="3dp"
+                      android:textColor="@color/colorPrimaryText"
+                      android:text="手机号:"/>
+
+            <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="12dp"
+                    android:layout_toRightOf="@+id/phoneTxt"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/shape_login_input"
+                    android:textSize="12sp"
+                    android:hint="请输入手机号"/>
+
+            <TextView android:layout_width="match_parent"
+                      android:layout_below="@+id/phone"
+                      android:layout_height="20dp"
+                      android:layout_marginTop="5dp"
+                      android:layout_alignLeft="@+id/phone"
+                      android:textSize="12sp"
+                      android:background="#ffe8cb"
+                      android:gravity="center_vertical"
+                      android:paddingLeft="10dp"
+                      android:textColor="#101010"
+                      android:drawablePadding="12dp"
+                      android:drawableLeft="@drawable/ic_asterisk"
+                      android:text="您的手机号不正确"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_height="wrap_content">
+
+            <TextView android:layout_width="70dp"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/codeTxt"
+                      android:layout_centerVertical="true"
+                      android:layout_alignTop="@+id/code"
+                      android:layout_alignBottom="@+id/code"
+                      android:gravity="right|center_vertical"
+                      android:textSize="15sp"
+                      android:layout_marginRight="3dp"
+                      android:textColor="@color/colorPrimaryText"
+                      android:text="验证码:"/>
+
+            <EditText
+                    android:id="@+id/code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:paddingLeft="12dp"
+                    android:layout_toRightOf="@+id/codeTxt"
+                    android:background="@drawable/shape_login_input"
+                    android:textSize="12sp"
+                    android:layout_toLeftOf="@+id/sendCode"
+                    android:hint="请输入验证码"/>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/sendCode"
+                      android:layout_alignTop="@+id/code"
+                      android:background="@drawable/selector_code"
+                      android:layout_alignBottom="@id/code"
+                      android:textColor="@color/selector_code"
+                      android:textSize="14sp"
+                      android:gravity="center"
+                      android:paddingRight="15dp"
+                      android:layout_marginLeft="10dp"
+                      android:paddingLeft="15dp"
+                      android:layout_alignParentRight="true"
+                      android:text="发送验证码"/>
+
+            <TextView android:layout_width="match_parent"
+                      android:layout_below="@+id/code"
+                      android:layout_height="20dp"
+                      android:layout_marginTop="5dp"
+                      android:layout_alignLeft="@+id/code"
+                      android:textSize="12sp"
+                      android:background="#ffe8cb"
+                      android:gravity="center_vertical"
+                      android:paddingLeft="10dp"
+                      android:textColor="#101010"
+                      android:drawablePadding="12dp"
+                      android:drawableLeft="@drawable/ic_asterisk"
+                      android:text="您输入的验证码不正确"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_height="wrap_content">
+
+            <TextView android:layout_width="70dp"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/pwdTxt"
+                      android:layout_centerVertical="true"
+                      android:layout_alignTop="@+id/pwd"
+                      android:layout_alignBottom="@+id/pwd"
+                      android:gravity="right|center_vertical"
+                      android:textSize="15sp"
+                      android:layout_marginRight="3dp"
+                      android:textColor="@color/colorPrimaryText"
+                      android:text="密码:"/>
+
+            <EditText
+                    android:id="@+id/pwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="12dp"
+                    android:layout_toRightOf="@+id/pwdTxt"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/shape_login_input"
+                    android:textSize="12sp"
+                    android:hint="请输入密码"/>
+
+            <TextView android:layout_width="match_parent"
+                      android:layout_below="@+id/pwd"
+                      android:layout_height="20dp"
+                      android:layout_marginTop="5dp"
+                      android:layout_alignLeft="@+id/pwd"
+                      android:textSize="12sp"
+                      android:background="#ffe8cb"
+                      android:gravity="center_vertical"
+                      android:paddingLeft="10dp"
+                      android:textColor="#101010"
+                      android:drawablePadding="12dp"
+                      android:drawableLeft="@drawable/ic_asterisk"
+                      android:text="您输入的密码太简单"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_height="wrap_content">
+
+            <TextView android:layout_width="70dp"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/pwdEnTxt"
+                      android:layout_centerVertical="true"
+                      android:layout_alignTop="@+id/pwdEn"
+                      android:layout_alignBottom="@+id/pwdEn"
+                      android:gravity="right|center_vertical"
+                      android:textSize="15sp"
+                      android:layout_marginRight="3dp"
+                      android:textColor="@color/colorPrimaryText"
+                      android:text="再输密码:"/>
+
+            <EditText
+                    android:id="@+id/pwdEn"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="12dp"
+                    android:layout_toRightOf="@+id/pwdEnTxt"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/shape_login_input"
+                    android:textSize="12sp"
+                    android:hint="请再输入密码"/>
+
+            <TextView android:layout_width="match_parent"
+                      android:layout_below="@+id/pwdEn"
+                      android:layout_height="20dp"
+                      android:layout_marginTop="5dp"
+                      android:layout_alignLeft="@+id/pwdEn"
+                      android:textSize="12sp"
+                      android:background="#ffe8cb"
+                      android:gravity="center_vertical"
+                      android:paddingLeft="10dp"
+                      android:textColor="#101010"
+                      android:drawablePadding="12dp"
+                      android:drawableLeft="@drawable/ic_asterisk"
+                      android:text="您输入密码不一致"/>
+
+        </RelativeLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:gravity="center_horizontal"
+                      android:layout_marginTop="13dp"
+                      android:orientation="horizontal">
+
+            <CheckBox android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"/>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textSize="12sp"
+                      android:id="@+id/read"
+                      android:textColor="@color/colorSecondText"
+                      android:text="我已阅读并同意《服务协议》"/>
+
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/register"
+                android:layout_width="match_parent" android:layout_height="50dp"
+                android:background="@drawable/shape_button"
+                android:gravity="center"
+                android:layout_marginTop="27dp"
+                android:textColor="@color/whit"
+                android:text="同意协议并注册"/>
+
+        <TextView
+                android:id="@+id/login"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:textColor="#0051d8"
+                android:textSize="18sp"
+                android:layout_marginBottom="20dp"
+                android:text="返回登录"/>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

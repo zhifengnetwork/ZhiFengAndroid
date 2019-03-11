@@ -1,0 +1,105 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.zf.mart"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
+    implementation 'androidx.core:core-ktx:1.1.0-alpha04'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'
+
+    implementation 'com.google.android.material:material:1.1.0-alpha04'
+    //recyclerView
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha02'
+    //一个支持多种状态的自定义View
+    implementation 'com.classic.common:multiple-status-view:1.5.1'
+    //底部tabLayout
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    //rxBus需要库
+    implementation 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
+    //rxJava retrofit
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    //glide图片框架
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    kapt 'com.github.bumptech.glide:compiler:4.8.0'
+    //SmartRefreshLayout
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-3'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-3'
+
+    /** ktx是kotlin扩展程序 */
+    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-rc02'
+    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-rc02'
+    //上拉滑动上滑拖出 类似百度地图抽屉拖拽效果
+    implementation 'com.yinglan.scrolllayout:scrolllayout:1.0.2'
+
+    //kotlin 协程
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
+
+    //流式布局
+    implementation 'com.hyman:flowlayout-lib:1.1.2'
+
+    //富文本解析
+    implementation 'com.zzhoujay.richtext:richtext:3.0.7'
+    implementation 'com.zzhoujay:html:1.0.2'
+
+    //pageRecyclerView
+
+    //other
+//    implementation ('com.github.yuanhoujun:AutoScrollViewPager:1.0.3'){
+//        exclude group: 'com.android.support'//解决support冲突
+//    }
+    implementation 'com.github.yuanhoujun:AutoScrollViewPager:1.0.3'
+
+    implementation 'com.github.paradoxie:AutoVerticalTextview:0.1'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.31'
+
+//    implementation 'com.jakewharton:butterknife:8.8.1'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    //圆角 图片 https://github.com/vinc3m1/RoundedImageView
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    //v-layout https://github.com/alibaba/vlayout/blob/master/README-ch.md
+    implementation('com.alibaba.android:vlayout:1.2.8@aar') {
+        transitive = true
+    }
+    //https://github.com/dengzq/SimpleRefreshLayout  刷新空间
+    implementation 'com.dengzq.widget:simplerefreshlayout:0.8.0'
+    //XUI框架  https://github.com/xuexiangjys/XUI/wiki
+//    compile ('com.github.xuexiangjys:XUI:1.0.1') {
+//           // exclude group: 'com.android.support'//, module: 'support-annotations'
+//    }
+    //权限工具 https://github.com/getActivity/XXPermissions
+//    implementation 'com.hjq:xxpermissions:5.2'
+    //ZXing 扫码 https://github.com/yuzhiqiang1993/zxing
+//    implementation 'com.github.yuzhiqiang1993:zxing:2.2.5'
+
+}

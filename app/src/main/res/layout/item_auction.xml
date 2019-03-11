@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:paddingTop="15dp"
+                android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+            android:background="@drawable/shape_round_line"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content">
+
+        <ImageView android:layout_width="312dp"
+                   android:layout_height="130dp"
+                   android:layout_marginTop="38dp"
+                   android:id="@+id/goodsIcon"
+                   android:scaleType="fitXY"
+                   android:layout_centerHorizontal="true"
+                   android:src="@mipmap/ms_g3"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignLeft="@+id/goodsIcon"
+                  android:id="@+id/goodsName"
+                  android:layout_marginTop="10dp"
+                  android:textSize="15sp"
+                  android:textColor="@color/colorBlackText"
+                  android:layout_below="@+id/goodsIcon"
+                  android:text="耐克男鞋2018新款夏季"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="15dp"
+                  android:textSize="28sp"
+                  android:layout_marginBottom="25dp"
+                  android:textColor="@color/colorPrice"
+                  android:layout_alignLeft="@+id/goodsIcon"
+                  android:gravity="bottom"
+                  android:layout_below="@+id/goodsName"
+                  android:id="@+id/price"
+                  android:text="￥79"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_toRightOf="@+id/price"
+                  android:textSize="15sp"
+                  android:layout_marginBottom="3dp"
+                  android:textColor="@color/colorBlackText"
+                  android:layout_alignBottom="@+id/price"
+                  android:layout_marginLeft="2dp"
+                  android:layout_height="wrap_content"
+                  android:text="起拍"/>
+
+        <TextView
+                android:id="@+id/goAuction"
+                android:layout_width="75dp"
+                android:textColor="@color/whit"
+                android:background="#ff5722"
+                android:layout_height="43dp"
+                android:layout_marginTop="25dp"
+                android:gravity="center"
+                android:layout_alignBottom="@+id/price"
+                android:layout_alignRight="@+id/goodsIcon"
+                android:text="参与竞拍"/>
+
+    </RelativeLayout>
+
+    <TextView android:layout_width="200dp"
+              android:text="1月12号准时开拍"
+              android:layout_centerHorizontal="true"
+              android:layout_marginTop="3dp"
+              android:gravity="center"
+              android:textSize="14sp"
+              android:textColor="@color/colorBlackText"
+              android:layout_height="50dp"
+              android:background="@drawable/shape_round_line"/>
+
+</RelativeLayout>

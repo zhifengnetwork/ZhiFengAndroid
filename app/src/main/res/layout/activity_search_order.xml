@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:background="@color/whit"
+              android:layout_height="match_parent">
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:orientation="horizontal">
+
+        <LinearLayout android:layout_width="50dp"
+                      android:id="@+id/backLayout"
+                      android:orientation="vertical"
+                      android:gravity="center"
+                      android:layout_height="match_parent">
+
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                       android:src="@drawable/fanhui"/>
+
+
+        </LinearLayout>
+
+        <RelativeLayout android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_search_input"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="35dp">
+
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                       android:layout_marginLeft="15dp"
+                       android:id="@+id/searchIcon"
+                       android:layout_centerVertical="true"
+                       android:src="@drawable/search"/>
+
+            <TextView
+                    android:id="@+id/searchInput"
+                    android:layout_width="match_parent"
+                    android:layout_toRightOf="@+id/searchIcon"
+                    android:layout_marginLeft="12dp"
+                    android:textColor="@color/colorPrimaryText"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:hint="商品 店铺"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+                android:id="@+id/composeLayout"
+                android:layout_width="50dp" android:layout_height="match_parent"
+                android:gravity="center">
+
+            <ImageView
+                    android:id="@+id/composeIcon"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                       android:src="@drawable/selector_compose"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
+                  android:gravity="center_vertical"
+                  android:background="@color/colorBackground"
+                  android:orientation="horizontal">
+
+        <RadioGroup android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:orientation="horizontal">
+
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:textColor="@color/selector_order_search"
+                    android:textSize="15sp"
+                    android:drawableRight="@drawable/down_r"
+                    android:drawablePadding="3dp"
+                    android:text="综合"/>
+
+            <Space android:layout_width="0dp" android:layout_height="1dp"
+                   android:layout_weight="1"/>
+
+            <RadioButton android:layout_width="wrap_content"
+                         android:text="销量"
+                         android:button="@null"
+                         android:textColor="@color/selector_order_search"
+                         android:textSize="15sp"
+                         android:layout_height="match_parent"/>
+            <Space android:layout_width="0dp" android:layout_height="1dp"
+                   android:layout_weight="1"/>
+            <RadioButton android:layout_width="wrap_content"
+                         android:layout_height="match_parent"
+                         android:button="@null"
+                         android:textColor="@color/selector_order_search"
+                         android:textSize="15sp"
+                         android:drawableRight="@drawable/arrow_r"
+                         android:drawablePadding="3dp"
+                         android:text="价格"/>
+            <Space android:layout_width="0dp" android:layout_height="1dp"
+                   android:layout_weight="1"/>
+            <RadioButton android:layout_width="wrap_content"
+                         android:layout_height="match_parent"
+                         android:button="@null"
+                         android:textColor="@color/selector_order_search"
+                         android:textSize="15sp"
+                         android:text="新品"/>
+
+        </RadioGroup>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="match_parent"
+                  android:textSize="15sp"
+                  android:drawableRight="@drawable/screen"
+                  android:gravity="center"
+                  android:drawablePadding="3dp"
+                  android:layout_marginLeft="40dp"
+                  android:layout_marginRight="20dp"
+                  android:text="筛选"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:id="@+id/recyclerView"
+            android:layout_height="match_parent"/>
+
+</LinearLayout>

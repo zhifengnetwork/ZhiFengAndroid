@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:background="@color/whit"
+              android:layout_height="220dp">
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/home_quality_g2"/>
+
+    <TextView android:layout_width="match_parent"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:layout_marginTop="5dp"
+              android:textSize="14sp"
+              android:gravity="center"
+              android:textColor="@color/colorPrimaryText"
+              android:layout_height="wrap_content"
+              android:text="日用品小百货"/>
+
+    <TextView android:layout_width="match_parent"
+              android:gravity="center"
+              android:layout_marginTop="3dp"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:textSize="10sp"
+              android:textColor="@color/colorSecondText"
+              android:maxLines="2"
+              android:layout_height="wrap_content"
+              android:text="市场居家用 1个绿色 送一个蓝色 "/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:layout_weight="1"
+                  android:gravity="center"
+                  android:orientation="horizontal">
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:gravity="bottom"
+                  android:textSize="16sp"
+                  android:textColor="@color/colorPrice"
+                  android:layout_marginBottom="3dp"
+                  android:text="￥15"/>
+    </LinearLayout>
+
+
+</LinearLayout>

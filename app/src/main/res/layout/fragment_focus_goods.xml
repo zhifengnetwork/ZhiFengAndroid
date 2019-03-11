@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:background="@color/colorBackground"
+              android:layout_height="match_parent">
+
+    <View android:layout_width="match_parent" android:layout_height="1px"
+          android:background="@color/colorLine"/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="35dp"
+                  android:gravity="center_vertical"
+                  android:paddingLeft="10dp"
+                  android:orientation="horizontal">
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:drawableRight="@drawable/drop_down"
+                  android:textColor="#ea4a1e"
+                  android:textSize="13sp"
+                  android:drawablePadding="3dp"
+                  android:text="分类"/>
+
+        <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:overScrollMode="never"
+                android:layout_marginLeft="25dp"
+                android:scrollbars="none"
+                android:layout_height="22dp">
+
+
+            <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"/>
+
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1px"
+          android:background="@color/colorLine"/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="30dp"
+                  android:gravity="center_vertical"
+                  android:background="@color/whit"
+                  android:paddingLeft="10dp"
+                  android:paddingRight="10dp"
+                  android:orientation="horizontal">
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textSize="12sp"
+                  android:textColor="@color/colorPrimaryText"
+                  android:text="共"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textSize="12sp"
+                  android:textColor="@color/colorPrice"
+                  android:text="4"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textSize="12sp"
+                  android:textColor="@color/colorPrimaryText"
+                  android:text="件"/>
+
+        <Space android:layout_width="0dp" android:layout_height="1dp"
+               android:layout_weight="1"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textSize="13sp"
+                  android:textColor="@color/colorPrimaryText"
+                  android:text="编辑"/>
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:focusableInTouchMode="true"
+            android:layout_height="wrap_content">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:descendantFocusability="blocksDescendants"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/recyclerView"
+                    android:overScrollMode="never"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content"/>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:gravity="center_vertical"
+                          android:paddingTop="15dp"
+                          android:paddingBottom="15dp"
+                          android:orientation="horizontal">
+
+                <View android:layout_width="0dp" android:layout_height="1px"
+                      android:layout_weight="1"
+                      android:layout_marginLeft="10dp"
+                      android:layout_marginRight="10dp"
+                      android:background="@color/colorSecondText"/>
+
+                <TextView android:layout_width="wrap_content"
+                          android:textSize="15sp"
+                          android:textColor="@color/colorBlackText"
+                          android:layout_height="wrap_content"
+                          android:text="猜您喜欢的商品"/>
+
+                <View android:layout_width="0dp" android:layout_height="1px"
+                      android:layout_marginLeft="10dp"
+                      android:layout_marginRight="10dp"
+                      android:layout_weight="1"
+                      android:background="@color/colorSecondText"/>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/loveGoodsRecyclerView"
+                    android:overScrollMode="never"
+                    android:layout_width="match_parent"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</LinearLayout>
