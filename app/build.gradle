@@ -77,7 +77,7 @@ dependencies {
     implementation('com.alibaba.android:vlayout:1.2.8@aar') {
         transitive = true
     }
-    // 首页的头条
+    // 首页的秒杀
     implementation 'com.github.paradoxie:AutoVerticalTextview:0.1'
 //    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.31'
 //    implementation 'com.dengzq.widget:simplerefreshlayout:0.8.0'

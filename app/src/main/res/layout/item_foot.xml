@@ -13,15 +13,15 @@
                   android:textSize="12sp"
                   android:layout_marginLeft="10dp"
                   android:id="@+id/checkBox"
+                  android:padding="10dp"
                   android:textColor="@color/colorPrimaryText"
                   android:layout_centerVertical="true"
                   android:button="@null"
                   android:visibility="gone"
                   android:layout_height="wrap_content"/>
-
-
+ 
         <ImageView android:layout_width="75dp" android:layout_height="75dp"
-                   android:layout_marginLeft="10dp"
+                   android:layout_marginLeft="8dp"
                    android:layout_toRightOf="@+id/checkBox"
                    android:layout_marginTop="10dp"
                    android:layout_marginBottom="10dp"

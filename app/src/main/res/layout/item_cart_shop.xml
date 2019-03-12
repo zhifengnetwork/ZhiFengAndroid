@@ -26,6 +26,7 @@
                       android:textSize="12sp"
                       android:layout_marginLeft="10dp"
                       android:id="@+id/checkBox"
+                      android:padding="10dp"
                       android:textColor="@color/colorPrimaryText"
                       android:layout_centerVertical="true"
                       android:button="@null"
@@ -34,7 +35,7 @@
 
             <TextView android:layout_width="wrap_content"
                       android:text="ZF自营旗舰店"
-                      android:layout_marginLeft="12dp"
+                      android:layout_marginLeft="8dp"
                       android:textSize="14sp"
                       android:textColor="@color/colorBlackText"
                       android:drawablePadding="5dp"

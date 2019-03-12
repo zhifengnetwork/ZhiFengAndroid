@@ -59,6 +59,7 @@ class SearchActivity : BaseActivity() {
             "洗衣机2", "热水器2", "电风扇2", "热门电脑", "水壶", "手机", "衣服"
             , "游戏", "扇子", "游戏", "扇子", "好玩的游戏", "扇子", "游戏", "扇子"
         )
+
         discoveryLayout.adapter = object : TagAdapter<String>(discovery) {
             override fun getView(parent: FlowLayout?, position: Int, t: String?): View {
                 val tv: TextView = LayoutInflater.from(this@SearchActivity).inflate(
@@ -68,6 +69,7 @@ class SearchActivity : BaseActivity() {
                 return tv
             }
         }
+
         discoveryLayout.setOnTagClickListener { _, position, _ ->
             showToast(discovery[position])
             return@setOnTagClickListener true
