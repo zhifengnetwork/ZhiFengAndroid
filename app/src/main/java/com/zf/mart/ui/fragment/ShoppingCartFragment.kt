@@ -158,7 +158,7 @@ class ShoppingCartFragment : BaseFragment() {
     private fun showOrderPopWindow(txt: String) {
         val window = object : ConfirmOrderPopupWindow(
             activity as Activity, R.layout.pop_push_order,
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,txt
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, txt
         ) {}
         window.setOnItemClickListener(object : ConfirmOrderPopupWindow.OnItemClickListener {
             override fun showPayPop() {
@@ -173,8 +173,20 @@ class ShoppingCartFragment : BaseFragment() {
 
     }
 
-    override fun initEvent() {
+    private fun filter(): ArrayList<Int> {
+        //去重
+        val newList = ArrayList<Int>()
+        val it = cartAdapter.mCheckList.iterator()
+        while (it.hasNext()) {
+            val obj = it.next()
+            if (!newList.contains(obj)) {
+                newList.add(obj)
+            }
+        }
+        return newList
+    }
 
+    override fun initEvent() {
 
         //结算
         settle.setOnClickListener {
@@ -184,11 +196,9 @@ class ShoppingCartFragment : BaseFragment() {
             } else {
                 //结算
                 showOrderPopWindow("")
-                showToast("选中的id:" + cartAdapter.mCheckList)
+                showToast("选中的id:" + filter())
 
             }
-
-
         }
 
         //全选
