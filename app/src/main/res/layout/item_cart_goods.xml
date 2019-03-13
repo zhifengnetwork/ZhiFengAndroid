@@ -38,18 +38,20 @@
                   android:layout_height="wrap_content"
                   android:orientation="horizontal">
 
-        <CheckBox android:layout_width="wrap_content"
-                  android:drawableLeft="@drawable/selector_all_choose"
-                  android:textSize="12sp"
-                  android:layout_marginLeft="10dp"
-                  android:id="@+id/checkBox"
-                  android:padding="10dp"
-                  android:layout_gravity="center_vertical"
-                  android:textColor="@color/colorPrimaryText"
-                  android:layout_centerVertical="true"
-                  android:button="@null"
-                  android:visibility="visible"
-                  android:layout_height="wrap_content"/>
+
+        <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:drawableLeft="@drawable/selector_all_choose"
+                android:textSize="12sp"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/colorPrimaryText"
+                android:layout_centerVertical="true"
+                android:button="@null"
+                android:visibility="visible"
+                android:layout_height="wrap_content"/>
 
         <ImageView
                 android:layout_width="110dp"

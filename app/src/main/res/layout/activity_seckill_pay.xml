@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <View android:layout_width="match_parent" android:layout_height="1px"
+          android:background="@color/colorLine"/>
+
+    <!--<RelativeLayout android:layout_width="match_parent"-->
+    <!--android:paddingTop="15dp"-->
+    <!--android:background="@color/whit"-->
+    <!--android:paddingBottom="20dp"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <!--<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+    <!--android:id="@+id/userName"-->
+    <!--android:layout_alignLeft="@+id/userAddress"-->
+    <!--android:textSize="15sp"-->
+    <!--android:textColor="#333333"-->
+    <!--android:text="张三"/>-->
+
+    <!--<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+    <!--android:id="@+id/userPhone"-->
+    <!--android:layout_toRightOf="@+id/userName"-->
+    <!--android:textSize="15sp"-->
+    <!--android:textColor="#333333"-->
+    <!--android:layout_marginLeft="20dp"-->
+    <!--android:layout_alignTop="@+id/userName"-->
+    <!--android:text="170000000"/>-->
+
+    <!--<ImageView android:layout_width="wrap_content"-->
+    <!--android:id="@+id/locationImg"-->
+    <!--android:src="@drawable/dingwei"-->
+    <!--android:layout_marginTop="12dp"-->
+    <!--android:layout_below="@+id/userName"-->
+    <!--android:layout_marginLeft="12dp"-->
+    <!--android:layout_height="wrap_content"/>-->
+
+    <!--<TextView android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_toRightOf="@+id/locationImg"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_alignTop="@+id/locationImg"-->
+    <!--android:textSize="13sp"-->
+    <!--android:textColor="#333333"-->
+    <!--android:id="@+id/userAddress"-->
+    <!--android:text="广东省广州市白云区"/>-->
+
+    <!--<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginRight="25dp"-->
+    <!--android:src="@drawable/arrow_b"/>-->
+
+    <!--</RelativeLayout>-->
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="12dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/whit"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_height="wrap_content">
+
+
+        <ImageView android:layout_width="69dp" android:layout_height="69dp"
+                   android:id="@+id/goodsIcon"
+                   android:src="@drawable/ic_figure"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:maxLines="2"
+                  android:layout_toRightOf="@+id/goodsIcon"
+                  android:layout_alignTop="@+id/goodsIcon"
+                  android:layout_marginLeft="10dp"
+                  android:textSize="13sp"
+                  android:textColor="#333333"
+                  android:id="@+id/goodsName"
+                  android:text="尚品宅配 榻榻米定制 现代简约塔塔床单连体储物收纳床"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_alignLeft="@+id/goodsName"
+                  android:gravity="bottom"
+                  android:textSize="10sp"
+                  android:textColor="#999999"
+                  android:layout_marginTop="3dp"
+                  android:maxLines="2"
+                  android:layout_below="@+id/goodsName"
+                  android:id="@+id/description"
+                  android:text="家具全屋定制 定金(非商品价格)"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_alignBottom="@id/goodsIcon"
+                  android:layout_alignLeft="@+id/goodsName"
+                  android:textColor="#ff5722"
+                  android:textSize="15sp"
+                  android:text="￥1499.0"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_alignBottom="@+id/goodsIcon"
+                  android:layout_alignParentRight="true"
+                  android:textSize="13sp"
+                  android:textColor="#333333"
+                  android:text="×2"/>
+
+    </RelativeLayout>
+
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:paddingLeft="10dp"
+              android:paddingRight="12dp"
+              android:textSize="13sp"
+              android:textColor="#999999"
+              android:paddingBottom="5dp"
+              android:paddingTop="5dp"
+              android:background="@color/colorBackground"
+              android:text="请在两小时内完成，否则订单会自动取消！"/>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:paddingTop="12dp"
+                  android:background="@color/whit"
+                  android:paddingLeft="10dp"
+                  android:paddingBottom="12dp"
+                  android:orientation="horizontal">
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textSize="15sp"
+                  android:textColor="#ff5722"
+                  android:text="应付金额："/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textSize="15sp"
+                  android:textColor="#ff5722"
+                  android:text="￥5996.0"/>
+
+    </LinearLayout>
+
+    <RadioGroup android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/whit"
+                android:paddingRight="20dp"
+                android:orientation="vertical">
+
+        <RadioButton android:layout_width="match_parent" android:layout_height="wrap_content"
+                     android:drawableRight="@drawable/selector_pop_check"
+                     android:textSize="14sp"
+                     android:textColor="@color/colorBlackText"
+                     android:background="@null"
+                     android:drawableLeft="@drawable/yunzhifu"
+                     android:drawablePadding="8dp"
+                     android:paddingTop="12dp"
+                     android:paddingBottom="12dp"
+                     android:button="@null"
+                     android:text="云闪付"/>
+
+        <View android:layout_width="match_parent" android:layout_height="1px"
+              android:background="@color/colorLine"/>
+
+        <RadioButton android:layout_width="match_parent" android:layout_height="wrap_content"
+                     android:drawableRight="@drawable/selector_pop_check"
+                     android:textSize="14sp"
+                     android:textColor="@color/colorBlackText"
+                     android:paddingTop="12dp"
+                     android:background="@null"
+                     android:paddingBottom="12dp"
+                     android:drawableLeft="@drawable/zhifubao"
+                     android:drawablePadding="8dp"
+                     android:button="@null"
+                     android:text="支付宝"/>
+
+        <View android:layout_width="match_parent" android:layout_height="1px"
+              android:background="@color/colorLine"/>
+
+        <RadioButton android:layout_width="match_parent" android:layout_height="wrap_content"
+                     android:drawableRight="@drawable/selector_pop_check"
+                     android:textSize="14sp"
+                     android:textColor="@color/colorBlackText"
+                     android:paddingTop="12dp"
+                     android:background="@null"
+                     android:drawableLeft="@drawable/weixin"
+                     android:drawablePadding="8dp"
+                     android:paddingBottom="12dp"
+                     android:button="@null"
+                     android:text="微信支付"/>
+
+        <View android:layout_width="match_parent" android:layout_height="1px"
+              android:background="@color/colorLine"/>
+
+        <RadioButton android:layout_width="match_parent" android:layout_height="wrap_content"
+                     android:drawableRight="@drawable/selector_pop_check"
+                     android:textSize="14sp"
+                     android:textColor="@color/colorBlackText"
+                     android:paddingTop="12dp"
+                     android:drawableLeft="@drawable/yue"
+                     android:background="@null"
+                     android:drawablePadding="8dp"
+                     android:paddingBottom="12dp"
+                     android:button="@null"
+                     android:text="余额:￥800"/>
+
+    </RadioGroup>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_marginLeft="12dp"
+            android:background="@drawable/anniu"
+            android:layout_marginRight="12dp"
+            android:layout_height="40dp"
+            android:textSize="15sp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:textColor="@color/whit"
+            android:text="立即支付"/>
+
+</LinearLayout>

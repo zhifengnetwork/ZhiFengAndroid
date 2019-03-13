@@ -59,7 +59,6 @@ class FootActivity : BaseActivity() {
 
         /** 是否全部选中 */
         allChoose.setOnClickListener {
-
             adapter.setIfAllChoose(allChoose.isChecked)
 
         }
@@ -143,7 +142,7 @@ class FootActivity : BaseActivity() {
         adapter.notifyDataSetChanged()
     }
 
-    fun getData(): ArrayList<MonthList> {
+    private fun getData(): ArrayList<MonthList> {
         val list = ArrayList<MonthList>()
         list.add(MonthList("2018/02", arrayListOf(GoodsList("长袖", "99"))))
         list.add(
@@ -159,7 +158,6 @@ class FootActivity : BaseActivity() {
 
 
     override fun initData() {
-
 
     }
 

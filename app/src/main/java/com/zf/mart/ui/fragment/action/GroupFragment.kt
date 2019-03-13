@@ -19,8 +19,6 @@ class GroupFragment : BaseFragment() {
 
     override fun initView() {
 
-        LogUtils.e(">>>>>initView  GroupFragment")
-
         val layoutManager = GridLayoutManager(context, 2)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter

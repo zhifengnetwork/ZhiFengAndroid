@@ -8,25 +8,50 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import kotlinx.android.synthetic.main.item_top_time.view.*
 
-class TopTimeAdapter(val context: Context?) : RecyclerView.Adapter<TopTimeAdapter.ViewHolder>() {
+class TopTimeAdapter(val context: Context?, val data: List<String>) :
+    RecyclerView.Adapter<TopTimeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_top_time, parent, false)
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = 10
+    override fun getItemCount(): Int = data.size
 
     private var selectedPos = 0
 
+    private var mListener: OnItemClickListener? = null
+    fun setOnClickListener(listener: OnItemClickListener) {
+        mListener = listener
+    }
+
+
+    fun setCheck(position: Int) {
+        selectedPos = position
+        notifyDataSetChanged()
+    }
+
+    interface OnItemClickListener {
+        fun onClick(pos: Int)
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.time.isSelected = selectedPos == position
-        holder.itemView.state.isSelected = selectedPos == position
-        holder.itemView.linearLayout.isSelected = selectedPos == position
-        holder.itemView.setOnClickListener {
-            selectedPos = position
-            notifyDataSetChanged()
+
+        holder.itemView.apply {
+
+            time.text = data[position]
+
+            time.isSelected = selectedPos == position
+            state.isSelected = selectedPos == position
+            linearLayout.isSelected = selectedPos == position
+            setOnClickListener {
+                selectedPos = position
+                notifyDataSetChanged()
+                mListener?.onClick(position)
+            }
         }
+
+
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

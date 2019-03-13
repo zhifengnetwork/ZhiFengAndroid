@@ -39,9 +39,9 @@ class FootAdapter(val context: Context, val data: ArrayList<GoodsList>) :
         notifyDataSetChanged()
         // 如果取消全选，则清空 checkList
         //可以用tag保存商品的id来保存
-        if (!ifAllChoose) {
-            checkList.clear()
-        }
+//        if (!ifAllChoose) {
+//            checkList.clear()
+//        }
     }
 
     private var mIfEdit = false

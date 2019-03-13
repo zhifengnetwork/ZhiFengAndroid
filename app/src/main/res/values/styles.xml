@@ -72,9 +72,17 @@
         <attr name="barIsGradient" format="boolean"/>
     </declare-styleable>
 
+    <!--  上下出入动画 -->
     <style name="pop_translate">
         <item name="android:windowEnterAnimation">@anim/pop_translate_in</item>
         <item name="android:windowExitAnimation">@anim/pop_translate_out</item>
     </style>
+
+    <!--  左右出入动画 -->
+    <style name="pop_translate_around">
+        <item name="android:windowEnterAnimation">@anim/pop_translate_round_in</item>
+        <item name="android:windowExitAnimation">@anim/pop_translate_round_out</item>
+    </style>
+
 
 </resources>

@@ -2,6 +2,7 @@
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/parentLayout"
         android:background="@color/colorBackground"
         android:orientation="vertical">
 
@@ -20,19 +21,21 @@
                 android:layout_centerInParent="true"
                 android:textColor="@color/black_tv_color"/>
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:layout_alignParentRight="true"
-                  android:background="@drawable/shape_pay"
-                  android:textColor="@color/whit"
-                  android:paddingLeft="12dp"
-                  android:layout_marginRight="15dp"
-                  android:layout_centerVertical="true"
-                  android:paddingRight="12dp"
-                  android:textSize="15sp"
-                  android:layout_marginLeft="12dp"
-                  android:paddingTop="3dp"
-                  android:paddingBottom="3dp"
-                  android:text="管理"/>
+        <TextView
+                android:id="@+id/management"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shape_pay"
+                android:textColor="@color/whit"
+                android:paddingLeft="12dp"
+                android:layout_marginRight="15dp"
+                android:layout_centerVertical="true"
+                android:paddingRight="12dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="12dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="管理"/>
 
 
     </RelativeLayout>
@@ -98,28 +101,34 @@
         <Space android:layout_width="0dp" android:layout_height="1dp"
                android:layout_weight="1"/>
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <TextView
+                android:id="@+id/totalTxt"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:textSize="15sp"
                   android:layout_marginRight="3dp"
                   android:textColor="@color/colorSecondText"
                   android:text="合计:"/>
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:textSize="15sp"
                   android:textColor="@color/colorBlackText"
                   android:text="￥0"/>
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:background="@drawable/shape_pay"
-                  android:textColor="@color/whit"
-                  android:paddingLeft="12dp"
-                  android:paddingRight="12dp"
-                  android:textSize="15sp"
-                  android:layout_marginLeft="12dp"
-                  android:paddingTop="3dp"
-                  android:paddingBottom="3dp"
-                  android:text="结算"/>
+        <TextView
+                android:id="@+id/settle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_pay"
+                android:textColor="@color/whit"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="12dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="结算"/>
 
     </LinearLayout>
 

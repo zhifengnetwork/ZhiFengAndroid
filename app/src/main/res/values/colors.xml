@@ -44,6 +44,8 @@
     <color name="colorDiscountUnUse">#ff5722</color>
     <color name="colorDiscountUnUse2">#ff5722</color>
 
+    <color name="colorBtnCheck">#FF6B3C</color>
+
     <color name="colorDiscountTimeOut">#968e8b</color>
     <color name="colorDiscountUnTimeOut2">#ada5a5</color>
 

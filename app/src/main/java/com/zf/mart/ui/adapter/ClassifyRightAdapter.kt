@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 
 class ClassifyRightAdapter(val context: Context?) : RecyclerView.Adapter<ClassifyRightAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.classify_content_item, parent, false)
         return ViewHolder(view)
@@ -19,5 +20,6 @@ class ClassifyRightAdapter(val context: Context?) : RecyclerView.Adapter<Classif
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
 
 }
