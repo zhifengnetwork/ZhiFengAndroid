@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="40dp"
-              android:gravity="center"
+              android:layout_height="@dimen/dp_40"
               android:background="@color/classify_title_item_color">
 
     <View
             android:id="@+id/classify_item_title_view"
-            android:layout_width="@dimen/dp_5"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/dp_4"
+            android:layout_height="@dimen/dp_14"
             android:background="@drawable/classify_title_item_bg"
-            android:paddingTop="@dimen/dp_5"
-            android:paddingBottom="@dimen/dp_5"/>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_12"/>
 
     <TextView
             android:id="@+id/classify_item_title_name"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="商品类目"
+            android:textSize="13sp"
             android:background="@drawable/classify_title_item_tv_bg"
-            android:gravity="center"/>
-</LinearLayout>
+            android:layout_centerInParent="true"/>
+</RelativeLayout>

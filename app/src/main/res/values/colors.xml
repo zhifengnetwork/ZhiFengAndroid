@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#F75922</color>
     <color name="colorPrimaryDark">#F75922</color>
@@ -49,6 +49,8 @@
     <color name="colorDiscountTimeOut">#968e8b</color>
     <color name="colorDiscountUnTimeOut2">#ada5a5</color>
 
-
+    <color name="colorifyitemText">#101010</color>
+    <color name="colorifySecondText">#999999</color>
+    <color name="ifyBackground">#f8f8f8</color>
 
 </resources>
