@@ -20,6 +20,17 @@ class ClassifyTitleAdapter(val context: Context?, val data: List<String>) :
 
     private var selectedPos = 0
 
+
+    private var mListener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        mListener = listener
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.classify_item_title_name.text = data[position]
 
@@ -27,6 +38,7 @@ class ClassifyTitleAdapter(val context: Context?, val data: List<String>) :
         holder.itemView.classify_item_title_view.isSelected = selectedPos == position
 
         holder.itemView.setOnClickListener {
+            mListener?.onItemClick(position)
             selectedPos = position
             notifyDataSetChanged()
         }
