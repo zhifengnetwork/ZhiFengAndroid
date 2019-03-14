@@ -3,8 +3,10 @@ package com.zf.mart.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.utils.StatusBarUtilNotUse
 import kotlinx.android.synthetic.main.activity_seckill_order.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
@@ -20,6 +22,13 @@ class SecKillPushActivity : BaseActivity() {
     }
 
     override fun initToolBar() {
+            StatusBarUtilNotUse.darkMode(
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
+            )
+
+
         rightLayout.visibility = View.INVISIBLE
         titleName.text = "填写订单"
         back.setOnClickListener { finish() }

@@ -2,11 +2,13 @@ package com.zf.mart.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import androidx.core.content.ContextCompat
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.base.BaseFragmentAdapter
 import com.zf.mart.ui.fragment.focus.FocusGoodsFragment
 import com.zf.mart.ui.fragment.focus.FocusShopFragment
+import com.zf.mart.utils.StatusBarUtilNotUse
 import kotlinx.android.synthetic.main.activity_focus.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
@@ -16,6 +18,13 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 class FocusActivity : BaseActivity() {
 
     override fun initToolBar() {
+
+        StatusBarUtilNotUse.darkMode(
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
+        )
+
         titleName.text = "我的关注"
     }
 
@@ -40,6 +49,7 @@ class FocusActivity : BaseActivity() {
     }
 
     override fun initView() {
+
         val titles = arrayListOf("商品", "店铺")
         val fragments = arrayListOf(
             FocusGoodsFragment.newInstance(),

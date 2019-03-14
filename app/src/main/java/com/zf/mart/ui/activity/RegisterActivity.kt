@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.showToast
+import com.zf.mart.utils.StatusBarUtilNotUse
 import com.zf.mart.view.dialog.RegisterDialog
 import kotlinx.android.synthetic.main.activity_register.*
 
@@ -28,6 +29,12 @@ class RegisterActivity : BaseActivity() {
     }
 
     override fun initToolBar() {
+        StatusBarUtilNotUse.darkMode(
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
+        )
+
     }
 
     override fun layoutId(): Int = R.layout.activity_register

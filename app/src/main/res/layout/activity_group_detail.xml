@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:orientation="vertical"
+                android:fitsSystemWindows="true"
                 android:layout_width="match_parent"
                 android:background="@color/colorBackground"
                 android:layout_height="match_parent">
@@ -9,7 +10,7 @@
     <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:id="@+id/scrollView"
-            android:layout_above="@+id/operation"
+            android:layout_above="@+id/bottomLayout"
             android:layout_height="match_parent">
 
         <LinearLayout
@@ -144,82 +145,157 @@
             </RelativeLayout>
 
             <LinearLayout android:layout_width="match_parent"
+                          android:paddingLeft="25dp"
+                          android:layout_marginTop="10dp"
+                          android:paddingBottom="10dp"
+                          android:paddingRight="25dp"
+                          android:background="@color/whit"
                           android:layout_height="wrap_content"
                           android:orientation="vertical">
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
                               android:paddingTop="12dp"
                               android:paddingBottom="12dp"
                               android:orientation="horizontal">
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
                               android:textSize="15sp"
                               android:textColor="@color/colorPrimaryText"
                               android:text="评价"/>
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
                               android:textSize="12sp"
                               android:textColor="@color/colorPrice"
                               android:layout_marginLeft="10dp"
                               android:text="好评"/>
 
-                    <Space android:layout_width="0dp" android:layout_height="1dp"
-                           android:layout_weight="1"/>
-
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                               android:textSize="12sp"
                               android:textColor="@color/colorPrice"
+                              android:layout_marginLeft="8dp"
+                              android:text="100%"/>
+
+                    <Space android:layout_width="0dp"
+                           android:layout_height="1dp"
+                           android:layout_weight="1"/>
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:textSize="12sp"
+                              android:drawableRight="@drawable/arrow_b"
+                              android:textColor="@color/colorSecondText"
+                              android:drawablePadding="8dp"
                               android:text="共200+评论"/>
 
                 </LinearLayout>
 
-                <View android:layout_width="match_parent" android:layout_height="1px"
+                <View android:layout_width="match_parent"
+                      android:layout_height="1px"
                       android:background="@color/colorBackground"/>
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
                               android:orientation="horizontal">
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
                               android:background="#ffe5e3"
                               android:paddingLeft="10dp"
                               android:paddingRight="10dp"
                               android:textSize="10sp"
                               android:textColor="@color/colorSecondText"
-                              android:paddingTop="2dp"
-                              android:paddingBottom="2dp"
+                              android:paddingTop="4dp"
+                              android:paddingBottom="4dp"
                               android:text="好评(200+)"/>
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
                               android:background="#ffe5e3"
                               android:paddingLeft="10dp"
+                              android:layout_marginLeft="10dp"
                               android:paddingRight="10dp"
                               android:textSize="10sp"
                               android:textColor="@color/colorSecondText"
-                              android:paddingTop="2dp"
-                              android:paddingBottom="2dp"
+                              android:paddingTop="4dp"
+                              android:paddingBottom="4dp"
                               android:text="中评(0)"/>
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
                               android:background="#ffe5e3"
                               android:paddingLeft="10dp"
                               android:paddingRight="10dp"
                               android:textSize="10sp"
                               android:textColor="@color/colorSecondText"
-                              android:paddingTop="2dp"
-                              android:paddingBottom="2dp"
+                              android:paddingTop="4dp"
+                              android:paddingBottom="4dp"
+                              android:layout_marginLeft="10dp"
                               android:text="差评(0)"/>
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
                               android:background="#ffe5e3"
                               android:paddingLeft="10dp"
                               android:paddingRight="10dp"
                               android:textSize="10sp"
                               android:textColor="@color/colorSecondText"
-                              android:paddingTop="2dp"
-                              android:paddingBottom="2dp"
+                              android:paddingTop="4dp"
+                              android:paddingBottom="4dp"
+                              android:layout_marginLeft="10dp"
                               android:text="晒单(0)"/>
 
                 </LinearLayout>
+
+                <!-- 评价列表 -->
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/evaRecyclerView"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:overScrollMode="never"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <!-- 正在拼单的用户列表 -->
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:paddingLeft="25dp"
+                          android:paddingRight="25dp"
+                          android:background="@color/whit"
+                          android:layout_marginTop="10dp"
+                          android:orientation="vertical">
+
+                <LinearLayout
+                        android:id="@+id/moreUserLayout"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:orientation="horizontal">
+
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1"
+                              android:textSize="11sp"
+                              android:textColor="@color/colorPrimaryText"
+                              android:text="8人正在拼单,可直接参与"/>
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:drawableRight="@drawable/arrow_b"
+                              android:textSize="12sp"
+                              android:textColor="@color/colorSecondText"
+                              android:drawablePadding="8dp"
+                              android:text="查看更多"/>
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/userRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
 
             </LinearLayout>
 
@@ -233,5 +309,11 @@
             android:layout_height="44dp"
             layout="@layout/layout_detail_head"/>
 
+    <include
+            android:id="@+id/bottomLayout"
+            layout="@layout/layout_group_bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 </RelativeLayout>

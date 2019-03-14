@@ -3,6 +3,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
+              android:fitsSystemWindows="true"
               android:layout_height="match_parent">
 
     <include layout="@layout/layout_toolbar"/>
@@ -54,12 +55,12 @@
 
         <TextView android:layout_width="40dp" android:layout_height="match_parent"
                   android:gravity="center"
-                  android:id="@+id/search"
+                  android:id="@+id/operation"
                   android:layout_marginRight="10dp"
                   android:textColor="@color/whit"
                   android:background="#d91c1c"
                   android:textSize="12sp"
-                  android:text="搜索"/>
+                  android:text="取消"/>
 
     </LinearLayout>
 

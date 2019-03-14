@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent" android:layout_height="match_parent"
         android:id="@+id/parentLayout"
         android:background="@color/colorBackground"
         android:orientation="vertical">
@@ -40,43 +40,98 @@
 
     </RelativeLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_above="@+id/settleLayout"
-            android:layout_width="match_parent"
+            app:srlEnableAutoLoadMore="true"
             android:layout_below="@+id/headLayout"
-            android:layout_height="wrap_content">
+            app:srlEnableFooterFollowWhenLoadFinished="true"
+            app:srlEnableFooterTranslationContent="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/cartRecyclerView"
-                    android:layout_width="match_parent"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_height="wrap_content"/>
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                app:srlPrimaryColor="@color/colorLine"
+                app:srlAccentColor="@color/colorSecondText"
+                app:srlTextPulling="@string/refresh_pulling"
+                app:srlTextRelease="@string/refresh_release"
+                app:srlTextRefreshing="@string/refresh_refreshing"
+                app:srlTextFinish="@string/refresh_finish"
+                app:srlTextFailed="@string/refresh_failed"
+                app:srlEnableLastTime="false"
+                app:srlDrawableProgress="@drawable/ic_progress_puzzle"
+                android:layout_height="wrap_content"/>
 
-            <TextView
+        <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_below="@+id/headLayout"
+                android:overScrollMode="never"
+                android:focusableInTouchMode="true"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="为/你/推/荐"
-                    android:textColor="@color/black_tv_color"
-                    android:gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:textSize="@dimen/sp_15"/>
+                    android:descendantFocusability="blocksDescendants"
+                    android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/shop_cat_specail_rec"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/me_line_v3"
-                    android:layout_marginTop="10dp">
+                <com.classic.common.MultipleStatusView
+                        android:id="@+id/multipleStatusView"
+                        android:layout_width="match_parent"
+                        app:emptyView="@layout/layout_state_empty_cart"
+                        android:layout_height="wrap_content">
 
-            </androidx.recyclerview.widget.RecyclerView>
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/cartRecyclerView"
+                            android:layout_width="match_parent"
+                            android:overScrollMode="never"
+                            android:nestedScrollingEnabled="false"
+                            android:layout_height="wrap_content"/>
 
-        </LinearLayout>
+                </com.classic.common.MultipleStatusView>
 
-    </androidx.core.widget.NestedScrollView>
+
+                <TextView
+                        android:id="@+id/recommendTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="为/你/推/荐"
+                        android:textColor="@color/black_tv_color"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:layout_marginTop="10dp"
+                        android:textSize="@dimen/sp_15"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/specialCartRv"
+                        android:nestedScrollingEnabled="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="never"
+                        android:visibility="gone"
+                        android:layout_below="@id/me_line_v3"
+                        android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                app:srlDrawableProgress="@drawable/ic_progress_puzzle"
+                app:srlFinishDuration="0"
+                app:srlTextFinish="@string/load_finish"
+                app:srlTextFailed="@string/load_failed"
+                app:srlTextPulling="@string/load_pulling"
+                app:srlTextRelease="@string/load_release"
+                app:srlTextLoading="@string/load_loading"
+                app:srlTextNothing="@string/load_noting"
+                android:layout_height="wrap_content"/>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="44dp"
@@ -104,17 +159,17 @@
         <TextView
                 android:id="@+id/totalTxt"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:textSize="15sp"
-                  android:layout_marginRight="3dp"
-                  android:textColor="@color/colorSecondText"
-                  android:text="合计:"/>
+                android:textSize="15sp"
+                android:layout_marginRight="3dp"
+                android:textColor="@color/colorSecondText"
+                android:text="合计:"/>
 
         <TextView
                 android:id="@+id/price"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:textSize="15sp"
-                  android:textColor="@color/colorBlackText"
-                  android:text="￥0"/>
+                android:textSize="15sp"
+                android:textColor="@color/colorBlackText"
+                android:text="￥0"/>
 
         <TextView
                 android:id="@+id/settle"

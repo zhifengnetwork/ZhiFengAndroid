@@ -96,7 +96,7 @@
                                 android:textSize="15sp"/>
 
                         <TextView
-                                android:id="@+id/home_ms_tvtime"
+                                android:id="@+id/countDown"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawableLeft="@drawable/ic_alarmclock"

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 
-class HomeFragmentRecommendAdapter(val context: Context?) :
+class HomeFragmentRecommendAdapter(val context: Context?, val data: List<String>) :
     RecyclerView.Adapter<HomeFragmentRecommendAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -16,7 +16,7 @@ class HomeFragmentRecommendAdapter(val context: Context?) :
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = 5
+    override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     }

@@ -26,7 +26,8 @@ class MeFragment : BaseFragment() {
 
     private val adapter by lazy { MeSpecailAdapter(context) }
 
-    private val tuiJianAdapter by lazy { HomeFragmentRecommendAdapter(context) }
+    private val recommendData = ArrayList<String>()
+    private val recommendAdapter by lazy { HomeFragmentRecommendAdapter(context, recommendData) }
 
     override fun initView() {
         //我的专栏
@@ -35,8 +36,9 @@ class MeFragment : BaseFragment() {
         me_specail_rec.addItemDecoration(RecDecoration(12))
 
         //推荐
+        recommendData.addAll(arrayListOf("1", "2", "3"))
         me_specail_recycler.layoutManager = GridLayoutManager(context, 2)
-        me_specail_recycler.adapter = tuiJianAdapter
+        me_specail_recycler.adapter = recommendAdapter
         me_specail_recycler.addItemDecoration(RecDecoration(DensityUtil.dp2px(12f)))
     }
 

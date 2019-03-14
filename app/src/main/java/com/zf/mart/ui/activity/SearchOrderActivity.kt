@@ -2,6 +2,7 @@ package com.zf.mart.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.zf.mart.base.BaseActivity
 import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
 import com.zf.mart.ui.adapter.SearchOrderAdapter
 import com.zf.mart.ui.adapter.TwoOrderAdapter
+import com.zf.mart.utils.StatusBarUtilNotUse
 import com.zf.mart.view.RecDecoration
 import kotlinx.android.synthetic.main.activity_search_order.*
 
@@ -18,6 +20,15 @@ import kotlinx.android.synthetic.main.activity_search_order.*
  * 搜索的订单结果
  */
 class SearchOrderActivity : BaseActivity() {
+
+    override fun initToolBar() {
+        StatusBarUtilNotUse.darkMode(
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
+        )
+
+    }
 
     companion object {
         fun actionStart(context: Context?) {
@@ -101,6 +112,5 @@ class SearchOrderActivity : BaseActivity() {
     override fun start() {
     }
 
-    override fun initToolBar() {
-    }
+
 }

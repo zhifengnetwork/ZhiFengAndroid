@@ -14,6 +14,7 @@ import com.zf.mart.mvp.bean.MonthList
 import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.FootAdapter
 import com.zf.mart.utils.LogUtils
+import com.zf.mart.utils.StatusBarUtilNotUse
 import com.zf.mart.view.recyclerview.FloatingItemDecoration
 import kotlinx.android.synthetic.main.activity_foot.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -30,6 +31,12 @@ class FootActivity : BaseActivity() {
     }
 
     override fun initToolBar() {
+        StatusBarUtilNotUse.darkMode(
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
+        )
+
         rightLayout.visibility = View.GONE
         editOperation.visibility = View.VISIBLE
         titleName.text = "浏览记录"

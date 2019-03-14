@@ -1,6 +1,7 @@
 package com.zf.mart.ui.fragment
 
 import android.graphics.Color
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -8,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
@@ -17,6 +17,7 @@ import com.zf.mart.ui.activity.ActionActivity
 import com.zf.mart.ui.activity.SearchActivity
 import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
 import com.zf.mart.ui.adapter.HomeSecKillAdapter
+import com.zf.mart.utils.TimeUtils
 import com.zf.mart.view.RecDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_top.*
@@ -36,11 +37,50 @@ class HomeFragment : BaseFragment() {
 
     override fun getLayoutId(): Int = R.layout.fragment_home
 
+    private val recommendData = ArrayList<String>()
+
     //推荐商品列表
-    private val adapter by lazy { HomeFragmentRecommendAdapter(context) }
+    private val adapter by lazy { HomeFragmentRecommendAdapter(context, recommendData) }
+
+    private var countDownTime: CountDownTimer? = null
+
+    private fun initCountDown() {
+
+        countDownTime = object : CountDownTimer(3700 * 1000, 1000) {
+            override fun onFinish() {
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+                countDown.text = TimeUtils.getCountTime(millisUntilFinished)
+            }
+        }
+        countDownTime?.start()
+    }
+
+    override fun onDestroy() {
+        countDownTime?.cancel()
+        home_head_line_tvs?.stopAutoScroll()
+        super.onDestroy()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        home_head_line_tvs?.startAutoScroll()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        home_head_line_tvs?.stopAutoScroll()
+    }
 
     override fun initView() {
+
+        //倒计时
+        initCountDown()
+
         //推荐
+        recommendData.addAll(arrayListOf("1","2","3"))
         val gridManager = GridLayoutManager(context, 2)
         home_recommend_recyclerview.layoutManager = gridManager
         home_recommend_recyclerview.addItemDecoration(RecDecoration(DensityUtil.dp2px(12f)))
@@ -53,8 +93,8 @@ class HomeFragment : BaseFragment() {
         headList.add("春季瘦身衣")
         home_head_line_tvs.setTextList(headList)
         home_head_line_tvs.setText(14f, 5, Color.RED)
-        home_head_line_tvs.setTextStillTime(6000)
-        home_head_line_tvs.setAnimTime(500)
+        home_head_line_tvs.setTextStillTime(4000) //停留时长
+        home_head_line_tvs.setAnimTime(400) //进出间隔时间
         home_head_line_tvs.setOnItemClickListener { }
         home_head_line_tvs.startAutoScroll()
 
@@ -141,11 +181,6 @@ class HomeFragment : BaseFragment() {
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-        home_head_line_tvs?.stopAutoScroll()
-    }
-
     override fun lazyLoad() {
     }
 
@@ -156,8 +191,9 @@ class HomeFragment : BaseFragment() {
             SearchActivity.actionStart(context)
         }
 
+        //秒杀
         action.setOnClickListener {
-            ActionActivity.actionStart(context)
+            ActionActivity.actionStart(context, ActionActivity.SECKILL)
         }
     }
 }

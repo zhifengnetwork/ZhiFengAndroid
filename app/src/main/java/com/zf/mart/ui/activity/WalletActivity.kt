@@ -2,9 +2,12 @@ package com.zf.mart.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.utils.StatusBarUtilNotUse
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 /**
@@ -19,6 +22,14 @@ class WalletActivity : BaseActivity() {
     }
 
     override fun initToolBar() {
+
+        StatusBarUtilNotUse.darkMode(
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
+        )
+
+
         titleName.text = "我的钱包"
         rightLayout.visibility = View.INVISIBLE
         back.setOnClickListener {

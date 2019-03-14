@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
+              android:fitsSystemWindows="true"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
@@ -49,13 +50,6 @@
             app:tl_underline_gravity="BOTTOM"
             app:tl_underline_height="1dp"/>
 
-    <!--<fragment-->
-    <!--android:id="@+id/fragment"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:name="androidx.navigation.fragment.NavHostFragment"-->
-    <!--app:defaultNavHost="true"-->
-    <!--app:navGraph="@navigation/nav_myorder"-->
-    <!--android:layout_height="match_parent"/>-->
 
     <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"

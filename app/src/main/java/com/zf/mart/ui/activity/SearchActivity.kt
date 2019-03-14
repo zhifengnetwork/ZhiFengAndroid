@@ -5,10 +5,12 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.showToast
 import com.zf.mart.utils.LogUtils
+import com.zf.mart.utils.StatusBarUtilNotUse
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.activity_search.*
@@ -26,6 +28,13 @@ class SearchActivity : BaseActivity() {
     }
 
     override fun initToolBar() {
+
+        StatusBarUtilNotUse.darkMode(
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
+        )
+
         backLayout.setOnClickListener {
             finish()
         }

@@ -27,6 +27,7 @@ import com.zf.mart.ui.adapter.GuideAdapter
 import com.zf.mart.ui.fragment.graphic.GraphicFragment
 import com.zf.mart.ui.fragment.same.DetailSameFragment
 import com.zf.mart.utils.LogUtils
+import com.zf.mart.utils.StatusBarUtilNotUse
 import com.zf.mart.view.dialog.ShareSuccessDialog
 import com.zf.mart.view.popwindow.ServicePopupWindow
 import kotlinx.android.synthetic.main.activity_order_detail2.*
@@ -51,6 +52,13 @@ class OrderDetailActivity : BaseActivity()
     }
 
     override fun initToolBar() {
+
+        StatusBarUtilNotUse.darkMode(
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
+        )
+
 
         //分享
         shareLayout.setOnClickListener {
@@ -121,7 +129,6 @@ class OrderDetailActivity : BaseActivity()
 
     private fun initScrollHead() {
         scrollView.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-            LogUtils.e(">>>>scroll:$scrollY     $oldScrollY")
             //
             var alpha = scrollY / 100 * 0.7f
             if (alpha >= 1.0) {

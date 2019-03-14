@@ -3,10 +3,12 @@ package com.zf.mart.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.utils.CodeUtils
 import com.zf.mart.utils.LogUtils
+import com.zf.mart.utils.StatusBarUtilNotUse
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity() {
@@ -18,6 +20,12 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun initToolBar() {
+        StatusBarUtilNotUse.darkMode(
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
+        )
+
     }
 
     override fun layoutId(): Int = R.layout.activity_login

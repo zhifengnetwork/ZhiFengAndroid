@@ -4,6 +4,7 @@
               android:orientation="vertical"
               android:background="@color/whit"
               android:layout_width="match_parent"
+              android:fitsSystemWindows="true"
               android:layout_height="match_parent">
 
     <LinearLayout
@@ -17,9 +18,9 @@
         <LinearLayout
                 android:id="@+id/close"
                 android:layout_width="50dp"
-                      android:gravity="center"
-                      android:layout_height="50dp"
-                      android:orientation="vertical">
+                android:gravity="center"
+                android:layout_height="50dp"
+                android:orientation="vertical">
 
             <ImageView
                     android:layout_width="wrap_content"
@@ -27,33 +28,46 @@
                     android:layout_height="wrap_content"/>
         </LinearLayout>
 
-
-        <TextView
-                android:id="@+id/auction"
+        <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:textColor="@color/colorPrimaryText"
-                android:gravity="center"
                 android:layout_height="match_parent"
-                android:text="竞拍"/>
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
-        <TextView
-                android:id="@+id/group"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_height="match_parent"
-                android:textColor="@color/colorPrimaryText"
-                android:text="拼团"/>
 
-        <TextView
-                android:id="@+id/secKill"
-                android:layout_width="0dp"
-                android:textColor="@color/colorPrimaryText"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_height="match_parent"
-                android:text="秒杀"/>
+            <RadioButton
+                    android:id="@+id/auction"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/selector_action"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:text="竞拍"/>
+
+            <RadioButton
+                    android:id="@+id/group"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:button="@null"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/selector_action"
+                    android:text="拼团"/>
+
+            <RadioButton
+                    android:id="@+id/secKill"
+                    android:layout_width="0dp"
+                    android:textColor="@color/selector_action"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:text="秒杀"/>
+
+        </RadioGroup>
+
 
         <ImageView
                 android:layout_width="wrap_content"
@@ -63,7 +77,8 @@
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="12dp"
                 android:src="@drawable/gengduo"/>
 
     </LinearLayout>

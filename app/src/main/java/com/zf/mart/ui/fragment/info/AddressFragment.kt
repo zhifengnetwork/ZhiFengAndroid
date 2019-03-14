@@ -12,6 +12,7 @@ import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.ui.adapter.AddressAdapter
+import com.zf.mart.utils.LogUtils
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.fragment_address.*
 
@@ -24,15 +25,17 @@ class AddressFragment : BaseFragment() {
 
     private val adapter by lazy { AddressAdapter(context) }
 
-    private fun initToolBar() {
-        activity?.findViewById<TextView>(R.id.titleName)?.text = "AddressFragment"
-        activity?.findViewById<LinearLayout>(R.id.rightLayout)?.visibility = View.INVISIBLE
-
-    }
+//    private fun initToolBar() {
+//        activity?.findViewById<TextView>(R.id.titleName)?.text = "AddressFragment"
+//        activity?.findViewById<LinearLayout>(R.id.rightLayout)?.visibility = View.INVISIBLE
+//
+//    }
 
     override fun initView() {
 
-        initToolBar()
+        LogUtils.e(">>>>>initView")
+
+//        initToolBar()
 
 
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -48,6 +51,7 @@ class AddressFragment : BaseFragment() {
     }
 
     override fun lazyLoad() {
+        LogUtils.e(">>>>>>load")
     }
 
 

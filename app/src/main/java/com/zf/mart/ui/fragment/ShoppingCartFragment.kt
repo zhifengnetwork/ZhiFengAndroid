@@ -37,10 +37,182 @@ class ShoppingCartFragment : BaseFragment() {
 
 
     //猜喜欢适配器
-    private val recommendAdapter by lazy { HomeFragmentRecommendAdapter(context) }
+    private val recommendData = ArrayList<String>()
+    private val recommendAdapter by lazy { HomeFragmentRecommendAdapter(context, recommendData) }
     //购物车适配器
     private var cartData = ArrayList<ShopList>()
     private val cartAdapter by lazy { CartShopAdapter(context, cartData) }
+
+    private fun initCart() {
+//        cartData = getCartData()
+        cartRecyclerView.layoutManager = LinearLayoutManager(context)
+        cartRecyclerView.adapter = cartAdapter
+        cartRecyclerView.addItemDecoration(
+            RecyclerViewDivider(
+                context,
+                LinearLayoutManager.VERTICAL,
+                DensityUtil.dp2px(10f),
+                ContextCompat.getColor(context!!, R.color.colorBackground)
+            )
+        )
+    }
+
+    private fun initCommend() {
+
+        specialCartRv.layoutManager = GridLayoutManager(context, 2)
+        specialCartRv.adapter = recommendAdapter
+        specialCartRv.addItemDecoration(RecDecoration(DensityUtil.dp2px(12f)))
+    }
+
+    override fun initView() {
+
+        //购物车
+        initCart()
+
+        //猜喜欢
+        initCommend()
+
+        initRefresh()
+
+    }
+
+    private fun initRefresh() {
+
+        if (cartData.size == 0) {
+            multipleStatusView.showEmpty()
+
+            recommendTxt.visibility = View.VISIBLE
+            specialCartRv.visibility = View.VISIBLE
+            if (recommendData.size < 50) {
+                recommendData.addAll(arrayListOf("1", "2", "3"))
+                recommendAdapter.notifyDataSetChanged()
+                refreshLayout.finishLoadMore()
+            } else {
+                refreshLayout.setEnableLoadMore(false)
+            }
+        }
+        refreshLayout.finishRefresh()
+
+    }
+
+    override fun lazyLoad() {
+    }
+
+    //支付方式
+    private fun showPayPopWindow() {
+        val window = object : OrderPayPopupWindow(
+            activity as Activity, R.layout.pop_order_pay,
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+        ) {}
+
+        window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+
+    }
+
+    //新增地址
+    private fun showAddressPopupWindow() {
+        val window = object : AddAddressPopupWindow(
+            activity as Activity, R.layout.pop_push_address,
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+        ) {}
+        window.setOnItemClickListener(object : AddAddressPopupWindow.OnItemClickListener {
+            override fun onBack(address: String) {
+                showOrderPopWindow(address)
+            }
+        })
+        window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+
+    }
+
+    //提交订单
+    private fun showOrderPopWindow(txt: String) {
+        val window = object : ConfirmOrderPopupWindow(
+            activity as Activity, R.layout.pop_push_order,
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, txt
+        ) {}
+        window.setOnItemClickListener(object : ConfirmOrderPopupWindow.OnItemClickListener {
+            override fun showPayPop() {
+                showPayPopWindow()
+            }
+
+            override fun showAddressPop() {
+                showAddressPopupWindow()
+            }
+        })
+        window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+
+    }
+
+
+    override fun initEvent() {
+
+        refreshLayout.setOnRefreshListener {
+
+            initRefresh()
+
+        }
+
+        refreshLayout.setOnLoadMoreListener {
+
+            //            if (cartData.size == 0) {
+//                multipleStatusView.showEmpty()
+//            } else {
+//            if (cartData.size < 40) {
+//                cartData.addAll(getCartData())
+//                cartAdapter.notifyDataSetChanged()
+//                refreshLayout.finishLoadMore()
+//            } else {
+            //购物车已经加载完成，加载为你推荐
+            recommendTxt.visibility = View.VISIBLE
+            specialCartRv.visibility = View.VISIBLE
+            if (recommendData.size < 50) {
+                recommendData.addAll(arrayListOf("1", "2", "3"))
+                recommendAdapter.notifyDataSetChanged()
+                refreshLayout.finishLoadMore()
+            } else {
+                refreshLayout.setEnableLoadMore(false)
+            }
+//            }
+//            }
+        }
+
+
+        //结算
+        settle.setOnClickListener {
+
+            if (management.isSelected) {
+                //删除
+            } else {
+                //结算
+                showOrderPopWindow("")
+                showToast("选中的id:" + filter())
+            }
+        }
+
+        //全选
+        allChoose.setOnCheckedChangeListener { _, isChecked ->
+            //是否全选
+            cartAdapter.ifCheckAll(isChecked)
+        }
+
+        //管理
+        management.setOnClickListener {
+            management.isSelected = !management.isSelected
+            if (management.isSelected) {
+                settle.text = "删除"
+                management.text = "完成"
+                price.visibility = View.INVISIBLE
+                totalTxt.visibility = View.INVISIBLE
+            } else {
+                settle.text = "结算"
+                management.text = "管理"
+                price.visibility = View.VISIBLE
+                totalTxt.visibility = View.VISIBLE
+            }
+
+        }
+
+    }
 
     private fun getCartData(): ArrayList<ShopList> {
         val list = ArrayList<ShopList>()
@@ -94,87 +266,8 @@ class ShoppingCartFragment : BaseFragment() {
         return list
     }
 
-    private fun initCart() {
-        cartData = getCartData()
-        cartRecyclerView.layoutManager = LinearLayoutManager(context)
-        cartRecyclerView.adapter = cartAdapter
-        cartRecyclerView.addItemDecoration(
-            RecyclerViewDivider(
-                context,
-                LinearLayoutManager.VERTICAL,
-                DensityUtil.dp2px(10f),
-                ContextCompat.getColor(context!!, R.color.colorBackground)
-            )
-        )
-    }
-
-    private fun initCommend() {
-        shop_cat_specail_rec.layoutManager = GridLayoutManager(context, 2)
-        shop_cat_specail_rec.adapter = recommendAdapter
-        shop_cat_specail_rec.addItemDecoration(RecDecoration(DensityUtil.dp2px(12f)))
-    }
-
-    override fun initView() {
-
-        //购物车
-        initCart()
-
-        //猜喜欢
-        initCommend()
-
-
-    }
-
-    override fun lazyLoad() {
-    }
-
-    //支付方式
-    private fun showPayPopWindow() {
-        val window = object : OrderPayPopupWindow(
-            activity as Activity, R.layout.pop_order_pay,
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
-        ) {}
-
-        window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
-
-    }
-
-    //新增地址
-    private fun showAddressPopupWindow() {
-        val window = object : AddAddressPopupWindow(
-            activity as Activity, R.layout.pop_push_address,
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
-        ) {}
-        window.setOnItemClickListener(object : AddAddressPopupWindow.OnItemClickListener {
-            override fun onBack(address: String) {
-                showOrderPopWindow(address)
-            }
-        })
-        window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
-
-    }
-
-    //提交订单
-    private fun showOrderPopWindow(txt: String) {
-        val window = object : ConfirmOrderPopupWindow(
-            activity as Activity, R.layout.pop_push_order,
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, txt
-        ) {}
-        window.setOnItemClickListener(object : ConfirmOrderPopupWindow.OnItemClickListener {
-            override fun showPayPop() {
-                showPayPopWindow()
-            }
-
-            override fun showAddressPop() {
-                showAddressPopupWindow()
-            }
-        })
-        window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
-
-    }
-
+    //去重
     private fun filter(): ArrayList<Int> {
-        //去重
         val newList = ArrayList<Int>()
         val it = cartAdapter.mCheckList.iterator()
         while (it.hasNext()) {
@@ -184,45 +277,5 @@ class ShoppingCartFragment : BaseFragment() {
             }
         }
         return newList
-    }
-
-    override fun initEvent() {
-
-        //结算
-        settle.setOnClickListener {
-
-            if (management.isSelected) {
-                //删除
-            } else {
-                //结算
-                showOrderPopWindow("")
-                showToast("选中的id:" + filter())
-
-            }
-        }
-
-        //全选
-        allChoose.setOnCheckedChangeListener { _, isChecked ->
-            //是否全选
-            cartAdapter.ifCheckAll(isChecked)
-        }
-
-        //管理
-        management.setOnClickListener {
-            management.isSelected = !management.isSelected
-            if (management.isSelected) {
-                settle.text = "删除"
-                management.text = "完成"
-                price.visibility = View.INVISIBLE
-                totalTxt.visibility = View.INVISIBLE
-            } else {
-                settle.text = "结算"
-                management.text = "管理"
-                price.visibility = View.VISIBLE
-                totalTxt.visibility = View.VISIBLE
-            }
-
-        }
-
     }
 }

@@ -14,8 +14,8 @@ class InfoFragment : BaseFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_info
 
     override fun initView() {
-        activity?.findViewById<TextView>(R.id.titleName)?.text = "infoFragment"
-        activity?.findViewById<LinearLayout>(R.id.rightLayout)?.visibility = View.INVISIBLE
+//        activity?.findViewById<TextView>(R.id.titleName)?.text = "infoFragment"
+//        activity?.findViewById<LinearLayout>(R.id.rightLayout)?.visibility = View.INVISIBLE
     }
 
     override fun lazyLoad() {
