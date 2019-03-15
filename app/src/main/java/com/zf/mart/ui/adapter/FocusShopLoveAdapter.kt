@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 
-class LoveShopGoodsAdapter(val context: Context?) : RecyclerView.Adapter<LoveShopGoodsAdapter.ViewHolder>() {
+class FocusShopLoveAdapter(val context: Context?) : RecyclerView.Adapter<FocusShopLoveAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val view = LayoutInflater.from(context).inflate(R.layout.item_same_love_goods, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_focus_shop_goods, parent, false)
         return ViewHolder(view)
     }
 

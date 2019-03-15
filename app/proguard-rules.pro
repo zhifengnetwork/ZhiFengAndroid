@@ -45,6 +45,8 @@
 -keep interface com.yalantis.ucrop** { *; }
 
 
+
+
 #--------- rxjava2 retrofit 混淆 ----------
 # Platform calls Class.forName on types which do not exist on Android to determine platform.
 -dontnote retrofit2.Platform

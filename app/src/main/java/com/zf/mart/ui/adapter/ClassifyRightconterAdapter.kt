@@ -26,6 +26,7 @@ class ClassifyRightconterAdapter(val context: Context?) : RecyclerView.Adapter<C
     }
 
     override fun getItemCount(): Int=6
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
     }

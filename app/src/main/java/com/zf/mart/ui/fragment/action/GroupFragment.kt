@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
+import com.zf.mart.ui.activity.GroupDetailActivity
 import com.zf.mart.ui.adapter.GroupAdapter
 import com.zf.mart.utils.LogUtils
 import com.zf.mart.view.RecDecoration
@@ -23,6 +24,8 @@ class GroupFragment : BaseFragment() {
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(RecDecoration(DensityUtil.dp2px(12f)))
+
+
     }
 
     override fun lazyLoad() {
@@ -30,5 +33,10 @@ class GroupFragment : BaseFragment() {
     }
 
     override fun initEvent() {
+        adapter.setOnItemClickListener(object :GroupAdapter.OnItemClickListener{
+            override fun onItemClick() {
+                GroupDetailActivity.actionStart(context)
+            }
+        })
     }
 }

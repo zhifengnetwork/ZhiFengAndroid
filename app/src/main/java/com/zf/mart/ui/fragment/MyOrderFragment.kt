@@ -35,7 +35,6 @@ class MyOrderFragment : BaseFragment() {
             multipleStatusView.showEmpty()
         }
 
-
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(

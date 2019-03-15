@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.ui.activity.ActionActivity
 import com.zf.mart.ui.activity.TeamActivity
 import kotlinx.android.synthetic.main.me_specail_item.view.*
 
@@ -35,6 +36,7 @@ class MeSpecailAdapter(val context: Context?) : RecyclerView.Adapter<MeSpecailAd
         holder.itemView.me_specail_name.text = titleList[position]
         holder.itemView.setOnClickListener {
             when (position) {
+                3 -> ActionActivity.actionStart(context, ActionActivity.GROUP)
                 4 -> TeamActivity.actionStart(context)
             }
         }

@@ -98,6 +98,11 @@ class OrderDetailActivity : BaseActivity()
 
     override fun initView() {
 
+        //全部评价
+        allEvaluation.setOnClickListener {
+            EvaluationActivity.actionStart(this)
+        }
+
         //banner
         initBanner()
 
@@ -204,10 +209,7 @@ class OrderDetailActivity : BaseActivity()
      * pageRecyclerView
      */
     private fun initSame() {
-        val titles = arrayOf(
-            "相似推荐"
-            , "同类热销排行"
-        )
+
         val fgms = arrayListOf(
             DetailSameFragment.newInstance() as Fragment
             , DetailSameFragment.newInstance() as Fragment

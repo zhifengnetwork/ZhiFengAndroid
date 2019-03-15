@@ -115,6 +115,10 @@
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity android:name=".ui.activity.EvaluationActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
 
     </application>
 

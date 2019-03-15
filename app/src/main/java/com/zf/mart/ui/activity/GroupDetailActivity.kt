@@ -3,7 +3,10 @@ package com.zf.mart.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
+import android.view.Gravity
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,9 +20,11 @@ import com.zf.mart.ui.adapter.GuideAdapter
 import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtilNotUse
 import com.zf.mart.view.dialog.GroupUserDialog
+import com.zf.mart.view.popwindow.GroupStylePopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.activity_group_detail.*
 import kotlinx.android.synthetic.main.layout_detail_head.*
+import kotlinx.android.synthetic.main.layout_group_bottom.*
 
 /**
  * 拼团 详情
@@ -54,6 +59,9 @@ class GroupDetailActivity : BaseActivity() {
 
     override fun initView() {
 
+        originalPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
+
+
         //标题栏
         initScrollHead()
 
@@ -62,6 +70,11 @@ class GroupDetailActivity : BaseActivity() {
 
         //评价
         initEva()
+
+        //全部评价
+        evaluation.setOnClickListener {
+            EvaluationActivity.actionStart(this)
+        }
 
         //正在拼单的团
         initGroup()
@@ -140,6 +153,18 @@ class GroupDetailActivity : BaseActivity() {
     }
 
     override fun initEvent() {
+
+        buySelfLayout.setOnClickListener {
+            val popWindow = object : GroupStylePopupWindow(
+                this,
+                R.layout.pop_order_style,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ) {}
+            popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+        }
+
+
         //更多拼单的人
         moreUserLayout.setOnClickListener {
             GroupUserDialog.showDialog(supportFragmentManager)

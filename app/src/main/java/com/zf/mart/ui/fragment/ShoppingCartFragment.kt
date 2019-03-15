@@ -78,21 +78,44 @@ class ShoppingCartFragment : BaseFragment() {
 
     private fun initRefresh() {
 
-        if (cartData.size == 0) {
-            multipleStatusView.showEmpty()
+        /** 购物车空 */
+//        if (cartData.size == 0) {
+//            multipleStatusView.showEmpty()
+//
+//            recommendTxt.visibility = View.VISIBLE
+//            specialCartRv.visibility = View.VISIBLE
+//            if (recommendData.size < 50) {
+//                recommendData.addAll(arrayListOf("1", "2", "3"))
+//                recommendAdapter.notifyDataSetChanged()
+//                refreshLayout.finishLoadMore()
+//            } else {
+//                refreshLayout.setEnableLoadMore(false)
+//            }
+//        }
+//        refreshLayout.finishRefresh()
 
-            recommendTxt.visibility = View.VISIBLE
-            specialCartRv.visibility = View.VISIBLE
-            if (recommendData.size < 50) {
-                recommendData.addAll(arrayListOf("1", "2", "3"))
-                recommendAdapter.notifyDataSetChanged()
+
+
+
+
+        /** 购物车有商品 */
+
+            if (cartData.size < 40) {
+                cartData.addAll(getCartData())
+                cartAdapter.notifyDataSetChanged()
                 refreshLayout.finishLoadMore()
             } else {
-                refreshLayout.setEnableLoadMore(false)
+                //购物车已经加载完成，加载为你推荐
+                recommendTxt.visibility = View.VISIBLE
+                specialCartRv.visibility = View.VISIBLE
+                if (recommendData.size < 50) {
+                    recommendData.addAll(arrayListOf("1", "2", "3"))
+                    recommendAdapter.notifyDataSetChanged()
+                    refreshLayout.finishLoadMore()
+                } else {
+                    refreshLayout.setEnableLoadMore(false)
+                }
             }
-        }
-        refreshLayout.finishRefresh()
-
     }
 
     override fun lazyLoad() {

@@ -29,26 +29,39 @@ class DetailSameFragment : BaseFragment() {
 
     override fun getLayoutId(): Int = R.layout.fragment_detail_same
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        LogUtils.e(">>>>>>>DetailSameFragment::onDestroyView")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LogUtils.e(">>>>>>>DetailSameFragment::onDestroy")
+    }
 
     private val adapter by lazy { LoveShopGoodsAdapter(context) }
+
+
     private val scrollHelper = PagingScrollHelper()
 
     override fun initView() {
 
         LogUtils.e(">>>>>>>DetailSameFragment initView")
 
-        //indicatorLayout可能出现空
         val manager = HorizontalPageLayoutManager(2, 3)
         recyclerView.layoutManager = manager
         recyclerView.adapter = adapter
         scrollHelper.setUpRecycleView(recyclerView)
         scrollHelper.updateLayoutManger()
         scrollHelper.setOnPageChangeListener { pos ->
-            repeat(4) {
-                indicatorLayout.apply {
+
+            indicatorLayout?.apply {
+                repeat(this.childCount) {
+                    //indicatorLayout可能出现空
                     this[it].isSelected = pos == it
                 }
             }
+
         }
 
         //滑动指示器
