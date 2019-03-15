@@ -9,6 +9,7 @@ import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
 import com.zf.mart.ui.adapter.MeSpecailAdapter
 import com.zf.mart.view.RecDecoration
 import kotlinx.android.synthetic.main.fragment_me.*
+import kotlinx.android.synthetic.main.layout_benefit.*
 import kotlinx.android.synthetic.main.layout_info.*
 import kotlinx.android.synthetic.main.layout_order.*
 import kotlinx.android.synthetic.main.layout_wallet.*
@@ -48,11 +49,16 @@ class MeFragment : BaseFragment() {
     override fun initEvent() {
         //十天签到领礼品
         layout_info_gift.setOnClickListener {
-           SinginGiftActivity.actionStart(context)
+           SigninGiftActivity.actionStart(context)
         }
         //积分
         integralLayout.setOnClickListener {
             IntegralActivity.actionStart(context)
+        }
+
+        //公益
+        benefit.setOnClickListener {
+            BenefitActivity.actionStart(context)
         }
 
         //优惠券中心

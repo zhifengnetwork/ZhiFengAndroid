@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <include layout="@layout/layout_toolbar"/>
 
@@ -93,49 +93,61 @@
             android:layout_marginRight="15dp"
 
     >
-        <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="40dp"-->
-                <!--android:gravity="center"-->
-                <!--android:orientation="horizontal"-->
-        <!--&gt;-->
-            <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:src="@drawable/fanyezuo"-->
-            <!--/>-->
-            <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginRight="11dp"-->
-                    <!--android:layout_marginLeft="11dp"-->
-                    <!--android:textSize="12sp"-->
-                    <!--android:text="2019.3"-->
-            <!--/>-->
-            <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:src="@drawable/fanyeyou"-->
-            <!--/>-->
-
-        <!--</LinearLayout>-->
-        <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="2px"-->
-                <!--android:layout_marginTop="35dp"-->
-                <!--android:background="#999999"-->
-        <!--/>-->
-        <CalendarView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-
-
+                android:layout_marginTop="35dp"
+                android:gravity="center"
+                android:orientation="horizontal"
         >
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/fanyezuo"
+            />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="11dp"
+                    android:layout_marginLeft="11dp"
+                    android:textSize="12sp"
+                    android:text="2019.3"
+            />
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/fanyeyou"
+            />
 
-        </CalendarView>
+        </LinearLayout>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginTop="20dp"
+                android:background="#999999"
+        />
+
+
+
+            <com.haibin.calendarview.CalendarView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:calendar_height="50dp"
+                    app:current_month_text_color="#333333"
+                    app:current_month_lunar_text_color="#CFCFCF"
+                    app:min_year="2004"
+                    app:other_month_text_color="#e1e1e1"
+                    app:scheme_text="假"
+                    app:scheme_text_color="#333"
+                    app:scheme_theme_color="#333"
+                    app:selected_text_color="#fff"
+                    app:selected_theme_color="#333"
+                    app:week_start_with="mon"
+                    app:month_view_show_mode="mode_all"
+                    app:week_text_color="#111"
+            />
+
+
     </LinearLayout>
 
 </RelativeLayout>

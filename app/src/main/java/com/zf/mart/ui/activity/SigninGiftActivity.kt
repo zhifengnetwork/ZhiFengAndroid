@@ -7,10 +7,10 @@ import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
-class SinginGiftActivity:BaseActivity(){
+class SigninGiftActivity:BaseActivity(){
     companion object {
         fun actionStart(context: Context?){
-            context?.startActivity(Intent(context,SinginGiftActivity::class.java))
+            context?.startActivity(Intent(context,SigninGiftActivity::class.java))
         }
     }
 

@@ -109,7 +109,25 @@
         <!-- 当 select_mode=range_mode -->
         <attr name="min_select_range" format="integer" />
         <attr name="max_select_range" format="integer" />
+
+
+        <!--&lt;!&ndash; 日历显示模式 &ndash;&gt;-->
+        <!--<attr name="calendar_show_mode">-->
+            <!--<enum name="both_month_week_view" value="0" />&lt;!&ndash; 默认都有 &ndash;&gt;-->
+            <!--<enum name="only_week_view" value="1" />&lt;!&ndash; 仅周视图 &ndash;&gt;-->
+            <!--<enum name="only_month_view" value="2" />&lt;!&ndash; 仅月视图 &ndash;&gt;-->
+        <!--</attr>-->
+
+        <!--<attr name="default_status">-->
+            <!--<enum name="expand" value="0" /> &lt;!&ndash;默认展开&ndash;&gt;-->
+            <!--<enum name="shrink" value="1" />&lt;!&ndash;默认搜索&ndash;&gt;-->
+        <!--</attr>-->
+
+        <!--<attr name="calendar_content_view_id" format="integer" />&lt;!&ndash;内容布局id&ndash;&gt;-->
+
+
     </declare-styleable>
+
 
 
 </resources>
