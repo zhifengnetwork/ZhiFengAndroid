@@ -5,6 +5,7 @@ import com.zf.mart.base.BaseBean
 import io.reactivex.Observable
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 /**
@@ -13,10 +14,7 @@ import retrofit2.http.POST
 
 interface ApiService {
 
-    /**
-     * 获取菜谱
-     * http://apis.juhe.cn/cook/query?key=a4fea2cd25b0b75244d16f459e8ef31f&menu=%E8%A5%BF%E7%BA%A2%E6%9F%BF&rn=10&pn=3
-     */
+
 //    @POST("cook/query?")
 //    @FormUrlEncoded
 //    fun getFood(@Field("key") key: String, @Field("menu") menu: String, @Query("pn") pn: Int): Observable<FoodBean>
@@ -28,5 +26,7 @@ interface ApiService {
     @POST("/api/rider/account/update")
     @FormUrlEncoded
     fun setBankAccount(@Field("attribute") attribute: String): Observable<BaseBean<Unit>>
+
+
 
 }
