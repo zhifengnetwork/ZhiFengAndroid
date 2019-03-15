@@ -126,6 +126,7 @@ class ShoppingCartFragment : BaseFragment() {
 
     //提交订单
     private fun showOrderPopWindow(txt: String) {
+
         val window = object : ConfirmOrderPopupWindow(
             activity as Activity, R.layout.pop_push_order,
             LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, txt

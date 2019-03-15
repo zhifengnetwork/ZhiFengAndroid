@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.ui.activity.BonusActivity
 
 import com.zf.mart.ui.activity.PickupActivity
 
@@ -39,6 +40,7 @@ class MeSpecailAdapter(val context: Context?) : RecyclerView.Adapter<MeSpecailAd
         holder.itemView.setOnClickListener {
 
             when(position){
+                1->BonusActivity.actionStart(context)
                 9-> PickupActivity.actionStart(context)
 
                 4 -> TeamActivity.actionStart(context)

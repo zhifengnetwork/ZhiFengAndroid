@@ -223,6 +223,7 @@ class OrderDetailActivity : BaseActivity()
 
     private fun initBanner() {
 
+
         val images = listOf(R.mipmap.v1, R.mipmap.v2, R.mipmap.v3, R.mipmap.v4)
         val imageViews = ArrayList<ImageView>()
         repeat(images.size) { pos ->
