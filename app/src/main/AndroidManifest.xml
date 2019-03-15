@@ -107,6 +107,18 @@
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity android:name=".ui.activity.IntegralActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.activity.PickupActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.activity.SigninGiftActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity android:name=".ui.activity.BenefitActivity"
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
@@ -116,6 +128,10 @@
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.EvaluationActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.activity.BonusActivity"
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
 

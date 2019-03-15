@@ -2,18 +2,14 @@ package com.zf.mart.ui.fragment
 
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.ui.adapter.ClassifyRightAdapter
 import com.zf.mart.ui.adapter.ClassifyTitleAdapter
-import com.zf.mart.utils.LogUtils
-import com.zf.mart.view.RecDecoration
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.fragment_classify.*
-import java.text.FieldPosition
 
 class ClassifyFragment : BaseFragment() {
     companion object {
@@ -82,7 +78,7 @@ class ClassifyFragment : BaseFragment() {
         adapter.setOnItemClickListener(object : ClassifyTitleAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 if (position == 0) {
-                    rightRecyclerView.layoutManager = GridLayoutManager(context, 2)
+                    rightRecyclerView.layoutManager = LinearLayoutManager(context)
                     rightRecyclerView.adapter = rightAdapter
                     rightAdapter.notifyDataSetChanged()
                 } else if (position == 1) {

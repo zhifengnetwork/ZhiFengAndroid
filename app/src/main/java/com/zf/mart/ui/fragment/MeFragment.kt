@@ -1,5 +1,8 @@
 package com.zf.mart.ui.fragment
 
+import android.app.Activity
+import android.view.Gravity
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
@@ -8,6 +11,7 @@ import com.zf.mart.ui.activity.*
 import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
 import com.zf.mart.ui.adapter.MeSpecailAdapter
 import com.zf.mart.view.RecDecoration
+import com.zf.mart.view.popwindow.SignSuccessPopupWindow
 import kotlinx.android.synthetic.main.fragment_me.*
 import kotlinx.android.synthetic.main.layout_benefit.*
 import kotlinx.android.synthetic.main.layout_info.*
@@ -47,7 +51,27 @@ class MeFragment : BaseFragment() {
     }
 
     override fun initEvent() {
+        //签到
+        sign.setOnClickListener {
+            val window = object : SignSuccessPopupWindow(
+                activity as Activity, R.layout.pop_sign_success,
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+            ) {
+                override fun initView() {
 
+                }
+            }
+            window.showAtLocation(parentLayout, Gravity.CENTER, 0, 0)
+        }
+
+        //十天签到领礼品
+        layout_info_gift.setOnClickListener {
+           SigninGiftActivity.actionStart(context)
+        }
+        //积分
+        integralLayout.setOnClickListener {
+            IntegralActivity.actionStart(context)
+        }
 
         //公益
         benefit.setOnClickListener {

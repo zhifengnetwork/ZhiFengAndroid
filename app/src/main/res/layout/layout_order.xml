@@ -6,7 +6,7 @@
                                    android:layout_marginRight="10dp"
                                    app:cardCornerRadius="5dp"
                                    android:id="@+id/me_orld_root"
-                                   android:layout_below="@id/me_info_root"
+                                   android:layout_below="@id/parentLayout"
                                    app:cardElevation="0dp"
                                    android:background="@color/whit"
                                    android:layout_marginTop="10dp"

@@ -7,6 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import com.zf.mart.ui.activity.ActionActivity
+import com.zf.mart.ui.activity.BonusActivity
+
+import com.zf.mart.ui.activity.PickupActivity
+
 import com.zf.mart.ui.activity.TeamActivity
 import kotlinx.android.synthetic.main.me_specail_item.view.*
 
@@ -37,6 +41,9 @@ class MeSpecailAdapter(val context: Context?) : RecyclerView.Adapter<MeSpecailAd
         holder.itemView.setOnClickListener {
             when (position) {
                 3 -> ActionActivity.actionStart(context, ActionActivity.GROUP)
+                1 -> BonusActivity.actionStart(context)
+                9 -> PickupActivity.actionStart(context)
+
                 4 -> TeamActivity.actionStart(context)
             }
         }

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <LinearLayout
+            android:id="@+id/sign_in_gift_ly"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/myToolBar"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:background="@drawable/shape_integral_head"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/shape_integral_head"
+        android:background="@drawable/shape_sign_in_hyaline"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/whit"
+        android:textSize="30sp"
+        android:text="已签到"
+    />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/whit"
+                android:textSize="13sp"
+                android:text="+2积分"
+        />
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/whit"
+                    android:textSize="13sp"
+                    android:text="已连续签到："
+            />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/whit"
+                    android:textSize="13sp"
+                    android:text="3天"
+            />
+        </LinearLayout>
+        <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="65dp"
+                android:orientation="horizontal">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/whit"
+                    android:textSize="13sp"
+                    android:text="积累签到："
+            />
+            <TextView
+                    android:id="@+id/sign_in_gift_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/whit"
+                    android:textSize="13sp"
+                    android:text="23天"
+            />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+    <LinearLayout
+            android:layout_below="@id/sign_in_gift_ly"
+            android:layout_marginTop="-50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_sign_in_gift_bg"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+
+    >
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+        >
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/fanyezuo"
+            />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="11dp"
+                    android:layout_marginLeft="11dp"
+                    android:textSize="12sp"
+                    android:text="2019.3"
+            />
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/fanyeyou"
+            />
+
+        </LinearLayout>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginTop="20dp"
+                android:background="#999999"
+        />
+
+
+
+            <com.haibin.calendarview.CalendarView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:calendar_height="50dp"
+                    app:current_month_text_color="#333333"
+                    app:current_month_lunar_text_color="#CFCFCF"
+                    app:min_year="2004"
+                    app:other_month_text_color="#e1e1e1"
+                    app:scheme_text="假"
+                    app:scheme_text_color="#333"
+                    app:scheme_theme_color="#333"
+                    app:selected_text_color="#fff"
+                    app:selected_theme_color="#333"
+                    app:week_start_with="mon"
+                    app:month_view_show_mode="mode_all"
+                    app:week_text_color="#111"
+            />
+
+
+    </LinearLayout>
+
+</RelativeLayout>
