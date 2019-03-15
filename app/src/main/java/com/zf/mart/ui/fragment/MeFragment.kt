@@ -46,7 +46,14 @@ class MeFragment : BaseFragment() {
     }
 
     override fun initEvent() {
-
+        //十天签到领礼品
+        layout_info_gift.setOnClickListener {
+           SinginGiftActivity.actionStart(context)
+        }
+        //积分
+        integralLayout.setOnClickListener {
+            IntegralActivity.actionStart(context)
+        }
 
         //优惠券中心
         discountLayout.setOnClickListener {

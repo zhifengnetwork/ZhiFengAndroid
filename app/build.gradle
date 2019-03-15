@@ -71,6 +71,8 @@ dependencies {
     implementation 'com.zzhoujay.richtext:richtext:3.0.7'
     implementation 'com.zzhoujay:html:1.0.2'
 
+    implementation 'com.haibin:calendarview:3.5.5'
+
     //other
     implementation 'com.github.yuanhoujun:AutoScrollViewPager:1.0.3'
     implementation 'com.makeramen:roundedimageview:2.3.0'

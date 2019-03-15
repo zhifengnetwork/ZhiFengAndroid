@@ -53,7 +53,7 @@ class ClassifyFragment : BaseFragment() {
         adapter.setOnItemClickListener(object :ClassifyTitleAdapter.OnItemClickListener{
             override fun onItemClick(position: Int) {
                 if(position==0){
-                    rightRecyclerView.layoutManager = GridLayoutManager(context,2)
+                    rightRecyclerView.layoutManager = LinearLayoutManager(context)
                     rightRecyclerView.adapter = rightAdapter
                     rightAdapter.notifyDataSetChanged()
                 }else if(position==1){
