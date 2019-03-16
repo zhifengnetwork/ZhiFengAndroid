@@ -17,7 +17,7 @@ class ClassifyRightAdapter(val context: Context?) : RecyclerView.Adapter<Classif
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = 3
+    override fun getItemCount(): Int = 4
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
