@@ -1,6 +1,8 @@
 package com.zf.mart.ui.adapter
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,22 +25,19 @@ class CartGoodsAdapter(val context: Context?, val data: ArrayList<CartGoodsList>
     override fun getItemCount(): Int = data.size
 
 
-    private var mListener: OnItemClickListener? = null
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        mListener = listener
-    }
-
-    interface OnItemClickListener {
-        fun checkAll()
-        fun unCheckAll()
-        fun addCheck(id: Int)
-        fun removeCheck(id: Int)
-    }
-
     private var isCheckAll = false
 
     private val checkList = ArrayList<Int>()
 
+
+    //输入数量
+    var onInputListener: ((num: Int) -> Unit)? = null
+    //规格
+    var onSpecListener: ((spec: String) -> Unit)? = null
+    var onAddCheck: ((id: Int) -> Unit)? = null
+    var onRemoveCheck: ((id: Int) -> Unit)? = null
+    var onCheckAll: (() -> Unit)? = null
+    var onUnCheckAll: (() -> Unit)? = null
 
     fun ifCheckAll(ifCheck: Boolean) {
 
@@ -51,7 +50,45 @@ class CartGoodsAdapter(val context: Context?, val data: ArrayList<CartGoodsList>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
 
-            goodsName.text = data[position].goodsName
+            goodsSpec.setOnClickListener {
+                //弹出规格选择框
+                onSpecListener?.invoke(goodsSpec.text.toString())
+            }
+
+            reduce.isSelected = numberInput.text.toString().toInt() < 2
+
+            numberInput.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    reduce.isSelected = numberInput.text.toString().toInt() < 2
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                }
+            })
+
+            //减少
+            reduce.setOnClickListener {
+                if (numberInput.text.toString().toInt() > 1) {
+                    reduce.isSelected = false
+                    numberInput.text = (numberInput.text.toString().toInt() - 1).toString()
+                }
+            }
+
+            //增加
+            increase.setOnClickListener {
+                numberInput.text = (numberInput.text.toString().toInt() + 1).toString()
+            }
+
+            //输入数量
+            numberInput.setOnClickListener {
+                onInputListener?.invoke(numberInput.text.toString().toInt())
+            }
+
+            goodsName.text = data[position].goodsName + "--id:--" + data[position].id
+
             checkBox.isChecked = isCheckAll
 
             initCheck(this, position)
@@ -60,9 +97,9 @@ class CartGoodsAdapter(val context: Context?, val data: ArrayList<CartGoodsList>
                 initCheck(this, position)
                 //外层商铺是否选中
                 if (checkList.size == data.size) {
-                    mListener?.checkAll()
+                    onCheckAll?.invoke()
                 } else {
-                    mListener?.unCheckAll()
+                    onUnCheckAll?.invoke()
                 }
             }
         }
@@ -72,10 +109,10 @@ class CartGoodsAdapter(val context: Context?, val data: ArrayList<CartGoodsList>
         view.apply {
             if (checkBox.isChecked) {
                 checkList.add(data[position].id)
-                mListener?.addCheck(data[position].id)
+                onAddCheck?.invoke(data[position].id)
             } else {
                 checkList.remove(data[position].id)
-                mListener?.removeCheck(data[position].id)
+                onRemoveCheck?.invoke(data[position].id)
             }
         }
     }

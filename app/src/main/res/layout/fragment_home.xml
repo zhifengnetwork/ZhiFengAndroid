@@ -25,12 +25,11 @@
                 app:srlDrawableProgress="@drawable/ic_progress_puzzle"
                 android:layout_height="wrap_content"/>
 
-        <LinearLayout
+        <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-            <include layout="@layout/layout_search"/>
 
 
             <!--<com.dengzq.simplerefreshlayout.SimpleRefreshLayout-->
@@ -40,6 +39,7 @@
             <!--android:layout_below="@id/home_title">-->
 
             <androidx.core.widget.NestedScrollView
+
                     android:focusableInTouchMode="true"
                     android:id="@+id/home_nestedscroll"
                     android:layout_width="match_parent"
@@ -143,45 +143,35 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_marginTop="5dp"/>
 
-
-                        <!--<me.foji.widget.AutoScrollViewPager-->
-                        <!--android:id="@+id/home_ms_viewPager"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="@dimen/dp_170"-->
-                        <!--android:layout_alignParentLeft="true"-->
-                        <!--android:layout_alignParentBottom="true"-->
-                        <!--app:autoScrollEnable="true"-->
-                        <!--app:timeInterval="8000"/>-->
-
                     </RelativeLayout>
 
-                    <RelativeLayout
-                            android:id="@+id/home_promotion_root"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/home_ms_root"
-                            android:background="@color/whit"
-                            android:layout_marginTop="10dp">
+                    <!--<RelativeLayout-->
+                            <!--android:id="@+id/home_promotion_root"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@id/home_ms_root"-->
+                            <!--android:background="@color/whit"-->
+                            <!--android:layout_marginTop="10dp">-->
 
-                        <include layout="@layout/home_fragment_promotion"/>
+                        <!--<include layout="@layout/home_fragment_promotion"/>-->
 
 
-                    </RelativeLayout>
+                    <!--</RelativeLayout>-->
 
                     <!--品质生活-->
-                    <include layout="@layout/layout_pzsh"/>
+                    <!--<include layout="@layout/layout_pzsh"/>-->
 
 
-                    <RelativeLayout
-                            android:id="@+id/home_quality_root"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/home_promotion_r1">
+                    <!--<RelativeLayout-->
+                            <!--android:id="@+id/home_quality_root"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@id/home_promotion_r1">-->
 
-                        <!-- 品质生活的pager -->
-                        <include layout="@layout/home_quality"/>
+                        <!--&lt;!&ndash; 品质生活的pager &ndash;&gt;-->
+                        <!--<include layout="@layout/home_quality"/>-->
 
-                    </RelativeLayout>
+                    <!--</RelativeLayout>-->
 
                     <!--为你推荐-->
                     <include layout="@layout/layout_wntj"/>
@@ -200,10 +190,12 @@
 
             </androidx.core.widget.NestedScrollView>
 
-            <!--</com.dengzq.simplerefreshlayout.SimpleRefreshLayout>-->
+
+            <include layout="@layout/layout_search"/>
 
 
-        </LinearLayout>
+
+        </RelativeLayout>
 
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
                 android:layout_width="match_parent"

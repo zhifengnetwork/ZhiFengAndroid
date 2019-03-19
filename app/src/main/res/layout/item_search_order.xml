@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:background="@color/whit"
               android:layout_width="match_parent"
@@ -9,9 +10,11 @@
     <RelativeLayout
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_width="match_parent" android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
+                app:riv_corner_radius="5dp"
                 android:id="@+id/goodsIcon"
                 android:layout_width="100dp"
                 android:layout_marginLeft="10dp"
@@ -103,5 +106,9 @@
         <!--android:text="查看产品使用说明"/>-->
 
     </RelativeLayout>
+
+    <!--<View android:layout_width="match_parent"-->
+          <!--android:layout_height="1px"-->
+          <!--android:background="@color/colorLine"/>-->
 
 </LinearLayout>

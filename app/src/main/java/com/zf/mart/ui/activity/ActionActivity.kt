@@ -4,19 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.view.KeyEvent
 import androidx.core.content.ContextCompat
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
-import com.zf.mart.showToast
-import com.zf.mart.utils.LogUtils
-import com.zf.mart.utils.StatusBarUtilNotUse
+import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_action.*
 
 class ActionActivity : BaseActivity() {
 
     override fun initToolBar() {
-        StatusBarUtilNotUse.darkMode(
+        StatusBarUtils.darkMode(
             this,
             ContextCompat.getColor(this, R.color.colorSecondText),
             0.3f

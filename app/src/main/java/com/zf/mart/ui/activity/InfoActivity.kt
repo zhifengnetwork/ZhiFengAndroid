@@ -8,7 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
-import com.zf.mart.utils.StatusBarUtilNotUse
+import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.ToolBarHelper
 import kotlinx.android.synthetic.main.activity_info.*
 
@@ -21,7 +21,7 @@ class InfoActivity : BaseActivity() {
     }
 
     override fun initToolBar() {
-        StatusBarUtilNotUse.darkMode(
+        StatusBarUtils.darkMode(
             this,
             ContextCompat.getColor(this, R.color.colorSecondText),
             0.3f
@@ -59,6 +59,7 @@ class InfoActivity : BaseActivity() {
                 if (!navController.navigateUp()) {
                     finish()
                 } else {
+
                 }
             }
         }

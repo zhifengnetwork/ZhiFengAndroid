@@ -16,8 +16,10 @@ import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.CartShopAdapter
 import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
 import com.zf.mart.view.RecDecoration
+import com.zf.mart.view.dialog.InputNumDialog
 import com.zf.mart.view.popwindow.AddAddressPopupWindow
 import com.zf.mart.view.popwindow.ConfirmOrderPopupWindow
+import com.zf.mart.view.popwindow.GroupStylePopupWindow
 import com.zf.mart.view.popwindow.OrderPayPopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.fragment_shoping_cart.*
@@ -26,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_shoping_cart.*
  * 购物车页面
  */
 class ShoppingCartFragment : BaseFragment() {
+
 
     companion object {
         fun getInstance(): ShoppingCartFragment {
@@ -44,7 +47,7 @@ class ShoppingCartFragment : BaseFragment() {
     private val cartAdapter by lazy { CartShopAdapter(context, cartData) }
 
     private fun initCart() {
-//        cartData = getCartData()
+
         cartRecyclerView.layoutManager = LinearLayoutManager(context)
         cartRecyclerView.adapter = cartAdapter
         cartRecyclerView.addItemDecoration(
@@ -74,6 +77,7 @@ class ShoppingCartFragment : BaseFragment() {
 
         initRefresh()
 
+
     }
 
     private fun initRefresh() {
@@ -95,27 +99,24 @@ class ShoppingCartFragment : BaseFragment() {
 //        refreshLayout.finishRefresh()
 
 
-
-
-
         /** 购物车有商品 */
 
-            if (cartData.size < 40) {
-                cartData.addAll(getCartData())
-                cartAdapter.notifyDataSetChanged()
+        if (cartData.size < 40) {
+            cartData.addAll(getCartData())
+            cartAdapter.notifyDataSetChanged()
+            refreshLayout.finishLoadMore()
+        } else {
+            //购物车已经加载完成，加载为你推荐
+            recommendTxt.visibility = View.VISIBLE
+            specialCartRv.visibility = View.VISIBLE
+            if (recommendData.size < 50) {
+                recommendData.addAll(arrayListOf("1", "2", "3"))
+                recommendAdapter.notifyDataSetChanged()
                 refreshLayout.finishLoadMore()
             } else {
-                //购物车已经加载完成，加载为你推荐
-                recommendTxt.visibility = View.VISIBLE
-                specialCartRv.visibility = View.VISIBLE
-                if (recommendData.size < 50) {
-                    recommendData.addAll(arrayListOf("1", "2", "3"))
-                    recommendAdapter.notifyDataSetChanged()
-                    refreshLayout.finishLoadMore()
-                } else {
-                    refreshLayout.setEnableLoadMore(false)
-                }
+                refreshLayout.setEnableLoadMore(false)
             }
+        }
     }
 
     override fun lazyLoad() {
@@ -170,22 +171,34 @@ class ShoppingCartFragment : BaseFragment() {
 
     override fun initEvent() {
 
+        cartAdapter.apply {
+
+            onShopNumListener = {
+                InputNumDialog.showDialog(childFragmentManager, it)
+                    .setOnItemClickListener(object : InputNumDialog.OnItemClickListener {
+                        override fun onNumConfirm(num: Int) {
+                            //修改商品数量
+                        }
+                    })
+            }
+
+            onShopSpecListener = {
+                val popWindow = object : GroupStylePopupWindow(
+                    activity as Activity,
+                    R.layout.pop_order_style,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ) {}
+                popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+            }
+        }
+
+
         refreshLayout.setOnRefreshListener {
-
             initRefresh()
-
         }
 
         refreshLayout.setOnLoadMoreListener {
-
-            //            if (cartData.size == 0) {
-//                multipleStatusView.showEmpty()
-//            } else {
-//            if (cartData.size < 40) {
-//                cartData.addAll(getCartData())
-//                cartAdapter.notifyDataSetChanged()
-//                refreshLayout.finishLoadMore()
-//            } else {
             //购物车已经加载完成，加载为你推荐
             recommendTxt.visibility = View.VISIBLE
             specialCartRv.visibility = View.VISIBLE
@@ -196,8 +209,6 @@ class ShoppingCartFragment : BaseFragment() {
             } else {
                 refreshLayout.setEnableLoadMore(false)
             }
-//            }
-//            }
         }
 
 

@@ -8,7 +8,7 @@ import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.base.BaseFragmentAdapter
 import com.zf.mart.ui.fragment.DiscountFragment
-import com.zf.mart.utils.StatusBarUtilNotUse
+import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_discount.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
@@ -25,7 +25,7 @@ class DiscountActivity : BaseActivity() {
 
     override fun initToolBar() {
 
-        StatusBarUtilNotUse.darkMode(
+        StatusBarUtils.darkMode(
             this,
             ContextCompat.getColor(this, R.color.colorSecondText),
             0.3f

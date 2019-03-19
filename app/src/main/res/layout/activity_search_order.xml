@@ -4,6 +4,7 @@
               android:layout_width="match_parent"
               android:fitsSystemWindows="true"
               android:background="@color/whit"
+              android:id="@+id/parentLayout"
               android:layout_height="match_parent">
 
 
@@ -20,7 +21,6 @@
 
             <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
                        android:src="@drawable/fanhui"/>
-
 
         </LinearLayout>
 
@@ -58,25 +58,30 @@
             <ImageView
                     android:id="@+id/composeIcon"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
-                       android:src="@drawable/selector_compose"/>
+                    android:src="@drawable/selector_compose"/>
 
         </LinearLayout>
 
 
     </LinearLayout>
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
-                  android:gravity="center_vertical"
-                  android:background="@color/colorBackground"
-                  android:orientation="horizontal">
+    <LinearLayout
+            android:id="@+id/rankLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:background="@color/colorBackground"
+            android:orientation="horizontal">
 
-        <RadioGroup android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:orientation="horizontal">
+        <RadioGroup
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal">
 
             <RadioButton
+                    android:id="@+id/synthesis"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:button="@null"
@@ -95,8 +100,10 @@
                          android:textColor="@color/selector_order_search"
                          android:textSize="15sp"
                          android:layout_height="match_parent"/>
+
             <Space android:layout_width="0dp" android:layout_height="1dp"
                    android:layout_weight="1"/>
+
             <RadioButton android:layout_width="wrap_content"
                          android:layout_height="match_parent"
                          android:button="@null"
@@ -105,8 +112,10 @@
                          android:drawableRight="@drawable/arrow_r"
                          android:drawablePadding="3dp"
                          android:text="价格"/>
+
             <Space android:layout_width="0dp" android:layout_height="1dp"
                    android:layout_weight="1"/>
+
             <RadioButton android:layout_width="wrap_content"
                          android:layout_height="match_parent"
                          android:button="@null"
@@ -116,14 +125,17 @@
 
         </RadioGroup>
 
-        <TextView android:layout_width="wrap_content" android:layout_height="match_parent"
-                  android:textSize="15sp"
-                  android:drawableRight="@drawable/screen"
-                  android:gravity="center"
-                  android:drawablePadding="3dp"
-                  android:layout_marginLeft="40dp"
-                  android:layout_marginRight="20dp"
-                  android:text="筛选"/>
+        <TextView
+                android:id="@+id/filterBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="15sp"
+                android:drawableRight="@drawable/screen"
+                android:gravity="center"
+                android:drawablePadding="3dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="20dp"
+                android:text="筛选"/>
 
     </LinearLayout>
 

@@ -10,7 +10,7 @@ import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.showToast
 import com.zf.mart.utils.LogUtils
-import com.zf.mart.utils.StatusBarUtilNotUse
+import com.zf.mart.utils.StatusBarUtils
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.activity_search.*
@@ -21,15 +21,21 @@ import kotlinx.android.synthetic.main.activity_search.*
  */
 class SearchActivity : BaseActivity() {
 
+
+    //搜索关键词
+    var mKeyWord = ""
+
     companion object {
-        fun actionStart(context: Context?) {
-            context?.startActivity(Intent(context, SearchActivity::class.java))
+        fun actionStart(context: Context?, keyWord: String) {
+            val intent = Intent(context, SearchActivity::class.java)
+            intent.putExtra("key", keyWord)
+            context?.startActivity(intent)
         }
     }
 
     override fun initToolBar() {
 
-        StatusBarUtilNotUse.darkMode(
+        StatusBarUtils.darkMode(
             this,
             ContextCompat.getColor(this, R.color.colorSecondText),
             0.3f
@@ -42,10 +48,19 @@ class SearchActivity : BaseActivity() {
 
     override fun layoutId(): Int = R.layout.activity_search
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        mKeyWord = intent.getStringExtra("key")
+        inputText.setText(mKeyWord)
+    }
+
     override fun initData() {
+        mKeyWord = intent.getStringExtra("key")
     }
 
     override fun initView() {
+
+        inputText.setText(mKeyWord)
 
         /** 热门搜索 */
         val history = arrayOf("洗衣机", "热水器", "电风扇", "电脑", "水壶", "手机", "衣服", "游戏", "扇子")
@@ -59,7 +74,7 @@ class SearchActivity : BaseActivity() {
             }
         }
         hotLayout.setOnTagClickListener { _, position, _ ->
-            showToast(history[position])
+            SearchOrderActivity.actionStart(this, history[position])
             return@setOnTagClickListener true
         }
 
@@ -80,7 +95,7 @@ class SearchActivity : BaseActivity() {
         }
 
         discoveryLayout.setOnTagClickListener { _, position, _ ->
-            showToast(discovery[position])
+            SearchOrderActivity.actionStart(this, discovery[position])
             return@setOnTagClickListener true
         }
 
@@ -88,7 +103,7 @@ class SearchActivity : BaseActivity() {
 
     override fun initEvent() {
         searchLayout.setOnClickListener {
-            SearchOrderActivity.actionStart(this)
+            SearchOrderActivity.actionStart(this, inputText.text.toString())
         }
     }
 

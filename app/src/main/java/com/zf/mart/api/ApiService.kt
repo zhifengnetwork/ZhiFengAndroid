@@ -3,10 +3,9 @@ package com.zf.mart.api
 
 import com.zf.mart.base.BaseBean
 import io.reactivex.Observable
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import okhttp3.MultipartBody
+import retrofit2.http.*
+
 
 /**
  * Api 接口
@@ -14,19 +13,25 @@ import retrofit2.http.POST
 
 interface ApiService {
 
-
-//    @POST("cook/query?")
-//    @FormUrlEncoded
-//    fun getFood(@Field("key") key: String, @Field("menu") menu: String, @Query("pn") pn: Int): Observable<FoodBean>
-
+    /**
+     * 上传头像
+     */
+    @POST("upload/test")
+    @Multipart
+    fun uploadMemberIcon(@Part partList: MultipartBody.Part): Observable<Unit>
 
     /**
-     * 收款账户设置
+     * 登录
      */
-    @POST("/api/rider/account/update")
+    @POST("user/login")
     @FormUrlEncoded
-    fun setBankAccount(@Field("attribute") attribute: String): Observable<BaseBean<Unit>>
+    fun login(@Field("mobile") mobile: String, @Field("password") password: String): Observable<BaseBean<Unit>>
 
-
+    /**
+     * 注册
+     */
+    @POST("user/reg")
+    @FormUrlEncoded
+    fun register(@Field("mobile") mobile: String, @Field("password") password: String): Observable<BaseBean<Unit>>
 
 }

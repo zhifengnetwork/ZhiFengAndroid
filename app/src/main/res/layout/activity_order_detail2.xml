@@ -39,8 +39,10 @@
                       android:layout_height="wrap_content"
                       android:orientation="vertical">
 
-            <RelativeLayout android:layout_width="match_parent"
-                            android:layout_height="380dp">
+            <RelativeLayout
+                    android:id="@+id/bannerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="380dp">
 
                 <androidx.viewpager.widget.ViewPager
                         android:id="@+id/bannerViewPager"
@@ -66,7 +68,9 @@
             </RelativeLayout>
 
             <!-- 商品简介 -->
-            <include layout="@layout/layout_detail_goods"/>
+            <include
+                    android:id="@+id/briefLayout"
+                    layout="@layout/layout_detail_goods"/>
 
             <!-- 评价 -->
             <include layout="@layout/layout_detail_eva"/>
@@ -89,18 +93,42 @@
 
             <!--</com.google.android.material.appbar.CollapsingToolbarLayout>-->
 
-            <com.flyco.tablayout.SegmentTabLayout
-                    android:id="@+id/segmentTabLayout"
+            <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    app:tl_bar_color="#ffffff"
-                    app:tl_indicator_color="#151514"
-                    app:tl_indicator_corner_radius="5dp"
-                    app:tl_tab_padding="20dp"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/whit"
+                    android:orientation="vertical">
+
+                <com.flyco.tablayout.SegmentTabLayout
+                        android:id="@+id/segmentTabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        app:tl_bar_color="#ffffff"
+                        app:tl_indicator_color="#151514"
+                        app:tl_indicator_corner_radius="5dp"
+                        app:tl_tab_padding="20dp"/>
+
+                <FrameLayout
+                        android:id="@+id/graphicFragment"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/whit"
+                        android:paddingBottom="100dp"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <!-- 授权品牌 -->
+            <include layout="@layout/layout_order_brand"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="20dp"/>
 
             <!--</com.google.android.material.appbar.AppBarLayout>-->
 
@@ -108,12 +136,6 @@
             <!--android:layout_width="match_parent"-->
             <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
             <!--android:layout_height="match_parent">-->
-
-            <FrameLayout
-                    android:id="@+id/graphicFragment"
-                    android:layout_width="match_parent"
-                    android:background="@color/whit"
-                    android:layout_height="match_parent"/>
 
 
         </LinearLayout>
@@ -138,6 +160,18 @@
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            android:elevation="0dp"
+            android:layout_above="@+id/bottomLayout"
+            android:src="@drawable/shangjiantou"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_alignParentRight="true"/>
 
 </RelativeLayout>
 

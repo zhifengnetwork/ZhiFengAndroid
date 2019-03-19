@@ -6,7 +6,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
-import com.zf.mart.utils.StatusBarUtilNotUse
+import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 /**
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 class SecKillPayActivity : BaseActivity() {
 
     override fun initToolBar() {
-        StatusBarUtilNotUse.darkMode(
+        StatusBarUtils.darkMode(
             this,
             ContextCompat.getColor(this, R.color.colorSecondText),
             0.3f
