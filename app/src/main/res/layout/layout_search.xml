@@ -3,7 +3,7 @@
               android:id="@+id/home_title"
               android:layout_width="match_parent"
               android:layout_height="@dimen/short_item"
-              android:background="@color/head_bg"
+              android:background="@color/transparent"
               android:gravity="center_vertical"
               android:orientation="horizontal">
 

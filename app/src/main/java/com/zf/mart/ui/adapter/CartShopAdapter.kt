@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import com.zf.mart.mvp.bean.CartGoodsList
 import com.zf.mart.mvp.bean.ShopList
-import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.item_cart_shop.view.*
 
 /**
@@ -38,6 +37,8 @@ class CartShopAdapter(val context: Context?, val data: List<ShopList>) :
 
     var mCheckList = ArrayList<Int>()
 
+    var onShopSpecListener: ((spec: String) -> Unit)? = null
+    var onShopNumListener: ((num:Int) -> Unit)? = null
 
     private fun filter(): ArrayList<Int> {
         //去重
@@ -54,33 +55,36 @@ class CartShopAdapter(val context: Context?, val data: List<ShopList>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
-
             shopName.text = data[position].shopName
             goodsList = data[position].goodsList
             //商品
             val adapter = CartGoodsAdapter(context, goodsList)
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = adapter
-            adapter.setOnItemClickListener(object : CartGoodsAdapter.OnItemClickListener {
-                override fun addCheck(id: Int) {
-                    //去重
-                    mCheckList = filter()
-                    mCheckList.add(id)
-                }
 
-                override fun removeCheck(id: Int) {
-                    mCheckList = filter()
-                    mCheckList.remove(id)
-                }
-
-                override fun checkAll() {
+            adapter.apply {
+                onCheckAll = {
                     checkBox.isChecked = true
                 }
-
-                override fun unCheckAll() {
+                onUnCheckAll = {
                     checkBox.isChecked = false
                 }
-            })
+                onRemoveCheck = {
+                    mCheckList = filter()
+                    mCheckList.remove(it)
+                }
+                onAddCheck = {
+                    //去重
+                    mCheckList = filter()
+                    mCheckList.add(it)
+                }
+                onInputListener = {
+                    onShopNumListener?.invoke(it)
+                }
+                onSpecListener = {
+                    onShopSpecListener?.invoke(it)
+                }
+            }
 
             //是否全选
             checkBox.isChecked = mIfCheckAll

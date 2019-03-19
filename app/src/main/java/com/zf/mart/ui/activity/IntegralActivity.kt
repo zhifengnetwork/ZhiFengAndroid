@@ -10,21 +10,19 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 /**
  * 我的积分
  */
-class IntegralActivity:BaseActivity() {
+class IntegralActivity : BaseActivity() {
 
 
     companion object {
-        fun actionStart(context: Context?){
-            context?.startActivity(Intent(context,IntegralActivity::class.java))
+        fun actionStart(context: Context?) {
+            context?.startActivity(Intent(context, IntegralActivity::class.java))
         }
     }
 
     override fun initToolBar() {
         titleName.text = "积分累计"
-        back.setOnClickListener {
-
-        }
-        rightLayout.visibility= View.INVISIBLE
+        back.setOnClickListener { finish() }
+        rightLayout.visibility = View.INVISIBLE
     }
 
     override fun layoutId(): Int = R.layout.activity_integral
@@ -38,6 +36,7 @@ class IntegralActivity:BaseActivity() {
     override fun initEvent() {
 
     }
+
     override fun start() {
 
     }

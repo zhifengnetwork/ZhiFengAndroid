@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.ui.adapter.TeamAdapter
-import com.zf.mart.utils.StatusBarUtilNotUse
+import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_team.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
@@ -25,7 +25,7 @@ class TeamActivity : BaseActivity() {
 
     override fun initToolBar() {
 
-        StatusBarUtilNotUse.darkMode(this, ContextCompat.getColor(this, R.color.colorSecondText), 0.3f)
+        StatusBarUtils.darkMode(this, ContextCompat.getColor(this, R.color.colorSecondText), 0.3f)
 
         back.setOnClickListener {
             finish()

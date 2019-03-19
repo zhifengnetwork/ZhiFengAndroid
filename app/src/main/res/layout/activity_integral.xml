@@ -18,16 +18,15 @@
                 android:layout_marginTop="17dp"
                 android:textSize="14sp"
                 android:textColor="@color/whit"
-                android:text="我的积分"
-        />
+                android:text="我的积分"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
                 android:textSize="14sp"
                 android:textColor="@color/whit"
-                android:text="1231"
-        />
+                android:text="1231"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,24 +34,23 @@
                 android:paddingRight="20dp"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
-
                 android:layout_marginTop="47dp"
                 android:layout_marginBottom="38dp"
                 android:background="@drawable/shape_integral_hyaline"
                 android:textSize="14sp"
                 android:textColor="@color/whit"
-                android:text="200积分换面膜卷"
-        />
+                android:text="200积分换面膜卷"/>
 
 
     </LinearLayout>
+
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/shape_integral_sign_in"
-            android:gravity="center_vertical"
-    >
+            android:gravity="center_vertical">
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,16 +58,16 @@
                 android:layout_marginLeft="45dp"
                 android:textColor="#ff8348"
                 android:textSize="14sp"
-                android:text="签到积分"
-        />
+                android:text="签到积分"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:textColor="#ff8348"
                 android:textSize="14sp"
-                android:text="+2分"
-        />
+                android:text="+2分"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,16 +75,16 @@
                 android:layout_marginRight="25dp"
                 android:textColor="#ff8348"
                 android:textSize="14sp"
-                android:text="系统时间..."
-        />
+                android:text="系统时间..."/>
     </RelativeLayout>
+
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/shape_integral_share"
-            android:gravity="center_vertical"
-    >
+            android:gravity="center_vertical">
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,16 +92,16 @@
                 android:layout_marginLeft="45dp"
                 android:textColor="#ff8348"
                 android:textSize="14sp"
-                android:text="分享积分"
-        />
+                android:text="分享积分"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:textColor="#ff8348"
                 android:textSize="14sp"
-                android:text="+2分"
-        />
+                android:text="+2分"/>
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -111,8 +109,8 @@
                 android:layout_marginRight="25dp"
                 android:textColor="#ff8348"
                 android:textSize="14sp"
-                android:text="系统时间..."
-        />
+                android:text="系统时间..."/>
+
     </RelativeLayout>
 
 

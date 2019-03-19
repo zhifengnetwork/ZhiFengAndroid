@@ -5,7 +5,6 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-
     <androidx.cardview.widget.CardView android:layout_width="match_parent"
                                        android:layout_height="80dp"
                                        android:layout_marginLeft="10dp"
@@ -55,17 +54,17 @@
 
         </RelativeLayout>
 
-
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView android:layout_width="match_parent"
-                                       android:layout_marginLeft="10dp"
-                                       android:layout_marginRight="10dp"
-                                       android:layout_marginTop="10dp"
-                                       android:background="@color/whit"
-                                       app:cardElevation="0dp"
-                                       app:cardCornerRadius="5dp"
-                                       android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/whit"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="5dp"
+            android:layout_height="wrap_content">
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                       android:paddingLeft="15dp"
@@ -75,18 +74,16 @@
             <TextView
                     android:id="@+id/addressLayout"
                     android:layout_width="match_parent"
-                      android:text="地址管理"
-                      android:drawableRight="@drawable/arrow"
-                      android:textSize="14sp"
-                      android:paddingTop="15dp"
-                      android:paddingBottom="15dp"
-                      android:gravity="center_vertical"
-                      android:textColor="@color/colorPrimaryText"
-                      android:layout_height="wrap_content"/>
+                    android:text="地址管理"
+                    android:drawableRight="@drawable/arrow"
+                    android:textSize="14sp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/colorPrimaryText"
+                    android:layout_height="wrap_content"/>
 
             <View android:layout_width="match_parent" android:layout_height="1dp"
-                  android:layout_marginLeft="15dp"
-                  android:layout_marginRight="15dp"
                   android:background="@color/colorLine"/>
 
             <TextView android:layout_width="match_parent"
@@ -100,9 +97,8 @@
                       android:layout_height="wrap_content"/>
 
             <View android:layout_width="match_parent" android:layout_height="1dp"
-                  android:layout_marginLeft="15dp"
-                  android:layout_marginRight="15dp"
                   android:background="@color/colorLine"/>
+
             <TextView android:layout_width="match_parent"
                       android:text="支付设置"
                       android:drawableRight="@drawable/arrow"
@@ -114,9 +110,8 @@
                       android:layout_height="wrap_content"/>
 
             <View android:layout_width="match_parent" android:layout_height="1dp"
-                  android:layout_marginLeft="15dp"
-                  android:layout_marginRight="15dp"
                   android:background="@color/colorLine"/>
+
             <TextView android:layout_width="match_parent"
                       android:text="通用"
                       android:drawableRight="@drawable/arrow"
@@ -128,8 +123,6 @@
                       android:layout_height="wrap_content"/>
 
             <View android:layout_width="match_parent" android:layout_height="1dp"
-                  android:layout_marginLeft="15dp"
-                  android:layout_marginRight="15dp"
                   android:background="@color/colorLine"/>
             <TextView android:layout_width="match_parent"
                       android:text="操作流程"
@@ -142,9 +135,8 @@
                       android:layout_height="wrap_content"/>
 
             <View android:layout_width="match_parent" android:layout_height="1dp"
-                  android:layout_marginLeft="15dp"
-                  android:layout_marginRight="15dp"
                   android:background="@color/colorLine"/>
+
             <TextView android:layout_width="match_parent"
                       android:text="关于APP"
                       android:drawableRight="@drawable/arrow"

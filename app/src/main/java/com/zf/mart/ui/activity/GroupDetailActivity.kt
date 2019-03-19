@@ -18,7 +18,7 @@ import com.zf.mart.ui.adapter.GroupEvaAdapter
 import com.zf.mart.ui.adapter.GroupUserAdapter
 import com.zf.mart.ui.adapter.GuideAdapter
 import com.zf.mart.utils.LogUtils
-import com.zf.mart.utils.StatusBarUtilNotUse
+import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.dialog.GroupUserDialog
 import com.zf.mart.view.popwindow.GroupStylePopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
@@ -38,7 +38,7 @@ class GroupDetailActivity : BaseActivity() {
     }
 
     override fun initToolBar() {
-        StatusBarUtilNotUse.darkMode(
+        StatusBarUtils.darkMode(
             this,
             ContextCompat.getColor(this, R.color.colorSecondText),
             0.3f
@@ -129,8 +129,6 @@ class GroupDetailActivity : BaseActivity() {
 
     private fun initScrollHead() {
         scrollView.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-            LogUtils.e(">>>>scroll:$scrollY     $oldScrollY")
-            //
             var alpha = scrollY / 100 * 0.7f
             if (alpha >= 1.0) {
                 alpha = 1.0f

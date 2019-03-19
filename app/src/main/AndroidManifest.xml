@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
             android:name=".MyApplication"
@@ -135,9 +136,20 @@
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
+<<<<<<< HEAD
         <activity android:name=".ui.activity.MessageActivity"
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
+=======
+        <activity android:name=".ui.activity.TestUpHeadActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.activity.InputPwdActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
+>>>>>>> af524e04ffb8453fe4d249af707ea0276dedd994
 
     </application>
 

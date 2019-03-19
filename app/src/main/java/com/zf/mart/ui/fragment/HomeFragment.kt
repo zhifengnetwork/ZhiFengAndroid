@@ -2,31 +2,25 @@ package com.zf.mart.ui.fragment
 
 import android.graphics.Color
 import android.os.CountDownTimer
-import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
-import com.zf.mart.showToast
 import com.zf.mart.ui.activity.ActionActivity
 import com.zf.mart.ui.activity.MessageActivity
 import com.zf.mart.ui.activity.SearchActivity
 import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
 import com.zf.mart.ui.adapter.HomeSecKillAdapter
+import com.zf.mart.utils.GlideImageLoader
 import com.zf.mart.utils.TimeUtils
 import com.zf.mart.view.RecDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_top.*
-import kotlinx.android.synthetic.main.home_quality.*
 import kotlinx.android.synthetic.main.layout_news.*
 import kotlinx.android.synthetic.main.layout_search.*
-import me.foji.widget.AutoScrollBase
-import me.foji.widget.AutoScrollPagerAdapter
 
 class HomeFragment : BaseFragment() {
 
@@ -81,7 +75,7 @@ class HomeFragment : BaseFragment() {
         initCountDown()
 
         //推荐
-        recommendData.addAll(arrayListOf("1","2","3"))
+        recommendData.addAll(arrayListOf("1", "2", "3"))
         val gridManager = GridLayoutManager(context, 2)
         home_recommend_recyclerview.layoutManager = gridManager
         home_recommend_recyclerview.addItemDecoration(RecDecoration(DensityUtil.dp2px(12f)))
@@ -99,11 +93,12 @@ class HomeFragment : BaseFragment() {
         home_head_line_tvs.setOnItemClickListener { }
         home_head_line_tvs.startAutoScroll()
 
-        //顶部滑动页 滑动指示器
-        initViewPager()
+
+        /** 滑动指示器 banner */
+        initBanner()
 
         //品质生活pager
-        initLife()
+//        initLife()
 
         //秒杀列表
         initSecKill()
@@ -112,6 +107,12 @@ class HomeFragment : BaseFragment() {
         homeMessage.setOnClickListener {
             MessageActivity.actionStart(context)
         }
+    }
+
+    private fun initBanner() {
+        /** 在最后需要start()  start()在点击事件之后 */
+        topBanner.setImageLoader(GlideImageLoader())
+        topBanner.setImages(images)
     }
 
     private val secKillAdapter by lazy { HomeSecKillAdapter(context) }
@@ -123,83 +124,57 @@ class HomeFragment : BaseFragment() {
         home_ms_recycler.adapter = secKillAdapter
     }
 
-    private fun initLife() {
-        home_Ts_viewPager.setAdapter(object : AutoScrollPagerAdapter() {
-            override fun onLayoutId(): Int = R.layout.image_view
+//    private fun initLife() {
+//        qualityBanner.setBannerStyle(BannerConfig.NOT_INDICATOR)
+//        qualityBanner.setImageLoader(GlideImageLoader())
+//        qualityBanner.setImages(images)
+//
+//    }
 
-            override fun onBindView(view: View?, pos: Int) {
-                (view as ImageView).setImageResource(images[pos])
-            }
+    private val images = arrayListOf(R.mipmap.v1, R.mipmap.v2, R.mipmap.v3, R.mipmap.v4)
 
-            override fun getCount(): Int = images.size
-
-        })
-        home_Ts_viewPager.setIndictorVisible(false)
-    }
-
-    private val images = intArrayOf(R.mipmap.v1, R.mipmap.v2, R.mipmap.v3, R.mipmap.v4)
-
-    private fun initViewPager() {
-
-        val scrollAdapter = object : AutoScrollPagerAdapter() {
-            override fun onLayoutId(): Int = R.layout.image_view
-
-            override fun onBindView(view: View?, pos: Int) {
-                (view as ImageView).setImageResource(images[pos])
-            }
-
-            override fun getCount(): Int = images.size
-
-        }
-
-        viewPager.setAdapter(scrollAdapter)
-        viewPager.setIndictorVisible(false)
-
-        repeat(images.size) {
-            val view = View(context)
-            view.background = ContextCompat.getDrawable(context!!, R.drawable.viewpager_indictor)
-            val lp = LinearLayout.LayoutParams(30, 30)
-            lp.setMargins(10, 0, 10, 0)
-
-            indictor_root.addView(view, lp)
-            indictor_root[0].isSelected = true
-
-        }
-
-        viewPager.setOnPageChangeListener(object : AutoScrollBase.OnPageChangeListener {
-            override fun onPageScrollStateChanged(p0: Int) {
-            }
-
-            override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
-            }
-
-            override fun onPageSelected(pos: Int) {
-                repeat(images.size) {
-                    indictor_root[it].isSelected = pos == it
-                }
-            }
-        })
-
-        viewPager.setOnItemClickListener { i, _ ->
-            showToast("is $i")
-        }
-
-    }
-
-
-    override fun lazyLoad() {
+    private fun changeAlpha(color: Int, fraction: Float): Int {
+        val red = Color.red(color)
+        val green = Color.green(color)
+        val blue = Color.blue(color)
+        val alpha = (Color.alpha(color) * fraction).toInt()
+        return Color.argb(alpha, red, green, blue)
     }
 
     override fun initEvent() {
 
+        home_nestedscroll.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
+            var alpha = scrollY / 100 * 0.7f
+            if (alpha >= 1.0) {
+                alpha = 1.0f
+            }
+            home_title.setBackgroundColor(
+                changeAlpha(
+                    ContextCompat.getColor(context!!, R.color.head_bg)
+                    , alpha
+                )
+            )
+        }
+
         //搜索
         searchLayout.setOnClickListener {
-            SearchActivity.actionStart(context)
+            SearchActivity.actionStart(context, "")
         }
 
         //秒杀
         action.setOnClickListener {
             ActionActivity.actionStart(context, ActionActivity.SECKILL)
         }
+
+        //顶部banner开始轮播
+        topBanner.start()
+        //品质生活banner
+//        qualityBanner.start()
     }
+
+
+    override fun lazyLoad() {
+    }
+
+
 }

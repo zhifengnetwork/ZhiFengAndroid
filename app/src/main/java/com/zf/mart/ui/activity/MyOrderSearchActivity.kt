@@ -2,21 +2,19 @@ package com.zf.mart.ui.activity
 
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
-import com.zf.mart.utils.StatusBarUtilNotUse
+import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_myorder_search.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class MyOrderSearchActivity : BaseActivity() {
     override fun initToolBar() {
-        StatusBarUtilNotUse.darkMode(
+        StatusBarUtils.darkMode(
             this,
             ContextCompat.getColor(this, R.color.colorSecondText),
             0.3f

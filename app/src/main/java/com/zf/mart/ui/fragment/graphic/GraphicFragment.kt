@@ -1,8 +1,14 @@
 package com.zf.mart.ui.fragment.graphic
 
+import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
+import com.zf.mart.ui.adapter.OrderInfoAdapter
 import com.zf.mart.utils.LogUtils
+import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import com.zzhoujay.richtext.RichText
 import kotlinx.android.synthetic.main.fragment_graphic.*
 
@@ -16,12 +22,23 @@ class GraphicFragment : BaseFragment() {
 
     override fun getLayoutId(): Int = R.layout.fragment_graphic
 
+    private val adapter by lazy { OrderInfoAdapter(context) }
 
     override fun initView() {
 
         RichText.initCacheDir(context)
-        RichText.fromHtml(htmlTxt).into(textView)
+        RichText.fromHtml(htmlTxt).into(h5Decode)
 
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = adapter
+        recyclerView.addItemDecoration(
+            RecyclerViewDivider(
+                context,
+                LinearLayoutManager.VERTICAL,
+                2,
+                ContextCompat.getColor(context!!, R.color.colorLine)
+            )
+        )
 
     }
 
@@ -30,6 +47,16 @@ class GraphicFragment : BaseFragment() {
     }
 
     override fun initEvent() {
+        show.setOnClickListener {
+            show.isSelected = !show.isSelected
+            if (show.isSelected) {
+                show.text = "收起"
+                h5Decode.visibility = View.VISIBLE
+            } else {
+                show.text = "展开"
+                h5Decode.visibility = View.GONE
+            }
+        }
     }
 
 

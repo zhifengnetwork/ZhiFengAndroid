@@ -183,13 +183,12 @@
                 android:src="@mipmap/home_quality_g8"/>
     </RelativeLayout>
 
-    <me.foji.widget.AutoScrollViewPager
-            android:id="@+id/home_Ts_viewPager"
+    <com.youth.banner.Banner
+            android:id="@+id/qualityBanner"
+            android:layout_below="@+id/quality_root1"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_170"
-            android:layout_below="@id/quality_root1"
-            android:layout_marginTop="@dimen/dp_10"
-            app:autoScrollEnable="true"
-            app:timeInterval="12000"/>
+            app:delay_time="2000"
+            android:layout_height="160dp"/>
 
 </RelativeLayout>

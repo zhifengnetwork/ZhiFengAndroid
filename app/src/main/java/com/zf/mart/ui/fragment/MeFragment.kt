@@ -66,7 +66,7 @@ class MeFragment : BaseFragment() {
 
         //十天签到领礼品
         layout_info_gift.setOnClickListener {
-           SigninGiftActivity.actionStart(context)
+            SigninGiftActivity.actionStart(context)
         }
         //积分
         integralLayout.setOnClickListener {

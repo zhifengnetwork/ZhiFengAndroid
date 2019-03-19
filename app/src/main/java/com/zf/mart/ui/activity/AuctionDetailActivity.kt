@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.ui.adapter.AuctionPeopleAdapter
-import com.zf.mart.utils.StatusBarUtilNotUse
+import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.dialog.AuctionSuccessDialog
 import com.zf.mart.view.popwindow.ServicePopupWindow
 import kotlinx.android.synthetic.main.activity_auction_detail.*
@@ -29,7 +29,7 @@ class AuctionDetailActivity : BaseActivity() {
     }
 
     override fun initToolBar() {
-        StatusBarUtilNotUse.darkMode(this, ContextCompat.getColor(this, R.color.colorSecondText), 0.3f)
+        StatusBarUtils.darkMode(this, ContextCompat.getColor(this, R.color.colorSecondText), 0.3f)
         back.setOnClickListener { finish() }
         titleName.text = "竞拍"
         rightLayout.visibility = View.INVISIBLE

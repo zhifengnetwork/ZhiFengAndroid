@@ -6,7 +6,7 @@
             android:id="@+id/home_recommend_root_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/home_quality_root"
+            android:layout_below="@id/home_ms_root"
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="horizontal">

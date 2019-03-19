@@ -2,13 +2,14 @@ package com.zf.mart.base
 
 import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import com.classic.common.MultipleStatusView
 import com.zf.mart.api.UriConstant
 import com.zf.mart.utils.Preference
+import com.zf.mart.view.loadingDialog.LoadingDialog
 import java.util.*
 
 
@@ -25,11 +26,8 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 //        changeLanguage()
-
         setContentView(layoutId())
-
         initToolBar()
-
         initData()
         initView()
         start()
@@ -39,7 +37,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private val sta: String by Preference(UriConstant.LANGUAGE, "en") //默认英语
 
-    //每次进来都要检查语言
+    //检查语言
     private fun changeLanguage() {
         var language = Locale.ENGLISH
         if (sta == "zh") {
@@ -65,6 +63,20 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     abstract fun initToolBar()
+
+    private var loadingDialog: LoadingDialog? = null
+
+    fun showLoadingDialog() {
+        loadingDialog?.close()
+        loadingDialog = null
+        loadingDialog = LoadingDialog(this, "")
+        loadingDialog?.show()
+    }
+
+    fun dismissLoadingDialog() {
+        loadingDialog?.close()
+        loadingDialog = null
+    }
 
     /**
      *  加载布局

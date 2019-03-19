@@ -63,6 +63,7 @@
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/me_specail_recycler"
                     android:layout_width="match_parent"
+                    android:layout_marginBottom="5dp"
                     android:layout_height="wrap_content"/>
 
         </LinearLayout>

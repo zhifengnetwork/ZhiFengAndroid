@@ -9,7 +9,7 @@ import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.ui.adapter.MyOrderAdapter
-import com.zf.mart.utils.StatusBarUtilNotUse
+import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.activity_search_my_order.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -28,7 +28,7 @@ class SearchMyOrderActivity : BaseActivity() {
     private val adapter by lazy { MyOrderAdapter(this) }
 
     override fun initToolBar() {
-        StatusBarUtilNotUse.darkMode(this, ContextCompat.getColor(this, R.color.colorSecondText), 0.3f)
+        StatusBarUtils.darkMode(this, ContextCompat.getColor(this, R.color.colorSecondText), 0.3f)
         titleName.text = "我的订单"
         rightLayout.visibility = View.INVISIBLE
         back.setOnClickListener { finish() }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
@@ -15,6 +16,7 @@ import com.zf.mart.ui.fragment.ClassifyFragment
 import com.zf.mart.ui.fragment.HomeFragment
 import com.zf.mart.ui.fragment.MeFragment
 import com.zf.mart.ui.fragment.ShoppingCartFragment
+import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
