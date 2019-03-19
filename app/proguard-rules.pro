@@ -20,23 +20,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-#----------------calendarView
--keepclasseswithmembers class * {
-    public <init>(android.content.Context);
-}
 
--keep class your project path.MonthView {
-    public <init>(android.content.Context);
-}
--keep class your project path.WeekBar {
-    public <init>(android.content.Context);
-}
--keep class your project path.WeekView {
-    public <init>(android.content.Context);
-}
--keep class your project path.YearView {
-    public <init>(android.content.Context);
-}
+
 
 #-----------处理实体类---------------
 # 在开发的时候我们可以将所有的实体类放在一个包内，这样写一次混淆就行了。
@@ -60,6 +45,8 @@
 -dontwarn com.yalantis.ucrop**
 -keep class com.yalantis.ucrop** { *; }
 -keep interface com.yalantis.ucrop** { *; }
+
+
 
 
 #--------- rxjava2 retrofit 混淆 ----------

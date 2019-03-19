@@ -8,7 +8,7 @@ import com.zf.mart.base.BaseActivity
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 /**
- * wo de ji fen
+ * 我的积分
  */
 class IntegralActivity:BaseActivity() {
 

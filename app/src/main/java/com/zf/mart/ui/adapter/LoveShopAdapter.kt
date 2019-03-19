@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
-import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.item_love_shop.view.*
 
 class LoveShopAdapter(val context: Context?) : RecyclerView.Adapter<LoveShopAdapter.ViewHolder>() {
@@ -21,7 +19,7 @@ class LoveShopAdapter(val context: Context?) : RecyclerView.Adapter<LoveShopAdap
 
     override fun getItemCount(): Int = 5
 
-    private val adapter by lazy { LoveShopGoodsAdapter(context) }
+    private val adapter by lazy { FocusShopLoveAdapter(context) }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {

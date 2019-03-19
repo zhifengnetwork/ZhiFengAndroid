@@ -15,12 +15,22 @@ class GroupAdapter(val context: Context?) : RecyclerView.Adapter<GroupAdapter.Vi
         return ViewHolder(view)
     }
 
+    private var mListener: OnItemClickListener? = null
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        mListener = listener
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick()
+    }
+
     override fun getItemCount(): Int = 10
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
             setOnClickListener {
-                GroupDetailActivity.actionStart(context)
+                mListener?.onItemClick()
+
             }
         }
     }

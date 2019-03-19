@@ -14,6 +14,7 @@ import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.showToast
 import com.zf.mart.ui.activity.ActionActivity
+import com.zf.mart.ui.activity.MessageActivity
 import com.zf.mart.ui.activity.SearchActivity
 import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
 import com.zf.mart.ui.adapter.HomeSecKillAdapter
@@ -106,6 +107,11 @@ class HomeFragment : BaseFragment() {
 
         //秒杀列表
         initSecKill()
+
+        //站内消息
+        homeMessage.setOnClickListener {
+            MessageActivity.actionStart(context)
+        }
     }
 
     private val secKillAdapter by lazy { HomeSecKillAdapter(context) }

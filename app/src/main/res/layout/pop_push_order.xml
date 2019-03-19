@@ -99,6 +99,9 @@
 
         </LinearLayout>
 
+        <View android:layout_width="match_parent" android:layout_height="1px"
+              android:background="@color/colorLine"/>
+
         <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
                       android:gravity="center_vertical"
                       android:paddingLeft="15sp"
@@ -191,5 +194,6 @@
                 android:text="提交订单"/>
 
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>
 

@@ -33,8 +33,8 @@ class ClassifyTitleAdapter(val context: Context?, val data: List<String>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.classify_item_title_name.text = data[position]
-
-        holder.itemView.classify_item_title_name.isSelected = selectedPos == position
+        holder.itemView.titleback.isSelected=selectedPos == position
+//        holder.itemView.classify_item_title_name.isSelected = selectedPos == position
         holder.itemView.classify_item_title_view.isSelected = selectedPos == position
 
         holder.itemView.setOnClickListener {

@@ -10,7 +10,6 @@
             android:id="@+id/me_specail_iv"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@mipmap/mm6"
             android:layout_centerHorizontal="true"/>
 
     <TextView
