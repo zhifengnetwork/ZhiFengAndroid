@@ -1,6 +1,5 @@
 package com.zf.mart.ui.fragment.focus
 
-import android.annotation.SuppressLint
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.RadioButton
@@ -49,6 +48,8 @@ class FocusGoodsFragment : BaseFragment() {
                 )
             )
         )
+
+
 
         //猜你喜欢的商品
         val manager = GridLayoutManager(context, 2)
