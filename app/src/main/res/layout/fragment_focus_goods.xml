@@ -91,6 +91,7 @@
                     android:layout_width="match_parent"
                     android:id="@+id/recyclerView"
                     android:overScrollMode="never"
+                    android:clipChildren="false"
                     android:nestedScrollingEnabled="false"
                     android:layout_marginTop="10dp"
                     android:layout_height="wrap_content"/>
