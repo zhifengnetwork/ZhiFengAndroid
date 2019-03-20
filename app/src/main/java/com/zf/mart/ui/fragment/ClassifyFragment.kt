@@ -59,6 +59,7 @@ class ClassifyFragment : BaseFragment() {
         /** 右边子分类 */
         rightRecyclerView.layoutManager = LinearLayoutManager(context)
         rightRecyclerView.adapter = rightAdapter
+
         context?.apply {
             rightRecyclerView.addItemDecoration(
                 RecyclerViewDivider(

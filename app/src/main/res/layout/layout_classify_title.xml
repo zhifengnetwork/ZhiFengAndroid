@@ -4,6 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="34dp"
               android:gravity="center_vertical"
+              android:background="@color/whit"
               android:orientation="horizontal">
 
     <RelativeLayout
@@ -53,20 +54,12 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-            android:layout_width="wrap_content"
-            android:gravity="center_vertical|right"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="12dp"
-            android:orientation="horizontal">
-
 
         <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
+                android:layout_marginRight="16dp"
                 android:src="@drawable/news"/>
 
-    </LinearLayout>
 
 </LinearLayout>

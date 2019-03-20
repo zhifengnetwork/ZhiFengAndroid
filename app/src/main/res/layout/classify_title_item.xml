@@ -4,7 +4,11 @@
               android:layout_width="match_parent"
               android:layout_height="@dimen/dp_40"
               android:background="@color/classify_title_item_color">
-
+  <RelativeLayout
+          android:id="@+id/titleback"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@drawable/classify_title_item_tv_bg">
     <View
             android:id="@+id/classify_item_title_view"
             android:layout_width="@dimen/dp_4"
@@ -17,8 +21,10 @@
             android:id="@+id/classify_item_title_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:text="商品类目"
             android:textSize="13sp"
-            android:background="@drawable/classify_title_item_tv_bg"
+
             android:layout_centerInParent="true"/>
+  </RelativeLayout>
 </RelativeLayout>
