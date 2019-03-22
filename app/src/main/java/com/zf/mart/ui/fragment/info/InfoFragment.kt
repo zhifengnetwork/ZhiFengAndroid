@@ -1,11 +1,9 @@
 package com.zf.mart.ui.fragment.info
 
-import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
+import com.zf.mart.ui.activity.AddressActivity
 import kotlinx.android.synthetic.main.fragment_info.*
 
 
@@ -28,7 +26,8 @@ class InfoFragment : BaseFragment() {
 
         //地址管理
         addressLayout.setOnClickListener {
-            findNavController().navigate(R.id.addressAction)
+            AddressActivity.actionStart(context)
         }
+
     }
 }

@@ -8,6 +8,7 @@ import com.zf.mart.base.BaseFragment
 import com.zf.mart.ui.adapter.FocusShopAdapter
 import com.zf.mart.ui.adapter.LoveShopAdapter
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
+import com.zf.mart.view.recyclerview.SwipeItemLayout
 import kotlinx.android.synthetic.main.fragment_focus_shop.*
 
 class FocusShopFragment : BaseFragment() {
@@ -20,8 +21,10 @@ class FocusShopFragment : BaseFragment() {
 
     override fun getLayoutId(): Int = R.layout.fragment_focus_shop
 
+    // 关注的店铺
     private val adapter by lazy { FocusShopAdapter(context) }
 
+    // 推荐的店铺
     private val loveAdapter by lazy { LoveShopAdapter(context) }
 
     override fun initView() {
@@ -29,6 +32,7 @@ class FocusShopFragment : BaseFragment() {
         /**  已关注店铺列表 */
         shopRecyclerView.layoutManager = LinearLayoutManager(context)
         shopRecyclerView.adapter = adapter
+        shopRecyclerView.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(context))
         shopRecyclerView.addItemDecoration(
             RecyclerViewDivider(
                 context,

@@ -5,11 +5,13 @@ data class CartBean(
 )
 
 data class ShopList(
-    val shopName: String,
-    val goodsList: ArrayList<CartGoodsList>
+    val shopName: String, //商家名字
+    var goodsList: ArrayList<CartGoodsList>, //该商家的商品列表
+    var ifCheck: Boolean = false //商家是否选中
 )
 
 data class CartGoodsList(
-    val id: Int,
-    val goodsName: String
+    val id: Int,          //商品id
+    val goodsName: String,   //商品名字
+    var ifCheck: Boolean = false  //商品是否选中
 )

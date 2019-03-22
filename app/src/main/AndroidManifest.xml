@@ -136,11 +136,10 @@
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
-<<<<<<< HEAD
         <activity android:name=".ui.activity.MessageActivity"
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
-=======
+
         <activity android:name=".ui.activity.TestUpHeadActivity"
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
@@ -149,7 +148,17 @@
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
->>>>>>> af524e04ffb8453fe4d249af707ea0276dedd994
+        <activity android:name=".ui.activity.AddressActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.activity.AddressEditActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.activity.ConfirmOrderActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/AppTheme.NoActionBar"/>
 
     </application>
 

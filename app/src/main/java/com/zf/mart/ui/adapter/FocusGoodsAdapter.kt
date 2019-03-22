@@ -9,11 +9,12 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import kotlinx.android.synthetic.main.item_focus_goods.view.*
+import kotlinx.android.synthetic.main.item_focus_goods_main.view.*
 
 class FocusGoodsAdapter(val context: Context?) : RecyclerView.Adapter<FocusGoodsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_focus_goods, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_focus_goods_main, parent, false)
         return ViewHolder(view)
     }
 
@@ -28,7 +29,11 @@ class FocusGoodsAdapter(val context: Context?) : RecyclerView.Adapter<FocusGoods
             same.setOnClickListener {
                 Toast.makeText(context, "same：$position", Toast.LENGTH_SHORT).show()
             }
-            
+
+            delete.setOnClickListener {
+                Toast.makeText(context, "delete：$position", Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
 

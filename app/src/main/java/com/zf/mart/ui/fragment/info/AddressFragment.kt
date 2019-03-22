@@ -25,18 +25,7 @@ class AddressFragment : BaseFragment() {
 
     private val adapter by lazy { AddressAdapter(context) }
 
-//    private fun initToolBar() {
-//        activity?.findViewById<TextView>(R.id.titleName)?.text = "AddressFragment"
-//        activity?.findViewById<LinearLayout>(R.id.rightLayout)?.visibility = View.INVISIBLE
-//
-//    }
-
     override fun initView() {
-
-        LogUtils.e(">>>>>initView")
-
-//        initToolBar()
-
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter

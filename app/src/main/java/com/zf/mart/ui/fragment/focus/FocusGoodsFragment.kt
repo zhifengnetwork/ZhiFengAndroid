@@ -1,5 +1,6 @@
 package com.zf.mart.ui.fragment.focus
 
+import android.app.Activity
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.RadioButton
@@ -12,8 +13,11 @@ import com.zf.mart.base.BaseFragment
 import com.zf.mart.ui.adapter.FocusGoodsAdapter
 import com.zf.mart.ui.adapter.FocusLoveGoodsAdapter
 import com.zf.mart.utils.LogUtils
+import com.zf.mart.view.LayoutGravity
 import com.zf.mart.view.RecDecoration
+import com.zf.mart.view.popwindow.FocusClassifyPopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
+import com.zf.mart.view.recyclerview.SwipeItemLayout
 import kotlinx.android.synthetic.main.fragment_focus_goods.*
 
 class FocusGoodsFragment : BaseFragment() {
@@ -36,6 +40,7 @@ class FocusGoodsFragment : BaseFragment() {
 
         //已关注商品的列表
         recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(context))
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(
             RecyclerViewDivider(
@@ -48,7 +53,6 @@ class FocusGoodsFragment : BaseFragment() {
                 )
             )
         )
-
 
 
         //猜你喜欢的商品
@@ -83,11 +87,6 @@ class FocusGoodsFragment : BaseFragment() {
             radioGroup.addView(radioBtn)
         }
 
-        /** 筛选按钮点击事件 */
-        radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            val radioBtn = group.findViewById<RadioButton>(checkedId)
-            LogUtils.e("tag:" + radioBtn.tag)
-        }
 
     }
 
@@ -95,5 +94,21 @@ class FocusGoodsFragment : BaseFragment() {
     }
 
     override fun initEvent() {
+        //分类
+        classify.setOnClickListener {
+            val popWindow = object : FocusClassifyPopupWindow(
+                activity as Activity, R.layout.pop_focus_classify,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ) {}
+            popWindow.showBashOfAnchor(classifyLayout, LayoutGravity(LayoutGravity.ALIGN_RIGHT), 0, 0)
+
+        }
+
+        /** 筛选按钮点击事件 */
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            val radioBtn = group.findViewById<RadioButton>(checkedId)
+            LogUtils.e("tag:" + radioBtn.tag)
+        }
     }
 }

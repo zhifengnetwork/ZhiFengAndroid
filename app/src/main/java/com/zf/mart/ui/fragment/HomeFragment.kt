@@ -103,10 +103,7 @@ class HomeFragment : BaseFragment() {
         //秒杀列表
         initSecKill()
 
-        //站内消息
-        homeMessage.setOnClickListener {
-            MessageActivity.actionStart(context)
-        }
+
     }
 
     private fun initBanner() {
@@ -143,6 +140,8 @@ class HomeFragment : BaseFragment() {
 
     override fun initEvent() {
 
+
+
         home_nestedscroll.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             var alpha = scrollY / 100 * 0.7f
             if (alpha >= 1.0) {
@@ -154,6 +153,11 @@ class HomeFragment : BaseFragment() {
                     , alpha
                 )
             )
+        }
+
+        //站内消息
+        homeMessage.setOnClickListener {
+            MessageActivity.actionStart(context)
         }
 
         //搜索

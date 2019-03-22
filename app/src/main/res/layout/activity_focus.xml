@@ -26,7 +26,7 @@
             app:tl_underline_gravity="BOTTOM"
             app:tl_underline_height="1dp"/>
 
-    <androidx.viewpager.widget.ViewPager
+    <com.zf.mart.view.NoScrollViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

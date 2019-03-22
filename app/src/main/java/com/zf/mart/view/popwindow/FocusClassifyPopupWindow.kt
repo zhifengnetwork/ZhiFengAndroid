@@ -8,12 +8,13 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 import com.zf.mart.R
-import kotlinx.android.synthetic.main.pop_order_pay.view.*
+import com.zf.mart.view.LayoutGravity
+import kotlinx.android.synthetic.main.pop_focus_classify.view.*
 
 /**
- * 支付方式
+ * 关注商品分类
  */
-abstract class OrderPayPopupWindow(var context: Activity, layoutRes: Int, w: Int, h: Int) {
+abstract class FocusClassifyPopupWindow(var context: Activity, layoutRes: Int, w: Int, h: Int) {
     val contentView: View
     val popupWindow: PopupWindow
     private var isShowing = false
@@ -32,12 +33,12 @@ abstract class OrderPayPopupWindow(var context: Activity, layoutRes: Int, w: Int
     }
 
     interface OnItemClickListener {
-//        fun onBack(address: String)
+        fun onBack(address: String)
     }
 
     private fun initView() {
         contentView.apply {
-            close.setOnClickListener {
+            emptyView.setOnClickListener {
                 onDismiss()
             }
         }
@@ -48,7 +49,27 @@ abstract class OrderPayPopupWindow(var context: Activity, layoutRes: Int, w: Int
         popupWindow.isOutsideTouchable = true
         popupWindow.isTouchable = true
         /** 设置出入动画  */
-        popupWindow.animationStyle = R.style.pop_translate
+    }
+
+
+    fun showBashOfAnchor(anchor: View, layoutGravity: LayoutGravity, xmerge: Int, ymerge: Int) {
+        val offset = layoutGravity.getOffset(anchor, popupWindow)
+        popupWindow.showAsDropDown(anchor, offset[0] + xmerge, offset[1] + ymerge)
+        isShowing = true
+
+        popupWindow.setOnDismissListener {
+            //隐藏后显示背景为透明
+            val lp = context.window.attributes
+            lp.alpha = 1.0f
+            context.window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            context.window.attributes = lp
+        }
+
+        //显示时候设置背景为灰色
+        val lp = context.window.attributes
+        lp.alpha = 1.0f
+        context.window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        context.window.attributes = lp
     }
 
     fun showAtLocation(parent: View, gravity: Int, x: Int, y: Int) {

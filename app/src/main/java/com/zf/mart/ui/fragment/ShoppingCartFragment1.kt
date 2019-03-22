@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
@@ -13,7 +14,7 @@ import com.zf.mart.mvp.bean.CartGoodsList
 import com.zf.mart.mvp.bean.ShopList
 import com.zf.mart.showToast
 import com.zf.mart.ui.activity.ConfirmOrderActivity
-import com.zf.mart.ui.adapter.CartShopAdapter
+import com.zf.mart.ui.adapter.CartShopAdapter1
 import com.zf.mart.view.dialog.InputNumDialog
 import com.zf.mart.view.popwindow.GroupStylePopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
@@ -22,12 +23,12 @@ import kotlinx.android.synthetic.main.fragment_shoping_cart.*
 /**
  * 购物车页面
  */
-class ShoppingCartFragment : BaseFragment() {
+class ShoppingCartFragment1 : BaseFragment() {
 
 
     companion object {
-        fun getInstance(): ShoppingCartFragment {
-            return ShoppingCartFragment()
+        fun getInstance(): ShoppingCartFragment1 {
+            return ShoppingCartFragment1()
         }
     }
 
@@ -35,7 +36,7 @@ class ShoppingCartFragment : BaseFragment() {
 
     //购物车适配器
     private var cartData = ArrayList<ShopList>()
-    private val cartAdapter by lazy { CartShopAdapter(context, cartData) }
+    private val cartAdapter by lazy { CartShopAdapter1(context, cartData) }
 
     private fun initCart() {
 
@@ -45,7 +46,7 @@ class ShoppingCartFragment : BaseFragment() {
             RecyclerViewDivider(
                 context,
                 LinearLayoutManager.VERTICAL,
-                DensityUtil.dp2px(10f),
+                DensityUtil.dp2px(12f),
                 ContextCompat.getColor(context!!, R.color.colorBackground)
             )
         )
@@ -71,69 +72,96 @@ class ShoppingCartFragment : BaseFragment() {
         refreshLayout.finishRefresh()
     }
 
-    override fun lazyLoad() {
+    /** 选中的id列表 */
+    private var mChooseIdList = ArrayList<Int>()
+
+    private fun initCheckId(list: List<ShopList>) {
+        val chooseGoodsListId = ArrayList<Int>()
+        list.forEach { shop ->
+            shop.goodsList.forEach { goodsList ->
+                if (goodsList.ifCheck) {
+                    chooseGoodsListId.add(goodsList.id)
+                }
+            }
+        }
+        mChooseIdList = chooseGoodsListId
     }
 
-
-
     override fun initEvent() {
+
+
+
+        cartAdapter.onShopNumListener={
+            InputNumDialog.showDialog(childFragmentManager, it)
+                .setOnItemClickListener(object : InputNumDialog.OnItemClickListener {
+                    override fun onNumConfirm(num: Int) {
+                        //修改商品数量
+                    }
+                })
+        }
+
+
+        cartAdapter.onShopSpecListener = {
+            val popWindow = object : GroupStylePopupWindow(
+                activity as Activity,
+                R.layout.pop_order_style,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ) {}
+            popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+        }
+
+
+        allChoose.setOnClickListener {
+            //循环赋值
+            cartData.forEach { shopList ->
+                shopList.ifCheck = allChoose.isChecked
+                shopList.goodsList.forEach { goodsList ->
+                    goodsList.ifCheck = allChoose.isChecked
+                }
+            }
+            //赋值之后刷新列表 是否全选
+            cartAdapter.notifyDataSetChanged()
+
+            /** 选中或者反选需要获取结果 */
+            initCheckId(cartData)
+
+        }
+
+        cartAdapter.checkGoodsListener = { shopList ->
+            /** 返回来全部的列表，通过遍历判断是否选中 */
+            /** 得到选择的id */
+
+            var size = 0
+            shopList.forEach { shop ->
+                if (shop.ifCheck) size += 1
+            }
+            allChoose.isChecked = size == cartData.size
+
+            initCheckId(shopList)
+
+        }
+
+
+
+        settle.setOnClickListener {
+            //获取选中的id
+            Toast.makeText(context, "选中id:$mChooseIdList", Toast.LENGTH_LONG).show()
+            if (management.isSelected) {
+                //删除
+            } else {
+                //结算
+                ConfirmOrderActivity.actionStart(context)
+            }
+        }
 
         refreshLayout.setOnRefreshListener {
             initRefresh()
         }
 
-//        refreshLayout.setOnLoadMoreListener {
-//            cartData.addAll(getCartData())
-//            cartAdapter.notifyDataSetChanged()
-//            refreshLayout.finishLoadMore()
-//
-//        }
-
-        cartAdapter.apply {
-
-            //数量
-            onShopNumListener = {
-                InputNumDialog.showDialog(childFragmentManager, it)
-                    .setOnItemClickListener(object : InputNumDialog.OnItemClickListener {
-                        override fun onNumConfirm(num: Int) {
-                            //修改商品数量
-                        }
-                    })
-            }
-
-            //规格参数
-            onShopSpecListener = {
-                val popWindow = object : GroupStylePopupWindow(
-                    activity as Activity,
-                    R.layout.pop_order_style,
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ) {}
-                popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
-            }
+        refreshLayout.setOnLoadMoreListener {
+            refreshLayout.finishLoadMore()
         }
-
-        //全选
-        allChoose.setOnCheckedChangeListener { _, isChecked ->
-            //是否全选
-            cartAdapter.ifCheckAll(isChecked)
-
-        }
-
-        //结算
-        settle.setOnClickListener {
-
-            if (management.isSelected) {
-                //删除
-            } else {
-                //结算
-//                showOrderPopWindow("")
-                ConfirmOrderActivity.actionStart(context)
-                showToast("选中的id:" + filter())
-            }
-        }
-
-
 
         //管理
         management.setOnClickListener {
@@ -160,6 +188,7 @@ class ShoppingCartFragment : BaseFragment() {
             arrayListOf(
                 ShopList(
                     "小米旗舰店", arrayListOf(
+                        CartGoodsList(1, "小米Note"),
                         CartGoodsList(2, "小米5"),
                         CartGoodsList(3, "小米8"),
                         CartGoodsList(4, "小米8se")
@@ -206,17 +235,7 @@ class ShoppingCartFragment : BaseFragment() {
         return list
     }
 
-    //去重
-    private fun filter(): ArrayList<Int> {
-        val newList = ArrayList<Int>()
-        val it = cartAdapter.mCheckList.iterator()
-        while (it.hasNext()) {
-            val obj = it.next()
-            if (!newList.contains(obj)) {
-                newList.add(obj)
-            }
-        }
-        return newList
+    override fun lazyLoad() {
     }
 
 

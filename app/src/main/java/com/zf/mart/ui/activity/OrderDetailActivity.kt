@@ -172,7 +172,7 @@ class OrderDetailActivity : BaseActivity() {
 
         val fgms = arrayListOf(
             DetailSameFragment.newInstance() as Fragment
-            , DetailSameFragment.newInstance() as Fragment
+        , DetailSameFragment.newInstance() as Fragment
         )
 
         val entitys = ArrayList<CustomTabEntity>()

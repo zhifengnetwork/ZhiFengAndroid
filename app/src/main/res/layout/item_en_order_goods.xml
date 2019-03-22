@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:paddingLeft="10dp"
+              android:paddingTop="8dp"
+              android:paddingBottom="8dp"
+              android:background="@color/whit"
+              android:paddingRight="10dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:orientation="horizontal">-->
+
+        <!--<TextView-->
+                <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+                <!--android:textSize="10sp"-->
+                <!--android:textColor="#e51c23"-->
+                <!--android:text="满赠"/>-->
+
+        <!--<TextView-->
+                <!--android:layout_width="0dp" android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textSize="11sp"-->
+                <!--android:textColor="#4d4d4d"-->
+                <!--android:maxLines="1"-->
+                <!--android:text="已购物1900.00，可领取赠品"/>-->
+
+        <!--<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+                   <!--android:src="@drawable/ic_arrow"/>-->
+
+    <!--</LinearLayout>-->
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+
+
+        <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/home_quality_g3"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:paddingLeft="10dp"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/goodsName"
+                    android:textSize="12sp"
+                    android:textColor="#4d4d4d"
+                    android:maxLines="2"
+                    android:text="Apple iphone xs 128G 金色 移动联通4G手机"/>
+
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentRight="true"
+                      android:layout_alignParentBottom="true"
+                      android:layout_below="@+id/sizeLayout"
+                      android:textSize="13sp"
+                      android:textColor="@color/colorBlackText"
+                      android:layout_marginTop="10dp"
+                      android:text="￥1476.00"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
