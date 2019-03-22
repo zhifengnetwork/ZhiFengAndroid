@@ -9,7 +9,7 @@
     <RelativeLayout
             android:id="@+id/headLayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_40"
+            android:layout_height="50dp"
             android:orientation="horizontal">
 
         <TextView
@@ -53,7 +53,7 @@
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
                 android:layout_width="match_parent"
-                app:srlPrimaryColor="@color/colorLine"
+                app:srlPrimaryColor="@color/colorBackground"
                 app:srlAccentColor="@color/colorSecondText"
                 app:srlTextPulling="@string/refresh_pulling"
                 app:srlTextRelease="@string/refresh_release"
@@ -64,59 +64,22 @@
                 app:srlDrawableProgress="@drawable/ic_progress_puzzle"
                 android:layout_height="wrap_content"/>
 
-        <androidx.core.widget.NestedScrollView
+        <com.classic.common.MultipleStatusView
+                android:id="@+id/multipleStatusView"
                 android:layout_width="match_parent"
-                android:layout_below="@+id/headLayout"
-                android:overScrollMode="never"
                 android:focusableInTouchMode="true"
-                android:layout_height="wrap_content">
+                android:focusable="true"
+                app:emptyView="@layout/layout_state_empty_cart"
+                android:layout_height="match_parent">
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/cartRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:descendantFocusability="blocksDescendants"
-                    android:orientation="vertical">
+                    android:overScrollMode="never"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_height="match_parent"/>
 
-                <com.classic.common.MultipleStatusView
-                        android:id="@+id/multipleStatusView"
-                        android:layout_width="match_parent"
-                        app:emptyView="@layout/layout_state_empty_cart"
-                        android:layout_height="wrap_content">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/cartRecyclerView"
-                            android:layout_width="match_parent"
-                            android:overScrollMode="never"
-                            android:nestedScrollingEnabled="false"
-                            android:layout_height="wrap_content"/>
-
-                </com.classic.common.MultipleStatusView>
-
-
-                <TextView
-                        android:id="@+id/recommendTxt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="为/你/推/荐"
-                        android:textColor="@color/black_tv_color"
-                        android:gravity="center"
-                        android:visibility="gone"
-                        android:layout_marginTop="10dp"
-                        android:textSize="@dimen/sp_15"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/specialCartRv"
-                        android:nestedScrollingEnabled="false"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:overScrollMode="never"
-                        android:visibility="gone"
-                        android:layout_below="@id/me_line_v3"
-                        android:layout_marginTop="10dp"/>
-
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
+        </com.classic.common.MultipleStatusView>
 
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
                 android:layout_width="match_parent"
@@ -145,7 +108,8 @@
         <CheckBox android:layout_width="wrap_content"
                   android:drawableLeft="@drawable/selector_all_choose"
                   android:drawablePadding="10dp"
-                  android:layout_marginLeft="20dp"
+                  android:layout_marginLeft="22dp"
+                  android:padding="10dp"
                   android:textSize="12sp"
                   android:textColor="@color/colorPrimaryText"
                   android:id="@+id/allChoose"

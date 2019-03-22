@@ -12,10 +12,7 @@ import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.mvp.bean.TabEntity
 import com.zf.mart.showToast
-import com.zf.mart.ui.fragment.ClassifyFragment
-import com.zf.mart.ui.fragment.HomeFragment
-import com.zf.mart.ui.fragment.MeFragment
-import com.zf.mart.ui.fragment.ShoppingCartFragment
+import com.zf.mart.ui.fragment.*
 import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -55,7 +52,7 @@ class MainActivity : BaseActivity() {
 
     private var mHomeFragment: HomeFragment? = null
     private var mDiscoveryFragment: ClassifyFragment? = null
-    private var mHotFragment: ShoppingCartFragment? = null
+    private var mHotFragment: ShoppingCartFragment1? = null
     private var mMineFragment: MeFragment? = null
 
     private var mIndex = 0
@@ -88,7 +85,7 @@ class MainActivity : BaseActivity() {
                     transaction.add(R.id.fl_container, it, "discovery")
                 }
             2 -> mHotFragment?.let { transaction.show(it) }
-                ?: ShoppingCartFragment.getInstance().let {
+                ?: ShoppingCartFragment1.getInstance().let {
                     mHotFragment = it
                     transaction.add(R.id.fl_container, it, "hot")
                 }

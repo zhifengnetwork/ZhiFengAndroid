@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.dialog_input_num.view.*
 class InputNumDialog : DialogFragment() {
 
     interface OnItemClickListener {
-        fun onNumConfirm(num:Int)
+        fun onNumConfirm(num: Int)
     }
 
     private var mListener: OnItemClickListener? = null
@@ -66,6 +66,7 @@ class InputNumDialog : DialogFragment() {
         val view = LayoutInflater.from(activity).inflate(R.layout.dialog_input_num, container, false)
         view.apply {
             numberInput.setText(mNum.toString())
+            decrease.isSelected = numberInput.text.toString().toInt() < 2
             //增加
             increase.setOnClickListener {
                 val num = if (numberInput.text.isEmpty()) 0 else numberInput.text.toString().toInt()
@@ -73,7 +74,7 @@ class InputNumDialog : DialogFragment() {
             }
             //减少
             decrease.setOnClickListener {
-                if (numberInput.text.isNotEmpty() && numberInput.text.toString().toInt() > 0) {
+                if (numberInput.text.isNotEmpty() && numberInput.text.toString().toInt() > 1) {
                     val num = numberInput.text.toString().toInt()
                     numberInput.setText((num - 1).toString())
                 }
@@ -86,7 +87,7 @@ class InputNumDialog : DialogFragment() {
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                     if (s.isEmpty()) {
                         decrease.isSelected = true
-                    } else decrease.isSelected = s.toString().toInt() == 0
+                    } else decrease.isSelected = s.toString().toInt() < 2
                 }
 
                 override fun afterTextChanged(s: Editable) {

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import com.zf.mart.mvp.bean.CartGoodsList
+import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.item_cart_goods.view.*
 
 /**
@@ -93,6 +94,7 @@ class CartGoodsAdapter(val context: Context?, val data: ArrayList<CartGoodsList>
 
             initCheck(this, position)
 
+
             checkBox.setOnClickListener {
                 initCheck(this, position)
                 //外层商铺是否选中
@@ -114,6 +116,7 @@ class CartGoodsAdapter(val context: Context?, val data: ArrayList<CartGoodsList>
                 checkList.remove(data[position].id)
                 onRemoveCheck?.invoke(data[position].id)
             }
+
         }
     }
 

@@ -20,29 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-<<<<<<< HEAD
-
-
-=======
-#----------------calendarView
--keepclasseswithmembers class * {
-    public <init>(android.content.Context);
-}
-#------------   自行配置混淆    ----------------
-
-#-keep class your project path.MonthView {
-#    public <init>(android.content.Context);
-#}
-#-keep class your project path.WeekBar {
-#    public <init>(android.content.Context);
-#}
-#-keep class your project path.WeekView {
-#    public <init>(android.content.Context);
-#}
-#-keep class your project path.YearView {
-#    public <init>(android.content.Context);
-#}
-
+ 
 #----------- alibaba vLayout -------
 -keepattributes InnerClasses
 -keep class com.alibaba.android.vlayout.ExposeLinearLayoutManagerEx { *; }
@@ -51,7 +29,7 @@
 -keep class android.support.v7.widget.ChildHelper { *; }
 -keep class android.support.v7.widget.ChildHelper$Bucket { *; }
 -keep class android.support.v7.widget.RecyclerView$LayoutManager { *; }
->>>>>>> af524e04ffb8453fe4d249af707ea0276dedd994
+
 
 #-----------处理实体类---------------
 # 在开发的时候我们可以将所有的实体类放在一个包内，这样写一次混淆就行了。

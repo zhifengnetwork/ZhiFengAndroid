@@ -3,42 +3,29 @@ package com.zf.mart.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
-import androidx.fragment.app.FragmentTransaction
-import com.flyco.tablayout.listener.CustomTabEntity
-import com.flyco.tablayout.listener.OnTabSelectListener
+import androidx.core.content.ContextCompat
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
-import com.zf.mart.mvp.bean.TabEntity
+import com.zf.mart.base.BaseFragmentAdapter
 import com.zf.mart.ui.fragment.MessageFragment
+import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_message.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
-class MessageActivity:BaseActivity(){
-    private var mMessageFragment: MessageFragment? = null
-    private val mTabEntities = ArrayList<CustomTabEntity>()
-    private val mTitles = arrayOf("消息", "公告")
-    private val mIconUnSelectIds = intArrayOf(
-        R.drawable.ic_sy,
-        R.drawable.ic_fl
+class MessageActivity : BaseActivity() {
 
-    )
 
-    private val mIconSelectIds = intArrayOf(
-        R.drawable.ic_sy_se,
-        R.drawable.ic_fl_se
-
-    )
     companion object {
-        fun actionStart(context: Context?){
-            context?.startActivity(Intent(context,MessageActivity::class.java))
+        fun actionStart(context: Context?) {
+            context?.startActivity(Intent(context, MessageActivity::class.java))
         }
     }
-    override fun initToolBar() {
-        titleName.text="站内信息"
-        back.setOnClickListener {
 
-        }
-        rightLayout.visibility= View.INVISIBLE
+    override fun initToolBar() {
+        StatusBarUtils.darkMode(this, ContextCompat.getColor(this, R.color.colorSecondText), 0.3f)
+        titleName.text = "站内信息"
+        back.setOnClickListener { finish() }
+        rightLayout.visibility = View.INVISIBLE
     }
 
     override fun layoutId(): Int = R.layout.activity_message
@@ -48,6 +35,11 @@ class MessageActivity:BaseActivity(){
     }
 
     override fun initView() {
+        val titles = arrayListOf("站内", "消息")
+        val fmgs = arrayListOf(MessageFragment.newInstance(), MessageFragment.newInstance())
+        val adapter = BaseFragmentAdapter(supportFragmentManager, fmgs, titles)
+        viewPager.adapter = adapter
+        tabLayout.setupWithViewPager(viewPager)
 
     }
 
@@ -60,6 +52,4 @@ class MessageActivity:BaseActivity(){
     }
 
 
-
-
-    }
+}

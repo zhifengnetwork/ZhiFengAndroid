@@ -3,6 +3,8 @@ package com.zf.mart.view.popwindow
 import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -10,7 +12,6 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import com.zf.mart.R
-import com.zf.mart.showToast
 import com.zf.mart.utils.LogUtils
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
@@ -59,11 +60,33 @@ abstract class GroupStylePopupWindow(var context: Activity, layoutRes: Int, w: I
                 LogUtils.e(">>>>:" + it.size + "  " + it)
             }
 
-            hotLayout.setOnTagClickListener { view, position, _ ->
-                //                view.isSelected = ! view.isSelected
+            hotLayout.setOnTagClickListener { _, position, _ ->
                 Toast.makeText(context, history[position], Toast.LENGTH_LONG).show()
                 return@setOnTagClickListener true
             }
+
+            reduce.isSelected = number.text.toString().toInt() < 2
+            reduce.setOnClickListener {
+                if (number.text.toString().toInt() > 1) {
+                    number.text = (number.text.toString().toInt() - 1).toString()
+                }
+            }
+
+            increase.setOnClickListener {
+                number.text = (number.text.toString().toInt() + 1).toString()
+            }
+
+            number.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                }
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    reduce.isSelected = s.toString().toInt() < 2
+                }
+            })
 
         }
     }

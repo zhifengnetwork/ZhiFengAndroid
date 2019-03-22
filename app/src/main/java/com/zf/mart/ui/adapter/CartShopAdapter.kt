@@ -93,6 +93,10 @@ class CartShopAdapter(val context: Context?, val data: List<ShopList>) :
             checkBox.setOnClickListener {
                 adapter.ifCheckAll(checkBox.isChecked)
             }
+
+            //判断是否被全部选中
+
+
         }
 
     }

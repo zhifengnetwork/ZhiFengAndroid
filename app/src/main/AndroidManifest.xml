@@ -149,10 +149,24 @@
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
+
         <activity android:name=".ui.activity.ChoiceActivity"
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
+
+
+        <activity android:name=".ui.activity.AddressActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.activity.AddressEditActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.activity.ConfirmOrderActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/AppTheme.NoActionBar"/>
 
 
     </application>

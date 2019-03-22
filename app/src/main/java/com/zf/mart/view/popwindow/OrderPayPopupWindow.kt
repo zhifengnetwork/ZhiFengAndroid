@@ -48,7 +48,7 @@ abstract class OrderPayPopupWindow(var context: Activity, layoutRes: Int, w: Int
         popupWindow.isOutsideTouchable = true
         popupWindow.isTouchable = true
         /** 设置出入动画  */
-        popupWindow.animationStyle = R.style.pop_translate_around
+        popupWindow.animationStyle = R.style.pop_translate
     }
 
     fun showAtLocation(parent: View, gravity: Int, x: Int, y: Int) {

@@ -67,8 +67,8 @@
                 android:id="@+id/homeMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                   android:layout_marginRight="12dp"
-                   android:src="@drawable/ic_information"/>
+                android:layout_marginRight="12dp"
+                android:src="@drawable/ic_information"/>
 
     </LinearLayout>
 
