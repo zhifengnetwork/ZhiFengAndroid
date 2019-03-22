@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import kotlinx.android.synthetic.main.classify_title_item.view.*
@@ -38,9 +39,12 @@ class ClassifyTitleAdapter(val context: Context?, val data: List<String>) :
         holder.itemView.classify_item_title_view.isSelected = selectedPos == position
 
         holder.itemView.setOnClickListener {
+            //点击选中时显示样式
             mListener?.onItemClick(position)
             selectedPos = position
             notifyDataSetChanged()
+
+            Toast.makeText(context,"点击了"+position, Toast.LENGTH_SHORT).show()
         }
 
     }

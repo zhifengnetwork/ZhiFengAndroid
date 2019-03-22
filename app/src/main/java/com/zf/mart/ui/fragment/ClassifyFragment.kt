@@ -46,9 +46,9 @@ class ClassifyFragment : BaseFragment() {
     override fun initView() {
 
         /** 左边分类 */
-        for ((index, e) in lefttitle.withIndex()) {
+        for (i in lefttitle.iterator()) {
 
-            data.add(e)
+            data.add(i)
 
         }
 

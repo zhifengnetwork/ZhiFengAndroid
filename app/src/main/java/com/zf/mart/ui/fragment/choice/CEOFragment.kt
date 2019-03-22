@@ -1,17 +1,15 @@
-package com.zf.mart.ui.fragment
+package com.zf.mart.ui.fragment.choice
 
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 
-class MessageFragment:BaseFragment(){
+class CEOFragment: BaseFragment(){
     companion object {
-        fun getInstance():MessageFragment{
-            return MessageFragment()
+        fun getInstance():CEOFragment{
+            return CEOFragment()
         }
     }
-
-
-    override fun getLayoutId(): Int = R.layout.fragment_message
+    override fun getLayoutId(): Int = R.layout.fragment_choice_ceo
 
     override fun initView() {
 

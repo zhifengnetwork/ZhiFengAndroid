@@ -93,14 +93,13 @@ dependencies {
     //address
     implementation 'com.smartTop:jd-address:1.0.3'
 
-<<<<<<< HEAD
-=======
+
     //Album图片选择
     implementation 'com.yanzhenjie:album:2.1.3'
 
     //日历控件 已混淆
     implementation 'com.haibin:calendarview:3.5.5'
->>>>>>> af524e04ffb8453fe4d249af707ea0276dedd994
+
 
     // ViewModel and LiveData
     implementation "android.arch.lifecycle:extensions:1.1.1"
@@ -123,5 +122,10 @@ dependencies {
 //    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.31'
 //    implementation 'com.dengzq.widget:simplerefreshlayout:0.8.0'
 
+    //左右滑动列表
+    implementation 'com.github.lishide:ScrollRecyclerView:v1.0.0'
+
+    //精选底部图片轮播
+    implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
 
 }
