@@ -22,6 +22,24 @@ class MyOrderActivity : BaseActivity() {
         titleName.text = "我的订单"
     }
 
+
+    /**
+     * 待付款的状态：
+     *  联系卖家 取消订单 立即付款
+     *
+     * 待发货
+     *  实物：提醒发货 取消订单
+     *  虚拟：取消订单 查看卷码
+     *
+     * 待收货
+     *  取消订单 确定收货
+     *
+     * 待评价
+     *  去售后 去评价
+     *
+     * 已完成状态显示哪几种按钮？
+     */
+
     companion object {
 
         const val TAG = "TAG"

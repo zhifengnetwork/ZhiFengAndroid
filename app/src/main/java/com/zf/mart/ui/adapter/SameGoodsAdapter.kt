@@ -6,23 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
-import com.zf.mart.ui.activity.ActionActivity
 
-class HomeSecKillAdapter(val context: Context?) : RecyclerView.Adapter<HomeSecKillAdapter.ViewHolder>() {
+class SameGoodsAdapter(val context: Context): RecyclerView.Adapter<SameGoodsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.home_item_seckill, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_same_goods,parent,false)
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = 10
+    override fun getItemCount(): Int =10
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.apply {
-            setOnClickListener {
-                ActionActivity.actionStart(context, ActionActivity.SECKILL)
-            }
-        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

@@ -3,6 +3,7 @@
               android:orientation="vertical"
               android:background="@color/whit"
               android:layout_width="match_parent"
+              android:layout_marginTop="10dp"
               android:layout_height="wrap_content">
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -146,38 +147,8 @@
 
     </LinearLayout>
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:gravity="right"
-                  android:layout_marginTop="8dp"
-                  android:paddingRight="10dp"
-                  android:paddingLeft="10dp"
-                  android:paddingBottom="8dp"
-                  android:orientation="horizontal">
-
-        <TextView android:layout_width="60dp" android:layout_height="20dp"
-                  android:background="#d5efff"
-                  android:textSize="12sp"
-                  android:layout_marginLeft="13dp"
-                  android:gravity="center"
-                  android:textColor="#276de8"
-                  android:text="查看券码"/>
-
-        <TextView android:layout_width="60dp" android:layout_height="20dp"
-                  android:background="#ffcdcf"
-                  android:gravity="center"
-                  android:layout_marginLeft="13dp"
-                  android:textColor="#e51c24"
-                  android:textSize="12sp"
-                  android:text="提醒发货"/>
-
-        <TextView android:layout_width="60dp" android:layout_height="20dp"
-                  android:background="#fddecf"
-                  android:textSize="12sp"
-                  android:layout_marginLeft="13dp"
-                  android:textColor="#ff5301"
-                  android:gravity="center"
-                  android:text="取消订单"/>
-
-    </LinearLayout>
+    <include layout="@layout/layout_order_operation"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"/>
 
 </LinearLayout>

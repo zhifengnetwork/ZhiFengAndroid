@@ -2,13 +2,17 @@ package com.zf.mart.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.showToast
+import com.zf.mart.ui.adapter.SearchHintAdapter
 import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtils
 import com.zhy.view.flowlayout.FlowLayout
@@ -20,7 +24,6 @@ import kotlinx.android.synthetic.main.activity_search.*
  * 首页进入的搜索界面
  */
 class SearchActivity : BaseActivity() {
-
 
     //搜索关键词
     var mKeyWord = ""
@@ -58,12 +61,17 @@ class SearchActivity : BaseActivity() {
         mKeyWord = intent.getStringExtra("key")
     }
 
+    private val adapter by lazy { SearchHintAdapter(this) }
+
     override fun initView() {
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
 
         inputText.setText(mKeyWord)
 
         /** 热门搜索 */
-        val history = arrayOf("洗衣机", "热水器", "电风扇", "电脑", "水壶", "手机", "衣服", "游戏", "扇子")
+        val history = arrayListOf("洗衣机", "热水器", "电风扇", "电脑", "水壶", "手机", "衣服", "游戏", "扇子")
         hotLayout.adapter = object : TagAdapter<String>(history) {
             override fun getView(parent: FlowLayout?, position: Int, t: String?): View {
                 val tv: TextView = LayoutInflater.from(this@SearchActivity).inflate(
@@ -79,9 +87,9 @@ class SearchActivity : BaseActivity() {
         }
 
         /** 搜索发现 */
-        val discovery = arrayOf(
+        val discovery = arrayListOf(
             "洗衣机2", "热水器2", "电风扇2", "热门电脑", "水壶", "手机", "衣服"
-            , "游戏", "扇子", "游戏", "扇子", "好玩的游戏", "扇子", "游戏", "扇子"
+            , "好玩的游戏", "扇子", "游戏", "扇子"
         )
 
         discoveryLayout.adapter = object : TagAdapter<String>(discovery) {
@@ -101,7 +109,28 @@ class SearchActivity : BaseActivity() {
 
     }
 
+
     override fun initEvent() {
+
+        inputText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                //判断是否为空，如果为空，则显示历史纪录，否则显示搜索提示
+                if (s.isEmpty()) {
+                    recyclerView.visibility = View.GONE
+                    historyLayout.visibility = View.VISIBLE
+                } else {
+                    recyclerView.visibility = View.VISIBLE
+                    historyLayout.visibility = View.GONE
+                }
+            }
+        })
+
         searchLayout.setOnClickListener {
             SearchOrderActivity.actionStart(this, inputText.text.toString())
         }

@@ -29,7 +29,8 @@
 
                 <TextView
                         android:id="@+id/bannerNum"
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="@color/whit"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
@@ -53,20 +54,24 @@
                           android:background="@color/whit"
                           android:orientation="horizontal">
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
                           android:textSize="14sp"
                           android:textColor="@color/colorPrice"
                           android:text="小团"/>
 
-                <Space android:layout_width="0dp" android:layout_height="1dp"
+                <Space android:layout_width="0dp"
+                       android:layout_height="1dp"
                        android:layout_weight="1"/>
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
                           android:textSize="14sp"
                           android:textColor="@color/colorPrice"
                           android:text="距离结束还有"/>
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
                           android:textSize="14sp"
                           android:textColor="@color/colorPrice"
                           android:layout_marginLeft="3dp"
@@ -74,7 +79,8 @@
 
             </LinearLayout>
 
-            <View android:layout_width="match_parent" android:layout_height="1px"
+            <View android:layout_width="match_parent"
+                  android:layout_height="1px"
                   android:background="@color/colorBackground"/>
 
             <RelativeLayout android:layout_width="match_parent"
@@ -86,14 +92,16 @@
                             android:paddingBottom="10dp"
                             android:layout_height="wrap_content">
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
                           android:id="@+id/goodsName"
                           android:textSize="15sp"
                           android:textColor="@color/colorPrimaryText"
                           android:maxLines="2"
                           android:text="Dior/迪奥 黑色羊毛真丝排扣夹克"/>
 
-                <TextView android:layout_width="wrap_content" android:layout_height="25dp"
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="25dp"
                           android:id="@+id/currentPrice"
                           android:gravity="center"
                           android:layout_below="@+id/goodsName"
@@ -107,7 +115,8 @@
                           android:paddingBottom="2dp"
                           android:text="￥250起"/>
 
-                <TextView android:layout_width="wrap_content" android:layout_height="25dp"
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="25dp"
                           android:id="@+id/originalPrice"
                           android:layout_toRightOf="@+id/currentPrice"
                           android:paddingLeft="10dp"
@@ -129,14 +138,16 @@
                           android:textColor="@color/colorSecondText"
                           android:text="运费"/>
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
                           android:layout_alignTop="@+id/riderTxt"
                           android:layout_toRightOf="@+id/riderTxt"
                           android:textSize="10sp"
                           android:textColor="@color/colorSecondText"
                           android:text="免运费"/>
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
                           android:layout_alignParentRight="true"
                           android:textSize="13sp"
                           android:textColor="@color/colorSecondText"
@@ -173,7 +184,8 @@
                               android:layout_marginLeft="10dp"
                               android:text="好评"/>
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
                               android:textSize="12sp"
                               android:textColor="@color/colorPrice"
                               android:layout_marginLeft="8dp"
@@ -257,6 +269,7 @@
                         android:id="@+id/evaRecyclerView"
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
+                        android:nestedScrollingEnabled="false"
                         android:overScrollMode="never"
                         android:layout_height="wrap_content"/>
 
@@ -273,7 +286,8 @@
 
                 <LinearLayout
                         android:id="@+id/moreUserLayout"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:orientation="horizontal">
@@ -294,8 +308,11 @@
 
                 </LinearLayout>
 
+                <!-- 正在拼单的列表 -->
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/userRecyclerView"
+                        android:overScrollMode="never"
+                        android:nestedScrollingEnabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 

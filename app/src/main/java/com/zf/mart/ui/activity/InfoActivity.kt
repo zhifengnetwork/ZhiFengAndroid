@@ -26,7 +26,6 @@ class InfoActivity : BaseActivity() {
             ContextCompat.getColor(this, R.color.colorSecondText),
             0.3f
         )
-
     }
 
     override fun layoutId(): Int = R.layout.activity_info

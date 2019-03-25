@@ -38,7 +38,7 @@ class SecKillFragment : BaseFragment() {
         })
 
         val fgms = ArrayList<BaseFragment>()
-        //viewPager
+
         repeat(data.size) {
             fgms.add(SecKillPagerFragment.newInstance())
         }
@@ -62,6 +62,12 @@ class SecKillFragment : BaseFragment() {
 
 
     override fun lazyLoad() {
+
+        /**
+         * 测试选中第三个
+         */
+        topTimeAdapter.setCheck(3)
+        viewPager.currentItem = 3
 
     }
 

@@ -12,9 +12,9 @@ import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.mvp.bean.CartGoodsList
 import com.zf.mart.mvp.bean.ShopList
-import com.zf.mart.showToast
 import com.zf.mart.ui.activity.ConfirmOrderActivity
 import com.zf.mart.ui.adapter.CartShopAdapter1
+import com.zf.mart.utils.LogUtils
 import com.zf.mart.view.dialog.InputNumDialog
 import com.zf.mart.view.popwindow.GroupStylePopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
@@ -90,16 +90,12 @@ class ShoppingCartFragment1 : BaseFragment() {
     override fun initEvent() {
 
 
-
-        cartAdapter.onShopNumListener={
+        cartAdapter.onShopNumListener = {
             InputNumDialog.showDialog(childFragmentManager, it)
-                .setOnItemClickListener(object : InputNumDialog.OnItemClickListener {
-                    override fun onNumConfirm(num: Int) {
-                        //修改商品数量
-                    }
-                })
+                .onNumListener = { num ->
+                LogUtils.e(">>>>>:$num")
+            }
         }
-
 
         cartAdapter.onShopSpecListener = {
             val popWindow = object : GroupStylePopupWindow(
@@ -131,7 +127,6 @@ class ShoppingCartFragment1 : BaseFragment() {
         cartAdapter.checkGoodsListener = { shopList ->
             /** 返回来全部的列表，通过遍历判断是否选中 */
             /** 得到选择的id */
-
             var size = 0
             shopList.forEach { shop ->
                 if (shop.ifCheck) size += 1
