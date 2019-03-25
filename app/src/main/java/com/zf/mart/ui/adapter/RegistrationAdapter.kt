@@ -10,10 +10,41 @@ import android.widget.TextView
 import com.zf.mart.R
 import com.zf.mart.view.gridview.SquareRelativeLayout
 
-class RegistrationAdapter(private val context: Context, private val days: Int, private val week: Int, private val day: Int) : BaseAdapter() {
+class RegistrationAdapter(private val context: Context, private val days: Int, private val week: Int, private val mday: Int,private val year:Int,private val month: Int) : BaseAdapter() {
+
+
+
     private var dayNumber: IntArray? = null
 
     private var viewHolder: ViewHolder? = null
+    private var a:Int=0
+    private var Date_array:Array<String> = arrayOf("2019-02-01","2019-02-13","2019-03-20","2019-10-09","2019-10-18")
+
+    //接收日期处理方法
+    fun Date(){
+
+       for((index, e) in Date_array.withIndex())
+       {
+
+           //截取年份
+         var yy:Int=e.split("-")[0].toInt()
+           //截取月份
+          var mm:Int= e.split("-")[1].toInt()
+           //截取日
+          var dd:Int= e.split("-")[2].toInt()
+          if (yy==year&&mm==(month+1)&&dd==dayNumber!![a]){
+              viewHolder!!.day.setBackgroundResource(R.drawable.rili)
+              viewHolder!!.sqly.setPadding(20, 20, 20, 20)
+              viewHolder!!.day.text = ""
+              viewHolder!!.back.setBackgroundResource(R.drawable.shape_calendar_bg)
+          }
+
+
+
+           }
+       }
+
+
 
     init {
         getEveryDay()
@@ -21,6 +52,7 @@ class RegistrationAdapter(private val context: Context, private val days: Int, p
 
 
     override fun getCount(): Int {
+
         return 42
     }
 
@@ -45,21 +77,8 @@ class RegistrationAdapter(private val context: Context, private val days: Int, p
         viewHolder!!.day.text = if (dayNumber!![i] == 0) "" else dayNumber!![i].toString() + ""
 
         //判断签到了的日子并显示样式
-        if (dayNumber!![i] != 0 && dayNumber!![i] < day && dayNumber!![i] % 2 == 1) {
-            viewHolder!!.day.setBackgroundResource(R.drawable.rili)
-            //            viewHolder.day.setBackgroundResource(R.drawable.shpe);
-            viewHolder!!.sqly.setPadding(20,20,20,20)
-            viewHolder!!.day.text = ""
-            viewHolder!!.back.setBackgroundResource(R.drawable.shape_calendar_bg)
-            //            view.setBackgroundResource(R.drawable.shpe);
-
-        }
-        //        if (dayNumber[i]==day){
-        //            viewHolder.day.setText("今");
-        //
-        //            view.setBackgroundResource(R.color.colorPrimary);
-        //            viewHolder.day.setTextColor(Color.parseColor("#ffffff"));
-        //        }
+        a=i
+        Date()
 
         return view
     }

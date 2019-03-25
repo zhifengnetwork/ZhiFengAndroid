@@ -136,6 +136,7 @@
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
+
         <activity android:name=".ui.activity.MessageActivity"
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
@@ -147,6 +148,13 @@
         <activity android:name=".ui.activity.InputPwdActivity"
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
+
+
+        <activity android:name=".ui.activity.ChoiceActivity"
+                  android:launchMode="singleTask"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
+
 
         <activity android:name=".ui.activity.AddressActivity"
                   android:launchMode="singleTask"
@@ -160,9 +168,11 @@
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
+
         <activity android:name=".ui.activity.SameGoodsActivity"
                   android:launchMode="singleTask"
                   android:theme="@style/AppTheme.NoActionBar"/>
+
 
     </application>
 

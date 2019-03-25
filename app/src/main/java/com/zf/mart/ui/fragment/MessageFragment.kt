@@ -21,6 +21,7 @@ class MessageFragment : BaseFragment() {
 
     private val adapter by lazy { MessageAdapter(context) }
 
+
     override fun initView() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter

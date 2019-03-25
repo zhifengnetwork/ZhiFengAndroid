@@ -10,6 +10,7 @@ import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.ui.activity.ActionActivity
+import com.zf.mart.ui.activity.ChoiceActivity
 import com.zf.mart.ui.activity.MessageActivity
 import com.zf.mart.ui.activity.SearchActivity
 import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
@@ -20,6 +21,7 @@ import com.zf.mart.view.RecDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_top.*
 import kotlinx.android.synthetic.main.layout_news.*
+import kotlinx.android.synthetic.main.layout_prefecture.*
 import kotlinx.android.synthetic.main.layout_search.*
 
 class HomeFragment : BaseFragment() {
@@ -174,6 +176,12 @@ class HomeFragment : BaseFragment() {
         topBanner.start()
         //品质生活banner
 //        qualityBanner.start()
+
+
+        //精选
+        choice.setOnClickListener {
+            ChoiceActivity.actionStart(context)
+        }
     }
 
 
