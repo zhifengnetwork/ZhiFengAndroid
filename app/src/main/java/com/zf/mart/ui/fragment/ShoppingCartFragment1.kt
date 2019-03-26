@@ -60,7 +60,6 @@ class ShoppingCartFragment1 : BaseFragment() {
 
         initRefresh()
 
-
     }
 
     private fun initRefresh() {
