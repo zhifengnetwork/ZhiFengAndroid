@@ -4,13 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.mvp.bean.ShopList
-import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.item_cart_shop.view.*
 
 
@@ -27,7 +24,6 @@ class CartShopAdapter1(val context: Context?, val data: List<ShopList>) :
 
 
     override fun getItemCount(): Int = data.size
-
 
     var checkGoodsListener: ((List<ShopList>) -> Unit)? = null
 

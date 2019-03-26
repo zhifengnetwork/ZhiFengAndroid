@@ -36,8 +36,6 @@ class CartGoodsAdapter1(val context: Context?, val data: ArrayList<CartGoodsList
 
             goodsName.text = data[position].goodsName + "   " + data[position].id
 
-
-
             goodsSpec.setOnClickListener {
                 //弹出规格选择框
                 onSpecListener?.invoke(goodsSpec.text.toString())
@@ -90,10 +88,8 @@ class CartGoodsAdapter1(val context: Context?, val data: ArrayList<CartGoodsList
 
             checkBox.isChecked = data[position].ifCheck
 
-
         }
     }
-
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

@@ -14,6 +14,7 @@
             app:srlEnableAutoLoadMore="true"
             app:srlEnableFooterFollowWhenLoadFinished="true"
             app:srlEnableFooterTranslationContent="true"
+            app:srlEnableRefresh="false"
             android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
