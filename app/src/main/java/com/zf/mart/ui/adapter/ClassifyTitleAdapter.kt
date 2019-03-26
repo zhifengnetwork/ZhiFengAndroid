@@ -44,7 +44,6 @@ class ClassifyTitleAdapter(val context: Context?, val data: List<String>) :
             selectedPos = position
             notifyDataSetChanged()
 
-            Toast.makeText(context,"点击了"+position, Toast.LENGTH_SHORT).show()
         }
 
     }

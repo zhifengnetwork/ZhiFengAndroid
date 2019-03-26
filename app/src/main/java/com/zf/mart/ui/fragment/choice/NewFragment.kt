@@ -7,7 +7,6 @@ import kotlinx.android.synthetic.main.fragment_choice_new.*
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.lishide.recyclerview.scroll.SpaceItemDecoration
 import com.zf.mart.ui.adapter.ChoiceGoodsAdapter
-import com.zf.mart.ui.adapter.ClassifyRightconterAdapter
 
 
 class NewFragment:BaseFragment(){
