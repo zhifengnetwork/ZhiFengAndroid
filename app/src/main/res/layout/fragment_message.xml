@@ -3,6 +3,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
+              android:background="@color/colorBackground"
               android:layout_height="match_parent">
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -14,7 +15,7 @@
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
                 android:layout_width="match_parent"
-                app:srlPrimaryColor="@color/colorLine"
+                app:srlPrimaryColor="@color/colorBackground"
                 app:srlAccentColor="@color/colorSecondText"
                 app:srlTextPulling="@string/refresh_pulling"
                 app:srlTextRelease="@string/refresh_release"

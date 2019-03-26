@@ -38,13 +38,13 @@
             <EditText
                     android:id="@+id/inputText"
                     android:layout_width="match_parent"
-                      android:layout_toRightOf="@+id/searchIcon"
-                      android:layout_marginLeft="12dp"
-                      android:textColor="@color/colorPrimaryText"
-                      android:textSize="12sp"
-                      android:layout_height="match_parent"
-                      android:background="@null"
-                      android:hint="商品 店铺"/>
+                    android:layout_toRightOf="@+id/searchIcon"
+                    android:layout_marginLeft="12dp"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="12sp"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:hint="商品 店铺"/>
 
         </RelativeLayout>
 
@@ -63,34 +63,50 @@
 
     </LinearLayout>
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:textSize="16sp"
-              android:layout_marginTop="34dp"
-              android:layout_marginLeft="10dp"
-              android:textColor="#111111"
-              android:text="热门搜索"/>
-
-    <!-- 流式布局做历史搜索 -->
-    <com.zhy.view.flowlayout.TagFlowLayout
-            android:id="@+id/hotLayout"
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            app:max_select="1"
-            android:layout_margin="10dp"
+            android:visibility="gone"
             android:layout_height="wrap_content"/>
 
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:textSize="16sp"
-              android:layout_marginTop="20dp"
-              android:layout_marginLeft="10dp"
-              android:textColor="#111111"
-              android:text="搜索发现"/>
-
-    <com.zhy.view.flowlayout.TagFlowLayout
-            android:id="@+id/discoveryLayout"
+    <LinearLayout
+            android:id="@+id/historyLayout"
             android:layout_width="match_parent"
-            app:max_select="1"
-            android:layout_margin="10dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="16sp"
+                  android:layout_marginTop="34dp"
+                  android:layout_marginLeft="10dp"
+                  android:textColor="#111111"
+                  android:text="热门搜索"/>
+
+        <!-- 流式布局做历史搜索 -->
+        <com.zhy.view.flowlayout.TagFlowLayout
+                android:id="@+id/hotLayout"
+                android:layout_width="match_parent"
+                app:max_select="1"
+                android:layout_margin="10dp"
+                android:layout_height="wrap_content"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="16sp"
+                  android:layout_marginTop="20dp"
+                  android:layout_marginLeft="10dp"
+                  android:textColor="#111111"
+                  android:text="搜索发现"/>
+
+        <com.zhy.view.flowlayout.TagFlowLayout
+                android:id="@+id/discoveryLayout"
+                android:layout_width="match_parent"
+                app:max_select="1"
+                android:layout_margin="10dp"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>

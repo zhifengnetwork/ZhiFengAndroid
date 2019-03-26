@@ -119,8 +119,8 @@ class HomeFragment : BaseFragment() {
     private fun initSecKill() {
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        home_ms_recycler.layoutManager = layoutManager
-        home_ms_recycler.adapter = secKillAdapter
+        secKillRecyclerView.layoutManager = layoutManager
+        secKillRecyclerView.adapter = secKillAdapter
     }
 
 //    private fun initLife() {

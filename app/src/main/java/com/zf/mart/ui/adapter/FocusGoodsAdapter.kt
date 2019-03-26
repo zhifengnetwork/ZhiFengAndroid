@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.ui.activity.SameGoodsActivity
 import kotlinx.android.synthetic.main.item_focus_goods.view.*
 import kotlinx.android.synthetic.main.item_focus_goods_main.view.*
 
@@ -27,7 +28,7 @@ class FocusGoodsAdapter(val context: Context?) : RecyclerView.Adapter<FocusGoods
             oldPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
 
             same.setOnClickListener {
-                Toast.makeText(context, "same：$position", Toast.LENGTH_SHORT).show()
+                SameGoodsActivity.actionStart(context)
             }
 
             delete.setOnClickListener {

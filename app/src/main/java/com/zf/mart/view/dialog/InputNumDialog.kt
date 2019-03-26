@@ -15,7 +15,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
-import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.dialog_input_num.view.*
 
 /**
@@ -23,15 +22,7 @@ import kotlinx.android.synthetic.main.dialog_input_num.view.*
  */
 class InputNumDialog : DialogFragment() {
 
-    interface OnItemClickListener {
-        fun onNumConfirm(num: Int)
-    }
-
-    private var mListener: OnItemClickListener? = null
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        mListener = listener
-    }
-
+    var onNumListener: ((String) -> Unit)? = null
 
     companion object {
 
@@ -65,18 +56,32 @@ class InputNumDialog : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val view = LayoutInflater.from(activity).inflate(R.layout.dialog_input_num, container, false)
         view.apply {
+
+
+
             numberInput.setText(mNum.toString())
+
+            /** 让光标移到后面 */
+            numberInput.setSelection(numberInput.length())
+
+
             decrease.isSelected = numberInput.text.toString().toInt() < 2
+
             //增加
             increase.setOnClickListener {
                 val num = if (numberInput.text.isEmpty()) 0 else numberInput.text.toString().toInt()
                 numberInput.setText((num + 1).toString())
+                /** 让光标移到后面 */
+                numberInput.setSelection(numberInput.length())
             }
+
             //减少
             decrease.setOnClickListener {
                 if (numberInput.text.isNotEmpty() && numberInput.text.toString().toInt() > 1) {
                     val num = numberInput.text.toString().toInt()
                     numberInput.setText((num - 1).toString())
+                    /** 让光标移到后面 */
+                    numberInput.setSelection(numberInput.length())
                 }
             }
 
@@ -97,9 +102,10 @@ class InputNumDialog : DialogFragment() {
             cancel.setOnClickListener {
                 dismiss()
             }
+
             confirm.setOnClickListener {
                 if (numberInput.text.isNotEmpty() && numberInput.text.toString().toInt() > 0) {
-                    mListener?.onNumConfirm(numberInput.text.toString().toInt())
+                    onNumListener?.invoke(numberInput.text.toString())
                     dismiss()
                 }
             }

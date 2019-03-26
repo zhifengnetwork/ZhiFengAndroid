@@ -1,12 +1,10 @@
 package com.zf.mart.ui.fragment.action
 
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.ui.activity.AuctionDetailActivity
 import com.zf.mart.ui.adapter.AuctionAdapter
-import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.fragment_auction.*
 
 /**

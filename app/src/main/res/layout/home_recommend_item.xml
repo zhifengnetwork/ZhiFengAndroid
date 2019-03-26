@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
         android:background="@color/whit"
         app:cardCornerRadius="5dp"
         app:cardElevation="0dp"
@@ -12,18 +13,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
         <ImageView
-                android:id="@+id/home_recommend_iv"
+                android:id="@+id/goodsIcon"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="5dp"
-                android:layout_height="@dimen/dp_180"
-                android:src="@mipmap/home_quality_g2"/>
-
+                android:layout_height="180dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/home_quality_g1"/>
 
         <TextView
-                android:id="@+id/home_recmmend_title"
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
@@ -32,28 +31,20 @@
                 android:text="荣耀8X64G吃鸡神奇"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="12dp"/>
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="@dimen/sp_16"-->
-        <!--android:text="￥"-->
-        <!--android:textColor="@color/colorPrimary"-->
-        <!--android:layout_marginLeft="@dimen/dp_5"-->
-        <!--android:layout_below="@id/home_recmmend_title"-->
-        <!--/>-->
 
         <LinearLayout android:layout_width="match_parent"
-                      android:layout_marginTop="7dp" android:layout_height="wrap_content"
+                      android:layout_marginTop="7dp"
+                      android:layout_height="wrap_content"
                       android:paddingBottom="10dp"
                       android:orientation="horizontal">
 
             <TextView
-                    android:id="@+id/home_recommend_price"
+                    android:id="@+id/price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:textColor="@color/colorPrice"
-                    android:text="1399.00"/>
+                    android:text="￥1399.00"/>
 
             <TextView
                     android:id="@+id/home_recommend_commend_num"
@@ -62,13 +53,11 @@
                     android:text="评价1088"
                     android:textSize="12sp"
                     android:textColor="#4b4b4b"
-                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginLeft="10dp"
                     android:gravity="right"
                     android:layout_marginRight="20dp"/>
 
         </LinearLayout>
-
-        <!--</RelativeLayout>-->
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

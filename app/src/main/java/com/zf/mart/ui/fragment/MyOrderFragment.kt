@@ -37,12 +37,6 @@ class MyOrderFragment : BaseFragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(
-            RecyclerViewDivider(
-                context, LinearLayoutManager.VERTICAL,
-                DensityUtil.dp2px(10f), ContextCompat.getColor(context!!, R.color.colorBackground)
-            )
-        )
     }
 
     override fun lazyLoad() {

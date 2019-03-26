@@ -26,7 +26,7 @@ class ActionActivity : BaseActivity() {
         const val FLAG = "flag"
         const val AUCTION = "AUCTION"
         const val GROUP = "GROUP"
-        const val SECKILL = "SECKILL"
+        const val SECKILL = "SEC_KILL"
         fun actionStart(context: Context?, type: String) {
             val intent = Intent(context, ActionActivity::class.java)
             intent.putExtra(FLAG, type)

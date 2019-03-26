@@ -94,11 +94,11 @@ class ShoppingCartFragment : BaseFragment() {
             //数量
             onShopNumListener = {
                 InputNumDialog.showDialog(childFragmentManager, it)
-                    .setOnItemClickListener(object : InputNumDialog.OnItemClickListener {
-                        override fun onNumConfirm(num: Int) {
-                            //修改商品数量
-                        }
-                    })
+//                    .setOnItemClickListener(object : InputNumDialog.OnItemClickListener {
+//                        override fun onNumConfirm(num: Int) {
+//                            //修改商品数量
+//                        }
+//                    })
             }
 
             //规格参数
