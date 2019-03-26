@@ -16,8 +16,8 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SigninGiftActivity:BaseActivity() {
-    private var mDetector: GestureDetector?=null
+class SigninGiftActivity : BaseActivity() {
+    private var mDetector: GestureDetector? = null
     private var adapter: RegistrationAdapter? = null
     private val sdf = SimpleDateFormat("yyyy-M-d")
     internal var mYear = 0//年
@@ -30,20 +30,20 @@ class SigninGiftActivity:BaseActivity() {
 
 
     companion object {
-        fun actionStart(context: Context?){
-            context?.startActivity(Intent(context,SigninGiftActivity::class.java))
+        fun actionStart(context: Context?) {
+            context?.startActivity(Intent(context, SigninGiftActivity::class.java))
         }
     }
 
     override fun initToolBar() {
-        titleName.text="累计积分"
+        titleName.text = "累计积分"
         back.setOnClickListener {
 
         }
-        rightLayout.visibility= View.INVISIBLE
+        rightLayout.visibility = View.INVISIBLE
     }
 
-    override fun layoutId(): Int= R.layout.activity_sign_in_gift
+    override fun layoutId(): Int = R.layout.activity_sign_in_gift
 
     override fun initData() {
 
@@ -51,34 +51,33 @@ class SigninGiftActivity:BaseActivity() {
 
     override fun initView() {
         //已签到按钮图片
-        val img=resources.getDrawable(R.drawable.rili)
-        img.setBounds(0,2,60,60)//第一0是距左边距离，第二0是距上边距离，70分别是长宽
-        signtv.setCompoundDrawables(img,null,null,null)
+        val img = resources.getDrawable(R.drawable.rili)
+        img.setBounds(0, 2, 60, 60)//第一0是距左边距离，第二0是距上边距离，70分别是长宽
+        signtv.setCompoundDrawables(img, null, null, null)
 
         //签到日历
-        var calendar=Calendar.getInstance()
-         mYear=calendar.get(Calendar.YEAR)//获取年份
-         year=mYear
+        var calendar = Calendar.getInstance()
+        mYear = calendar.get(Calendar.YEAR)//获取年份
+        year = mYear
 
-         mMonth=calendar.get(Calendar.MONTH)//获取当前月份以（0开头
+        mMonth = calendar.get(Calendar.MONTH)//获取当前月份以（0开头
 
-         month=mMonth
+        month = mMonth
 
-         mDay=calendar.get(Calendar.DAY_OF_MONTH)// 获取当前天以（0开头）
+        mDay = calendar.get(Calendar.DAY_OF_MONTH)// 获取当前天以（0开头）
 
         val mCalendar = SpecialCalendar()
         val isLeapYear = mCalendar.isLeapYear(mYear)//看是否为闰年
         mDays = mCalendar.getDaysOfMonth(isLeapYear, mMonth + 1)//得到当月一共几天
         week = mCalendar.getWeekdayOfMonth(mYear, mMonth)//得到当月第一天星期几
 
-        adapter= RegistrationAdapter(this,mDays,week,mDay,year,month)
-        calendar_gv.adapter=adapter
-        date.text=mYear.toString()+"."+(mMonth+1)
+        adapter = RegistrationAdapter(this, mDays, week, mDay, year, month)
+        calendar_gv.adapter = adapter
+        date.text = mYear.toString() + "." + (mMonth + 1)
 
         //左右滑动
         mDetector = GestureDetector(this, MyGesture())
         calendar_gv.setLongClickable(true)
-
 
 
     }
@@ -111,58 +110,59 @@ class SigninGiftActivity:BaseActivity() {
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if(mDetector != null){
+        if (mDetector != null) {
             return mDetector!!.onTouchEvent(event)
         }
         return super.onTouchEvent(event)
     }
 
     //下一个月方法
-    fun downmoth(){
+    fun downmoth() {
         month++
-        if(month<12){
+        if (month < 12) {
             val mCalendar = SpecialCalendar()
             val isLeapYear = mCalendar.isLeapYear(year)
             mDays = mCalendar.getDaysOfMonth(isLeapYear, month + 1)//得到当月一共几天
             week = mCalendar.getWeekdayOfMonth(year, month)//得到当月第一天星期几
-            adapter= RegistrationAdapter(this,mDays,week,mDay,year,month)
-            calendar_gv.adapter=adapter
-            date.text=year.toString()+"."+(month+1)
-        }else {
-            month=0
+            adapter = RegistrationAdapter(this, mDays, week, mDay, year, month)
+            calendar_gv.adapter = adapter
+            date.text = year.toString() + "." + (month + 1)
+        } else {
+            month = 0
             year++
             val mCalendar = SpecialCalendar()
             val isLeapYear = mCalendar.isLeapYear(year)
             mDays = mCalendar.getDaysOfMonth(isLeapYear, month + 1)//得到当月一共几天
             week = mCalendar.getWeekdayOfMonth(year, month)//得到当月第一天星期几
-            adapter= RegistrationAdapter(this,mDays,week,mDay,year,month)
-            calendar_gv.adapter=adapter
-            date.text=year.toString()+"."+(month+1)
+            adapter = RegistrationAdapter(this, mDays, week, mDay, year, month)
+            calendar_gv.adapter = adapter
+            date.text = year.toString() + "." + (month + 1)
         }
 
     }
+
     //上一个月实现方法
-    fun upmonth(){
+    fun upmonth() {
 
         month--
-        if(month>0) {
+        if (month > 0) {
             val mCalendar = SpecialCalendar()
             val isLeapYear = mCalendar.isLeapYear(year)
             mDays = mCalendar.getDaysOfMonth(isLeapYear, month + 1)//得到当月一共几天
             week = mCalendar.getWeekdayOfMonth(year, month)//得到当月第一天星期几
-            adapter = RegistrationAdapter(this, mDays, week, mDay,year,month)
+            adapter = RegistrationAdapter(this, mDays, week, mDay, year, month)
             calendar_gv.adapter = adapter
-            date.text=year.toString()+"."+(month+1)
-        }else{
-            month=11
+            date.text = year.toString() + "." + (month + 1)
+        } else {
+            month = 11
             year--
             val mCalendar = SpecialCalendar()
             val isLeapYear = mCalendar.isLeapYear(year)
             mDays = mCalendar.getDaysOfMonth(isLeapYear, month + 1)//得到当月一共几天
             week = mCalendar.getWeekdayOfMonth(year, month)//得到当月第一天星期几
-            adapter = RegistrationAdapter(this, mDays, week, mDay,year,month)
+            adapter = RegistrationAdapter(this, mDays, week, mDay, year, month)
             calendar_gv.adapter = adapter
-            date.text=year.toString()+"."+(month+1)
+            date.text = year.toString() + "." + (month + 1)
         }
 
     }

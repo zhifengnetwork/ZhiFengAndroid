@@ -29,7 +29,6 @@ class GroupFragment : BaseFragment() {
     }
 
     override fun lazyLoad() {
-        LogUtils.e(">>>>>lazyLoad  GroupFragment")
     }
 
     override fun initEvent() {

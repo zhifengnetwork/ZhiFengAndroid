@@ -3,6 +3,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@color/colorBackground"
               android:orientation="vertical">
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
@@ -30,7 +31,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-
             <!--<com.dengzq.simplerefreshlayout.SimpleRefreshLayout-->
             <!--android:id="@+id/home_refresh"-->
             <!--android:layout_width="match_parent"-->
@@ -38,13 +38,11 @@
             <!--android:layout_below="@id/home_title">-->
 
             <androidx.core.widget.NestedScrollView
-
                     android:focusableInTouchMode="true"
                     android:id="@+id/home_nestedscroll"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:overScrollMode="never"
-                    android:background="@color/bg_color">
+                    android:overScrollMode="never">
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -63,86 +61,7 @@
                     <!-- 智丰头条 -->
                     <include layout="@layout/layout_news"/>
 
-                    <RelativeLayout
-
-                            android:id="@+id/home_ms_root"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:layout_below="@id/home_head_line_root"
-                            android:background="@color/whit">
-
-                        <TextView
-                                android:id="@+id/home_ms_mstv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="@dimen/dp_5"
-                                android:text="智丰秒杀"
-                                android:textColor="@color/colorPrice"
-                                android:textSize="15sp"/>
-
-                        <TextView
-                                android:id="@+id/home_ms_mstv1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/dp_10"
-                                android:layout_marginTop="10dp"
-                                android:layout_toRightOf="@id/home_ms_mstv"
-                                android:text="剩下时间"
-                                android:textColor="@color/colorPrimaryText"
-                                android:textSize="15sp"/>
-
-                        <TextView
-                                android:id="@+id/countDown"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/ic_alarmclock"
-                                android:gravity="center"
-                                android:layout_centerHorizontal="true"
-                                android:textColor="@color/colorPrice"
-                                android:drawablePadding="3dp"
-                                android:textSize="15sp"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginTop="10dp"
-                                android:text="1:25:30"/>
-
-
-                        <TextView
-                                android:id="@+id/action"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:textColor="@color/colorPrimaryText"
-                                android:paddingTop="2dp"
-                                android:paddingBottom="2dp"
-                                android:gravity="top"
-                                android:layout_alignParentRight="true"
-                                android:drawableRight="@drawable/ic_arrow"
-                                android:drawablePadding="5dp"
-                                android:text="更多好货"
-                                android:textSize="@dimen/sp_12"/>
-
-                        <View
-                                android:id="@+id/home_ms_line"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/dp_1"
-                                android:layout_marginTop="8dp"
-                                android:layout_below="@id/home_ms_mstv"
-                                android:background="@color/colorBackground"/>
-
-                        <!--秒杀数据-->
-
-                        <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/secKillRecyclerView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/home_ms_line"
-                                android:layout_alignParentLeft="true"
-                                android:layout_marginTop="5dp"/>
-
-                    </RelativeLayout>
+                    <include layout="@layout/layout_seckill"/>
 
                     <!--<RelativeLayout-->
                     <!--android:id="@+id/home_promotion_root"-->

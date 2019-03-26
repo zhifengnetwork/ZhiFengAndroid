@@ -74,6 +74,7 @@ class SearchOrderActivity : BaseActivity() {
             ContextCompat.getColor(this, R.color.colorLine)
         )
     }
+
     private val twoDivider by lazy { RecDecoration(DensityUtil.dp2px(10f)) }
 
     override fun initEvent() {

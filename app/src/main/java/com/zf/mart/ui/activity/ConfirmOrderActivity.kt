@@ -28,7 +28,7 @@ class ConfirmOrderActivity : BaseActivity() {
     }
 
     override fun initToolBar() {
-        StatusBarUtils.darkMode(this,ContextCompat.getColor(this,R.color.colorSecondText),0.3f)
+        StatusBarUtils.darkMode(this, ContextCompat.getColor(this, R.color.colorSecondText), 0.3f)
         back.setOnClickListener { finish() }
         titleName.text = "确定订单"
         rightLayout.visibility = View.INVISIBLE
@@ -44,18 +44,20 @@ class ConfirmOrderActivity : BaseActivity() {
     private var cartData = ArrayList<ShopList>()
     private val adapter by lazy { EnShopAdapter(this, cartData) }
 
+    private val rvDivider by lazy {
+        RecyclerViewDivider(
+            this,
+            LinearLayoutManager.VERTICAL,
+            DensityUtil.dp2px(12f),
+            ContextCompat.getColor(this, R.color.colorBackground)
+        )
+    }
+
     override fun initView() {
         cartData = getCartData()
         goodsRecyclerView.layoutManager = LinearLayoutManager(this)
         goodsRecyclerView.adapter = adapter
-        goodsRecyclerView.addItemDecoration(
-            RecyclerViewDivider(
-                this,
-                LinearLayoutManager.VERTICAL,
-                DensityUtil.dp2px(12f),
-                ContextCompat.getColor(this, R.color.colorBackground)
-            )
-        )
+        goodsRecyclerView.addItemDecoration(rvDivider)
     }
 
     override fun initEvent() {

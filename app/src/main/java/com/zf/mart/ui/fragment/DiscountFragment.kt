@@ -38,14 +38,6 @@ class DiscountFragment : BaseFragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-        recyclerView.addItemDecoration(
-            RecyclerViewDivider(
-                context,
-                LinearLayoutManager.VERTICAL,
-                DensityUtil.dp2px(12f),
-                ContextCompat.getColor(context!!, R.color.colorBackground)
-            )
-        )
     }
 
 

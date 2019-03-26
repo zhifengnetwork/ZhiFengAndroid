@@ -53,9 +53,9 @@ object RetrofitManager {
                         .client(client!!)
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         //默认的gSon解析
-                        .addConverterFactory(GsonConverterFactory.create())
+//                        .addConverterFactory(GsonConverterFactory.create())
                         //自定义gSon解析
-//                        .addConverterFactory(JsonLoginFailConverterFactorykt.create())
+                        .addConverterFactory(JsonLoginFailConverterFactorykt.create())
                         .build()
                 }
             }

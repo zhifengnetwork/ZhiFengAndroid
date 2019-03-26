@@ -67,7 +67,6 @@ class FootActivity : BaseActivity() {
         /** 是否全部选中 */
         allChoose.setOnClickListener {
             adapter.setIfAllChoose(allChoose.isChecked)
-
         }
 
         //删除按钮
@@ -88,12 +87,10 @@ class FootActivity : BaseActivity() {
     override fun initEvent() {
         adapter.setOnClickListener(object : FootAdapter.OnItemClickListener {
             override fun unCheckAll() {
-                LogUtils.e(">>>>>unC")
                 allChoose.isChecked = false
             }
 
             override fun checkAll() {
-                LogUtils.e(">>>>ch")
                 allChoose.isChecked = true
             }
         })
@@ -163,11 +160,9 @@ class FootActivity : BaseActivity() {
         return list
     }
 
-
     override fun initData() {
 
     }
-
 
     override fun start() {
     }

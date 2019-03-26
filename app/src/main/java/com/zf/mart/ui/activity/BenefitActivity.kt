@@ -35,22 +35,26 @@ class BenefitActivity : BaseActivity() {
 
     private val adapter by lazy { BenefitAdapter(this) }
 
+    private val rvDivider by lazy {
+        RecyclerViewDivider(
+            this,
+            LinearLayoutManager.VERTICAL,
+            1,
+            ContextCompat.getColor(this, R.color.colorBackground)
+        )
+    }
+
     override fun layoutId(): Int = R.layout.activity_benefit
 
     override fun initData() {
     }
 
+
+
     override fun initView() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(
-            RecyclerViewDivider(
-                this,
-                LinearLayoutManager.VERTICAL,
-                1,
-                ContextCompat.getColor(this, R.color.colorBackground)
-            )
-        )
+        recyclerView.addItemDecoration(rvDivider)
     }
 
     override fun initEvent() {

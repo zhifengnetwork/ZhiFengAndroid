@@ -16,7 +16,7 @@ interface ApiService {
     /**
      * 上传头像
      */
-    @POST("upload/test")
+    @POST("api/upload/add")
     @Multipart
     fun uploadMemberIcon(@Part partList: MultipartBody.Part): Observable<Unit>
 
