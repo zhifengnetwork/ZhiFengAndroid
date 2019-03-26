@@ -106,10 +106,7 @@ dependencies {
 
     //圆角图片
     implementation 'com.makeramen:roundedimageview:2.3.0'
-    //需要混淆
-//    implementation('com.alibaba.android:vlayout:1.2.8@aar') {
-//        transitive = true
-//    }
+
     // 首页的秒杀 无需混淆
     implementation 'com.github.paradoxie:AutoVerticalTextview:0.1'
 
