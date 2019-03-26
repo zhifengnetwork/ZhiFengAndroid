@@ -1,15 +1,22 @@
 package com.zf.mart.ui.fragment
 
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager.widget.PagerAdapter
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
-import com.zf.mart.ui.adapter.ClassifyRightAdapter
+import com.zf.mart.ui.adapter.ClassifyPagerAdapter
 import com.zf.mart.ui.adapter.ClassifyTitleAdapter
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
+import com.zf.mart.view.verticalViewPager.DefaultTransformer
 import kotlinx.android.synthetic.main.fragment_classify.*
+import kotlinx.android.synthetic.main.frament_classify_recommend.*
+
 
 class ClassifyFragment : BaseFragment() {
     companion object {
@@ -21,9 +28,14 @@ class ClassifyFragment : BaseFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_classify
 
     private val data = ArrayList<String>()
+
+    private var list = mutableListOf<String>()
+
     private val adapter by lazy { ClassifyTitleAdapter(context, data) }
 
-    private val rightAdapter by lazy { ClassifyRightAdapter(context) }
+    private var mPagerAdapter: PagerAdapter? = null
+
+//    private val rightAdapter by lazy { ClassifyRightAdapter(context,list) }
 
     private val lefttitle: Array<String> = arrayOf(
         "为您服务",
@@ -56,18 +68,32 @@ class ClassifyFragment : BaseFragment() {
         leftRecyclerView.layoutManager = LinearLayoutManager(context)
         leftRecyclerView.adapter = adapter
 
-        /** 右边子分类 */
-        rightRecyclerView.layoutManager = LinearLayoutManager(context)
-        rightRecyclerView.adapter = rightAdapter
-
-        context?.apply {
-            rightRecyclerView.addItemDecoration(
-                RecyclerViewDivider(
-                    context, LinearLayout.VERTICAL, DensityUtil.dp2px(10f)
-                    , ContextCompat.getColor(this, R.color.colorBackground)
-                )
-            )
+        //给右边的viewpager设置adapter
+        for (i in 1..5) {
+            list.add("test$i")
         }
+        mPagerAdapter=ClassifyPagerAdapter(childFragmentManager,list)
+        rightViewPager.setPageTransformer(true, DefaultTransformer())
+        rightViewPager.setNoScroll(true)
+        rightViewPager.adapter=mPagerAdapter
+//        for (i in 1..4) {
+//            list.add(i)
+//        }
+//
+//
+//        rightRecyclerView.layoutManager = LinearLayoutManager(context)
+//
+//        rightRecyclerView.adapter = rightAdapter
+
+//设置item里面的间隔 背景
+//        context?.apply {
+//            rightRecyclerView.addItemDecoration(
+//                RecyclerViewDivider(
+//                    context, LinearLayout.VERTICAL, DensityUtil.dp2px(10f)
+//                    , ContextCompat.getColor(this, R.color.colorBackground)
+//                )
+//            )
+//        }
 
 
     }
@@ -78,14 +104,8 @@ class ClassifyFragment : BaseFragment() {
     override fun initEvent() {
         adapter.setOnItemClickListener(object : ClassifyTitleAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
-                if (position == 0) {
-                    rightRecyclerView.layoutManager = LinearLayoutManager(context)
-                    rightRecyclerView.adapter = rightAdapter
-                    rightAdapter.notifyDataSetChanged()
-                } else if (position == 1) {
-
-                }
-
+                rightViewPager.currentItem = position
+                Toast.makeText(context,"点击了"+position, Toast.LENGTH_SHORT).show()
             }
         })
     }

@@ -2,13 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:layout_marginLeft="7dp"
+              android:layout_marginBottom="20dp"
+
               android:orientation="vertical">
 
     <ImageView
             android:layout_width="70dp"
             android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/clsssify_content_item_g2"/>
+            android:src="@mipmap/clsssify_content_item_g1"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
