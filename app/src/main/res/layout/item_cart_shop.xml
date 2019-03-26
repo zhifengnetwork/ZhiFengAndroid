@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<!--<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--android:layout_marginLeft="12dp"-->
-<!--android:layout_marginRight="12dp"-->
-<!--android:layout_width="match_parent"-->
-<!--app:cardElevation="0dp"-->
-<!--android:background="@color/whit"-->
-<!--app:cardCornerRadius="8dp"-->
-<!--android:layout_height="wrap_content">-->
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
@@ -18,7 +7,6 @@
         android:background="@drawable/shape_round_whit_big"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
 
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="33dp"
@@ -59,20 +47,23 @@
             android:orientation="horizontal">
 
         <TextView
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textSize="10sp"
                 android:textColor="#e51c23"
                 android:text="满赠"/>
 
         <TextView
-                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="11sp"
                 android:textColor="#4d4d4d"
                 android:maxLines="1"
                 android:text="已购物1900.00，可领取赠品"/>
 
-        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
                    android:src="@drawable/ic_arrow"/>
 
     </LinearLayout>
@@ -84,5 +75,3 @@
             android:layout_height="wrap_content"/>
 
 </LinearLayout>
-
-        <!--</androidx.cardview.widget.CardView>-->

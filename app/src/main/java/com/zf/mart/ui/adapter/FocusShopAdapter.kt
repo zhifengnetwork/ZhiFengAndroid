@@ -24,4 +24,5 @@ class FocusShopAdapter(val context: Context?) : RecyclerView.Adapter<FocusShopAd
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
 }

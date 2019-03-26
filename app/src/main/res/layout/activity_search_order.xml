@@ -13,24 +13,28 @@
             android:layout_height="44dp"
             android:orientation="horizontal">
 
-        <LinearLayout android:layout_width="50dp"
-                      android:id="@+id/backLayout"
-                      android:orientation="vertical"
-                      android:gravity="center"
-                      android:layout_height="match_parent">
+        <LinearLayout
+                android:layout_width="50dp"
+                android:id="@+id/backLayout"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_height="match_parent">
 
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
                        android:src="@drawable/fanhui"/>
 
         </LinearLayout>
 
-        <RelativeLayout android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_search_input"
-                        android:layout_gravity="center_vertical"
-                        android:layout_height="35dp">
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_search_input"
+                android:layout_gravity="center_vertical"
+                android:layout_height="35dp">
 
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
                        android:layout_marginLeft="15dp"
                        android:id="@+id/searchIcon"
                        android:layout_centerVertical="true"
@@ -52,12 +56,14 @@
 
         <LinearLayout
                 android:id="@+id/composeLayout"
-                android:layout_width="50dp" android:layout_height="match_parent"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
                 android:gravity="center">
 
             <ImageView
                     android:id="@+id/composeIcon"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/selector_compose"/>
 
         </LinearLayout>
@@ -85,13 +91,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:button="@null"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:textColor="@color/selector_order_search"
                     android:textSize="15sp"
                     android:drawableRight="@drawable/down_r"
                     android:drawablePadding="3dp"
                     android:text="综合"/>
 
-            <Space android:layout_width="0dp" android:layout_height="1dp"
+            <Space android:layout_width="0dp"
+                   android:layout_height="1dp"
                    android:layout_weight="1"/>
 
             <RadioButton android:layout_width="wrap_content"
@@ -99,13 +108,18 @@
                          android:button="@null"
                          android:textColor="@color/selector_order_search"
                          android:textSize="15sp"
+                         android:paddingLeft="10dp"
+                         android:paddingRight="10dp"
                          android:layout_height="match_parent"/>
 
-            <Space android:layout_width="0dp" android:layout_height="1dp"
+            <Space android:layout_width="0dp"
+                   android:layout_height="1dp"
                    android:layout_weight="1"/>
 
             <RadioButton android:layout_width="wrap_content"
                          android:layout_height="match_parent"
+                         android:paddingLeft="10dp"
+                         android:paddingRight="10dp"
                          android:button="@null"
                          android:textColor="@color/selector_order_search"
                          android:textSize="15sp"
@@ -113,12 +127,15 @@
                          android:drawablePadding="3dp"
                          android:text="价格"/>
 
-            <Space android:layout_width="0dp" android:layout_height="1dp"
+            <Space android:layout_width="0dp"
+                   android:layout_height="1dp"
                    android:layout_weight="1"/>
 
             <RadioButton android:layout_width="wrap_content"
                          android:layout_height="match_parent"
                          android:button="@null"
+                         android:paddingLeft="10dp"
+                         android:paddingRight="10dp"
                          android:textColor="@color/selector_order_search"
                          android:textSize="15sp"
                          android:text="新品"/>
@@ -133,7 +150,7 @@
                 android:drawableRight="@drawable/screen"
                 android:gravity="center"
                 android:drawablePadding="3dp"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="筛选"/>
 

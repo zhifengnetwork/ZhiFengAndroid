@@ -39,14 +39,7 @@ class AddressActivity : BaseActivity() {
     override fun initView() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(
-            RecyclerViewDivider(
-                this,
-                LinearLayoutManager.VERTICAL,
-                DensityUtil.dp2px(10f),
-                ContextCompat.getColor(this, R.color.colorBackground)
-            )
-        )
+
     }
 
     override fun initEvent() {

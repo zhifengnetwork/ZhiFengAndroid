@@ -14,7 +14,7 @@ import com.zf.mart.ui.activity.PickupActivity
 import com.zf.mart.ui.activity.TeamActivity
 import kotlinx.android.synthetic.main.me_specail_item.view.*
 
-class MeSpecailAdapter(val context: Context?) : RecyclerView.Adapter<MeSpecailAdapter.ViewHolder>() {
+class ColumnAdapter(val context: Context?) : RecyclerView.Adapter<ColumnAdapter.ViewHolder>() {
 
     private val imgList = arrayOf(
         R.drawable.activity2, R.drawable.ic_withdrawals, R.drawable.auction, R.drawable.ic_assemble,
@@ -43,7 +43,6 @@ class MeSpecailAdapter(val context: Context?) : RecyclerView.Adapter<MeSpecailAd
                 3 -> ActionActivity.actionStart(context, ActionActivity.GROUP)
                 1 -> BonusActivity.actionStart(context)
                 9 -> PickupActivity.actionStart(context)
-
                 4 -> TeamActivity.actionStart(context)
             }
         }

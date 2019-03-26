@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_home_top.*
 import kotlinx.android.synthetic.main.layout_news.*
 import kotlinx.android.synthetic.main.layout_prefecture.*
 import kotlinx.android.synthetic.main.layout_search.*
+import kotlinx.android.synthetic.main.layout_seckill.*
 
 class HomeFragment : BaseFragment() {
 

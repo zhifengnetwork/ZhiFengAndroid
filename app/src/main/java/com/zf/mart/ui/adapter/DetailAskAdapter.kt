@@ -20,4 +20,5 @@ class DetailAskAdapter(val context: Context) : RecyclerView.Adapter<DetailAskAda
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
 }

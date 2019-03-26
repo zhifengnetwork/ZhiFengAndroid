@@ -5,11 +5,14 @@
                 android:padding="10dp"
                 android:layout_height="wrap_content">
 
-    <ImageView android:layout_width="90dp" android:layout_height="90dp"
+    <ImageView android:layout_width="90dp"
+               android:layout_height="90dp"
                android:id="@+id/icon"
                android:src="@mipmap/ic_launcher"/>
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
               android:id="@+id/title"
               android:layout_toRightOf="@+id/icon"
               android:textSize="12sp"
@@ -18,7 +21,8 @@
               android:layout_marginLeft="10dp"
               android:text="2019/02/12 张某人捐赠18元"/>
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:layout_marginTop="9dp"
               android:layout_marginLeft="10dp"
               android:textSize="12sp"

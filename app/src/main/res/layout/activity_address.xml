@@ -12,16 +12,15 @@
             android:layout_marginTop="10dp"
             android:layout_below="@+id/myToolBar"
             android:layout_width="match_parent"
-            android:layout_marginLeft="10dp"
             android:layout_above="@+id/newAddress"
             android:layout_marginBottom="20dp"
             android:overScrollMode="never"
-            android:layout_marginRight="10dp"
             android:layout_height="wrap_content"/>
 
     <TextView
             android:id="@+id/newAddress"
-            android:layout_width="340dp" android:layout_height="50dp"
+            android:layout_width="340dp"
+            android:layout_height="50dp"
             android:textSize="16sp"
             android:textColor="@color/whit"
             android:background="@drawable/shape_button"
@@ -30,7 +29,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="25dp"
             android:text="新建收货地址"/>
-
 
 </RelativeLayout>
 

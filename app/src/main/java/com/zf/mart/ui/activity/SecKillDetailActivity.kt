@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.GuideAdapter
 import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtils
@@ -30,11 +31,11 @@ class SecKillDetailActivity : BaseActivity() {
     }
 
     override fun initToolBar() {
-            StatusBarUtils.darkMode(
-                this,
-                ContextCompat.getColor(this, R.color.colorSecondText),
-                0.3f
-            )
+        StatusBarUtils.darkMode(
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
+        )
 
         shareLayout.visibility = View.INVISIBLE
     }
@@ -44,7 +45,6 @@ class SecKillDetailActivity : BaseActivity() {
     override fun initData() {
     }
 
-
     override fun initView() {
 
         //图文详情
@@ -52,7 +52,6 @@ class SecKillDetailActivity : BaseActivity() {
 
         //标题栏
         initScrollHead()
-
 
         //banner
         initBanner()
@@ -69,14 +68,12 @@ class SecKillDetailActivity : BaseActivity() {
             img.scaleType = ImageView.ScaleType.CENTER_CROP
             imageViews.add(img)
             img.setOnClickListener {
-                /**  这里设置图片的点击事件 */
-                LogUtils.e(">>>>>>点击了第：$pos")
+                showToast("图片:$pos")
             }
         }
         bannerViewPager.adapter = GuideAdapter(imageViews)
         bannerNum.text = "1/${images.size}"
 
-        /** 滑动改变指示器 */
         bannerViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
@@ -91,9 +88,7 @@ class SecKillDetailActivity : BaseActivity() {
     }
 
     private fun initScrollHead() {
-        scrollView.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-            LogUtils.e(">>>>scroll:$scrollY     $oldScrollY")
-            //
+        scrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             var alpha = scrollY / 100 * 0.7f
             if (alpha >= 1.0) {
                 alpha = 1.0f
@@ -117,7 +112,6 @@ class SecKillDetailActivity : BaseActivity() {
 
     override fun initEvent() {
 
-        //立即购买
         operation.setOnClickListener {
             SecKillPushActivity.actionStart(this)
         }

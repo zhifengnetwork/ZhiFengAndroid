@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
-import com.zf.mart.ui.activity.ActionActivity
+import com.zf.mart.ui.activity.SecKillDetailActivity
 
 class HomeSecKillAdapter(val context: Context?) : RecyclerView.Adapter<HomeSecKillAdapter.ViewHolder>() {
 
@@ -20,7 +20,7 @@ class HomeSecKillAdapter(val context: Context?) : RecyclerView.Adapter<HomeSecKi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
             setOnClickListener {
-                ActionActivity.actionStart(context, ActionActivity.SECKILL)
+                SecKillDetailActivity.actionStart(context)
             }
         }
     }

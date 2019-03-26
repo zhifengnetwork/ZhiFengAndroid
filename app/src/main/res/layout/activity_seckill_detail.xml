@@ -18,8 +18,9 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-            <RelativeLayout android:layout_width="match_parent"
-                            android:layout_height="380dp">
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="380dp">
 
                 <androidx.viewpager.widget.ViewPager
                         android:id="@+id/bannerViewPager"
@@ -28,7 +29,8 @@
 
                 <TextView
                         android:id="@+id/bannerNum"
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="@color/whit"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
@@ -49,14 +51,16 @@
                             android:paddingRight="10dp"
                             android:layout_height="wrap_content">
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
                           android:id="@+id/goodsName"
                           android:textSize="15sp"
                           android:textColor="#333333"
                           android:layout_marginTop="10dp"
                           android:text="APPLE/p 苹果 iphone XR"/>
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
                           android:textColor="#e60b30"
                           android:layout_below="@+id/goodsName"
                           android:paddingLeft="3dp"
@@ -67,43 +71,49 @@
                           android:background="@drawable/shape_round_red"
                           android:text="秒杀"/>
 
-                <RelativeLayout android:layout_width="110dp"
-                                android:layout_alignParentRight="true"
-                                android:background="@drawable/shape_round_red"
-                                android:layout_marginTop="10dp"
-                                android:layout_height="43dp">
+                <RelativeLayout
+                        android:layout_width="110dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/shape_round_red"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="43dp">
 
-                    <TextView android:layout_width="wrap_content"
-                              android:id="@+id/timeTxt"
-                              android:textColor="#e60b30"
-                              android:layout_marginTop="5dp"
-                              android:textSize="12sp"
-                              android:layout_marginLeft="10dp"
-                              android:layout_height="wrap_content"
-                              android:text="距离秒杀开始"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:id="@+id/timeTxt"
+                            android:textColor="#e60b30"
+                            android:layout_marginTop="5dp"
+                            android:textSize="12sp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_height="wrap_content"
+                            android:text="距离秒杀开始"/>
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:id="@+id/downTime"
-                              android:textSize="12sp"
-                              android:layout_below="@+id/timeTxt"
-                              android:layout_alignParentRight="true"
-                              android:layout_marginBottom="5dp"
-                              android:layout_marginRight="10dp"
-                              android:textColor="#e60b30"
-                              android:text="00:00:00"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/downTime"
+                            android:textSize="12sp"
+                            android:layout_below="@+id/timeTxt"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginRight="10dp"
+                            android:textColor="#e60b30"
+                            android:text="00:00:00"/>
 
                 </RelativeLayout>
 
             </RelativeLayout>
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:maxLines="2"
-                      android:paddingLeft="10dp"
-                      android:textSize="15sp"
-                      android:textColor="#666666"
-                      android:paddingRight="10dp"
-                      android:layout_marginTop="5dp"
-                      android:text="苹果 iphone XR 移动联通电信4G手机双卡双待苹果iphone XR"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:paddingLeft="10dp"
+                    android:textSize="15sp"
+                    android:textColor="#666666"
+                    android:paddingRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="苹果 iphone XR 移动联通电信4G手机双卡双待苹果iphone XR"/>
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -147,30 +157,35 @@
 
             </LinearLayout>
 
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
                           android:paddingLeft="10dp"
                           android:paddingRight="10dp"
                           android:layout_marginTop="10dp"
                           android:orientation="horizontal">
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
                           android:textSize="10sp"
                           android:textColor="#999999"
                           android:text="销量:"/>
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
                           android:textSize="10sp"
                           android:textColor="#999999"
                           android:layout_marginLeft="3dp"
                           android:text="1W+"/>
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
                           android:textSize="10sp"
                           android:layout_marginLeft="30dp"
                           android:textColor="#999999"
                           android:text="当前库存:"/>
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
                           android:textSize="10sp"
                           android:textColor="#999999"
                           android:layout_marginLeft="3dp"
@@ -179,7 +194,8 @@
 
             </LinearLayout>
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
                       android:padding="10dp"
                       android:id="@+id/detail"
                       android:text="图文详情"/>
@@ -194,7 +210,8 @@
             android:layout_height="44dp"
             layout="@layout/layout_detail_head"/>
 
-    <TextView android:layout_width="match_parent" android:layout_height="44dp"
+    <TextView android:layout_width="match_parent"
+              android:layout_height="44dp"
               android:layout_alignParentBottom="true"
               android:gravity="center"
               android:textSize="16sp"

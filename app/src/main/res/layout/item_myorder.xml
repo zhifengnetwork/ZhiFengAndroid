@@ -1,46 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="@color/whit"
-              android:layout_width="match_parent"
-              android:layout_marginTop="10dp"
-              android:layout_height="wrap_content">
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:background="@color/whit"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:paddingTop="5dp"
-                  android:paddingBottom="5dp"
-                  android:gravity="center_vertical"
-                  android:paddingLeft="10dp"
-                  android:paddingRight="10dp"
-                  android:orientation="horizontal">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:orientation="horizontal">
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
                   android:textSize="11sp"
                   android:textColor="@color/colorBlackText"
                   android:text="2019/02/03  00:25:50"/>
 
-        <Space android:layout_width="0dp" android:layout_height="1dp"
+        <Space android:layout_width="0dp"
+               android:layout_height="1dp"
                android:layout_weight="1"/>
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
                   android:textSize="12sp"
                   android:layout_marginRight="10dp"
                   android:textColor="#f20c0c"
                   android:text="等待买家使用"/>
 
-        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
                    android:src="@drawable/ic_delete"/>
 
     </LinearLayout>
 
-    <View android:layout_width="match_parent" android:layout_height="1dp"
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
           android:background="@color/colorBackground"
           android:layout_marginLeft="10dp"
           android:layout_marginRight="10dp"/>
 
     <RelativeLayout
             android:layout_marginTop="10dp"
-            android:layout_width="match_parent" android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <ImageView
                 android:id="@+id/goodsIcon"
@@ -108,38 +117,46 @@
 
     </RelativeLayout>
 
-    <View android:layout_width="match_parent" android:layout_height="1dp"
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
           android:background="@color/colorBackground"
           android:layout_marginLeft="10dp"
           android:layout_marginTop="10dp"
           android:layout_marginRight="10dp"/>
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:layout_marginTop="12dp"
-                  android:paddingLeft="10dp"
-                  android:paddingRight="20dp"
-                  android:orientation="horizontal">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:orientation="horizontal">
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
                   android:textSize="12sp"
                   android:textColor="@color/colorPrimaryText"
                   android:text="欧欧记"/>
 
-        <Space android:layout_width="0dp" android:layout_height="1dp"
+        <Space android:layout_width="0dp"
+               android:layout_height="1dp"
                android:layout_weight="1"/>
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
                   android:textSize="12sp"
                   android:textColor="@color/colorPrimaryText"
                   android:text="共2件"/>
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
                   android:textSize="12sp"
                   android:textColor="@color/colorPrimaryText"
                   android:layout_marginLeft="10dp"
                   android:text="应付总额"/>
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
                   android:layout_marginLeft="10dp"
                   android:textSize="15sp"
                   android:textColor="#f72c0b"

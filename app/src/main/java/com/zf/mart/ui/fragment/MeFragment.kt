@@ -9,7 +9,7 @@ import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.ui.activity.*
 import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
-import com.zf.mart.ui.adapter.MeSpecailAdapter
+import com.zf.mart.ui.adapter.ColumnAdapter
 import com.zf.mart.view.RecDecoration
 import com.zf.mart.view.popwindow.SignSuccessPopupWindow
 import kotlinx.android.synthetic.main.fragment_me.*
@@ -29,22 +29,22 @@ class MeFragment : BaseFragment() {
 
     override fun getLayoutId(): Int = R.layout.fragment_me
 
-    private val adapter by lazy { MeSpecailAdapter(context) }
+    private val columnAdapter by lazy { ColumnAdapter(context) }
 
     private val recommendData = ArrayList<String>()
     private val recommendAdapter by lazy { HomeFragmentRecommendAdapter(context, recommendData) }
 
     override fun initView() {
         //我的专栏
-        me_specail_rec.layoutManager = GridLayoutManager(context, 4)
-        me_specail_rec.adapter = adapter
-        me_specail_rec.addItemDecoration(RecDecoration(12))
+        columnRecyclerView.layoutManager = GridLayoutManager(context, 4)
+        columnRecyclerView.adapter = columnAdapter
+        columnRecyclerView.addItemDecoration(RecDecoration(12))
 
         //推荐
         recommendData.addAll(arrayListOf("1", "2", "3"))
-        me_specail_recycler.layoutManager = GridLayoutManager(context, 2)
-        me_specail_recycler.adapter = recommendAdapter
-        me_specail_recycler.addItemDecoration(RecDecoration(DensityUtil.dp2px(12f)))
+        recommendRecyclerView.layoutManager = GridLayoutManager(context, 2)
+        recommendRecyclerView.adapter = recommendAdapter
+        recommendRecyclerView.addItemDecoration(RecDecoration(DensityUtil.dp2px(12f)))
     }
 
     override fun lazyLoad() {

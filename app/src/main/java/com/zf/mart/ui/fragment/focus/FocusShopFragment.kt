@@ -22,7 +22,7 @@ class FocusShopFragment : BaseFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_focus_shop
 
     // 关注的店铺
-    private val adapter by lazy { FocusShopAdapter(context) }
+    private val shopAdapter by lazy { FocusShopAdapter(context) }
 
     // 推荐的店铺
     private val loveAdapter by lazy { LoveShopAdapter(context) }
@@ -31,16 +31,8 @@ class FocusShopFragment : BaseFragment() {
 
         /**  已关注店铺列表 */
         shopRecyclerView.layoutManager = LinearLayoutManager(context)
-        shopRecyclerView.adapter = adapter
+        shopRecyclerView.adapter = shopAdapter
         shopRecyclerView.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(context))
-        shopRecyclerView.addItemDecoration(
-            RecyclerViewDivider(
-                context,
-                LinearLayoutManager.VERTICAL,
-                DensityUtil.dp2px(5f),
-                ContextCompat.getColor(context!!, R.color.colorBackground)
-            )
-        )
 
         /** 猜你喜欢店铺列表 */
         loveRecyclerView.layoutManager = LinearLayoutManager(context)

@@ -31,7 +31,7 @@ class FocusGoodsFragment : BaseFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_focus_goods
 
     //已关注的商品列表
-    private val adapter by lazy { FocusGoodsAdapter(context) }
+    private val goodsAdapter by lazy { FocusGoodsAdapter(context) }
 
     //猜你喜欢的商品列表
     private val loveAdapter by lazy { FocusLoveGoodsAdapter(context) }
@@ -39,20 +39,10 @@ class FocusGoodsFragment : BaseFragment() {
     override fun initView() {
 
         //已关注商品的列表
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(context))
-        recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(
-            RecyclerViewDivider(
-                context,
-                LinearLayoutManager.VERTICAL,
-                DensityUtil.dp2px(5f),
-                ContextCompat.getColor(
-                    context!!,
-                    R.color.colorBackground
-                )
-            )
-        )
+        goodsRecyclerView.layoutManager = LinearLayoutManager(context)
+        goodsRecyclerView.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(context))
+        goodsRecyclerView.adapter = goodsAdapter
+
 
 
         //猜你喜欢的商品

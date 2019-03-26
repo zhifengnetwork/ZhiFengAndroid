@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.dialog.CustomAddressDialog
 import kotlinx.android.synthetic.main.activity_address_edit.*
@@ -36,14 +37,11 @@ class AddressEditActivity : BaseActivity() {
     override fun initEvent() {
         //选择地址 修改选中图标在item_area
         addressLayout.setOnClickListener {
+
             val dialog = CustomAddressDialog(this)
             dialog.setOnAddressSelectedListener { province, city, country, street ->
-                val mAddress = if (province?.name == null) "" else province.name +
-                        if (city?.name == null) "" else city.name +
-                                if (country?.name == null) "" else country.name +
-                                        if (street?.name == null) "" else street.name
+                val mAddress = "${province?.name ?: ""}${city?.name ?: ""}${country?.name ?: ""}${street?.name ?: ""}"
                 address.text = mAddress
-
                 dialog.dismiss()
             }
             dialog.setDialogDismisListener {
