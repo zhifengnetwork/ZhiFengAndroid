@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.zf.mart.ui.fragment.classify.RecommendFragment
 
-class ClassifyPagerAdapter(fm: FragmentManager, titleList: List<String>): FragmentPagerAdapter(fm) {
+class ClassifyPagerAdapter(fm: FragmentManager, titleList: Array<String>): FragmentPagerAdapter(fm) {
     private val fragmentList = arrayOfNulls<Fragment>(titleList.size)
     private var list = titleList
     override fun getItem(position: Int): Fragment {

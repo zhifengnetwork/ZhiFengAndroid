@@ -16,7 +16,7 @@
     <color name="home_head_line_tv_color">#F22E00</color>
     <color name="home_promotion_title_color">#647BFB</color>
 
-    <color name="classify_title_item_color">#F3F3F3</color>
+    <color name="classify_title_item_color">#F7F7F7</color>
 
     <color name="black_tv_color">#151514</color>
     <color name="view_line_color">#E0E0E0</color>
@@ -49,9 +49,11 @@
     <color name="colorDiscountTimeOut">#968e8b</color>
     <color name="colorDiscountUnTimeOut2">#ada5a5</color>
 
-    <color name="colorifyitemText">#101010</color>
+    <color name="colorifyitemText">#262626</color>
+
     <color name="colorifySecondText">#999999</color>
-    <color name="ifyBackground">#f8f8f8</color>
+    <color name="ifyTitleBackground">#F8F8F8</color>
+
 
     <!--  遮挡布局颜色 -->
     <color name="color_pop_bottom">#33999999</color>
