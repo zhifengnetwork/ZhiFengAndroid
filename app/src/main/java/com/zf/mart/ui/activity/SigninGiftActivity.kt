@@ -55,12 +55,13 @@ class SigninGiftActivity : BaseActivity() {
 
         //签到日历
         var calendar = Calendar.getInstance()
-        mYear = calendar.get(Calendar.YEAR)//获取年份
-        year = mYear
+        mYear = calendar.get(Calendar.YEAR)//获取年
+
+        year = mYear//记录当前年
 
         mMonth = calendar.get(Calendar.MONTH)//获取当前月份以（0开头
 
-        month = mMonth
+        month = mMonth//记录当前月
 
         mDay = calendar.get(Calendar.DAY_OF_MONTH)// 获取当前天以（0开头）
 
@@ -69,13 +70,18 @@ class SigninGiftActivity : BaseActivity() {
         mDays = mCalendar.getDaysOfMonth(isLeapYear, mMonth + 1)//得到当月一共几天
         week = mCalendar.getWeekdayOfMonth(mYear, mMonth)//得到当月第一天星期几
 
-        adapter = RegistrationAdapter(this, mDays, week, mDay, year, month)
-        calendar_gv.adapter = adapter
+        calendar_gv.setClickable(false)
+//        calendar_gv.setPressed(false)
+//        calendar_gv.setEnabled(false)
+
+        adapter = RegistrationAdapter(this, mDays, week, mDay, year, month)//将当前日期传给适配器
+        calendar_gv.adapter = adapter//绑定适配器
         date.text = mYear.toString() + "." + (mMonth + 1)
 
         //左右滑动
         mDetector = GestureDetector(this, MyGesture())
         calendar_gv.setLongClickable(true)
+
 
 
     }

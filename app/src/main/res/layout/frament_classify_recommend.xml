@@ -3,65 +3,63 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-              android:gravity="center"
-    android:text="sadsad sa"/>
-    <!--<androidx.core.widget.NestedScrollView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-    <!--&lt;!&ndash;android:background="@color/colorBackground"&ndash;&gt;-->
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <!--android:background="@color/colorBackground"-->
 
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:paddingLeft="15dp"-->
-    <!--android:paddingRight="16dp"-->
-    <!--android:orientation="vertical">-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="16dp"
+                    android:orientation="vertical">
 
-    <!--<com.makeramen.roundedimageview.RoundedImageView-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--android:id="@+id/classify_content_top_item_iv"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="106dp"-->
-    <!--android:src="@mipmap/banner"-->
-    <!--android:scaleType="fitXY"-->
-    <!--app:riv_corner_radius="5dp"-->
-    <!--app:riv_mutate_background="true"-->
-    <!--app:riv_oval="false"/>-->
-
-
-    <!--<androidx.recyclerview.widget.RecyclerView-->
-    <!--android:id="@+id/rightRecyclerView"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_marginTop="10dp"-->
-    <!--android:layout_height="match_parent"/>-->
+                <com.makeramen.roundedimageview.RoundedImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/classify_content_top_item_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="106dp"
+                    android:src="@mipmap/banner"
+                    android:scaleType="fitXY"
+                    app:riv_corner_radius="5dp"
+                    app:riv_mutate_background="true"
+                    app:riv_oval="false"/>
 
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="132dp"-->
-    <!--android:layout_height="35dp"-->
-    <!--android:layout_marginBottom="20dp"-->
-    <!--android:layout_gravity="center_horizontal"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:background="@drawable/shape_corner_ify_btn"-->
-    <!--android:gravity="center">-->
+                <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rightRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="match_parent"/>
 
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="查看更多"-->
-    <!--android:textSize="11sp"-->
-    <!--android:gravity="center"-->
-    <!--android:textColor="@color/whit"/>-->
-    <!--<ImageView-->
-    <!--android:layout_width="6dp"-->
-    <!--android:layout_height="10dp"-->
-    <!--android:layout_marginLeft="5dp"-->
-    <!--android:src="@drawable/arrow_w"/>-->
-    <!--</LinearLayout>-->
 
-    <!--</LinearLayout>-->
+                <LinearLayout
+                android:layout_width="132dp"
+                android:layout_height="35dp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:background="@drawable/shape_corner_ify_btn"
+                android:gravity="center">
 
-    <!--</androidx.core.widget.NestedScrollView>-->
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看更多"
+                android:textSize="11sp"
+                android:gravity="center"
+                android:textColor="@color/whit"/>
+                <ImageView
+                android:layout_width="6dp"
+                android:layout_height="10dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/arrow_w"/>
+                </LinearLayout>
+
+                </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 </LinearLayout>

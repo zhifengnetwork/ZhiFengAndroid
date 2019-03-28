@@ -17,7 +17,7 @@ class RegistrationAdapter(private val context: Context, private val days: Int, p
     private var dayNumber: IntArray? = null
 
     private var viewHolder: ViewHolder? = null
-    private var a:Int=0
+    private var tab:Int=0//记录日期下标
     private var Date_array:Array<String> = arrayOf("2019-02-01","2019-02-13","2019-03-20","2019-10-09","2019-10-18")
 
     //接收日期处理方法
@@ -32,7 +32,8 @@ class RegistrationAdapter(private val context: Context, private val days: Int, p
           var mm:Int= e.split("-")[1].toInt()
            //截取日
           var dd:Int= e.split("-")[2].toInt()
-          if (yy==year&&mm==(month+1)&&dd==dayNumber!![a]){
+           //判断截取数据并在日历设置签到样式
+          if (yy==year&&mm==(month+1)&&dd==dayNumber!![tab]){
               viewHolder!!.day.setBackgroundResource(R.drawable.rili)
               viewHolder!!.sqly.setPadding(20, 20, 20, 20)
               viewHolder!!.day.text = ""
@@ -52,8 +53,13 @@ class RegistrationAdapter(private val context: Context, private val days: Int, p
 
 
     override fun getCount(): Int {
-
-        return 42
+       var i=0
+        if((week>4&&days>30)||(week>5&&days>29)){
+            i=42
+        }else{
+            i=35
+        }
+        return i
     }
 
     override fun getItem(i: Int): String? {
@@ -77,7 +83,7 @@ class RegistrationAdapter(private val context: Context, private val days: Int, p
         viewHolder!!.day.text = if (dayNumber!![i] == 0) "" else dayNumber!![i].toString() + ""
 
         //判断签到了的日子并显示样式
-        a=i
+        tab=i//记录日期下标
         Date()
 
         return view
