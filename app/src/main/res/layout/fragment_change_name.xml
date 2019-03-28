@@ -16,11 +16,13 @@
               android:layout_marginTop="20dp"
               android:hint="4-20字符，可有中英文，数字组成"/>
 
-    <TextView android:layout_width="match_parent" android:layout_height="40dp"
-              android:background="@drawable/shape_button"
+    <TextView android:layout_width="match_parent"
+              android:layout_height="40dp"
+              android:background="@drawable/selector_btn_big"
               android:textSize="15sp"
               android:textColor="@color/whit"
               android:gravity="center"
+              android:clickable="true"
               android:layout_marginTop="25dp"
               android:layout_marginLeft="15dp"
               android:layout_marginRight="15dp"

@@ -56,4 +56,6 @@
     <!--  遮挡布局颜色 -->
     <color name="color_pop_bottom">#33999999</color>
 
+    <color name="color_btn_press">#CA4300</color>
+
 </resources>

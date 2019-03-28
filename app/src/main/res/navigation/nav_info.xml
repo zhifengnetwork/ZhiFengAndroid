@@ -17,15 +17,6 @@
                 app:popEnterAnim="@anim/slide_in_left"
                 app:popExitAnim="@anim/slide_out_right"/>
 
-        <action
-                android:id="@+id/addressAction"
-                app:destination="@+id/addressFragment"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
-                app:popExitAnim="@anim/slide_out_right"/>
-
-
     </fragment>
 
     <fragment
@@ -42,25 +33,6 @@
                 app:popExitAnim="@anim/slide_out_right"/>
 
     </fragment>
-
-    <fragment android:id="@+id/addressFragment"
-              android:name="com.zf.mart.ui.fragment.info.AddressFragment"
-              android:label="地址管理"
-              tools:layout="@layout/fragment_address">
-
-        <action android:id="@+id/addressEditAction"
-                app:destination="@id/addressEditFragment"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
-                app:popExitAnim="@anim/slide_out_right"/>
-
-    </fragment>
-
-    <fragment android:id="@+id/addressEditFragment"
-              android:name="com.zf.mart.ui.fragment.info.AddressEditFragment"
-              android:label="编辑收货人"
-              tools:layout="@layout/fragment_address_edit"/>
 
     <fragment android:id="@+id/changeNameFragment"
               android:name="com.zf.mart.ui.fragment.info.ChangeNameFragment"

@@ -2,9 +2,13 @@ package com.zf.mart.ui.fragment.focus
 
 import android.app.Activity
 import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.RadioButton
+import android.widget.Space
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginRight
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
@@ -44,7 +48,6 @@ class FocusGoodsFragment : BaseFragment() {
         goodsRecyclerView.adapter = goodsAdapter
 
 
-
         //猜你喜欢的商品
         val manager = GridLayoutManager(context, 2)
         loveGoodsRecyclerView.layoutManager = manager
@@ -53,28 +56,15 @@ class FocusGoodsFragment : BaseFragment() {
 
 
         /** 动态添加筛选按钮 */
-        repeat(10) {
-            val radioBtn = RadioButton(context)
-            radioBtn.text = "有券$it"
-            /** 通过设置tag来区分选中哪个按钮 */
-            radioBtn.tag = it
-            radioBtn.buttonDrawable = null
-            radioBtn.textSize = 12f
-            //改变radioButton选中颜色用getColorStateList
-            radioBtn.setTextColor(ContextCompat.getColorStateList(context!!, R.color.selector_focus_condition))
-            radioBtn.background = ContextCompat.getDrawable(context!!, R.drawable.selector_focus_condition)
-            radioBtn.gravity = Gravity.CENTER
-            radioBtn.setPadding(
-                DensityUtil.dp2px(8f), DensityUtil.dp2px(2f),
-                DensityUtil.dp2px(8f), DensityUtil.dp2px(2f)
-            )
-            val lp = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            lp.setMargins(0, 0, DensityUtil.dp2px(20f), 0)
-            radioBtn.layoutParams = lp
-            radioGroup.addView(radioBtn)
+        repeat(8) {
+            val radioButton = layoutInflater.inflate(R.layout.radiobutton_tag, null) as RadioButton
+            radioButton.text = "有券$it"
+            radioButton.tag = it
+            radioGroup.addView(radioButton)
+            val spaceView = Space(context)
+            val lp = LinearLayout.LayoutParams(DensityUtil.dp2px(18f), 1)
+            spaceView.layoutParams = lp
+            radioGroup.addView(spaceView)
         }
 
 

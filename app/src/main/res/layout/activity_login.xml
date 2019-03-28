@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"  android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
         android:background="@drawable/ic_background"
         android:id="@+id/parentLayout"
         android:paddingLeft="12dp"
@@ -156,9 +156,10 @@
                 android:id="@+id/login"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/shape_button"
+                android:background="@drawable/selector_btn_big"
                 android:gravity="center"
                 android:layout_marginTop="40dp"
+                android:textSize="18sp"
                 android:textColor="@color/whit"
                 android:text="登录"/>
 
@@ -180,7 +181,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:id="@+id/forgetPwd"
                     android:textColor="@color/colorBlackText"
                     android:text="忘记密码"/>
@@ -192,7 +193,7 @@
             <TextView
                     android:id="@+id/register"
                     android:layout_width="wrap_content"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:textColor="#0051d8"
                     android:layout_height="wrap_content"
                     android:text="注册"/>

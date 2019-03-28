@@ -26,7 +26,7 @@ class ActionActivity : BaseActivity() {
         const val FLAG = "flag"
         const val AUCTION = "AUCTION"
         const val GROUP = "GROUP"
-        const val SECKILL = "SEC_KILL"
+        const val SEC_KILL = "SEC_KILL"
         fun actionStart(context: Context?, type: String) {
             val intent = Intent(context, ActionActivity::class.java)
             intent.putExtra(FLAG, type)
@@ -65,7 +65,7 @@ class ActionActivity : BaseActivity() {
                     findNavController(R.id.fragment).navigate(R.id.groupFragment)
                     group.id
                 }
-                SECKILL -> {
+                SEC_KILL -> {
                     findNavController(R.id.fragment).navigate(R.id.secKillFragment)
                     secKill.id
                 }

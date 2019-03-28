@@ -61,7 +61,6 @@ class FootActivity : BaseActivity() {
                 adapter.setIfCanEdit(false)
                 allChoose.isChecked = false
             }
-
         }
 
         /** 是否全部选中 */
@@ -77,7 +76,6 @@ class FootActivity : BaseActivity() {
                 //注意！！！不是removeAt(it)
                 days.removeAt(adapter.checkList[it])
             }
-
             adapter.notifyDataSetChanged()
             showToast("删除：" + adapter.checkList)
         }

@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.activity_search.*
 class SearchActivity : BaseActivity() {
 
     //搜索关键词
-    var mKeyWord = ""
+    private var mKeyWord = ""
 
     companion object {
         fun actionStart(context: Context?, keyWord: String) {

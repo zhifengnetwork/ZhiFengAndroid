@@ -73,7 +73,7 @@
             android:layout_alignTop="@+id/pay"
             android:layout_alignParentRight="true"
             android:layout_marginRight="12dp"
-            android:background="@drawable/shape_button"
+            android:background="@drawable/shape_button_small"
             android:gravity="center"
             android:text="马上抢"
             android:textColor="@color/whit"

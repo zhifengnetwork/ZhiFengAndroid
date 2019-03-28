@@ -20,21 +20,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-
-#----------- alibaba vLayout -------
--keepattributes InnerClasses
--keep class com.alibaba.android.vlayout.ExposeLinearLayoutManagerEx { *; }
--keep class android.support.v7.widget.RecyclerView$LayoutParams { *; }
--keep class android.support.v7.widget.RecyclerView$ViewHolder { *; }
--keep class android.support.v7.widget.ChildHelper { *; }
--keep class android.support.v7.widget.ChildHelper$Bucket { *; }
--keep class android.support.v7.widget.RecyclerView$LayoutManager { *; }
-
-
 #-----------处理实体类---------------
 # 在开发的时候我们可以将所有的实体类放在一个包内，这样写一次混淆就行了。
 -keep class com.zf.mart.mvp.bean.**{ *; }
-
 
 #---------- AlBum ---------
 -dontwarn com.yanzhenjie.album.**

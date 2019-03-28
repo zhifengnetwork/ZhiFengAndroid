@@ -15,21 +15,21 @@ import androidx.fragment.app.FragmentStatePagerAdapter
  */
 class BaseFragmentAdapter : FragmentStatePagerAdapter {
 
-    var fragmentList: List<BaseFragment>? = ArrayList()
+    var fragmentList: List<Fragment>? = ArrayList()
     private var mTitles: MutableList<String>? = null
 
-    constructor(fm: FragmentManager, fragmentList: List<BaseFragment>) : super(fm) {
+    constructor(fm: FragmentManager, fragmentList: List<Fragment>) : super(fm) {
         this.fragmentList = fragmentList
     }
 
-    constructor(fm: FragmentManager, fragmentList: List<BaseFragment>, mTitles: MutableList<String>) : super(fm) {
+    constructor(fm: FragmentManager, fragmentList: List<Fragment>, mTitles: MutableList<String>) : super(fm) {
         this.mTitles = mTitles
         setFragments(fm, fragmentList, mTitles)
     }
 
     //刷新fragment
     @SuppressLint("CommitTransaction")
-    private fun setFragments(fm: FragmentManager, fragments: List<BaseFragment>, mTitles: MutableList<String>) {
+    private fun setFragments(fm: FragmentManager, fragments: List<Fragment>, mTitles: MutableList<String>) {
         this.mTitles = mTitles
         if (this.fragmentList != null) {
             val ft = fm.beginTransaction()

@@ -146,9 +146,9 @@
             android:layout_height="50dp"
             android:text="下一步"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_marginTop="45dp"
             android:textColor="@color/whit"
-            android:background="@drawable/shape_auction_btn"/>
+            android:background="@drawable/selector_btn_big"/>
 
 </LinearLayout>

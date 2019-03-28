@@ -5,8 +5,6 @@ import android.content.Intent
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
-import com.zf.mart.MyApplication.Companion.context
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.ui.adapter.RegistrationAdapter

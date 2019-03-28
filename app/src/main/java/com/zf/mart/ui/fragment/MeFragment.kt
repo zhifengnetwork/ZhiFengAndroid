@@ -8,8 +8,8 @@ import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.ui.activity.*
-import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
 import com.zf.mart.ui.adapter.ColumnAdapter
+import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
 import com.zf.mart.view.RecDecoration
 import com.zf.mart.view.popwindow.SignSuccessPopupWindow
 import kotlinx.android.synthetic.main.fragment_me.*

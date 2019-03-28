@@ -1,13 +1,10 @@
 package com.zf.mart.ui.fragment
 
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.ui.adapter.DiscountAdapter
 import com.zf.mart.view.dialog.DiscountDialog
-import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.fragment_discount.*
 
 /**
@@ -39,7 +36,6 @@ class DiscountFragment : BaseFragment() {
         recyclerView.adapter = adapter
 
     }
-
 
 
     override fun initEvent() {
