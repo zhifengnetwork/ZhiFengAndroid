@@ -15,6 +15,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.LoginActivity"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -26,38 +27,47 @@
 
         <activity android:name=".ui.activity.MainActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.ActionActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.MyOrderActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.MyOrderSearchActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.FocusActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.InfoActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.WalletActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.DiscountActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.FootActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.SearchActivity"
@@ -66,113 +76,130 @@
 
         <activity android:name=".ui.activity.SearchOrderActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.OrderDetailActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
-
-        <!--<activity android:name=".ui.activity.LoginActivity"-->
-        <!--android:launchMode="singleTask"-->
-        <!--android:theme="@style/AppTheme.NoActionBar"/>-->
 
         <activity android:name=".ui.activity.RegisterActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.ResetPwdActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.SecKillDetailActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.SecKillPushActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.SecKillPayActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.GroupDetailActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.AuctionDetailActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.SearchMyOrderActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.IntegralActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.PickupActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.SigninGiftActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.BenefitActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.TeamActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.EvaluationActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.BonusActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
 
         <activity android:name=".ui.activity.MessageActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.TestUpHeadActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.InputPwdActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
 
         <activity android:name=".ui.activity.ChoiceActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
-
-
 
         <activity android:name=".ui.activity.AddressActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.AddressEditActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.ConfirmOrderActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
-
 
         <activity android:name=".ui.activity.SameGoodsActivity"
                   android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
-
 
     </application>
 

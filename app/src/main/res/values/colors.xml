@@ -27,6 +27,8 @@
 
     <color name="colorPrimaryText">#333333</color>
     <color name="colorSecondText">#666666</color>
+    <color name="colorThirdText">#999999</color>
+
 
     <color name="colorPrimaryBtn">#ff5722</color>
 
