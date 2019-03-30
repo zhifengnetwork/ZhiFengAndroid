@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 
@@ -25,7 +26,9 @@ class ClassifyRightconterAdapter1(val context: Context?) : RecyclerView.Adapter<
      override fun getItemCount(): Int=6
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
+        holder.itemView.setOnClickListener {
+            Toast.makeText(context,"点击了,里面"+position+"--", Toast.LENGTH_SHORT).show()
+        }
     }
 
     class oneViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

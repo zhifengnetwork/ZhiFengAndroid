@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.zf.mart.ui.fragment.classify.RecommendFragment
+import com.zf.mart.ui.fragment.classify.ClassifyRightFragment
 
 class ClassifyPagerAdapter(fm: FragmentManager, titleList: Array<String>): FragmentPagerAdapter(fm) {
     private val fragmentList = arrayOfNulls<Fragment>(titleList.size)
@@ -15,7 +15,7 @@ class ClassifyPagerAdapter(fm: FragmentManager, titleList: Array<String>): Fragm
 //            return TwoFragment.buildFragment(list[position])
 //        }
 
-        return RecommendFragment.buildFragment(list[position])
+        return ClassifyRightFragment.buildFragment(list[position])
     }
 
     override fun getCount(): Int {

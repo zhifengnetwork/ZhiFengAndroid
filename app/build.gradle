@@ -110,10 +110,14 @@ dependencies {
     // 首页的秒杀 无需混淆
     implementation 'com.github.paradoxie:AutoVerticalTextview:0.1'
 
-    //左右滑动列表
-    implementation 'com.github.lishide:ScrollRecyclerView:v1.0.0'
-
+    
     //精选底部图片轮播
     implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
+
+    //扫描二维码
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
+
+    //限权处理
+    implementation 'pub.devrel:easypermissions:0.2.0'
 
 }
