@@ -17,7 +17,7 @@ class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presen
                 mRootView?.apply {
                     dismissLoading()
                     when (it.status) {
-                        0 -> loginSuccess()
+                        0 -> loginSuccess(it.data)
                         else -> showError(it.msg, it.status)
                     }
                 }

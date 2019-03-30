@@ -156,6 +156,15 @@ class SearchOrderActivity : BaseActivity() {
         "koglin书",
         "java书",
         "从入门到放弃",
-        "盗版书"
+        "盗版书",
+        "热水器",
+        "充电线",
+        "华为p20",
+        "华为p20",
+        "华为p30",
+        "华为p40",
+        "华为p60"
+
+
     )
 }

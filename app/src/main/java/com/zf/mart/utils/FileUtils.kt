@@ -7,7 +7,7 @@ import android.provider.MediaStore
 
 object FileUtils {
 
-    fun pathToUri(context: Activity, picPath: String): Uri {
+    fun pathToUri(context: Activity, picPath: String): Uri? {
         /**
          *   path 转uri
          *   从这个格式       /storage/emulated/0/Android/data/com.takephoto_android70/1533109354195.jpg
@@ -17,22 +17,50 @@ object FileUtils {
          */
         val mUri = Uri.parse("content://media/external/images/media")
         var mImageUri: Uri? = null
-        val cursor = context.managedQuery(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                null, null, null, MediaStore.Images.Media.DEFAULT_SORT_ORDER)
-        cursor.moveToFirst()
 
-        while (!cursor.isAfterLast) {
-            val data = cursor.getString(cursor
-                    .getColumnIndex(MediaStore.MediaColumns.DATA))
-            if (picPath == data) {
-                val ringtoneID = cursor.getInt(cursor
-                        .getColumnIndex(MediaStore.MediaColumns._ID))
-                mImageUri = Uri.withAppendedPath(mUri, "" + ringtoneID)
-                return mImageUri
+        /**  下面这个方法过时了 */
+//        val cursor = context.managedQuery(
+//                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+//                null, null, null, MediaStore.Images.Media.DEFAULT_SORT_ORDER)
+
+        val cursor = context.contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            null, null, null, MediaStore.Images.Media.DEFAULT_SORT_ORDER
+        )
+
+        if (cursor != null) {
+
+            LogUtils.e(">>>>????图片不为空")
+
+            cursor.moveToFirst()
+            while (!cursor.isAfterLast) {
+                val data = cursor.getString(
+                    cursor
+                        .getColumnIndex(MediaStore.MediaColumns.DATA)
+                )
+
+                if (picPath == data) {
+                    val ringtoneID = cursor.getInt(
+                        cursor
+                            .getColumnIndex(MediaStore.MediaColumns._ID)
+                    )
+                    mImageUri = Uri.withAppendedPath(mUri, "" + ringtoneID)
+                    /** 关闭cursor，后面添加的 */
+                    cursor.close()
+
+
+                    LogUtils.e(">>>>imageUri" + mImageUri)
+
+                    return mImageUri
+                }
+                cursor.moveToNext()
             }
-            cursor.moveToNext()
+
+        } else {
+            LogUtils.e(">>>>>图片为空")
         }
-        return mImageUri!!
+
+        LogUtils.e(">>>>???????cccc" + mImageUri)
+        return mImageUri
     }
 }

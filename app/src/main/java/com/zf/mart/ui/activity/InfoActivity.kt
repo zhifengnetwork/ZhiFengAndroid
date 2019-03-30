@@ -12,7 +12,9 @@ import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.ToolBarHelper
 import kotlinx.android.synthetic.main.activity_info.*
 
+
 class InfoActivity : BaseActivity() {
+
 
     companion object {
         fun actionStart(context: Context?) {
@@ -23,27 +25,18 @@ class InfoActivity : BaseActivity() {
     override fun initToolBar() {
         StatusBarUtils.darkMode(
             this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
+            ContextCompat.getColor(this, com.zf.mart.R.color.colorSecondText),
             0.3f
         )
     }
 
     override fun layoutId(): Int = R.layout.activity_info
 
-    override fun initData() {
-    }
-
-    override fun initView() {
-    }
-
-    override fun initEvent() {
-
-    }
-
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         val host = supportFragmentManager.findFragmentById(R.id.infoFragment) as NavHostFragment
         val navController = host.navController
+
         /** 切换fragment更改标题 */
         navController.addOnDestinationChangedListener { _, destination, _ ->
             ToolBarHelper.addMiddleTitle(this, destination.label, toolBar)
@@ -67,6 +60,18 @@ class InfoActivity : BaseActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return findNavController(R.id.infoFragment).navigateUp()
+    }
+
+
+    override fun initData() {
+    }
+
+    override fun initView() {
+
+    }
+
+    override fun initEvent() {
+
     }
 
     override fun start() {

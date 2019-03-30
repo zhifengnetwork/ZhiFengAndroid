@@ -170,7 +170,7 @@ class HomeFragment : BaseFragment() {
 
         //秒杀
         action.setOnClickListener {
-            ActionActivity.actionStart(context, ActionActivity.SECKILL)
+            ActionActivity.actionStart(context, ActionActivity.SEC_KILL)
         }
 
         //顶部banner开始轮播

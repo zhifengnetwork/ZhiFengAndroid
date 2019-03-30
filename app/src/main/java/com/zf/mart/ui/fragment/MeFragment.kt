@@ -3,13 +3,18 @@ package com.zf.mart.ui.fragment
 import android.app.Activity
 import android.view.Gravity
 import android.widget.LinearLayout
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseFragment
+import com.zf.mart.livedata.UserInfoLiveData
 import com.zf.mart.ui.activity.*
-import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
 import com.zf.mart.ui.adapter.ColumnAdapter
+import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
+import com.zf.mart.utils.GlideUtils
+import com.zf.mart.utils.Preference
 import com.zf.mart.view.RecDecoration
 import com.zf.mart.view.popwindow.SignSuccessPopupWindow
 import kotlinx.android.synthetic.main.fragment_me.*
@@ -48,7 +53,15 @@ class MeFragment : BaseFragment() {
     }
 
     override fun lazyLoad() {
+        UserInfoLiveData.observe(viewLifecycleOwner, Observer { userInfo ->
+            userInfo?.apply {
+                userName.text = nickname
+                GlideUtils.loadUrlImage(context, head_pic, avatar)
+            }
+        })
     }
+
+    private val token by Preference(UriConstant.TOKEN, "")
 
     override fun initEvent() {
         //签到
@@ -90,7 +103,11 @@ class MeFragment : BaseFragment() {
 
         //个人资料
         headLayout.setOnClickListener {
-            InfoActivity.actionStart(context)
+            if (token.isNotEmpty()) {
+                InfoActivity.actionStart(context)
+            } else {
+                LoginActivity.actionStart(context)
+            }
         }
 
         //待付款

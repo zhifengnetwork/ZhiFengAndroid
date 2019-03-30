@@ -7,11 +7,16 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.mvp.bean.LoginBean
 import com.zf.mart.mvp.contract.LoginContract
 import com.zf.mart.mvp.presenter.LoginPresenter
+import com.zf.mart.net.exception.ErrorStatus
+import com.zf.mart.net.exception.ExceptionHandle
 import com.zf.mart.showToast
 import com.zf.mart.utils.CodeUtils
+import com.zf.mart.utils.Preference
 import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -23,26 +28,53 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         }
     }
 
-    override fun showLoading() {
-        showLoadingDialog()
-    }
-
-    override fun dismissLoading() {
-        dismissLoadingDialog()
-    }
-
     override fun initToolBar() {
         StatusBarUtils.darkMode(
             this,
             ContextCompat.getColor(this, R.color.colorSecondText),
             0.3f
         )
-
     }
 
     override fun layoutId(): Int = R.layout.activity_login
 
     override fun initData() {
+    }
+
+
+    private var token by Preference(UriConstant.TOKEN, "")
+
+    override fun loginSuccess(bean: LoginBean) {
+        //保存下token,并且跳转到主页
+        token = bean.token
+        MainActivity.actionStart(this)
+        finish()
+    }
+
+    override fun showError(msg: String, errorCode: Int) {
+        when (errorCode) {
+            //用户不存在
+            -1 -> {
+                phoneError.visibility = View.VISIBLE
+                pwdError.visibility = View.GONE
+            }
+            //密码错误
+            -2 -> {
+                phoneError.visibility = View.GONE
+                pwdError.visibility = View.VISIBLE
+            }
+            else -> {
+                showToast(msg)
+            }
+        }
+    }
+
+    override fun showLoading() {
+        showLoadingDialog()
+    }
+
+    override fun dismissLoading() {
+        dismissLoadingDialog()
     }
 
     private val loginPresenter by lazy { LoginPresenter() }
@@ -60,34 +92,13 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     private fun initCode() {
         val bmp = CodeUtils.getInstance().createBitmap()
         code.setImageBitmap(bmp)
+
+        /**  下面的代码要删除 */
+        codeInput.setText(CodeUtils.getInstance().code)
     }
 
-    override fun loginSuccess() {
-        MainActivity.actionStart(this)
-    }
-
-
-    override fun showError(msg: String, errorCode: Int) {
-        when (errorCode) {
-            //用户不存在
-            -1 -> {
-                phoneError.visibility = View.VISIBLE
-                pwdError.visibility = View.GONE
-            }
-            //密码错误
-            -2 -> {
-                phoneError.visibility = View.GONE
-                pwdError.visibility = View.VISIBLE
-            }
-            else -> showToast(msg)
-        }
-
-
-    }
 
     override fun initEvent() {
-
-
         /**
          * 要把这行删除。。。。。
          */
@@ -96,7 +107,6 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         }
 
         login.setOnClickListener {
-
             if (TextUtils.isEmpty(phone.text)) {
                 phoneError.visibility = View.VISIBLE
                 pwdError.visibility = View.GONE
@@ -108,9 +118,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
                 pwdError.visibility = View.GONE
                 if (codeInput.text.toString().equals(CodeUtils.getInstance().code, true)) {
                     codeHint.visibility = View.GONE
-
                     loginPresenter.requestLogin(phone.text.toString(), password.text.toString())
-
                 } else {
                     val bmp = CodeUtils.getInstance().createBitmap()
                     code.setImageBitmap(bmp)
@@ -125,6 +133,10 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
         password.addTextChangedListener {
             pwdError.visibility = View.GONE
+        }
+
+        codeInput.addTextChangedListener {
+            codeHint.visibility = View.GONE
         }
 
         register.setOnClickListener {

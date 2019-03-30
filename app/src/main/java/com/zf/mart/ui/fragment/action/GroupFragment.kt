@@ -19,16 +19,17 @@ class GroupFragment : BaseFragment() {
     private val adapter by lazy { GroupAdapter(context) }
 
     override fun initView() {
+        LogUtils.e(">>>>>>>GroupFragment initView")
 
         val layoutManager = GridLayoutManager(context, 2)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(RecDecoration(DensityUtil.dp2px(12f)))
 
-
     }
 
     override fun lazyLoad() {
+        LogUtils.e(">>>>>>>GroupFragment lazyLoad")
     }
 
     override fun initEvent() {

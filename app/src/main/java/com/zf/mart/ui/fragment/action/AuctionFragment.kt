@@ -5,6 +5,7 @@ import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.ui.activity.AuctionDetailActivity
 import com.zf.mart.ui.adapter.AuctionAdapter
+import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.fragment_auction.*
 
 /**
@@ -17,6 +18,7 @@ class AuctionFragment : BaseFragment() {
     private val adapter by lazy { AuctionAdapter(context) }
 
     override fun initView() {
+        LogUtils.e(">>>>>>AuctionFragment initView")
 
 
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -24,6 +26,7 @@ class AuctionFragment : BaseFragment() {
     }
 
     override fun lazyLoad() {
+        LogUtils.e(">>>>>>AuctionFragment lazyLoad")
     }
 
     override fun initEvent() {

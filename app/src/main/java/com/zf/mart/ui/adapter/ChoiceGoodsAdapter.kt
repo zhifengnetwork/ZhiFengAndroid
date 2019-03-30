@@ -22,17 +22,7 @@ class ChoiceGoodsAdapter (val context: Context?): RecyclerView.Adapter<ChoiceGoo
 
 
     override fun onBindViewHolder(holder: ChoiceGoodsAdapter.ViewHolder, position: Int) {
-        //        item 选定监听（OnItemSelectedListener）
-//        item 点击监听（OnItemClickListener）
-//        item 长按监听（OnItemLongClickListener）
-//        遥控器其他按键监听（OnItemKeyListener）
-//        holder.itemView.setFocusable(true)
-//        holder.itemView.setTag(position)
-//        holder.itemView.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
-//            if(hasFocus){
-//
-//            }
-//        }
+
      holder.itemView.setOnClickListener {
          when(position){
              0 -> Toast.makeText(context,"点击了xxx"+position, Toast.LENGTH_SHORT).show()

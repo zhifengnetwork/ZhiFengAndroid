@@ -5,6 +5,7 @@
                 android:layout_height="wrap_content">
 
     <CheckBox android:layout_width="wrap_content"
+              android:button="@null"
               android:drawableLeft="@drawable/selector_all_choose"
               android:textSize="12sp"
               android:layout_marginLeft="10dp"
@@ -12,11 +13,11 @@
               android:padding="10dp"
               android:textColor="@color/colorPrimaryText"
               android:layout_centerVertical="true"
-              android:button="@null"
               android:visibility="gone"
               android:layout_height="wrap_content"/>
 
-    <ImageView android:layout_width="75dp" android:layout_height="75dp"
+    <ImageView android:layout_width="75dp"
+               android:layout_height="75dp"
                android:layout_marginLeft="8dp"
                android:layout_toRightOf="@+id/checkBox"
                android:layout_marginTop="10dp"
@@ -24,7 +25,8 @@
                android:id="@+id/goodsIcon"
                android:src="@drawable/ic_figure"/>
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:maxLines="2"
               android:layout_toRightOf="@+id/goodsIcon"
               android:layout_alignTop="@+id/goodsIcon"
@@ -63,7 +65,8 @@
               android:layout_marginBottom="0dp"
               android:layout_alignBottom="@+id/goodsIcon"/>
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:id="@+id/hasEva"
               android:layout_toRightOf="@+id/hasPay"
               android:textSize="12sp"
@@ -72,7 +75,8 @@
               android:layout_alignTop="@+id/hasPay"
               android:text="已评价10"/>
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:layout_alignParentRight="true"
               android:background="@drawable/shape_round_red"
               android:textColor="@color/colorPrice"

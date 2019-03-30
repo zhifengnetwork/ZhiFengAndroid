@@ -5,7 +5,6 @@
                 android:paddingTop="15dp"
                 android:layout_height="wrap_content">
 
-
     <RelativeLayout
             android:background="@drawable/shape_round_line"
             android:layout_width="match_parent"
@@ -58,7 +57,7 @@
                 android:id="@+id/goAuction"
                 android:layout_width="75dp"
                 android:textColor="@color/whit"
-                android:background="#ff5722"
+                android:background="@drawable/shape_button_small"
                 android:layout_height="43dp"
                 android:layout_marginTop="25dp"
                 android:gravity="center"

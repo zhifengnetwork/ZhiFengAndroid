@@ -1,8 +1,8 @@
 package com.zf.mart.mvp.contract
 
-import android.view.View
 import com.zf.mart.base.IBaseView
 import com.zf.mart.base.IPresenter
+import com.zf.mart.mvp.bean.LoginBean
 
 interface LoginContract {
 
@@ -10,7 +10,7 @@ interface LoginContract {
 
         fun showError(msg: String, errorCode: Int)
 
-        fun loginSuccess()
+        fun loginSuccess(bean: LoginBean)
     }
 
     interface Presenter : IPresenter<View> {

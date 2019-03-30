@@ -37,14 +37,7 @@ class FocusShopFragment : BaseFragment() {
         /** 猜你喜欢店铺列表 */
         loveRecyclerView.layoutManager = LinearLayoutManager(context)
         loveRecyclerView.adapter = loveAdapter
-        loveRecyclerView.addItemDecoration(
-            RecyclerViewDivider(
-                context,
-                LinearLayoutManager.VERTICAL,
-                DensityUtil.dp2px(7f),
-                ContextCompat.getColor(context!!, R.color.colorBackground)
-            )
-        )
+
 
     }
 

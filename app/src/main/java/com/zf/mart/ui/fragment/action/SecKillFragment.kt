@@ -5,6 +5,7 @@ import androidx.viewpager.widget.ViewPager
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.base.BaseFragmentAdapter
+import com.zf.mart.base.NotLazyBaseFragment
 import com.zf.mart.ui.adapter.TopTimeAdapter
 import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.fragment_seckill.*
@@ -22,6 +23,7 @@ class SecKillFragment : BaseFragment() {
     private val data = ArrayList<String>()
 
     override fun initView() {
+        LogUtils.e(">>>>>>SecKillFragment initView")
 
         data.addAll(arrayListOf("07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00"))
 
@@ -37,14 +39,15 @@ class SecKillFragment : BaseFragment() {
             }
         })
 
-        val fgms = ArrayList<BaseFragment>()
+        val fgms = ArrayList<NotLazyBaseFragment>()
 
         repeat(data.size) {
-            fgms.add(SecKillPagerFragment.newInstance())
+            fgms.add(SecKillPagerFragment.newInstance(it))
         }
 
         val adapter = BaseFragmentAdapter(childFragmentManager, fgms, arrayListOf())
         viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = 1
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
             }
@@ -62,6 +65,8 @@ class SecKillFragment : BaseFragment() {
 
 
     override fun lazyLoad() {
+
+        LogUtils.e(">>>>>>SecKillFragment lazyLoad ")
 
         /**
          * 测试选中第三个
