@@ -21,7 +21,7 @@ object RetrofitManager {
 
     val service: ApiService by lazy { getRetrofit()!!.create(ApiService::class.java) }
 
-    private var token: String by Preference("token", "")
+    private var token: String by Preference(UriConstant.TOKEN, "")
 
     private fun getRetrofit(): Retrofit? {
         if (retrofit == null) {
@@ -39,7 +39,8 @@ object RetrofitManager {
                     client = OkHttpClient.Builder()
                         .addInterceptor(addQueryParameterInterceptor())  //参数添加
                         .addInterceptor(addHeaderInterceptor()) // token过滤
-                        .addInterceptor(addCacheInterceptor())
+//                        .addInterceptor(addCacheInterceptor()) //缓存
+//                        .addNetworkInterceptor(addCacheInterceptor()) //缓存
                         .addInterceptor(httpLoggingInterceptor) //日志,所有的请求响应度看到
                         .cache(cache)  //添加缓存
                         .connectTimeout(10L, TimeUnit.SECONDS)
@@ -50,12 +51,12 @@ object RetrofitManager {
                     // 获取retrofit的实例
                     retrofit = Retrofit.Builder()
                         .baseUrl(UriConstant.BASE_URL)  //自己配置
-                        .client(client!!)
+                        .client(client)
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         //默认的gSon解析
-//                        .addConverterFactory(GsonConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
                         //自定义gSon解析
-                        .addConverterFactory(JsonLoginFailConverterFactorykt.create())
+//                        .addConverterFactory(JsonLoginFailConverterFactorykt.create())
                         .build()
                 }
             }
@@ -88,7 +89,7 @@ object RetrofitManager {
             val originalRequest = chain.request()
             val requestBuilder = originalRequest.newBuilder()
                 // Provide your custom header here
-                .header("token", token)
+                .header("Token", token)
                 .method(originalRequest.method(), originalRequest.body())
             val request = requestBuilder.build()
             chain.proceed(request)
@@ -115,8 +116,8 @@ object RetrofitManager {
                     .removeHeader("Retrofit")// 清除头信息，因为服务器如果不支持，会返回一些干扰信息，不清除下面无法生效
                     .build()
             } else {
-                // 无网络时，设置超时为4周  只对get有用,post没有缓冲
-                val maxStale = 60 * 60 * 24 * 28
+                // 无网络时，设置超时为1周(7天)  只对get有用,post没有缓冲
+                val maxStale = 60 * 60 * 24 * 7
                 response.newBuilder()
                     .header("Cache-Control", "public, only-if-cached, max-stale=$maxStale")
                     .removeHeader("nyn")

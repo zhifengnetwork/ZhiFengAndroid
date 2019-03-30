@@ -2,32 +2,36 @@ package com.zf.mart.mvp.presenter
 
 import com.zf.mart.base.BasePresenter
 import com.zf.mart.mvp.contract.LoginContract
+import com.zf.mart.mvp.contract.OrderListContract
 import com.zf.mart.mvp.model.LoginModel
+import com.zf.mart.mvp.model.OrderListModel
 import com.zf.mart.net.exception.ExceptionHandle
 
-class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presenter {
+class OrderListPresenter : BasePresenter<OrderListContract.View>(), OrderListContract.Presenter {
 
-    private val model: LoginModel by lazy { LoginModel() }
-
-    override fun requestLogin(phone: String, pwd: String) {
+    override fun requestOrderList() {
         checkViewAttached()
-        mRootView?.showLoading()
-        val disposable = model.login(phone, pwd)
+        val disposable = model.requestOrderList()
             .subscribe({
                 mRootView?.apply {
-                    dismissLoading()
                     when (it.status) {
-                        0 -> loginSuccess(it.data)
-                        else -> showError(it.msg, it.status)
+                        0 -> {
+                            setOrderList(it.data)
+                        }
+                        else -> {
+                            showError(it.msg, it.status)
+                        }
                     }
                 }
             }, {
                 mRootView?.apply {
-                    dismissLoading()
                     showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
                 }
+
             })
         addSubscription(disposable)
     }
+
+    private val model: OrderListModel by lazy { OrderListModel() }
 
 }

@@ -19,8 +19,8 @@
                 android:layout_centerVertical="true"
                 android:id="@+id/userIcon"
                 android:layout_marginLeft="15dp"
-                android:layout_height="70dp"
-                android:src="@drawable/i"/>
+                android:src="@drawable/i"
+                android:layout_height="70dp"/>
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -28,20 +28,20 @@
                   android:layout_marginTop="10dp"
                   android:textSize="17sp"
                   android:layout_marginLeft="10dp"
-                  android:id="@+id/userName"
+                  android:id="@+id/nickName"
                   android:textColor="@color/colorBlackText"
                   android:textStyle="bold"
-                  android:text="Tony"/>
+                  android:text="登录/注册"/>
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:id="@+id/user"
-                  android:layout_below="@+id/userName"
-                  android:layout_alignLeft="@+id/userName"
+                  android:id="@+id/userName"
+                  android:layout_below="@+id/nickName"
+                  android:layout_alignLeft="@+id/nickName"
                   android:layout_marginTop="10dp"
                   android:textColor="#666666"
                   android:textSize="15sp"
-                  android:text="用户名:4545545454"/>
+                  android:text=""/>
 
         <ImageView android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
@@ -150,15 +150,17 @@
            android:layout_height="0dp"
            android:layout_weight="1"/>
 
-    <TextView android:layout_width="340dp"
-              android:layout_height="44dp"
-              android:clickable="true"
-              android:gravity="center"
-              android:background="@drawable/selector_btn_big"
-              android:textColor="@color/whit"
-              android:layout_gravity="center_horizontal"
-              android:textSize="15sp"
-              android:layout_marginBottom="25dp"
-              android:text="退出登录"/>
+    <TextView
+            android:id="@+id/logOut"
+            android:layout_width="340dp"
+            android:layout_height="44dp"
+            android:clickable="true"
+            android:gravity="center"
+            android:background="@drawable/selector_btn_big"
+            android:textColor="@color/whit"
+            android:layout_gravity="center_horizontal"
+            android:textSize="15sp"
+            android:layout_marginBottom="25dp"
+            android:text="退出登录"/>
 
 </LinearLayout>

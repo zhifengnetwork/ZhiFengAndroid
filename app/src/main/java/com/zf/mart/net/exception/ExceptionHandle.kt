@@ -40,7 +40,8 @@ class ExceptionHandle {
                 errorMsg = "网络连接异常"
                 errorCode = ErrorStatus.NETWORK_ERROR
             } else if (e is IllegalArgumentException) {
-                errorMsg = "参数错误"
+                //参数错误
+                errorMsg = "请求失败"
                 errorCode = ErrorStatus.SERVER_ERROR
             } else {//未知错误
                 try {
@@ -48,8 +49,7 @@ class ExceptionHandle {
                 } catch (e1: Exception) {
                     LogUtils.e("TAG", "未知错误Debug调试 ")
                 }
-
-                errorMsg = "未知错误~"
+                errorMsg = "请求失败，请稍后重试"
                 errorCode = ErrorStatus.UNKNOWN_ERROR
             }
             return errorMsg

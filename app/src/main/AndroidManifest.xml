@@ -14,16 +14,24 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.LoginActivity"
+
+        <activity android:name=".ui.activity.SplashActivity"
                   android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar">
+                  android:theme="@style/AppTheme.FullScreen">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
+
+        <activity android:name=".ui.activity.LoginActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.MainActivity"
                   android:launchMode="singleTask"
@@ -165,16 +173,10 @@
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".ui.activity.TestUpHeadActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar"/>
-
         <activity android:name=".ui.activity.InputPwdActivity"
                   android:launchMode="singleTask"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
-
 
         <activity android:name=".ui.activity.ChoiceActivity"
                   android:launchMode="singleTask"
@@ -197,6 +199,16 @@
                   android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ui.activity.SameGoodsActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.activity.UserActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.activity.ChangeNameActivity"
                   android:launchMode="singleTask"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>

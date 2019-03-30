@@ -2,19 +2,21 @@ package com.zf.mart.mvp.contract
 
 import com.zf.mart.base.IBaseView
 import com.zf.mart.base.IPresenter
-import com.zf.mart.mvp.bean.LoginBean
+import com.zf.mart.mvp.bean.OrderListBean
 
-interface LoginContract {
+interface OrderListContract {
 
     interface View : IBaseView {
 
         fun showError(msg: String, errorCode: Int)
 
-        fun loginSuccess(bean: LoginBean)
+        fun setOrderList(bean: OrderListBean)
+
     }
 
     interface Presenter : IPresenter<View> {
-        fun requestLogin(phone: String, pwd: String)
+
+        fun requestOrderList()
 
     }
 

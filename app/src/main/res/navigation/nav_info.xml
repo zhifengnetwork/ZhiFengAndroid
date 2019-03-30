@@ -9,34 +9,6 @@
               android:label="个人资料"
               tools:layout="@layout/fragment_info">
 
-        <action
-                android:id="@+id/userAction"
-                app:destination="@+id/userFragment"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
-                app:popExitAnim="@anim/slide_out_right"/>
-
     </fragment>
-
-    <fragment
-            android:id="@+id/userFragment"
-            android:label="个人资料"
-            tools:layout="@layout/fragment_user"
-            android:name="com.zf.mart.ui.fragment.info.UserFragment">
-
-        <action android:id="@+id/changeNameAction"
-                app:destination="@id/changeNameFragment"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
-                app:popExitAnim="@anim/slide_out_right"/>
-
-    </fragment>
-
-    <fragment android:id="@+id/changeNameFragment"
-              android:name="com.zf.mart.ui.fragment.info.ChangeNameFragment"
-              android:label="修改名称"
-              tools:layout="@layout/fragment_change_name"/>
 
 </navigation>

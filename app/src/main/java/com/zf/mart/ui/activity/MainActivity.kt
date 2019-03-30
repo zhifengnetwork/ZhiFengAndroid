@@ -4,19 +4,72 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.livedata.UserInfoLiveData
 import com.zf.mart.mvp.bean.TabEntity
+import com.zf.mart.mvp.bean.UserInfoBean
+import com.zf.mart.mvp.contract.UserInfoContract
+import com.zf.mart.mvp.presenter.UserInfoPresenter
 import com.zf.mart.showToast
-import com.zf.mart.ui.fragment.*
-import com.zf.mart.utils.StatusBarUtils
+import com.zf.mart.ui.fragment.ClassifyFragment
+import com.zf.mart.ui.fragment.HomeFragment
+import com.zf.mart.ui.fragment.MeFragment
+import com.zf.mart.ui.fragment.ShoppingCartFragment1
+import com.zf.mart.utils.LogUtils
+import com.zf.mart.utils.Preference
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), UserInfoContract.View {
+
+    private val userInfoPresenter by lazy { UserInfoPresenter() }
+
+    override fun setUserInfo(bean: UserInfoBean) {
+        showToast("请求成功,昵称：" + bean.nickname)
+        UserInfoLiveData.value = bean
+    }
+
+    override fun showError(msg: String, code: Int) {
+        showToast(msg)
+    }
+
+    override fun showLoading() {
+    }
+
+    override fun dismissLoading() {
+    }
+
+    override fun initView() {
+        userInfoPresenter.attachView(this)
+    }
+
+    override fun onDestroy() {
+        userInfoPresenter.detachView()
+        super.onDestroy()
+    }
+
+    private val token by Preference(UriConstant.TOKEN, "")
+
+    override fun start() {
+        requestUserInfo()
+    }
+
+    //退出登录->登录->再次进主页->同样要获取用户信息
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        requestUserInfo()
+    }
+
+    //newIntent()和start()
+    private fun requestUserInfo() {
+        if (token.isNotEmpty()) {
+            userInfoPresenter.requestUserInfo()
+        }
+    }
 
     companion object {
         fun actionStart(context: Context?) {
@@ -156,10 +209,5 @@ class MainActivity : BaseActivity() {
     override fun initData() {
     }
 
-    override fun initView() {
-    }
-
-    override fun start() {
-    }
 
 }

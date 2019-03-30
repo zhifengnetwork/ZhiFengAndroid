@@ -79,6 +79,7 @@ class AddressEditActivity : BaseActivity() {
             inputEditText.isSelected = false
             unSelectedCustom()
             homeRb.isSelected = !homeRb.isSelected
+            closeKeyBord(inputEditText, this)
         }
         companyRb.setOnClickListener {
             homeRb.isSelected = false
@@ -87,6 +88,7 @@ class AddressEditActivity : BaseActivity() {
             inputEditText.isSelected = false
             unSelectedCustom()
             companyRb.isSelected = !companyRb.isSelected
+            closeKeyBord(inputEditText, this)
         }
         schoolRb.setOnClickListener {
             homeRb.isSelected = false
@@ -95,12 +97,15 @@ class AddressEditActivity : BaseActivity() {
             inputEditText.isSelected = false
             unSelectedCustom()
             schoolRb.isSelected = !schoolRb.isSelected
+            closeKeyBord(inputEditText, this)
         }
         customRb.setOnClickListener {
             customRb.visibility = View.GONE
             editTagLayout.visibility = View.VISIBLE
             editTextView.isSelected = true
+            //获取焦点并且显示键盘
             inputEditText.requestFocus()
+            openKeyBord(inputEditText, this)
         }
 
         inputEditText.addTextChangedListener(object : TextWatcher {
@@ -144,6 +149,8 @@ class AddressEditActivity : BaseActivity() {
                     inputEditText.isFocusableInTouchMode = false
                     inputEditText.isSelected = true
                     editTextView.isSelected = !editTextView.isSelected
+                    //关闭键盘
+                    closeKeyBord(inputEditText, this)
                 }
             } else {
                 editTextView.text = "完成"
@@ -152,7 +159,8 @@ class AddressEditActivity : BaseActivity() {
                 inputEditText.isSelected = false
                 editTextView.isSelected = !editTextView.isSelected
                 inputEditText.requestFocus()
-
+                //打开键盘
+                openKeyBord(inputEditText, this)
             }
         }
     }
