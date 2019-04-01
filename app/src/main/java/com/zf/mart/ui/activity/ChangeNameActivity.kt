@@ -7,13 +7,16 @@ import androidx.core.content.ContextCompat
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.utils.StatusBarUtils
+import kotlinx.android.synthetic.main.activity_change_name.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class ChangeNameActivity : BaseActivity() {
 
     companion object {
-        fun actionStart(context: Context?) {
-            context?.startActivity(Intent(context, ChangeNameActivity::class.java))
+        fun actionStart(context: Context?, nickName: String) {
+            val intent = Intent(context, ChangeNameActivity::class.java)
+            intent.putExtra("nickName", nickName)
+            context?.startActivity(intent)
         }
     }
 
@@ -26,10 +29,14 @@ class ChangeNameActivity : BaseActivity() {
 
     override fun layoutId(): Int = R.layout.activity_change_name
 
+    private var mNickName = ""
+
     override fun initData() {
+        mNickName = intent.getStringExtra("nickName")
     }
 
     override fun initView() {
+        nickName.setText(mNickName)
     }
 
     override fun initEvent() {

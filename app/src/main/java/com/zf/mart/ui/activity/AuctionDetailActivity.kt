@@ -33,7 +33,6 @@ class AuctionDetailActivity : BaseActivity() {
         back.setOnClickListener { finish() }
         titleName.text = "竞拍"
         rightLayout.visibility = View.INVISIBLE
-
     }
 
     override fun layoutId(): Int = R.layout.activity_auction_detail
@@ -43,7 +42,6 @@ class AuctionDetailActivity : BaseActivity() {
 
     private val adapter by lazy { AuctionPeopleAdapter(this) }
 
-
     override fun initView() {
         val manager = LinearLayoutManager(this)
         manager.orientation = LinearLayoutManager.HORIZONTAL
@@ -52,7 +50,6 @@ class AuctionDetailActivity : BaseActivity() {
     }
 
     override fun initEvent() {
-
 
         confirm.setOnClickListener {
             AuctionSuccessDialog.showDialog(supportFragmentManager)

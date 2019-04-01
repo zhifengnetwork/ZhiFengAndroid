@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
-import com.zf.mart.ui.activity.OrderDetailActivity
-import com.zf.mart.utils.LogUtils
+import com.zf.mart.ui.activity.GoodsDetailActivity
 import kotlinx.android.synthetic.main.item_order_two.view.*
 import kotlinx.android.synthetic.main.item_search_order.view.*
 
@@ -45,7 +44,7 @@ class SearchOrderAdapter(val context: Context, val data: List<String>) :
             }
 
             setOnClickListener {
-                OrderDetailActivity.actionStart(context)
+                GoodsDetailActivity.actionStart(context)
             }
 
         }

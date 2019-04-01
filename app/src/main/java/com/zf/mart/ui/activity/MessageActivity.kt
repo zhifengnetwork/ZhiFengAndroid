@@ -36,7 +36,7 @@ class MessageActivity : BaseActivity() {
 
     override fun initView() {
         val titles = arrayListOf("站内", "消息")
-        val fmgs = arrayListOf(MessageFragment.newInstance(), MessageFragment.newInstance())
+        val fmgs = listOf(MessageFragment.newInstance(), MessageFragment.newInstance())
         val adapter = BaseFragmentAdapter(supportFragmentManager, fmgs, titles)
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)

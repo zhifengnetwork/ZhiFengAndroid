@@ -87,7 +87,7 @@
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".ui.activity.OrderDetailActivity"
+        <activity android:name=".ui.activity.GoodsDetailActivity"
                   android:launchMode="singleTask"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>

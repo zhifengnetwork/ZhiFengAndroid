@@ -8,15 +8,23 @@ interface OrderListContract {
 
     interface View : IBaseView {
 
+        fun loadMoreError(msg: String, errorCode: Int)
+
         fun showError(msg: String, errorCode: Int)
 
-        fun setOrderList(bean: OrderListBean)
+        fun setFinishRefresh(bean: List<OrderListBean>)
+
+        fun setFinishLoadMore(bean: List<OrderListBean>)
+
+        fun setEmptyOrder()
+
+        fun setLoadComplete()
 
     }
 
     interface Presenter : IPresenter<View> {
 
-        fun requestOrderList()
+        fun requestOrderList(type: String, page: Int?)
 
     }
 

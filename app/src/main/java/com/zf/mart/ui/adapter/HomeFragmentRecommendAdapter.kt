@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
-import com.zf.mart.ui.activity.OrderDetailActivity
+import com.zf.mart.ui.activity.GoodsDetailActivity
 
 class HomeFragmentRecommendAdapter(val context: Context?, val data: List<String>) :
     RecyclerView.Adapter<HomeFragmentRecommendAdapter.ViewHolder>() {
@@ -22,7 +22,7 @@ class HomeFragmentRecommendAdapter(val context: Context?, val data: List<String>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
             setOnClickListener {
-                OrderDetailActivity.actionStart(context)
+                GoodsDetailActivity.actionStart(context)
             }
         }
     }

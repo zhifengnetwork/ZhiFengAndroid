@@ -77,7 +77,7 @@ class MyOrderActivity : BaseActivity() {
 
         val adapter = BaseFragmentAdapter(supportFragmentManager, fragments, titles)
         viewPager.adapter = adapter
-        viewPager.offscreenPageLimit = 1
+        viewPager.offscreenPageLimit = 5
         tabLayout.setViewPager(viewPager)
 
         tabLayout.currentTab = when (flag) {

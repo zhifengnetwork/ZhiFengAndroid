@@ -24,7 +24,6 @@ class UploadHeadPresenter : BasePresenter<UploadHeadContract.View>(), UploadHead
                         -2 -> showError(it.data, it.status)
                         else -> showError(it.msg, it.status)
                     }
-
                 }
             }, {
                 mRootView?.apply {

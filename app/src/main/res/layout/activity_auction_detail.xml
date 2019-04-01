@@ -4,9 +4,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
+        android:background="@color/whit"
         android:orientation="vertical">
 
     <include layout="@layout/layout_toolbar"/>
+
+    <View android:layout_width="match_parent"
+          android:layout_height="1px"
+          android:background="@color/colorLine"/>
 
     <androidx.core.widget.NestedScrollView
             android:overScrollMode="never"
@@ -15,14 +20,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
         <LinearLayout
                 android:orientation="vertical"
-                android:background="@color/whit"
                 android:layout_marginBottom="52dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
 
             <TextView android:layout_width="200dp"
                       android:textColor="@color/colorPrice"
@@ -78,21 +80,24 @@
                           android:layout_height="wrap_content"
                           android:text="起拍"/>
 
-                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:layout_alignBottom="@+id/price"
-                              android:layout_alignRight="@+id/goodsIcon"
-                              android:paddingLeft="10dp"
-                              android:paddingTop="4dp"
-                              android:background="@drawable/shape_round_line"
-                              android:paddingBottom="4dp"
-                              android:paddingRight="12dp"
-                              android:gravity="center_vertical"
-                              android:orientation="horizontal">
+                <LinearLayout
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/price"
+                        android:layout_alignRight="@+id/goodsIcon"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="4dp"
+                        android:background="@drawable/shape_round_line"
+                        android:paddingBottom="4dp"
+                        android:paddingRight="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    <ImageView android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
                                android:src="@drawable/i"/>
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
                               android:textSize="14sp"
                               android:textColor="@color/colorBlackText"
                               android:layout_marginLeft="7dp"
@@ -114,7 +119,8 @@
 
             </RelativeLayout>
 
-            <View android:layout_width="match_parent" android:layout_height="1dp"
+            <View android:layout_width="match_parent"
+                  android:layout_height="1dp"
                   android:background="@color/colorBackground"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -124,7 +130,8 @@
                     android:layout_marginTop="10dp"
                     android:layout_height="wrap_content"/>
 
-            <View android:layout_width="match_parent" android:layout_height="1dp"
+            <View android:layout_width="match_parent"
+                  android:layout_height="1dp"
                   android:layout_marginTop="10dp"
                   android:background="@color/colorBackground"/>
 
@@ -134,11 +141,13 @@
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                              android:gravity="center_vertical"
-                              android:paddingTop="7dp"
-                              android:paddingBottom="7dp"
-                              android:orientation="horizontal">
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="7dp"
+                        android:orientation="horizontal">
 
                     <ImageView android:layout_width="wrap_content"
                                android:layout_height="wrap_content"

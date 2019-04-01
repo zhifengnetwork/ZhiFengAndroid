@@ -49,7 +49,11 @@ interface ApiService {
     /**
      * 订单列表
      */
-    @GET("api/user/register")
-    fun getOrderList(): Observable<BaseBean<OrderListBean>>
+    @GET("api/order/order_list")
+    fun getOrderList(
+        @Query("type") type: String,
+        @Query("page") page: Int,
+        @Query("perPage") perPage: Int
+    ): Observable<BaseBean<List<OrderListBean>>>
 
 }

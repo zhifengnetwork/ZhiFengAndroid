@@ -9,7 +9,7 @@ interface UserInfoContract {
 
         fun setUserInfo(bean:UserInfoBean)
 
-        fun showError(msg: String, code: Int)
+        fun showError(msg: String, errorCode: Int)
     }
 
     interface Presenter : IPresenter<View> {

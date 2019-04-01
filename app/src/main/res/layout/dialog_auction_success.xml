@@ -42,10 +42,9 @@
                   android:textColor="@color/whit"
                   android:id="@+id/confirm"
                   android:textSize="14sp"
-                  android:layout_marginBottom="11dp"
+                  android:layout_marginBottom="15dp"
                   android:text="付款购买"/>
 
     </LinearLayout>
-
 
 </androidx.cardview.widget.CardView>

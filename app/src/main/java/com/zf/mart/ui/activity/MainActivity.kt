@@ -20,7 +20,6 @@ import com.zf.mart.ui.fragment.ClassifyFragment
 import com.zf.mart.ui.fragment.HomeFragment
 import com.zf.mart.ui.fragment.MeFragment
 import com.zf.mart.ui.fragment.ShoppingCartFragment1
-import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.Preference
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -29,7 +28,6 @@ class MainActivity : BaseActivity(), UserInfoContract.View {
     private val userInfoPresenter by lazy { UserInfoPresenter() }
 
     override fun setUserInfo(bean: UserInfoBean) {
-        showToast("请求成功,昵称：" + bean.nickname)
         UserInfoLiveData.value = bean
     }
 
@@ -85,16 +83,16 @@ class MainActivity : BaseActivity(), UserInfoContract.View {
 
     }
 
-    private val mTitles = arrayOf("首页", "分类", "购物车", "我的")
+    private val mTitles = listOf("首页", "分类", "购物车", "我的")
 
-    private val mIconUnSelectIds = intArrayOf(
+    private val mIconUnSelectIds = listOf(
         R.drawable.ic_sy,
         R.drawable.ic_fl,
         R.drawable.ic_gwc,
         R.drawable.ic_wo
     )
 
-    private val mIconSelectIds = intArrayOf(
+    private val mIconSelectIds = listOf(
         R.drawable.ic_sy_se,
         R.drawable.ic_fl_se,
         R.drawable.ic_gwc_se,

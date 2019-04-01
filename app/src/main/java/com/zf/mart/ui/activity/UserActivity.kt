@@ -15,8 +15,11 @@ import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.base.BaseBean
 import com.zf.mart.livedata.UserInfoLiveData
+import com.zf.mart.mvp.bean.UserInfoBean
 import com.zf.mart.mvp.contract.UploadHeadContract
+import com.zf.mart.mvp.contract.UserInfoContract
 import com.zf.mart.mvp.presenter.UploadHeadPresenter
+import com.zf.mart.mvp.presenter.UserInfoPresenter
 import com.zf.mart.showToast
 import com.zf.mart.utils.DurbanUtils
 import com.zf.mart.utils.GlideUtils
@@ -31,9 +34,16 @@ import okhttp3.RequestBody
 import java.io.File
 import java.util.*
 
-class UserActivity : BaseActivity(), UploadHeadContract.View {
+class UserActivity : BaseActivity(), UploadHeadContract.View, UserInfoContract.View {
 
+    //获取用户资料
+    override fun setUserInfo(bean: UserInfoBean) {
+        UserInfoLiveData.value = bean
+    }
+
+    //头像上传成功
     override fun setHead(bean: BaseBean<String>) {
+        showToast(resources.getString(R.string.img_success))
         GlideUtils.loadUrlImage(this, bean.data, avatar)
     }
 
@@ -51,6 +61,7 @@ class UserActivity : BaseActivity(), UploadHeadContract.View {
 
 
     companion object {
+        const val REQUEST_CODE = 11
         fun actionStart(context: Context?) {
             context?.startActivity(Intent(context, UserActivity::class.java))
         }
@@ -63,21 +74,22 @@ class UserActivity : BaseActivity(), UploadHeadContract.View {
         rightLayout.visibility = View.INVISIBLE
     }
 
-    private val REQUEST_CODE = 11
-
     override fun layoutId(): Int = R.layout.activity_user
 
     override fun initData() {
     }
 
     private val upHeadPresenter by lazy { UploadHeadPresenter() }
+    private val userInfoPresenter by lazy { UserInfoPresenter() }
 
     override fun initView() {
         upHeadPresenter.attachView(this)
+        userInfoPresenter.attachView(this)
     }
 
     override fun onDestroy() {
         upHeadPresenter.detachView()
+        userInfoPresenter.detachView()
         super.onDestroy()
     }
 
@@ -163,11 +175,14 @@ class UserActivity : BaseActivity(), UploadHeadContract.View {
         }
 
         nickNameLayout.setOnClickListener {
-            ChangeNameActivity.actionStart(this)
+            ChangeNameActivity.actionStart(this, nickName.text.toString())
         }
     }
 
     override fun start() {
+
+        userInfoPresenter.requestUserInfo()
+
         UserInfoLiveData.observe(this, androidx.lifecycle.Observer { userInfo ->
             userInfo?.apply {
                 GlideUtils.loadUrlImage(this@UserActivity, head_pic, avatar)

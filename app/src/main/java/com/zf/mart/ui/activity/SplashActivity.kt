@@ -24,8 +24,6 @@ class SplashActivity : BaseActivity() {
     override fun initData() {
     }
 
-    private val token by Preference(UriConstant.TOKEN, "")
-
     override fun initView() {
         /**  隐藏虚拟按键，以保证启动图不会变形  */
         hideBottomUi()
@@ -47,11 +45,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun finishAnimation() {
-//        if (token.isNotEmpty()) {
         MainActivity.actionStart(this)
-//        } else {
-//            LoginActivity.actionStart(this)
-//        }
         finish()
     }
 

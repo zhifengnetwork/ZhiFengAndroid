@@ -7,17 +7,20 @@
 
     <include layout="@layout/layout_toolbar"/>
 
-    <EditText android:layout_width="match_parent" android:layout_height="45dp"
-              android:background="@drawable/shape_input_white"
-              android:layout_marginLeft="15dp"
-              android:layout_marginRight="15dp"
-              android:textSize="12sp"
-              android:singleLine="true"
-              android:paddingLeft="15dp"
-              android:paddingRight="15dp"
-              android:maxLength="20"
-              android:layout_marginTop="20dp"
-              android:hint="4-20字符，可有中英文，数字组成"/>
+    <EditText
+            android:id="@+id/nickName"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/shape_input_white"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textSize="12sp"
+            android:singleLine="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:maxLength="20"
+            android:layout_marginTop="20dp"
+            android:hint="4-20字符，可有中英文，数字组成"/>
 
     <TextView android:layout_width="match_parent"
               android:layout_height="40dp"
