@@ -25,7 +25,6 @@ import kotlinx.android.synthetic.main.fragment_shoping_cart.*
  */
 class ShoppingCartFragment1 : BaseFragment() {
 
-
     companion object {
         fun getInstance(): ShoppingCartFragment1 {
             return ShoppingCartFragment1()
@@ -59,7 +58,6 @@ class ShoppingCartFragment1 : BaseFragment() {
         initCart()
 
         initRefresh()
-
     }
 
     private fun initRefresh() {
@@ -87,7 +85,6 @@ class ShoppingCartFragment1 : BaseFragment() {
     }
 
     override fun initEvent() {
-
 
         cartAdapter.onShopNumListener = {
             InputNumDialog.showDialog(childFragmentManager, it)

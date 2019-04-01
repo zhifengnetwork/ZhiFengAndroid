@@ -4,15 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
-import com.zf.mart.ui.adapter.MyOrderAdapter
+import com.zf.mart.ui.fragment.MyOrderFragment
 import com.zf.mart.utils.StatusBarUtils
-import com.zf.mart.view.recyclerview.RecyclerViewDivider
-import kotlinx.android.synthetic.main.activity_search_my_order.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+
 
 /**
  * 我的订单搜索结果
@@ -24,8 +21,6 @@ class SearchMyOrderActivity : BaseActivity() {
             context?.startActivity(Intent(context, SearchMyOrderActivity::class.java))
         }
     }
-
-    private val adapter by lazy { MyOrderAdapter(this) }
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(this, ContextCompat.getColor(this, R.color.colorSecondText), 0.3f)
@@ -39,16 +34,19 @@ class SearchMyOrderActivity : BaseActivity() {
     override fun initData() {
     }
 
-    override fun initView() {
+    private var searchOrderFragment: MyOrderFragment? = null
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(
-            RecyclerViewDivider(
-                this, LinearLayoutManager.VERTICAL,
-                DensityUtil.dp2px(10f), ContextCompat.getColor(this, R.color.colorBackground)
-            )
-        )
+    override fun initView() {
+        val fragmentManager = supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        searchOrderFragment?.let {
+            transaction.show(it)
+        }
+            ?: MyOrderFragment.newInstance("search").let {
+                searchOrderFragment = it
+                transaction.add(R.id.searchFragment, it)
+            }
+        transaction.commit()
     }
 
     override fun initEvent() {

@@ -31,7 +31,7 @@ class MainActivity : BaseActivity(), UserInfoContract.View {
         UserInfoLiveData.value = bean
     }
 
-    override fun showError(msg: String, code: Int) {
+    override fun showError(msg: String, errorCode: Int) {
         showToast(msg)
     }
 

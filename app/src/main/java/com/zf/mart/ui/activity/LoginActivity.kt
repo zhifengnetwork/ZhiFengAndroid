@@ -12,8 +12,6 @@ import com.zf.mart.base.BaseActivity
 import com.zf.mart.mvp.bean.LoginBean
 import com.zf.mart.mvp.contract.LoginContract
 import com.zf.mart.mvp.presenter.LoginPresenter
-import com.zf.mart.net.exception.ErrorStatus
-import com.zf.mart.net.exception.ExceptionHandle
 import com.zf.mart.showToast
 import com.zf.mart.utils.CodeUtils
 import com.zf.mart.utils.Preference

@@ -2,6 +2,7 @@ package com.zf.mart.api
 
 
 import com.zf.mart.base.BaseBean
+import com.zf.mart.mvp.bean.AddressBean
 import com.zf.mart.mvp.bean.LoginBean
 import com.zf.mart.mvp.bean.OrderListBean
 import com.zf.mart.mvp.bean.UserInfoBean
@@ -55,5 +56,11 @@ interface ApiService {
         @Query("page") page: Int,
         @Query("perPage") perPage: Int
     ): Observable<BaseBean<List<OrderListBean>>>
+
+    /**
+     * 地址列表
+     */
+    @GET("api/user/address_list")
+    fun getAddressList(): Observable<BaseBean<List<AddressBean>>>
 
 }

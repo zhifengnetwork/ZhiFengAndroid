@@ -2,7 +2,12 @@ package com.zf.mart.api
 
 object UriConstant {
 
-    const val BASE_URL = "http://www.dchqzg1688.com/"
+//    const val BASE_URL = "http://www.dchqzg1688.com/"
+
+    const val BASE_URL = "http://mobile.zhifengwangluo.c3w.cc/"
+
+    //mobile.zhifengwangluo.c3w.cc
+
     const val LANGUAGE = "language"
 
     const val TOKEN = "token"

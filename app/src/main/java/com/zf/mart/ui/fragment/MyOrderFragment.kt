@@ -7,7 +7,6 @@ import com.zf.mart.mvp.bean.OrderListBean
 import com.zf.mart.mvp.contract.OrderListContract
 import com.zf.mart.mvp.presenter.OrderListPresenter
 import com.zf.mart.net.exception.ErrorStatus
-import com.zf.mart.net.exception.ExceptionHandle
 import com.zf.mart.showToast
 import com.zf.mart.ui.activity.MyOrderActivity
 import com.zf.mart.ui.adapter.MyOrderAdapter
@@ -41,16 +40,16 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View {
     override fun setFinishRefresh(bean: List<OrderListBean>) {
         refreshLayout.setEnableLoadMore(true)
         mLayoutStatusView?.showContent()
-        /**
-         * 渲染数据
-         */
+        orderListData.clear()
+        orderListData.addAll(bean)
+        adapter.notifyDataSetChanged()
+
     }
 
     //加载下一页数据完成，渲染数据
     override fun setFinishLoadMore(bean: List<OrderListBean>) {
-        /**
-         * 渲染数据
-         */
+        orderListData.addAll(bean)
+        adapter.notifyDataSetChanged()
     }
 
     //加载完全部
@@ -81,7 +80,7 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View {
 
     private val orderListData = ArrayList<OrderListBean>()
 
-    private val adapter by lazy { MyOrderAdapter(context) }
+    private val adapter by lazy { MyOrderAdapter(context, orderListData) }
 
     override fun initView() {
         mLayoutStatusView = multipleStatusView
@@ -94,6 +93,7 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View {
     private val orderListPresenter by lazy { OrderListPresenter() }
 
     override fun lazyLoad() {
+        //暂时不请求网络，先注释
         if (orderListData.isEmpty()) {
             mLayoutStatusView?.showLoading()
         }
@@ -118,15 +118,19 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View {
                 orderListPresenter.requestOrderList("", page)
             }
             MyOrderActivity.waitPay -> {
-                orderListPresenter.requestOrderList("", page)
+                orderListPresenter.requestOrderList("WAITPAY", page)
             }
             MyOrderActivity.waiSend -> {
-                orderListPresenter.requestOrderList("", page)
+                orderListPresenter.requestOrderList("WAITSEND", page)
             }
             MyOrderActivity.waitTake -> {
-                orderListPresenter.requestOrderList("", page)
+                orderListPresenter.requestOrderList("WAITRECEIVE", page)
             }
             MyOrderActivity.waitEva -> {
+                orderListPresenter.requestOrderList("WAITCCOMMENT", page)
+            }
+            else -> {
+                //搜索订单
                 orderListPresenter.requestOrderList("", page)
             }
         }

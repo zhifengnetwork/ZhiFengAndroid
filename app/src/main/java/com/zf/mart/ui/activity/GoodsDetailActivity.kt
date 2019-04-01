@@ -36,7 +36,7 @@ import kotlinx.android.synthetic.main.layout_detail_same.*
 import kotlinx.android.synthetic.main.pop_detail_share.view.*
 
 /**
- * 订单详情
+ * 商品详情
  */
 class GoodsDetailActivity : BaseActivity() {
 

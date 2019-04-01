@@ -1,52 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:background="@color/whit"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="vertical">
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="交易成功"/>
+
+    </RelativeLayout>
+
+    <include layout="@layout/layout_en_order_address"/>
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:orientation="horizontal">
-
-        <TextView
-                android:id="@+id/addTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="11sp"
-                android:textColor="@color/colorBlackText"
-                android:text="2019/02/03  00:25:50"/>
-
-        <Space android:layout_width="0dp"
-               android:layout_height="1dp"
-               android:layout_weight="1"/>
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:textSize="12sp"
-                  android:layout_marginRight="10dp"
-                  android:textColor="#f20c0c"
-                  android:text="等待买家使用"/>
+                  android:text="店铺名称"/>
 
-        <ImageView android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:src="@drawable/ic_delete"/>
+        <ImageView android:layout_width="30dp"
+                   android:layout_height="30dp"
+                   android:src="@drawable/i"/>
 
     </LinearLayout>
 
     <View android:layout_width="match_parent"
-          android:layout_height="1dp"
-          android:background="@color/colorBackground"
-          android:layout_marginLeft="10dp"
-          android:layout_marginRight="10dp"/>
+          android:layout_height="1px"
+          android:background="@color/colorLine"/>
 
     <RelativeLayout
             android:layout_marginTop="10dp"
@@ -119,57 +111,26 @@
 
     </RelativeLayout>
 
-    <View android:layout_width="match_parent"
-          android:layout_height="1dp"
-          android:background="@color/colorBackground"
-          android:layout_marginLeft="10dp"
-          android:layout_marginTop="10dp"
-          android:layout_marginRight="10dp"/>
+    <include layout="@layout/layout_order_operation"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"/>
+
+    <include layout="@layout/layout_detail_price"/>
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="20dp"
             android:orientation="horizontal">
 
-        <TextView
-                android:id="@+id/shopName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/colorPrimaryText"
-                android:text="欧欧记"/>
-
-        <Space android:layout_width="0dp"
-               android:layout_height="1dp"
-               android:layout_weight="1"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="实付款"/>
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:textSize="12sp"
-                  android:textColor="@color/colorPrimaryText"
-                  android:text="共2件"/>
-
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textSize="12sp"
-                  android:textColor="@color/colorPrimaryText"
-                  android:layout_marginLeft="10dp"
-                  android:text="应付总额"/>
-
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="10dp"
-                  android:textSize="15sp"
-                  android:textColor="#f72c0b"
-                  android:text="￥256.00"/>
+                  android:text="￥333"/>
 
     </LinearLayout>
 
-    <include layout="@layout/layout_order_operation"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"/>
 
 </LinearLayout>
