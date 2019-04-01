@@ -14,7 +14,6 @@ import androidx.viewpager.widget.ViewPager
 
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
-import com.zf.mart.MyApplication.Companion.context
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.mvp.bean.TabEntity
@@ -26,7 +25,7 @@ import com.zhouwei.mzbanner.holder.MZViewHolder
 
 import kotlinx.android.synthetic.main.layout_choice_centre.*
 import kotlinx.android.synthetic.main.layout_choice_poster.*
-import java.security.AccessController.getContext
+
 
 class ChoiceActivity:BaseActivity(){
     companion object {
@@ -107,7 +106,8 @@ class ChoiceActivity:BaseActivity(){
         }
         //绑定数据
         choice_banner.setIndicatorVisible(false)//去除指示器 小圆点
-        choice_banner.setPages(bannerList as List<Nothing>, MZHolderCreator { BannerViewHolder() })
+        choice_banner.setPages(bannerList as List<Nothing>, { BannerViewHolder() })
+
     }
 
 
@@ -121,11 +121,14 @@ class ChoiceActivity:BaseActivity(){
 
         }
         override fun onBind(p0: Context?, p1: Int, p2: Integer?) {
-           mImageView!!.setImageResource(p2!!.toInt())
+
+            mImageView!!.setImageResource(p2!!.toInt())
+
+            //底部轮播每个图片的点击事件
+            mImageView!!.setOnClickListener {
+
+            }
         }
-
-
-
 
     }
 
@@ -151,11 +154,10 @@ class ChoiceActivity:BaseActivity(){
     }
 
     override fun initEvent() {
-        //中间商品选择点击事件
 
-        //底部轮播点击事件
-
+        //底部轮播点击事件   不知道为啥点击无效
         choice_banner.setBannerPageClickListener { view, i ->
+
         }
 
     }
@@ -173,6 +175,7 @@ class ChoiceActivity:BaseActivity(){
         choice_banner.start()
         super.onResume()
     }
+
 }
 
 

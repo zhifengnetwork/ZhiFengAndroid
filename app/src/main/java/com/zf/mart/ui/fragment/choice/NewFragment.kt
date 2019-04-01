@@ -1,9 +1,17 @@
 package com.zf.mart.ui.fragment.choice
 
-import android.widget.LinearLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.zf.mart.base.BaseFragment
+import com.zf.mart.MyApplication.Companion.context
 import com.zf.mart.ui.adapter.ChoiceGoodsAdapter
+
+
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.zf.mart.R
+import com.zf.mart.base.BaseFragment
+import kotlinx.android.synthetic.main.fragment_choice_new.*
+
+import android.widget.LinearLayout
+
 import kotlinx.android.synthetic.main.fragment_choice_new.*
 
 
@@ -13,16 +21,26 @@ class NewFragment:BaseFragment(){
             return NewFragment()
         }
     }
+
     override fun getLayoutId(): Int = com.zf.mart.R.layout.fragment_choice_new
 
     private val adapter by lazy { ChoiceGoodsAdapter(context) }
 
     override fun initView() {
+       //设置横向RecyclerView
+        val ms=LinearLayoutManager(context)
+        ms.setOrientation(LinearLayoutManager.HORIZONTAL)
+
+        scroll_recycler_view.layoutManager = ms
+
+
+        scroll_recycler_view.adapter=adapter
 
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = LinearLayout.HORIZONTAL
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
+
 
 
     }
