@@ -7,12 +7,31 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.mvp.bean.AddressBean
+import com.zf.mart.mvp.contract.AddressContract
+import com.zf.mart.mvp.presenter.AddressPresenter
 import com.zf.mart.ui.adapter.AddressAdapter
 import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_address.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
-class AddressActivity : BaseActivity() {
+class AddressActivity : BaseActivity(),AddressContract.View {
+    override fun showError(msg: String, errorCode: Int) {
+
+    }
+
+    override fun setAddress(bean: List<AddressBean>) {
+        addressData.addAll(bean)
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun showLoading() {
+
+    }
+
+    override fun dismissLoading() {
+
+    }
 
     companion object {
         fun actionStart(context: Context?) {
@@ -26,8 +45,10 @@ class AddressActivity : BaseActivity() {
         titleName.text = "地址管理"
         rightLayout.visibility = View.INVISIBLE
     }
+    private val addressData = ArrayList<AddressBean>()
+    private val adapter by lazy { AddressAdapter(this,addressData) }
 
-    private val adapter by lazy { AddressAdapter(this) }
+    private val addressPresenter by lazy { AddressPresenter() }
 
     override fun layoutId(): Int = R.layout.activity_address
 
@@ -35,6 +56,7 @@ class AddressActivity : BaseActivity() {
     }
 
     override fun initView() {
+        addressPresenter.attachView(this)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -47,7 +69,15 @@ class AddressActivity : BaseActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        addressPresenter.detachView()
+
+    }
+
     override fun start() {
+        addressPresenter.requestAddress()
+
     }
  
 }

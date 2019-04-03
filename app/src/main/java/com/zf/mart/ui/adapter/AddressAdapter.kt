@@ -6,17 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.mvp.bean.AddressBean
+import kotlinx.android.synthetic.main.item_address.view.*
 
-class AddressAdapter(val context: Context?) : RecyclerView.Adapter<AddressAdapter.ViewHolder>() {
+class AddressAdapter(val context: Context?,val addressData:List<AddressBean>) : RecyclerView.Adapter<AddressAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_address, parent, false)
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = 12
+    override fun getItemCount(): Int = addressData.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.itemView.apply {
+
+            phoneNum.text = addressData[position].mobile
+
+            userName.text=addressData[position].consignee
+
+            address.text=addressData[position].province+addressData[position].city+addressData[position].district+addressData[position].twon+addressData[position].address
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
