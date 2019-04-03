@@ -100,7 +100,9 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
     // 首页的秒杀 无需混淆
     implementation 'com.github.paradoxie:AutoVerticalTextview:0.1'
-
+    //选择器
+    implementation 'cn.carbswang.android:NumberPickerView:1.1.1'
+    implementation 'com.contrarywind:Android-PickerView:4.1.7'
     //精选底部图片轮播
     implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
 

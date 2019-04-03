@@ -81,7 +81,6 @@ class ActionActivity : BaseActivity() {
                 else -> findNavController(R.id.fragment).navigate(R.id.auctionFragment)
             }
         }
-
     }
 
     override fun start() {

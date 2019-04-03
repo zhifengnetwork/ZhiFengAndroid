@@ -1,9 +1,5 @@
 package com.zf.mart.mvp.bean
 
-data class CartBean(
-    val shopList: ArrayList<ShopList>
-)
-
 data class ShopList(
     val shopName: String, //商家名字
     var goodsList: ArrayList<CartGoodsList>, //该商家的商品列表

@@ -10,6 +10,7 @@ import com.zf.mart.net.exception.ErrorStatus
 import com.zf.mart.showToast
 import com.zf.mart.ui.activity.MyOrderActivity
 import com.zf.mart.ui.adapter.MyOrderAdapter
+import com.zf.mart.view.dialog.DeleteMyOrderDialog
 import kotlinx.android.synthetic.main.fragment_myorder.*
 
 class MyOrderFragment : BaseFragment(), OrderListContract.View {
@@ -38,12 +39,11 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View {
 
     //结束刷新，渲染数据
     override fun setFinishRefresh(bean: List<OrderListBean>) {
-        refreshLayout.setEnableLoadMore(true)
         mLayoutStatusView?.showContent()
         orderListData.clear()
         orderListData.addAll(bean)
         adapter.notifyDataSetChanged()
-
+        refreshLayout.setEnableLoadMore(true)
     }
 
     //加载下一页数据完成，渲染数据
@@ -57,7 +57,6 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View {
         refreshLayout.finishLoadMoreWithNoMoreData()
     }
 
-    //这里不需要了
     override fun showLoading() {
     }
 
@@ -82,6 +81,8 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View {
 
     private val adapter by lazy { MyOrderAdapter(context, orderListData) }
 
+    private val orderListPresenter by lazy { OrderListPresenter() }
+
     override fun initView() {
         mLayoutStatusView = multipleStatusView
         orderListPresenter.attachView(this)
@@ -90,17 +91,19 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View {
         recyclerView.adapter = adapter
     }
 
-    private val orderListPresenter by lazy { OrderListPresenter() }
-
     override fun lazyLoad() {
-        //暂时不请求网络，先注释
         if (orderListData.isEmpty()) {
             mLayoutStatusView?.showLoading()
         }
+        refreshLayout.setEnableLoadMore(false)
         requestOrderList(1)
     }
 
     override fun initEvent() {
+
+        adapter.deleteListener = {
+            DeleteMyOrderDialog.showDialog(childFragmentManager, it)
+        }
 
         refreshLayout.setOnRefreshListener {
             lazyLoad()

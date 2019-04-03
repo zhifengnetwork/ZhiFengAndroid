@@ -29,16 +29,20 @@
                android:layout_height="1dp"
                android:layout_weight="1"/>
 
-        <TextView android:layout_width="wrap_content"
+        <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:textSize="12sp"
                   android:layout_marginRight="10dp"
                   android:textColor="#f20c0c"
                   android:text="等待买家使用"/>
 
-        <ImageView android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:src="@drawable/ic_delete"/>
+        <ImageView
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"/>
 
     </LinearLayout>
 
@@ -58,7 +62,7 @@
                 android:layout_width="80dp"
                 android:layout_marginLeft="10dp"
                 android:layout_height="80dp"
-                android:src="@drawable/pi_picture"/>
+                android:background="@color/colorLine"/>
 
         <TextView
                 android:id="@+id/goodsName"
@@ -98,18 +102,20 @@
                 android:layout_height="wrap_content"
                 android:text="截止时间2019年02月31日"/>
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_toRightOf="@+id/goodsIcon"
-                  android:layout_height="wrap_content"
-                  android:layout_below="@+id/goodsName"
-                  android:layout_marginTop="30dp"
-                  android:textSize="12sp"
-                  android:textColor="@color/colorBlackText"
-                  android:layout_marginLeft="13dp"
-                  android:id="@+id/goodsPrice"
-                  android:text="￥256×2"/>
+        <TextView
+                android:id="@+id/goodsPrice"
+                android:layout_width="wrap_content"
+                android:layout_toRightOf="@+id/goodsIcon"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/goodsName"
+                android:layout_marginTop="30dp"
+                android:textSize="12sp"
+                android:textColor="@color/colorBlackText"
+                android:layout_marginLeft="13dp"
+                android:text="￥256×2"/>
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
                   android:layout_alignParentRight="true"
                   android:layout_alignBottom="@+id/goodsIcon"
                   android:textSize="12sp"
@@ -146,11 +152,13 @@
                android:layout_height="1dp"
                android:layout_weight="1"/>
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textSize="12sp"
-                  android:textColor="@color/colorPrimaryText"
-                  android:text="共2件"/>
+        <TextView
+                android:id="@+id/totalNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimaryText"
+                android:text="共2件"/>
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -159,12 +167,14 @@
                   android:layout_marginLeft="10dp"
                   android:text="应付总额"/>
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="10dp"
-                  android:textSize="15sp"
-                  android:textColor="#f72c0b"
-                  android:text="￥256.00"/>
+        <TextView
+                android:id="@+id/shouldPay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="15sp"
+                android:textColor="#f72c0b"
+                android:text="￥256.00"/>
 
     </LinearLayout>
 

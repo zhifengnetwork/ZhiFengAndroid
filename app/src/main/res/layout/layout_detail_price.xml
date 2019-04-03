@@ -13,9 +13,15 @@
                   android:layout_height="wrap_content"
                   android:text="商品总价"/>
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="￥256"/>
+        <Space android:layout_width="0dp"
+               android:layout_height="1dp"
+               android:layout_weight="1"/>
+
+        <TextView
+                android:id="@+id/goodsPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥256"/>
     </LinearLayout>
 
     <LinearLayout
@@ -27,9 +33,15 @@
                   android:layout_height="wrap_content"
                   android:text="运&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;费"/>
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="￥256"/>
+        <Space android:layout_width="0dp"
+               android:layout_height="1dp"
+               android:layout_weight="1"/>
+
+        <TextView
+                android:id="@+id/shippingPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥256"/>
 
     </LinearLayout>
 
@@ -41,6 +53,10 @@
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="店铺优惠"/>
+
+        <Space android:layout_width="0dp"
+               android:layout_height="1dp"
+               android:layout_weight="1"/>
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -57,9 +73,15 @@
                   android:layout_height="wrap_content"
                   android:text="订单总价："/>
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="￥256"/>
+        <Space android:layout_width="0dp"
+               android:layout_height="1dp"
+               android:layout_weight="1"/>
+
+        <TextView
+                android:id="@+id/orderPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥256"/>
     </LinearLayout>
 
 </LinearLayout>

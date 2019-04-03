@@ -10,11 +10,10 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/tabLayout"/>
 
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="1.5px"
-            android:layout_alignTop="@+id/tabLayout"
-            android:background="@color/colorBackground"/>
+    <View android:layout_width="match_parent"
+          android:layout_height="1.5px"
+          android:layout_alignTop="@+id/tabLayout"
+          android:background="@color/colorBackground"/>
 
     <com.flyco.tablayout.CommonTabLayout
             android:id="@+id/tabLayout"

@@ -35,10 +35,8 @@ class AddressActivity : BaseActivity() {
     }
 
     override fun initView() {
-
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
-
     }
 
     override fun initEvent() {
@@ -49,5 +47,5 @@ class AddressActivity : BaseActivity() {
 
     override fun start() {
     }
- 
+
 }
