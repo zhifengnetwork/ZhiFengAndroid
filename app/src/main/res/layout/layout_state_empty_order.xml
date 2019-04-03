@@ -8,7 +8,7 @@
     <ImageView
             android:layout_width="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="130dp"
+            android:layout_marginTop="100dp"
             android:src="@drawable/ic_management"
             android:layout_height="wrap_content"/>
 
@@ -27,7 +27,7 @@
             android:textColor="@color/whit"
             android:textSize="15sp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="120dp"
             android:text="去选购相关商品"/>
 
 </LinearLayout>

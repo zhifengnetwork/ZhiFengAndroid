@@ -12,9 +12,14 @@ import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.mvp.bean.CartGoodsList
 import com.zf.mart.mvp.bean.ShopList
+import com.zf.mart.mvp.contract.CartListContract
+import com.zf.mart.mvp.presenter.CartListPresenter
+import com.zf.mart.net.exception.ErrorStatus
+import com.zf.mart.showToast
 import com.zf.mart.ui.activity.ConfirmOrderActivity
 import com.zf.mart.ui.adapter.CartShopAdapter1
 import com.zf.mart.utils.LogUtils
+import com.zf.mart.view.dialog.DeleteCartDialog
 import com.zf.mart.view.dialog.InputNumDialog
 import com.zf.mart.view.popwindow.GroupStylePopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
@@ -23,7 +28,55 @@ import kotlinx.android.synthetic.main.fragment_shoping_cart.*
 /**
  * 购物车页面
  */
-class ShoppingCartFragment1 : BaseFragment() {
+class ShoppingCartFragment1 : BaseFragment(), CartListContract.View {
+
+    //购物车为空
+    override fun setEmpty() {
+        mLayoutStatusView?.showEmpty()
+        refreshLayout.setEnableLoadMore(false)
+    }
+
+    //没有更多数据
+    override fun setLoadComplete() {
+        refreshLayout.finishLoadMoreWithNoMoreData()
+    }
+
+    //刷新成功
+    override fun setRefreshCart(bean: List<ShopList>) {
+        mLayoutStatusView?.showContent()
+        refreshLayout.setEnableLoadMore(true)
+        cartData.clear()
+        cartData.addAll(bean)
+        cartAdapter.notifyDataSetChanged()
+    }
+
+    //加载下一页成功
+    override fun setLoadMoreCart(bean: List<ShopList>) {
+        cartData.addAll(bean)
+        cartAdapter.notifyDataSetChanged()
+    }
+
+    //刷新失败
+    override fun showError(msg: String, errorCode: Int) {
+        if (errorCode == ErrorStatus.NETWORK_ERROR) {
+            mLayoutStatusView?.showNoNetwork()
+        } else {
+            mLayoutStatusView?.showError()
+        }
+    }
+
+    //加载下一页失败
+    override fun loadMoreError(msg: String, errorCode: Int) {
+        showToast(msg)
+    }
+
+    override fun showLoading() {
+    }
+
+    override fun dismissLoading() {
+        refreshLayout.finishRefresh()
+        refreshLayout.finishLoadMore()
+    }
 
     companion object {
         fun getInstance(): ShoppingCartFragment1 {
@@ -36,9 +89,9 @@ class ShoppingCartFragment1 : BaseFragment() {
     //购物车适配器
     private var cartData = ArrayList<ShopList>()
     private val cartAdapter by lazy { CartShopAdapter1(context, cartData) }
+    private val cartPresenter by lazy { CartListPresenter() }
 
     private fun initCart() {
-
         cartRecyclerView.layoutManager = LinearLayoutManager(context)
         cartRecyclerView.adapter = cartAdapter
         cartRecyclerView.addItemDecoration(
@@ -51,23 +104,21 @@ class ShoppingCartFragment1 : BaseFragment() {
         )
     }
 
+    override fun lazyLoad() {
+        if (cartData.isEmpty()) {
+            mLayoutStatusView?.showLoading()
+        }
+        refreshLayout.setEnableLoadMore(false)
+        cartPresenter.requestCartList(1)
+    }
 
     override fun initView() {
-
+        cartPresenter.attachView(this)
+        mLayoutStatusView = multipleStatusView
         //购物车
         initCart()
-
-        initRefresh()
     }
 
-    private fun initRefresh() {
-
-        /** 购物车有商品 */
-        cartData.clear()
-        cartData.addAll(getCartData())
-        cartAdapter.notifyDataSetChanged()
-        refreshLayout.finishRefresh()
-    }
 
     /** 选中的id列表 */
     private var mChooseIdList = ArrayList<Int>()
@@ -86,6 +137,16 @@ class ShoppingCartFragment1 : BaseFragment() {
 
     override fun initEvent() {
 
+        refreshLayout.setOnRefreshListener {
+            lazyLoad()
+        }
+
+        refreshLayout.setOnLoadMoreListener {
+            cartPresenter.requestCartList(null)
+        }
+
+
+        /** 商品数量 */
         cartAdapter.onShopNumListener = {
             InputNumDialog.showDialog(childFragmentManager, it)
                 .onNumListener = { num ->
@@ -93,6 +154,7 @@ class ShoppingCartFragment1 : BaseFragment() {
             }
         }
 
+        /** 商品规格 */
         cartAdapter.onShopSpecListener = {
             val popWindow = object : GroupStylePopupWindow(
                 activity as Activity,
@@ -103,7 +165,7 @@ class ShoppingCartFragment1 : BaseFragment() {
             popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
         }
 
-
+        /** 全选反选按钮 */
         allChoose.setOnClickListener {
             //循环赋值
             cartData.forEach { shopList ->
@@ -117,7 +179,6 @@ class ShoppingCartFragment1 : BaseFragment() {
 
             /** 选中或者反选需要获取结果 */
             initCheckId(cartData)
-
         }
 
         cartAdapter.checkGoodsListener = { shopList ->
@@ -130,7 +191,6 @@ class ShoppingCartFragment1 : BaseFragment() {
             allChoose.isChecked = size == cartData.size
 
             initCheckId(shopList)
-
         }
 
 
@@ -140,18 +200,11 @@ class ShoppingCartFragment1 : BaseFragment() {
             Toast.makeText(context, "选中id:$mChooseIdList", Toast.LENGTH_LONG).show()
             if (management.isSelected) {
                 //删除
+                DeleteCartDialog.showDialog(childFragmentManager, 1)
             } else {
                 //结算
                 ConfirmOrderActivity.actionStart(context)
             }
-        }
-
-        refreshLayout.setOnRefreshListener {
-            initRefresh()
-        }
-
-        refreshLayout.setOnLoadMoreListener {
-            refreshLayout.finishLoadMore()
         }
 
         //管理
@@ -173,62 +226,63 @@ class ShoppingCartFragment1 : BaseFragment() {
 
     }
 
-    private fun getCartData(): ArrayList<ShopList> {
-        val list = ArrayList<ShopList>()
-        list.addAll(
-            arrayListOf(
-                ShopList(
-                    "小米旗舰店", arrayListOf(
-                        CartGoodsList(1, "小米Note"),
-                        CartGoodsList(2, "小米5"),
-                        CartGoodsList(3, "小米8"),
-                        CartGoodsList(4, "小米8se")
-                    )
-                ),
-                ShopList(
-                    "华为旗舰店", arrayListOf(
-                        CartGoodsList(5, "华为mate"),
-                        CartGoodsList(6, "华为荣耀")
-                    )
-                ),
-                ShopList(
-                    "格力空调", arrayListOf(
-                        CartGoodsList(7, "1匹"),
-                        CartGoodsList(8, "2匹"),
-                        CartGoodsList(9, "3匹")
-                    )
-                ),
-                ShopList(
-                    "oppo手机", arrayListOf(
-                        CartGoodsList(10, "oppo r1"),
-                        CartGoodsList(11, "oppo r2"),
-                        CartGoodsList(12, "oppo r3")
-                    )
-                ),
-                ShopList(
-                    "戴尔", arrayListOf(
-                        CartGoodsList(13, "笔记本"),
-                        CartGoodsList(14, "台式机"),
-                        CartGoodsList(15, "屏幕")
-                    )
-                ),
-                ShopList(
-                    "索尼", arrayListOf(
-                        CartGoodsList(16, "索尼手机"),
-                        CartGoodsList(17, "索尼相机"),
-                        CartGoodsList(18, "索尼其他东西")
-                    )
-                )
-
-
-            )
-        )
-        return list
+    override fun onDestroy() {
+        super.onDestroy()
+        cartPresenter.detachView()
     }
 
-    override fun lazyLoad() {
-    }
-
+//    private fun getCartData(): ArrayList<ShopList> {
+//        val list = ArrayList<ShopList>()
+//        list.addAll(
+//            arrayListOf(
+//                ShopList(
+//                    "小米旗舰店", arrayListOf(
+//                        CartGoodsList(1, "小米Note"),
+//                        CartGoodsList(2, "小米5"),
+//                        CartGoodsList(3, "小米8"),
+//                        CartGoodsList(4, "小米8se")
+//                    )
+//                ),
+//                ShopList(
+//                    "华为旗舰店", arrayListOf(
+//                        CartGoodsList(5, "华为mate"),
+//                        CartGoodsList(6, "华为荣耀")
+//                    )
+//                ),
+//                ShopList(
+//                    "格力空调", arrayListOf(
+//                        CartGoodsList(7, "1匹"),
+//                        CartGoodsList(8, "2匹"),
+//                        CartGoodsList(9, "3匹")
+//                    )
+//                ),
+//                ShopList(
+//                    "oppo手机", arrayListOf(
+//                        CartGoodsList(10, "oppo r1"),
+//                        CartGoodsList(11, "oppo r2"),
+//                        CartGoodsList(12, "oppo r3")
+//                    )
+//                ),
+//                ShopList(
+//                    "戴尔", arrayListOf(
+//                        CartGoodsList(13, "笔记本"),
+//                        CartGoodsList(14, "台式机"),
+//                        CartGoodsList(15, "屏幕")
+//                    )
+//                ),
+//                ShopList(
+//                    "索尼", arrayListOf(
+//                        CartGoodsList(16, "索尼手机"),
+//                        CartGoodsList(17, "索尼相机"),
+//                        CartGoodsList(18, "索尼其他东西")
+//                    )
+//                )
+//
+//
+//            )
+//        )
+//        return list
+//    }
 
     //支付方式
 //    private fun showPayPopWindow() {

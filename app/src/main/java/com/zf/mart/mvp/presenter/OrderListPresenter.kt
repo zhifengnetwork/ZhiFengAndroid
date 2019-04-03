@@ -2,7 +2,6 @@ package com.zf.mart.mvp.presenter
 
 import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BasePresenter
-import com.zf.mart.mvp.bean.OrderListBean
 import com.zf.mart.mvp.contract.OrderListContract
 import com.zf.mart.mvp.model.OrderListModel
 import com.zf.mart.net.exception.ExceptionHandle
@@ -23,17 +22,17 @@ class OrderListPresenter : BasePresenter<OrderListContract.View>(), OrderListCon
                     dismissLoading()
                     when (it.status) {
                         0 -> {
-                            if (it.data.size < UriConstant.PER_PAGE) {
-                                setLoadComplete()
-                            }
                             if (mPage == 1) {
-                                setFinishRefresh(it.data)
-                                if (it.data.isEmpty()) {
-                                    //刷新数据为空
+                                if (it.data.isNotEmpty()) {
+                                    setFinishRefresh(it.data)
+                                } else {
                                     setEmptyOrder()
                                 }
                             } else {
                                 setFinishLoadMore(it.data)
+                            }
+                            if (it.data.size < UriConstant.PER_PAGE) {
+                                setLoadComplete()
                             }
                             mPage += 1
                         }

@@ -2,10 +2,7 @@ package com.zf.mart.api
 
 
 import com.zf.mart.base.BaseBean
-import com.zf.mart.mvp.bean.AddressBean
-import com.zf.mart.mvp.bean.LoginBean
-import com.zf.mart.mvp.bean.OrderListBean
-import com.zf.mart.mvp.bean.UserInfoBean
+import com.zf.mart.mvp.bean.*
 import io.reactivex.Observable
 import okhttp3.MultipartBody
 import retrofit2.http.*
@@ -62,5 +59,17 @@ interface ApiService {
      */
     @GET("api/user/address_list")
     fun getAddressList(): Observable<BaseBean<List<AddressBean>>>
+
+    /**
+     * 订单详情
+     */
+    @GET("api/order/order_detail")
+    fun getOrderDetail(@Query("id") id: String): Observable<BaseBean<OrderDetailBean>>
+
+    /**
+     * 购物车列表
+     */
+    @GET("api/cart/cartlist")
+    fun getCartList(): Observable<BaseBean<List<ShopList>>>
 
 }

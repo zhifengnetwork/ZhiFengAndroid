@@ -4,15 +4,21 @@ import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.View
+import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import com.bigkoo.pickerview.adapter.ArrayWheelAdapter
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.showToast
+import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtils
-import com.zf.mart.view.dialog.CustomAddressDialog
+import com.zf.mart.view.popwindow.RegionPopupWindow
 import kotlinx.android.synthetic.main.activity_address_edit.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.pop_region.view.*
+
 
 class AddressEditActivity : BaseActivity() {
 
@@ -38,20 +44,15 @@ class AddressEditActivity : BaseActivity() {
         initTag()
     }
 
+
+    //省列表
+    private var provinceData = arrayOf<String>()
+    private var cityData = arrayOf<String>()
+    private var areaData = arrayOf<String>()
+    private var townData = arrayOf<String>()
+
+
     override fun initEvent() {
-        //选择地址 修改选中图标在item_area
-        addressLayout.setOnClickListener {
-            val dialog = CustomAddressDialog(this)
-            dialog.setOnAddressSelectedListener { province, city, country, street ->
-                val mAddress = "${province?.name ?: ""}${city?.name ?: ""}${country?.name ?: ""}${street?.name ?: ""}"
-                address.text = mAddress
-                dialog.dismiss()
-            }
-            dialog.setDialogDismisListener {
-                dialog.dismiss()
-            }
-            dialog.show()
-        }
 
         confirm.setOnClickListener {
             //选中的tag标签
@@ -64,6 +65,67 @@ class AddressEditActivity : BaseActivity() {
             }
             showToast(chooseTag)
         }
+
+        addressLayout.setOnClickListener {
+
+            val regionPopWindow = object : RegionPopupWindow(
+                this, com.zf.mart.R.layout.pop_region,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ) {
+                override fun initView() {
+                    contentView?.apply {
+                        //赋值
+                        provincePic.setCyclic(false)
+                        cityPic.setCyclic(false)
+                        areaPic.setCyclic(false)
+                        val provinceData = ArrayList<String>()
+                        var cityData = ArrayList<String>()
+                        var areaData = ArrayList<String>()
+                        //获取省份，通过省份获取城市，获取区域
+                        provinceData.addAll(arrayOf("广东省", "湖南省", "福建省", "新疆"))
+                        cityData.addAll(arrayOf("广州", "东莞", "湛江"))
+                        areaData.addAll(arrayOf("白云", "番禺", "车陂", "东圃", "天河"))
+                        provincePic.adapter = ArrayWheelAdapter(provinceData)
+                        cityPic.adapter = ArrayWheelAdapter(cityData)
+                        areaPic.adapter = ArrayWheelAdapter(areaData)
+
+                        provincePic.setOnItemSelectedListener { index ->
+                            /** 省份滑动，通过省份更新城市 */
+                            cityData = when (index) {
+                                0 -> arrayListOf("广州", "东莞", "湛江")
+                                1 -> arrayListOf("湖南城市1", "湖南城市2", "湖南城市3")
+                                else -> arrayListOf()
+                            }
+                            cityPic.adapter = ArrayWheelAdapter(cityData)
+
+                            /** 城市更新后更新区域 */
+                            areaData = when (cityPic.currentItem) {
+                                0 -> arrayListOf("白云", "番禺", "车陂", "东圃", "天河")
+                                1 -> arrayListOf("东莞区1", "东莞区2", "东莞区3")
+                                2 -> arrayListOf("雷州", "遂溪", "徐闻")
+                                else -> arrayListOf()
+                            }
+                            areaPic.adapter = ArrayWheelAdapter(areaData)
+                        }
+
+                        cityPic.setOnItemSelectedListener { index ->
+                            areaData = when (index) {
+                                0 -> arrayListOf("白云", "番禺", "车陂", "东圃", "天河")
+                                1 -> arrayListOf("东莞区1", "东莞区2", "东莞区3")
+                                2 -> arrayListOf("雷州", "遂溪", "徐闻")
+                                else -> arrayListOf()
+                            }
+                            areaPic.adapter = ArrayWheelAdapter(areaData)
+                        }
+
+                    }
+                }
+            }
+            regionPopWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+
+        }
+
 
     }
 
@@ -177,3 +239,16 @@ class AddressEditActivity : BaseActivity() {
         }
     }
 }
+
+
+//旧的三级联动
+//            val dialog = CustomAddressDialog(this)
+//            dialog.setOnAddressSelectedListener { province, city, country, street ->
+//                val mAddress = "${province?.name ?: ""}${city?.name ?: ""}${country?.name ?: ""}${street?.name ?: ""}"
+//                address.text = mAddress
+//                dialog.dismiss()
+//            }
+//            dialog.setDialogDismisListener {
+//                dialog.dismiss()
+//            }
+//            dialog.show()

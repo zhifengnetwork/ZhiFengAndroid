@@ -7,76 +7,100 @@
         android:padding="10dp"
         android:orientation="horizontal">
 
-    <TextView android:layout_width="60dp"
-              android:layout_height="20dp"
-              android:background="#d5efff"
-              android:textSize="12sp"
-              android:layout_marginLeft="13dp"
-              android:gravity="center"
-              android:textColor="#276de8"
-              android:text="查看券码"/>
+    <TextView
+            android:id="@+id/checkCode"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:background="#d5efff"
+            android:textSize="12sp"
+            android:layout_marginLeft="13dp"
+            android:gravity="center"
+            android:textColor="#276de8"
+            android:visibility="gone"
+            android:text="查看券码"/>
 
-    <TextView android:layout_width="60dp"
-              android:layout_height="20dp"
-              android:background="#ffcdcf"
-              android:gravity="center"
-              android:layout_marginLeft="13dp"
-              android:textColor="#e51c24"
-              android:textSize="12sp"
-              android:text="提醒发货"/>
+    <TextView
+            android:id="@+id/remindSend"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:background="#ffcdcf"
+            android:gravity="center"
+            android:layout_marginLeft="13dp"
+            android:textColor="#e51c24"
+            android:textSize="12sp"
+            android:visibility="gone"
+            android:text="提醒发货"/>
 
-    <TextView android:layout_width="60dp"
-              android:layout_height="20dp"
-              android:background="#ffcdcf"
-              android:gravity="center"
-              android:layout_marginLeft="13dp"
-              android:textColor="#e51c24"
-              android:textSize="12sp"
-              android:text="联系卖家"/>
+    <TextView
+            android:id="@+id/contactShop"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:background="#ffcdcf"
+            android:gravity="center"
+            android:layout_marginLeft="13dp"
+            android:textColor="#e51c24"
+            android:textSize="12sp"
+            android:visibility="gone"
+            android:text="联系卖家"/>
 
-    <TextView android:layout_width="60dp"
-              android:layout_height="20dp"
-              android:background="#fddecf"
-              android:textSize="12sp"
-              android:layout_marginLeft="13dp"
-              android:textColor="#ff5301"
-              android:gravity="center"
-              android:text="取消订单"/>
+    <TextView
+            android:id="@+id/cancelOrder"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:background="#fddecf"
+            android:textSize="12sp"
+            android:layout_marginLeft="13dp"
+            android:textColor="#ff5301"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="取消订单"/>
 
-    <TextView android:layout_width="60dp"
-              android:layout_height="20dp"
-              android:background="#d5efff"
-              android:textSize="12sp"
-              android:layout_marginLeft="13dp"
-              android:gravity="center"
-              android:textColor="#276de8"
-              android:text="立即付款"/>
+    <TextView
+            android:id="@+id/payNow"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:background="#d5efff"
+            android:textSize="12sp"
+            android:layout_marginLeft="13dp"
+            android:gravity="center"
+            android:textColor="#276de8"
+            android:visibility="gone"
+            android:text="立即付款"/>
 
-    <TextView android:layout_width="60dp"
-              android:layout_height="20dp"
-              android:background="#d5efff"
-              android:textSize="12sp"
-              android:layout_marginLeft="13dp"
-              android:gravity="center"
-              android:textColor="#276de8"
-              android:text="确定收货"/>
+    <TextView
+            android:id="@+id/confirmReceive"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:background="#d5efff"
+            android:textSize="12sp"
+            android:layout_marginLeft="13dp"
+            android:gravity="center"
+            android:textColor="#276de8"
+            android:visibility="gone"
+            android:text="确定收货"/>
 
-    <TextView android:layout_width="60dp"
-              android:layout_height="20dp"
-              android:background="#fddecf"
-              android:textSize="12sp"
-              android:layout_marginLeft="13dp"
-              android:textColor="#ff5301"
-              android:gravity="center"
-              android:text="去售后"/>
+    <TextView
+            android:id="@+id/afterSale"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:background="#fddecf"
+            android:textSize="12sp"
+            android:layout_marginLeft="13dp"
+            android:textColor="#ff5301"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="去售后"/>
 
-    <TextView android:layout_width="60dp"
-              android:layout_height="20dp"
-              android:background="#d5efff"
-              android:textSize="12sp"
-              android:layout_marginLeft="13dp"
-              android:gravity="center"
-              android:textColor="#276de8"
-              android:text="去评价"/>
+    <TextView
+            android:id="@+id/evaluate"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:background="#d5efff"
+            android:textSize="12sp"
+            android:layout_marginLeft="13dp"
+            android:gravity="center"
+            android:textColor="#276de8"
+            android:visibility="gone"
+            android:text="去评价"/>
 
 </LinearLayout>

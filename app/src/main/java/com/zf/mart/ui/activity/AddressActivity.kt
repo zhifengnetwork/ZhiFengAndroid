@@ -56,11 +56,12 @@ class AddressActivity : BaseActivity(),AddressContract.View {
     }
 
     override fun initView() {
+
         addressPresenter.attachView(this)
+
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
-
     }
 
     override fun initEvent() {
@@ -79,5 +80,5 @@ class AddressActivity : BaseActivity(),AddressContract.View {
         addressPresenter.requestAddress()
 
     }
- 
+
 }
