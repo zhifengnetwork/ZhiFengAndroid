@@ -3,40 +3,50 @@ package com.zf.mart.ui.fragment
 
 import android.Manifest
 import android.app.Activity
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.net.Uri
-import android.os.Build
-import android.provider.Settings
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.PagerAdapter
-import com.uuzuche.lib_zxing.activity.CaptureActivity
 import com.uuzuche.lib_zxing.activity.CodeUtils
 import com.uuzuche.lib_zxing.activity.ZXingLibrary
-import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
+import com.zf.mart.mvp.bean.ClassifyBean
+import com.zf.mart.mvp.contract.ClassifyContract
+import com.zf.mart.mvp.presenter.ClassifyPresenter
 import com.zf.mart.ui.activity.SearchActivity
 import com.zf.mart.ui.adapter.ClassifyPagerAdapter
 import com.zf.mart.ui.adapter.ClassifyTitleAdapter
 import com.zf.mart.view.verticalViewPager.DefaultTransformer
 import kotlinx.android.synthetic.main.fragment_classify.*
 import kotlinx.android.synthetic.main.layout_classify_title.*
-import com.zf.mart.ui.activity.MainActivity
 import com.zf.mart.ui.activity.ScanActivity
-import com.zf.mart.utils.ImageUtil
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
 
-class ClassifyFragment : BaseFragment(),EasyPermissions.PermissionCallbacks {
+class ClassifyFragment : BaseFragment(),EasyPermissions.PermissionCallbacks,ClassifyContract.View {
+    override fun showError(msg: String, errorCode: Int) {
+
+    }
+
+    override fun setTitle(bean: List<ClassifyBean>) {
+        classifyData.addAll(bean)
+        mPagerAdapter.setTitleList(classifyData)
+        adapter.notifyDataSetChanged()
+        mPagerAdapter.notifyDataSetChanged()
+
+    }
+
+    override fun showLoading() {
+
+    }
+
+    override fun dismissLoading() {
+
+    }
 
 
     companion object {
@@ -47,11 +57,19 @@ class ClassifyFragment : BaseFragment(),EasyPermissions.PermissionCallbacks {
 
     override fun getLayoutId(): Int = com.zf.mart.R.layout.fragment_classify
 
-    private val data = ArrayList<String>()
+    //接收数据
+    private val classifyData = ArrayList<ClassifyBean>()
 
-    private val adapter by lazy { ClassifyTitleAdapter(context, data) }
+    //网络请求
+    private val classifyPresenter by lazy { ClassifyPresenter() }
 
-    private var mPagerAdapter: PagerAdapter? = null
+
+   //分类标题适配器
+    private val adapter by lazy { ClassifyTitleAdapter(context, classifyData) }
+    //ViewPager适配器
+
+   private val mPagerAdapter by lazy { ClassifyPagerAdapter(childFragmentManager, classifyData) }
+
    //扫描跳转Activity RequestCode
     private val REQUEST_CODE=111
     //选择系统图片Request Code
@@ -65,44 +83,25 @@ class ClassifyFragment : BaseFragment(),EasyPermissions.PermissionCallbacks {
     private val REQUEST_CAMERA_PERM = 101
     //控制限权请求初始化
     private var isopen:Boolean=true
-    private val lefttitle: Array<String> = arrayOf(
-        "为您推荐",
-        "品牌墙",
-        "美容彩妆",
-        "奶粉纸尿裤",
-        "外部专区",
-        "轻奢",
-        "个人护理",
-        "手表配饰",
-        "数码家电",
-        "家居生活",
-        "环球美食",
-        "服饰靴鞋",
-        "家用家电",
-        "医药保健",
-        "汽车生活"
-    )
+
 
     override fun initView() {
 
+        classifyPresenter.attachView(this)
+
         /** 左边分类 */
-        for (i in lefttitle.iterator()) {
-
-            data.add(i)
-
-        }
-
-
+       //给左边的recyclerView设置数据和adapter
         leftRecyclerView.layoutManager = LinearLayoutManager(context)
         leftRecyclerView.adapter = adapter
 
+        /** 右边分类商品列表 */
         //给右边的viewpager设置adapter
-
-        mPagerAdapter=ClassifyPagerAdapter(childFragmentManager,lefttitle)
+//        mPagerAdapter=ClassifyPagerAdapter(childFragmentManager,classifyData)
         rightViewPager.setPageTransformer(true, DefaultTransformer())
         rightViewPager.setNoScroll(true)
         rightViewPager.adapter=mPagerAdapter
 
+        /** 二维码 */
         //扫描二维码初始化
         ZXingLibrary.initDisplayOpinion(context)
 
@@ -151,6 +150,17 @@ class ClassifyFragment : BaseFragment(),EasyPermissions.PermissionCallbacks {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        classifyPresenter.detachView()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        /**每次生成时界面时清空接收数组，才开始网络请求*/
+        classifyData.clear()
+        classifyPresenter.requestClassify()
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //判断扫描解析结果

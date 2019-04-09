@@ -4,18 +4,21 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.zf.mart.mvp.bean.ClassifyBean
 import com.zf.mart.ui.fragment.classify.ClassifyRightFragment
 
-class ClassifyPagerAdapter(fm: FragmentManager, titleList: Array<String>): FragmentPagerAdapter(fm) {
-    private val fragmentList = arrayOfNulls<Fragment>(titleList.size)
+class ClassifyPagerAdapter(fm: FragmentManager, titleList: ArrayList<ClassifyBean>): FragmentPagerAdapter(fm) {
     private var list = titleList
+   private var fragmentList = arrayOfNulls<Fragment>(list.size)
+
+
     override fun getItem(position: Int): Fragment {
         //启动对应的 Fragment
 //        if(position==3){
 //            return TwoFragment.buildFragment(list[position])
 //        }
 
-        return ClassifyRightFragment.buildFragment(list[position])
+        return ClassifyRightFragment.buildFragment(list[position].id,list[position].name)
     }
 
     override fun getCount(): Int {
@@ -29,6 +32,11 @@ class ClassifyPagerAdapter(fm: FragmentManager, titleList: Array<String>): Fragm
         return fragment
     }
 
+    fun setTitleList(title:ArrayList<ClassifyBean>){
+        list=title
+        fragmentList=arrayOfNulls<Fragment>(list.size)
+        notifyDataSetChanged()
+    }
     fun getFragments(): Array<Fragment?> {
         return fragmentList
     }

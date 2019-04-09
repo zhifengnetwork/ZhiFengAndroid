@@ -71,5 +71,15 @@ interface ApiService {
      */
     @GET("api/cart/cartlist")
     fun getCartList(): Observable<BaseBean<List<ShopList>>>
+    /**
+     * 分类左边标题
+     */
+    @GET("api/goods/categoryList")
+    fun getClassifyList():Observable<BaseBean<List<ClassifyBean>>>
 
+    /**
+     * 分类右边商品列表
+     */
+    @GET("api/goods/Products")
+    fun getClassifyProduct(@Query("cat_id") cat_id: String):Observable<BaseBean<List<ClassifyProductBean>>>
 }
