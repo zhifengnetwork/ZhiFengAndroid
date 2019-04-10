@@ -11,6 +11,7 @@ import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.mvp.bean.CartGoodsList
+import com.zf.mart.mvp.bean.Goods
 import com.zf.mart.mvp.bean.ShopList
 import com.zf.mart.ui.adapter.EnShopAdapter
 import com.zf.mart.utils.StatusBarUtils
@@ -81,54 +82,22 @@ class ConfirmOrderActivity : BaseActivity() {
 
     private fun getCartData(): ArrayList<ShopList> {
         val list = ArrayList<ShopList>()
-        list.addAll(
-            arrayListOf(
-                ShopList(
-                    "小米旗舰店", arrayListOf(
-//                        CartGoodsList(1, "小米Note"),
-//                        CartGoodsList(2, "小米5"),
-//                        CartGoodsList(3, "小米8"),
-                        CartGoodsList(4, "小米8se")
-                    )
-                ),
+//        list.addAll(
+//            arrayListOf(
 //                ShopList(
-//                    "华为旗舰店", arrayListOf(
-//                        CartGoodsList(5, "华为mate"),
-//                        CartGoodsList(6, "华为荣耀")
+//                    "小米旗舰店", arrayListOf(
+//                        CartGoodsList(4, false, Goods("小米8se", ""))
 //                    )
 //                ),
 //                ShopList(
-//                    "格力空调", arrayListOf(
-//                        CartGoodsList(7, "1匹"),
-//                        CartGoodsList(8, "2匹"),
-//                        CartGoodsList(9, "3匹")
+//                    "索尼", arrayListOf(
+//                        CartGoodsList(16, false, Goods("索尼8se", "")),
+//                        CartGoodsList(17, false, Goods("索尼8se", "")),
+//                        CartGoodsList(18, false, Goods("索尼8se", ""))
 //                    )
-//                ),
-//                ShopList(
-//                    "oppo手机", arrayListOf(
-//                        CartGoodsList(10, "oppo r1"),
-//                        CartGoodsList(11, "oppo r2"),
-//                        CartGoodsList(12, "oppo r3")
-//                    )
-//                ),
-//                ShopList(
-//                    "戴尔", arrayListOf(
-//                        CartGoodsList(13, "笔记本"),
-//                        CartGoodsList(14, "台式机"),
-//                        CartGoodsList(15, "屏幕")
-//                    )
-//                ),
-                ShopList(
-                    "索尼", arrayListOf(
-                        CartGoodsList(16, "索尼手机"),
-                        CartGoodsList(17, "索尼相机"),
-                        CartGoodsList(18, "索尼其他东西")
-                    )
-                )
-
-
-            )
-        )
+//                )
+//            )
+//        )
         return list
     }
 }

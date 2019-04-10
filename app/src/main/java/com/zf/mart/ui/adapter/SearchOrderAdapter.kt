@@ -6,7 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
+import com.zf.mart.mvp.bean.SearchList
 import com.zf.mart.ui.activity.GoodsDetailActivity
+import com.zf.mart.utils.GlideUtils
 import kotlinx.android.synthetic.main.item_order_two.view.*
 import kotlinx.android.synthetic.main.item_search_order.view.*
 
@@ -14,7 +17,7 @@ import kotlinx.android.synthetic.main.item_search_order.view.*
  * 传入type  1 是1列排版
  *            2 是2列排版
  */
-class SearchOrderAdapter(val context: Context, val data: List<String>) :
+class SearchOrderAdapter(val context: Context, val data: List<SearchList>) :
     RecyclerView.Adapter<SearchOrderAdapter.ViewHolder>() {
 
     private var mType = 1
@@ -36,11 +39,20 @@ class SearchOrderAdapter(val context: Context, val data: List<String>) :
     override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.itemView.apply {
             if (mType == 1) {
-                goodsName.text = data[position]
+                goodsName.text = data[position].goods_name
+                data[position].goods_images?.let {
+                    GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + it[0].image_url, goodsIcon)
+                }
+                price.text = data[position].shop_price
             } else {
-                goodsName2.text = data[position]
+                goodsName2.text = data[position].goods_name
+                data[position].goods_images?.let {
+                    GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + it[0].image_url, home_recommend_iv)
+                }
+                home_recommend_price.text = data[position].shop_price
             }
 
             setOnClickListener {

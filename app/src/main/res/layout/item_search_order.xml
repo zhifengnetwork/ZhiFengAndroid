@@ -18,8 +18,8 @@
                 android:id="@+id/goodsIcon"
                 android:layout_width="100dp"
                 android:layout_marginLeft="10dp"
-                android:layout_height="100dp"
-                android:src="@drawable/pi_picture"/>
+                android:background="@color/colorBackground"
+                android:layout_height="100dp" />
 
         <TextView
                 android:id="@+id/goodsName"
@@ -44,7 +44,10 @@
                       android:textColor="#d21018"
                       android:text="￥"/>
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
                       android:textSize="17sp"
                       android:textColor="#d21018"
                       android:text="399.0"/>

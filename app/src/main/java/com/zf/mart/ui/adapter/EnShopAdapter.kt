@@ -25,9 +25,9 @@ class EnShopAdapter(val context: Context?, val data: List<ShopList>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
-            shopName.text = data[position].shopName
+            shopName.text = data[position].seller_name
             //初始化
-            val adapter = EnGoodsAdapter(context, data[position].goodsList)
+            val adapter = EnGoodsAdapter(context, data[position].data)
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = adapter
 

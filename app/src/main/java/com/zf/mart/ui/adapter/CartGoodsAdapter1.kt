@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
 import com.zf.mart.mvp.bean.CartGoodsList
+import com.zf.mart.utils.GlideUtils
 import kotlinx.android.synthetic.main.item_cart_goods.view.*
 
 /**
@@ -34,7 +36,14 @@ class CartGoodsAdapter1(val context: Context?, val data: ArrayList<CartGoodsList
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
 
-            goodsName.text = data[position].goodsName + "   " + data[position].id
+            //商品名字
+            goodsName.text = data[position].goods.goods_name
+            //商品图片
+            GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + data[position].goods.original_img, goodsIcon)
+            //商品价格
+            goodsPrice.text = "¥${data[position].goods_price}"
+            //数量
+            numberInput.text = data[position].goods_num
 
             goodsSpec.setOnClickListener {
                 //弹出规格选择框
@@ -76,7 +85,6 @@ class CartGoodsAdapter1(val context: Context?, val data: ArrayList<CartGoodsList
             numberInput.setOnClickListener {
                 onInputListener?.invoke(numberInput.text.toString().toInt())
             }
-
 
             /**
              * checkBox逻辑

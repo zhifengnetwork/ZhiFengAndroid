@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import com.zf.mart.mvp.bean.ClassifyProductBean
+import com.zf.mart.utils.GlideUtils
 import kotlinx.android.synthetic.main.classify_right_shop_item1.view.*
 
 
@@ -29,7 +30,9 @@ class ClassifyRightconterAdapter1(val context: Context?,val data:ArrayList<Class
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder.itemView.apply {
-            goods_img.setImageURI(Uri.parse(goods[position].original_img))
+
+            GlideUtils.loadUrlImage(context,goods[position].original_img,goods_img)
+
             goods_name.text=goods[position].goods_name
         }
         holder.itemView.setOnClickListener {

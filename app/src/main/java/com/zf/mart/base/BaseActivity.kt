@@ -20,7 +20,7 @@ abstract class BaseActivity : AppCompatActivity() {
     /**
      * 多种状态的 View 的切换
      */
-    private var mLayoutStatusView: MultipleStatusView? = null
+    protected  var mLayoutStatusView: MultipleStatusView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

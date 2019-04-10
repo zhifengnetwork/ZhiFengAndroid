@@ -78,7 +78,7 @@ class ClassifyRightAdapter(val context: Context?, val mData:ArrayList<ClassifyPr
             classify_left_item_cylv.adapter = adapter1
         }
         holder.itemView.setOnClickListener {
-                Toast.makeText(context,"点击了"+position+"--"+data!!.size, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"点击了"+position+"--"+data.size, Toast.LENGTH_SHORT).show()
         }
     }
 //

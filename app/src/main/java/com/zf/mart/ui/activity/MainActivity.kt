@@ -140,7 +140,9 @@ class MainActivity : BaseActivity(), UserInfoContract.View {
                     mHotFragment = it
                     transaction.add(R.id.fl_container, it, "hot")
                 }
-            3 -> mMineFragment?.let { transaction.show(it) }
+            3 -> mMineFragment?.let {
+                transaction.show(it)
+            }
                 ?: MeFragment.getInstance().let {
                     mMineFragment = it
                     transaction.add(R.id.fl_container, it, "mine")

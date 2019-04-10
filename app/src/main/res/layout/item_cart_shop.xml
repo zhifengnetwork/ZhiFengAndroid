@@ -60,7 +60,7 @@
                 android:textSize="11sp"
                 android:textColor="#4d4d4d"
                 android:maxLines="1"
-                android:text="已购物1900.00，可领取赠品"/>
+                android:text="暂无满减优惠"/>
 
         <ImageView android:layout_width="wrap_content"
                    android:layout_height="wrap_content"

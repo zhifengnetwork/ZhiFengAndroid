@@ -88,11 +88,30 @@ interface ApiService {
      * 分类左边标题
      */
     @GET("api/goods/categoryList")
-    fun getClassifyList():Observable<BaseBean<List<ClassifyBean>>>
+    fun getClassifyList(): Observable<BaseBean<List<ClassifyBean>>>
 
     /**
-     * 分类右边商品列表
+     * 商品搜索列表
+     */
+    @GET("api/Search/search")
+    fun getSearchList(
+        @Query("q") q: String,
+        @Query("id") id: String,
+        @Query("brand_id") brand_id: String,
+        @Query("sort") sort: String,
+        @Query("sel") sel: String,
+        @Query("price") price: String,
+        @Query("start_price") start_price: String,
+        @Query("end_price") end_price: String,
+        @Query("sort_asc") sort_asc: String,
+        @Query("page") page: Int, //第几页
+        @Query("per_page") per_page: Int //每页多少条
+    ): Observable<BaseBean<SearchBean>>
+
+    /**
+     * 分类
      */
     @GET("api/goods/Products")
-    fun getClassifyProduct(@Query("cat_id") cat_id: String):Observable<BaseBean<List<ClassifyProductBean>>>
+    fun getClassifyProduct(@Query("cat_id") cat_id: String): Observable<BaseBean<List<ClassifyProductBean>>>
+
 }

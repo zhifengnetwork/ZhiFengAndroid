@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
-import com.zf.mart.mvp.bean.CartGoodsList
 import com.zf.mart.mvp.bean.ShopList
 import com.zf.mart.mvp.contract.CartListContract
 import com.zf.mart.mvp.presenter.CartListPresenter
@@ -38,7 +37,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View {
 
     //没有更多数据
     override fun setLoadComplete() {
-        refreshLayout.finishLoadMoreWithNoMoreData()
+        refreshLayout.setEnableLoadMore(false)
     }
 
     //刷新成功
@@ -126,7 +125,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View {
     private fun initCheckId(list: List<ShopList>) {
         val chooseGoodsListId = ArrayList<Int>()
         list.forEach { shop ->
-            shop.goodsList.forEach { goodsList ->
+            shop.data.forEach { goodsList ->
                 if (goodsList.ifCheck) {
                     chooseGoodsListId.add(goodsList.id)
                 }
@@ -136,6 +135,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View {
     }
 
     override fun initEvent() {
+
 
         refreshLayout.setOnRefreshListener {
             lazyLoad()
@@ -170,7 +170,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View {
             //循环赋值
             cartData.forEach { shopList ->
                 shopList.ifCheck = allChoose.isChecked
-                shopList.goodsList.forEach { goodsList ->
+                shopList.data.forEach { goodsList ->
                     goodsList.ifCheck = allChoose.isChecked
                 }
             }
