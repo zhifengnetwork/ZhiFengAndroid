@@ -28,10 +28,11 @@
                 android:layout_height="wrap_content"/>
 
         <ImageView
+                android:id="@+id/goodsIcon"
                 android:layout_width="105dp"
                 android:layout_height="85dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/home_quality_g3"/>
+                android:background="@color/colorBackground"/>
 
         <RelativeLayout
                 android:layout_width="match_parent"
@@ -137,14 +138,16 @@
                       android:textSize="12sp"
                       android:text="选服务"/>
 
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_alignParentRight="true"
-                      android:layout_below="@+id/sizeLayout"
-                      android:textSize="13sp"
-                      android:textColor="@color/colorBlackText"
-                      android:layout_marginTop="10dp"
-                      android:text="￥1476.00"/>
+            <TextView
+                    android:id="@+id/goodsPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/sizeLayout"
+                    android:textSize="13sp"
+                    android:textColor="@color/colorBlackText"
+                    android:layout_marginTop="10dp"
+                    android:text="￥1476.00"/>
 
         </RelativeLayout>
 

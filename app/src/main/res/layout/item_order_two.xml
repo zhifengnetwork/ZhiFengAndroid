@@ -14,8 +14,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="5dp"
             android:layout_height="150dp"
-            android:src="@mipmap/home_quality_g2"/>
-
+            android:background="@color/colorBackground"/>
 
     <TextView
             android:id="@+id/goodsName2"

@@ -11,9 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
-import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.SearchHintAdapter
-import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtils
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter

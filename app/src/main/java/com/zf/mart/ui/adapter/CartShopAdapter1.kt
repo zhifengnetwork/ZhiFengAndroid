@@ -26,16 +26,15 @@ class CartShopAdapter1(val context: Context?, val data: List<ShopList>) :
     override fun getItemCount(): Int = data.size
 
     var checkGoodsListener: ((List<ShopList>) -> Unit)? = null
-
     var onShopSpecListener: ((spec: String) -> Unit)? = null
     var onShopNumListener: ((num: Int) -> Unit)? = null
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.itemView.apply {
-            shopName.text = data[position].shopName
+            shopName.text = data[position].seller_name
             //初始化
-            val adapter = CartGoodsAdapter1(context, data[position].goodsList)
+            val adapter = CartGoodsAdapter1(context, data[position].data)
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = adapter
 
@@ -45,15 +44,15 @@ class CartShopAdapter1(val context: Context?, val data: List<ShopList>) :
             //商品适配器的选中监听回调
             adapter.checkGoodsListener = {
                 /** 重组数据 */
-                data[position].goodsList = it
+                data[position].data = it
                 var size = 0
-                data[position].goodsList.forEach { goods ->
+                data[position].data.forEach { goods ->
                     if (goods.ifCheck) {
                         size += 1
                     }
                 }
                 //该商家全部商品被选中或者反选  赋值商家的选中标记
-                data[position].ifCheck = size == data[position].goodsList.size
+                data[position].ifCheck = size == data[position].data.size
                 checkBox.isChecked = data[position].ifCheck
                 //通知fragment刷新
                 checkGoodsListener?.invoke(data)
@@ -71,7 +70,7 @@ class CartShopAdapter1(val context: Context?, val data: List<ShopList>) :
             checkBox.setOnClickListener {
 
                 //重新给商品赋值是否选中
-                data[position].goodsList.forEach { goodsList ->
+                data[position].data.forEach { goodsList ->
                     goodsList.ifCheck = checkBox.isChecked
                 }
                 adapter.notifyDataSetChanged()

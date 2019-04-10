@@ -26,7 +26,7 @@ class EnGoodsAdapter(val context: Context?, val data: ArrayList<CartGoodsList>) 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
 
-            goodsName.text = data[position].goodsName + "   " + data[position].id
+            goodsName.text = data[position].goods.goods_name + "   " + data[position].id
 
         }
     }
