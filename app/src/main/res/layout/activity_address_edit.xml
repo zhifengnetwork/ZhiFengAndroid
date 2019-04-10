@@ -26,7 +26,9 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-            <TextView android:layout_width="70dp"
+
+            <TextView
+                    android:layout_width="70dp"
                       android:layout_height="wrap_content"
                       android:layout_marginTop="15dp"
                       android:layout_marginBottom="15dp"
@@ -34,7 +36,8 @@
                       android:textColor="@color/colorSecondText"
                       android:text="收货人:"/>
 
-            <EditText android:layout_width="match_parent"
+            <EditText android:id="@+id/user_id"
+                      android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:gravity="center_vertical"
                       android:layout_marginLeft="14dp"
@@ -65,7 +68,8 @@
                       android:textColor="@color/colorSecondText"
                       android:text="手机号码:"/>
 
-            <EditText android:layout_width="match_parent"
+            <EditText android:id="@+id/user_phone"
+                      android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:gravity="center_vertical"
                       android:layout_marginLeft="14dp"
@@ -102,7 +106,7 @@
                       android:layout_height="wrap_content"
                       android:layout_marginLeft="14dp"
                       android:singleLine="true"
-                      android:id="@+id/address"
+                      android:id="@+id/district"
                       android:background="@null"
                       android:textColor="@color/colorPrimaryText"
                       android:textSize="14sp"
@@ -129,7 +133,8 @@
                       android:textColor="@color/colorSecondText"
                       android:text="详细地址:"/>
 
-            <EditText android:layout_width="match_parent"
+            <EditText android:id="@+id/address"
+                      android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:layout_marginLeft="14dp"
                       android:gravity="center_vertical"
@@ -296,7 +301,9 @@
                       android:textColor="@color/colorSecondText"
                       android:text="设置默认地址(每次下单会使用该地址)"/>
 
-            <CheckBox android:layout_width="wrap_content"
+
+            <CheckBox android:id="@+id/is_default"
+                      android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_marginLeft="24dp"
                       android:button="@null"

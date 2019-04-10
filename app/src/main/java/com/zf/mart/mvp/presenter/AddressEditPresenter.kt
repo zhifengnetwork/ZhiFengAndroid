@@ -1,25 +1,24 @@
 package com.zf.mart.mvp.presenter
 
 import com.zf.mart.base.BasePresenter
-import com.zf.mart.mvp.contract.AddressContract
-import com.zf.mart.mvp.model.AddressModel
+import com.zf.mart.mvp.contract.AddressEditContract
+import com.zf.mart.mvp.model.AddressEditModel
 import com.zf.mart.net.exception.ExceptionHandle
 
-class AddressPresenter : BasePresenter<AddressContract.View>(), AddressContract.Presenter {
-
-    override fun requestAddress() {
+class AddressEditPresenter:BasePresenter<AddressEditContract.View>(),AddressEditContract.Presenter{
+    private val model: AddressEditModel by lazy { AddressEditModel() }
+    override fun requestAddressEdit() {
         checkViewAttached()
         mRootView?.showLoading()
-        val disposable = model.requestAddress()
+        val disposable = model.requestAddressEdit()
             .subscribe({
                 mRootView?.apply {
-                    dismissLoading()
                     when (it.status) {
-                        0 -> getAddress(it.data)
+                        0 -> setAddress(it.data)
                         else -> showError(it.msg, it.status)
                     }
                 }
-            }, {
+            },{
                 mRootView?.apply {
                     dismissLoading()
                     showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
@@ -27,8 +26,5 @@ class AddressPresenter : BasePresenter<AddressContract.View>(), AddressContract.
             })
         addSubscription(disposable)
     }
-
-    private val model: AddressModel by lazy { AddressModel() }
-
 
 }

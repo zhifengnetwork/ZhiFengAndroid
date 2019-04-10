@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import com.bigkoo.pickerview.adapter.ArrayWheelAdapter
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.mvp.bean.AddressBean
 import com.zf.mart.showToast
 import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtils
@@ -23,8 +24,10 @@ import kotlinx.android.synthetic.main.pop_region.view.*
 class AddressEditActivity : BaseActivity() {
 
     companion object {
-        fun actionStart(context: Context?) {
-            context?.startActivity(Intent(context, AddressEditActivity::class.java))
+        fun actionStart(context: Context?,addressData:Array<String>) {
+            val intent=Intent(context, AddressEditActivity::class.java)
+            intent.putExtra("address",addressData)
+            context?.startActivity(intent)
         }
     }
 
@@ -41,6 +44,9 @@ class AddressEditActivity : BaseActivity() {
     }
 
     override fun initView() {
+
+        upinfo()
+
         initTag()
     }
 
@@ -237,6 +243,34 @@ class AddressEditActivity : BaseActivity() {
             editTextView.isSelected = false
             editTextView.text = "编辑"
         }
+    }
+
+    /**
+     * 点击地址编辑按钮将传递过来的数据赋值再界面上
+     * */
+    fun upinfo(){
+        val data:Array<String> = intent.getStringArrayExtra("address")
+
+        if(data[0]!=""){
+            user_id.setText(data[0])
+            user_phone.setText(data[1])
+            district.text=data[3]+data[4]+data[5]
+            address.setText(data[7])
+            if (data[9]=="1"){
+                is_default.isChecked=true
+            }
+        }else{
+            user_id.setText("")
+            user_phone.setText("")
+//            district.text=""
+            address.setText("")
+            is_default.isChecked=false
+        }
+
+
+
+
+
     }
 }
 

@@ -13,6 +13,7 @@ import com.zf.mart.mvp.presenter.AddressPresenter
 import com.zf.mart.ui.adapter.AddressAdapter
 import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_address.*
+import kotlinx.android.synthetic.main.item_address.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class AddressActivity : BaseActivity(),AddressContract.View {
@@ -20,7 +21,7 @@ class AddressActivity : BaseActivity(),AddressContract.View {
 
     }
 
-    override fun setAddress(bean: List<AddressBean>) {
+    override fun getAddress(bean: List<AddressBean>) {
         addressData.addAll(bean)
         adapter.notifyDataSetChanged()
     }
@@ -47,14 +48,16 @@ class AddressActivity : BaseActivity(),AddressContract.View {
     }
     private val addressData = ArrayList<AddressBean>()
     private val adapter by lazy { AddressAdapter(this,addressData) }
-
     private val addressPresenter by lazy { AddressPresenter() }
 
     override fun layoutId(): Int = R.layout.activity_address
 
     override fun initData() {
     }
-
+     /**空数组
+      * 没用的
+      * */
+    private val a:Array<String> = arrayOf("")
     override fun initView() {
 
         addressPresenter.attachView(this)
@@ -66,8 +69,10 @@ class AddressActivity : BaseActivity(),AddressContract.View {
 
     override fun initEvent() {
         newAddress.setOnClickListener {
-            AddressEditActivity.actionStart(this)
+            AddressEditActivity.actionStart(this,a)
         }
+
+
     }
 
     override fun onDestroy() {

@@ -61,6 +61,18 @@ interface ApiService {
     fun getAddressList(): Observable<BaseBean<List<AddressBean>>>
 
     /**
+     * 添加地址
+     */
+     @POST("api/User/add_address")
+     fun setAddressList():Observable<BaseBean<List<AddressEditBean>>>
+
+    /**
+     * 删除地址
+     */
+    @GET("api/User/del_address")
+
+
+    /**
      * 订单详情
      */
     @GET("api/order/order_detail")
@@ -71,6 +83,7 @@ interface ApiService {
      */
     @GET("api/cart/cartlist")
     fun getCartList(): Observable<BaseBean<List<ShopList>>>
+
     /**
      * 分类左边标题
      */
