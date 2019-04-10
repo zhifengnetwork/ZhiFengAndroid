@@ -9,12 +9,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.mvp.bean.ClassifyBean
 import kotlinx.android.synthetic.main.classify_title_item.view.*
 
 
 
 
-class ClassifyTitleAdapter(val context: Context?, val data: List<String>) :
+class ClassifyTitleAdapter(val context: Context?, val data: ArrayList<ClassifyBean>) :
     RecyclerView.Adapter<ClassifyTitleAdapter.ViewHolder>() {
 
     private var thisPosition=0
@@ -50,9 +51,12 @@ class ClassifyTitleAdapter(val context: Context?, val data: List<String>) :
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.classify_item_tv.text = data[position]
-        holder.itemView.titleback.isSelected=selectedPos == position
-        holder.itemView.classify_item_title_view.isSelected = selectedPos == position
+        holder.itemView.apply {
+            holder.itemView.classify_item_tv.text = data[position].name
+            holder.itemView.titleback.isSelected=selectedPos == position
+            holder.itemView.classify_item_title_view.isSelected = selectedPos == position
+        }
+
         //判断当前的item是否为选中的item
         if(position == getthisPosition()){
             holder.itemView.classify_item_tv.setTextColor(Color.rgb(38,38,38)    )//R.color.colorifyitemText
@@ -75,6 +79,7 @@ class ClassifyTitleAdapter(val context: Context?, val data: List<String>) :
 
 
     }
+
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

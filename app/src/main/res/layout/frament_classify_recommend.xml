@@ -37,26 +37,27 @@
 
 
                 <LinearLayout
-                android:layout_width="132dp"
-                android:layout_height="35dp"
-                android:layout_marginBottom="20dp"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:background="@drawable/shape_corner_ify_btn"
-                android:gravity="center">
+                        android:id="@+id/see_more"
+                        android:layout_width="132dp"
+                        android:layout_height="35dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:background="@drawable/shape_corner_ify_btn"
+                        android:gravity="center">
 
                 <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="查看更多"
-                android:textSize="11sp"
-                android:gravity="center"
-                android:textColor="@color/whit"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="查看更多"
+                        android:textSize="11sp"
+                        android:gravity="center"
+                        android:textColor="@color/whit"/>
                 <ImageView
-                android:layout_width="6dp"
-                android:layout_height="10dp"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/arrow_w"/>
+                        android:layout_width="6dp"
+                        android:layout_height="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/arrow_w"/>
                 </LinearLayout>
 
                 </LinearLayout>

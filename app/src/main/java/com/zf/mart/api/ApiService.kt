@@ -73,6 +73,12 @@ interface ApiService {
     fun getCartList(): Observable<BaseBean<List<ShopList>>>
 
     /**
+     * 分类左边标题
+     */
+    @GET("api/goods/categoryList")
+    fun getClassifyList(): Observable<BaseBean<List<ClassifyBean>>>
+
+    /**
      * 商品搜索列表
      */
     @GET("api/Search/search")
@@ -89,5 +95,11 @@ interface ApiService {
         @Query("page") page: Int, //第几页
         @Query("per_page") per_page: Int //每页多少条
     ): Observable<BaseBean<SearchBean>>
+
+    /**
+     * 分类
+     */
+    @GET("api/goods/Products")
+    fun getClassifyProduct(@Query("cat_id") cat_id: String): Observable<BaseBean<List<ClassifyProductBean>>>
 
 }
