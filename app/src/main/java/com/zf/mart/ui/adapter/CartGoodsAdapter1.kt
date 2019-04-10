@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import com.zf.mart.api.UriConstant
+import com.zf.mart.mvp.bean.CartCountBean
 import com.zf.mart.mvp.bean.CartGoodsList
 import com.zf.mart.utils.GlideUtils
 import kotlinx.android.synthetic.main.item_cart_goods.view.*
@@ -29,9 +30,12 @@ class CartGoodsAdapter1(val context: Context?, val data: ArrayList<CartGoodsList
     var checkGoodsListener: ((ArrayList<CartGoodsList>) -> Unit)? = null
 
     //输入数量
-    var onInputListener: ((num: Int) -> Unit)? = null
+    var onInputListener: ((CartCountBean) -> Unit)? = null
     //规格
     var onSpecListener: ((spec: String) -> Unit)? = null
+
+    //增加减少数量
+    var onCountListener: ((CartCountBean) -> Unit)? = null
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
@@ -72,18 +76,29 @@ class CartGoodsAdapter1(val context: Context?, val data: ArrayList<CartGoodsList
             reduce.setOnClickListener {
                 if (numberInput.text.toString().toInt() > 1) {
                     reduce.isSelected = false
-                    numberInput.text = (numberInput.text.toString().toInt() - 1).toString()
+//                    numberInput.text = (numberInput.text.toString().toInt() - 1).toString()
+                    onCountListener?.invoke(
+                        CartCountBean(
+                            data[position].id, (numberInput.text.toString().toInt() - 1).toString()
+                        )
+                    )
+
                 }
             }
 
             //增加
             increase.setOnClickListener {
-                numberInput.text = (numberInput.text.toString().toInt() + 1).toString()
+                //                numberInput.text = (numberInput.text.toString().toInt() + 1).toString()
+                onCountListener?.invoke(
+                    CartCountBean(
+                        data[position].id, (numberInput.text.toString().toInt() + 1).toString()
+                    )
+                )
             }
 
             //输入数量
             numberInput.setOnClickListener {
-                onInputListener?.invoke(numberInput.text.toString().toInt())
+                onInputListener?.invoke(CartCountBean(data[position].id, numberInput.text.toString()))
             }
 
             /**

@@ -2,21 +2,23 @@ package com.zf.mart.mvp.presenter
 
 import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BasePresenter
-import com.zf.mart.mvp.contract.OrderListContract
-import com.zf.mart.mvp.model.OrderListModel
+import com.zf.mart.mvp.contract.GroupContract
+import com.zf.mart.mvp.model.GroupModel
 import com.zf.mart.net.exception.ExceptionHandle
 
-class OrderListPresenter : BasePresenter<OrderListContract.View>(), OrderListContract.Presenter {
+class GroupPresenter : BasePresenter<GroupContract.View>(), GroupContract.Presenter {
 
-    private var mPage: Int = 1
+    private val model: GroupModel by lazy { GroupModel() }
 
-    override fun requestOrderList(type: String, page: Int?) {
-        checkViewAttached()
+    private var mPage = 1
+
+    override fun requestGroup(page: Int?) {
 
         mPage = page ?: mPage
 
-        //加载图在activity中写,showLoading只做结束refreshLayout的finish事件
-        val disposable = model.requestOrderList(type, mPage)
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.getGroup(mPage)
             .subscribe({
                 mRootView?.apply {
                     dismissLoading()
@@ -24,27 +26,24 @@ class OrderListPresenter : BasePresenter<OrderListContract.View>(), OrderListCon
                         0 -> {
                             if (mPage == 1) {
                                 if (it.data != null && it.data.isNotEmpty()) {
-                                    setFinishRefresh(it.data)
+                                    setGroup(it.data)
                                 } else {
-                                    setEmptyOrder()
+                                    freshEmpty()
                                 }
                             } else {
                                 if (it.data != null && it.data.isNotEmpty()) {
-                                    setFinishLoadMore(it.data)
+                                    loadMore(it.data)
                                 } else {
-                                    setLoadComplete()
+                                    loadComplete()
                                 }
                             }
-                            if (it.data != null && it.data.isNotEmpty()) {
+                            if (it.data != null) {
                                 if (it.data.size < UriConstant.PER_PAGE) {
-                                    setLoadComplete()
+                                    loadComplete()
                                 }
                             }
-                            mPage += 1
                         }
-                        else -> {
-                            if (mPage == 1) showError(it.msg, it.status) else loadMoreError(it.msg, it.status)
-                        }
+                        else -> if (mPage == 1) showError(it.msg, it.status) else loadMoreError(it.msg, it.status)
                     }
                 }
             }, {
@@ -52,13 +51,9 @@ class OrderListPresenter : BasePresenter<OrderListContract.View>(), OrderListCon
                     dismissLoading()
                     if (mPage == 1) showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
                     else loadMoreError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
-
                 }
-
             })
         addSubscription(disposable)
     }
-
-    private val model: OrderListModel by lazy { OrderListModel() }
 
 }

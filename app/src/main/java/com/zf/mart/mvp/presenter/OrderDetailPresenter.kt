@@ -17,7 +17,9 @@ class OrderDetailPresenter : BasePresenter<OrderDetailContract.View>(), OrderDet
                 mRootView?.apply {
                     dismissLoading()
                     when (it.status) {
-                        0 -> setOrderDetail(it.data)
+                        0 -> if (it.data != null) {
+                            setOrderDetail(it.data)
+                        }
                         else -> showError(it.msg, it.status)
                     }
                 }

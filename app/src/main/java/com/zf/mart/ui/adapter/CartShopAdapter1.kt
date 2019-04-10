@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.mvp.bean.CartCountBean
 import com.zf.mart.mvp.bean.ShopList
 import kotlinx.android.synthetic.main.item_cart_shop.view.*
 
@@ -27,7 +28,8 @@ class CartShopAdapter1(val context: Context?, val data: List<ShopList>) :
 
     var checkGoodsListener: ((List<ShopList>) -> Unit)? = null
     var onShopSpecListener: ((spec: String) -> Unit)? = null
-    var onShopNumListener: ((num: Int) -> Unit)? = null
+    var onShopNumListener: ((CartCountBean) -> Unit)? = null
+    var onGoodsCount: ((CartCountBean) -> Unit)? = null
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
@@ -65,6 +67,10 @@ class CartShopAdapter1(val context: Context?, val data: List<ShopList>) :
                 onSpecListener = {
                     onShopSpecListener?.invoke(it)
                 }
+                onCountListener = {
+                    onGoodsCount?.invoke(it)
+                }
+
             }
 
             checkBox.setOnClickListener {

@@ -25,16 +25,22 @@ class CartListPresenter : BasePresenter<CartListContract.View>(), CartListContra
                     when (it.status) {
                         0 -> {
                             if (mPage == 1) {
-                                if (it.data.isNotEmpty()) {
+                                if (it.data != null && it.data.isNotEmpty()) {
                                     setRefreshCart(it.data)
                                 } else {
                                     setEmpty()
                                 }
                             } else {
-                                setLoadMoreCart(it.data)
+                                if (it.data != null && it.data.isNotEmpty()) {
+                                    setLoadMoreCart(it.data)
+                                } else {
+                                    setLoadComplete()
+                                }
                             }
-                            if (it.data.size < UriConstant.PER_PAGE) {
-                                setLoadComplete()
+                            if (it.data != null && it.data.isNotEmpty()) {
+                                if (it.data.size < UriConstant.PER_PAGE) {
+                                    setLoadComplete()
+                                }
                             }
                         }
                         else -> if (mPage == 1) {

@@ -7,14 +7,18 @@ data class ShopList(
 )
 
 data class CartGoodsList(
-    val id: Int,          //商品id
+    val id: String,          //商品id
     var ifCheck: Boolean = false,  //商品是否选中
     val goods_price: String,
     val goods_num: String,
-    val goods: Goods
+    val goods: Goods,
+    val cat_id: String
 )
 
 data class Goods(
     val goods_name: String, //商品名字
-    val original_img: String //商品图片
+    val original_img: String, //商品图片
+    val cat_id: String,
+    val goods_id:String
+
 )

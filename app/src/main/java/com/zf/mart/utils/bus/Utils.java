@@ -1,18 +1,10 @@
-package com.zf.mart.utils.rxbus;
+package com.zf.mart.utils.bus;
 
 import android.util.Log;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-/**
- * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
- *     time  : 2017/12/24
- *     desc  :
- * </pre>
- */
 final class Utils {
 
     private Utils() {
@@ -43,16 +35,10 @@ final class Utils {
         }
     }
 
-    public static <T> Class<T> getTypeClassFromParadigm(final RxBus.Callback<T> callback) {
+    public static <T> Class<T> getTypeClassFromCallback(final RxBus.Callback<T> callback) {
         if (callback == null) return null;
-        Type[] genericInterfaces = callback.getClass().getGenericInterfaces();
-        Type type;
-        if (genericInterfaces.length == 1) {
-            type = genericInterfaces[0];
-        } else {
-            type = callback.getClass().getGenericSuperclass();
-        }
-        type = ((ParameterizedType) type).getActualTypeArguments()[0];
+        Type mySuperClass = callback.getClass().getGenericInterfaces()[0];
+        Type type = ((ParameterizedType) mySuperClass).getActualTypeArguments()[0];
         while (type instanceof ParameterizedType) {
             type = ((ParameterizedType) type).getRawType();
         }
@@ -74,23 +60,13 @@ final class Utils {
     public static Class getClassFromObject(final Object obj) {
         if (obj == null) return null;
         Class objClass = obj.getClass();
-        if (objClass.isAnonymousClass() || objClass.isSynthetic()) {
-            Type[] genericInterfaces = objClass.getGenericInterfaces();
-            String className;
-            if (genericInterfaces.length == 1) {// interface
-                Type type = genericInterfaces[0];
-                while (type instanceof ParameterizedType) {
-                    type = ((ParameterizedType) type).getRawType();
-                }
-                className = type.toString();
-            } else {// abstract class or lambda
-                Type type = objClass.getGenericSuperclass();
-                while (type instanceof ParameterizedType) {
-                    type = ((ParameterizedType) type).getRawType();
-                }
-                className = type.toString();
+        Type[] genericInterfaces = objClass.getGenericInterfaces();
+        if (genericInterfaces.length == 1) {
+            Type type = genericInterfaces[0];
+            while (type instanceof ParameterizedType) {
+                type = ((ParameterizedType) type).getRawType();
             }
-
+            String className = type.toString();
             if (className.startsWith("class ")) {
                 className = className.substring(6);
             } else if (className.startsWith("interface ")) {

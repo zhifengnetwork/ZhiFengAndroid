@@ -56,7 +56,7 @@ class MeFragment : BaseFragment() {
         UserInfoLiveData.observe(viewLifecycleOwner, Observer { userInfo ->
             userInfo?.apply {
                 userName.text = nickname
-                GlideUtils.loadUrlImage(context, head_pic, avatar)
+                GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + head_pic, avatar)
             }
         })
     }

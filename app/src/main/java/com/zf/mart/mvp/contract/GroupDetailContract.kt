@@ -1,20 +1,21 @@
 package com.zf.mart.mvp.contract
 
-import com.zf.mart.base.BaseBean
 import com.zf.mart.base.IBaseView
 import com.zf.mart.base.IPresenter
-import okhttp3.MultipartBody
+import com.zf.mart.mvp.bean.GroupDetailBean
 
-interface UploadHeadContract {
+interface GroupDetailContract {
 
     interface View : IBaseView {
 
-        fun setHead(bean: BaseBean<String>)
         fun showError(msg: String, errorCode: Int)
+
+        fun setGroupDetail(bean: GroupDetailBean)
     }
 
     interface Presenter : IPresenter<View> {
-        fun upLoadHead(head: MultipartBody.Part)
+        fun requestGroupDetail(id: String)
+
     }
 
 }

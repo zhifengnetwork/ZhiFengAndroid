@@ -1,5 +1,6 @@
-package com.zf.mart.utils.rxbus;
+package com.zf.mart.utils.bus;
 
+import com.zf.mart.utils.LogUtils;
 import io.reactivex.FlowableSubscriber;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.exceptions.CompositeException;
@@ -14,21 +15,13 @@ import org.reactivestreams.Subscription;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-/**
- * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
- *     time  : 2018/05/08
- *     desc  :
- * </pre>
- */
 final class MyLambdaSubscriber<T> extends AtomicReference<Subscription>
         implements FlowableSubscriber<T>, Subscription, Disposable, LambdaConsumerIntrospection {
 
     private static final long serialVersionUID = -7251123623727029452L;
-    final Consumer<? super T>            onNext;
-    final Consumer<? super Throwable>    onError;
-    final Action                         onComplete;
+    final Consumer<? super T> onNext;
+    final Consumer<? super Throwable> onError;
+    final Action onComplete;
     final Consumer<? super Subscription> onSubscribe;
 
     public MyLambdaSubscriber(Consumer<? super T> onNext, Consumer<? super Throwable> onError,
@@ -50,6 +43,7 @@ final class MyLambdaSubscriber<T> extends AtomicReference<Subscription>
                 Exceptions.throwIfFatal(ex);
                 s.cancel();
                 onError(ex);
+                LogUtils.INSTANCE.e(">>>>rxBus出错了1");
             }
         }
     }
@@ -63,6 +57,7 @@ final class MyLambdaSubscriber<T> extends AtomicReference<Subscription>
                 Exceptions.throwIfFatal(e);
 //                get().cancel();
                 onError(e);
+                LogUtils.INSTANCE.e(">>>>rxBus出错了2");
             }
         }
     }
@@ -76,6 +71,7 @@ final class MyLambdaSubscriber<T> extends AtomicReference<Subscription>
             } catch (Throwable e) {
                 Exceptions.throwIfFatal(e);
                 RxJavaPlugins.onError(new CompositeException(t, e));
+                LogUtils.INSTANCE.e(">>>>rxBus出错了3");
             }
         } else {
             RxJavaPlugins.onError(t);
@@ -91,6 +87,8 @@ final class MyLambdaSubscriber<T> extends AtomicReference<Subscription>
             } catch (Throwable e) {
                 Exceptions.throwIfFatal(e);
                 RxJavaPlugins.onError(e);
+                LogUtils.INSTANCE.e(">>>>rxBus出错了3");
+
             }
         }
     }

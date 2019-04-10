@@ -1,13 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:background="@color/colorBackground"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            app:srlEnableAutoLoadMore="true"
+            app:srlEnableRefresh="false"
+            app:srlEnableFooterFollowWhenLoadFinished="true"
+            android:layout_height="match_parent">
+
+        <com.classic.common.MultipleStatusView
+                android:id="@+id/multipleStatusView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:overScrollMode="never"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+        </com.classic.common.MultipleStatusView>
+
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                app:srlDrawableProgress="@drawable/ic_progress_puzzle"
+                app:srlFinishDuration="0"
+                app:srlTextFinish="@string/load_finish"
+                app:srlTextFailed="@string/load_failed"
+                app:srlTextPulling="@string/load_pulling"
+                app:srlTextRelease="@string/load_release"
+                app:srlTextLoading="@string/load_loading"
+                app:srlTextNothing="@string/load_noting"
+                android:layout_height="wrap_content"/>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

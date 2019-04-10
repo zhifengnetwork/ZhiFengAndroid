@@ -14,6 +14,8 @@ object UriConstant {
 
     const val PER_PAGE = 15
 
+    const val UPDATE_USER_INFO = "updateUserInfo"
+
     //http://www.dchqzg1688.com/api/upload/add
 
 //    const  val BASE_URL = "http://api.zhifeng.c3w.cc"
