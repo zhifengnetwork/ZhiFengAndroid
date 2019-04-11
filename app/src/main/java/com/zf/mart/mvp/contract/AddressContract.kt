@@ -15,7 +15,7 @@ interface AddressContract {
     }
 
     interface Presenter : IPresenter<View> {
-        fun requestAddress( )
+        fun requestAddress()
 
     }
 

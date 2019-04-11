@@ -22,7 +22,7 @@ interface AddressEditContract{
 
     }
 interface Presenter : IPresenter<View> {
-       fun requestAddressEdit(consignee:String,mobile:String,province:String,city:String,district:String,address:String,is_default:String)
+       fun requestAddressEdit(consignee:String,mobile:String,province:String,city:String,district:String,address:String,label:String,is_default:String)
        fun requestDelAddress(id:String)
        fun requestRegion(id:String)
        fun requestDeitAddress(id:String,consignee:String,mobile:String,province:String,city:String,district:String,address:String,label:String,is_default:String)
