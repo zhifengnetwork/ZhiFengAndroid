@@ -25,26 +25,30 @@ import com.zf.mart.mvp.bean.AddAddressBean
 import com.zf.mart.mvp.bean.RegionBean
 import com.zf.mart.mvp.contract.AddressEditContract
 import com.zf.mart.mvp.presenter.AddressEditPresenter
-import kotlinx.android.synthetic.main.pop_region.*
+import android.text.TextUtils
+import com.zf.mart.mvp.bean.EditAddressBean
 
 
 class AddressEditActivity : BaseActivity(),AddressEditContract.View{
+    override fun deitAddress(bean: EditAddressBean) {
+
+    }
+
+    override fun setAddress(bean: AddAddressBean) {
+
+    }
+
     override fun showError(msg: String, errorCode: Int) {
 
     }
 
     override fun delAddressSuccess() {
-        Log.e("检测","删除操作返回数据成功")
-    }
 
-    override fun setAddress(bean: List<AddAddressBean>) {
-        Log.e("检测","添加地址返回数据操作成功")
     }
 
     override fun getRegion(bean: List<RegionBean>) {
         regionData.clear()
         regionData.addAll(bean)
-        Log.e("检测","三级列表数据获取成功"+regionData)
 
        //获取省份，通过省份获取城市，获取区域
         if(switch==1) {
@@ -67,13 +71,17 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
                     cityData.add(regionData[i].name)
                 }
             }
-            
             cityAdapter=ArrayWheelAdapter(cityData)
 
             /** 城市更新后更新区域 */
-            switch = 3
-            addressEditPresenter.requestRegion(cityID[0])
 
+            if(cityID.size!=0){
+                switch = 3
+                addressEditPresenter.requestRegion(cityID[0])
+            }else{
+                areaData.clear()
+                areaID.clear()
+            }
             regionPopWindow.updata()
 
         }else if (switch==3){
@@ -114,6 +122,7 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
         back.setOnClickListener { finish() }
         titleName.text = "编辑收货人"
         rightIcon.setImageResource(R.drawable.ic_delete)
+
     }
     //接收传递过来的用户地址信息
     private var data:Array<String> = emptyArray()
@@ -133,12 +142,17 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
     override fun initData() {
     }
     override fun initView() {
-        Log.e("检测","View执行了"+regionData)
+
        addressEditPresenter.attachView(this)
 
         upinfo()
 
         initTag()
+
+       //添加地址 隐藏删除图标
+        if(data[0]==""){
+            rightIcon.visibility=View.GONE
+        }
 
     }
 
@@ -149,6 +163,7 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
 //    private var areaData = arrayOf<String>()
 //    private var townData = arrayOf<String>()
     private var provinceData = ArrayList<String>()
+
     private var provinceID = ArrayList<String>()
     private var cityData = ArrayList<String>()
     private var cityID = ArrayList<String>()
@@ -177,7 +192,6 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
             builder.setPositiveButton("确定",DialogInterface.OnClickListener { dialog, which ->
                 //网络请求
                 addressEditPresenter.requestDelAddress(data[0])
-
                 finish()
             })
             builder.setNegativeButton("取消",null)
@@ -188,10 +202,69 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
         /**点击确认 添加地址或修改地址*/
         confirm.setOnClickListener {
 
-            Log.e("检测","点击了按钮")
-
             /**添加地址*/
             if (data[0]==""){
+                //选中的tag标签
+//                val chooseTag = when {
+//                    homeRb.isSelected -> homeRb.text.toString()
+//                    companyRb.isSelected -> companyRb.text.toString()
+//                    schoolRb.isSelected -> schoolRb.text.toString()
+//                    inputEditText.isSelected -> inputEditText.text.toString()
+//                    else -> ""
+//                }
+//            showToast(chooseTag)
+                    val mConsignee =user_id.text.toString()
+                    val mMobile=user_phone.text.toString()
+                    var mProvince=""
+                    var mCity=""
+                    var mDistrict=""
+                    val mAddress=address.text.toString()
+                    var mIs_default="0"
+                    if (is_default.isChecked){
+                        mIs_default="1"
+                    }else{
+                        mIs_default="0"
+                    }
+
+                /**判断 省 市 区 的ID*/
+                for(i in provinceData.indices){
+                     if(province.text==provinceData[i]){
+                         mProvince=provinceID[i]
+                     }
+                }
+                for(i in cityData.indices){
+                    if(city.text==cityData[i]){
+                        mCity=cityID[i]
+                    }
+                }
+                for(i in areaData.indices){
+                    if(area.text==areaData[i]){
+                        mDistrict=areaID[i]
+                    }
+                }
+               /**判断用户输入信息是否规范*/
+                if (mConsignee.length<2){
+                        Toast.makeText(context,"请输入姓名2-25个字符",Toast.LENGTH_SHORT).show()
+                }else if (!isMobileNO(mMobile)){
+                    Toast.makeText(context,"请正确输入11位手机号码",Toast.LENGTH_SHORT).show()
+                }else if(province.text.isEmpty()){
+                    Toast.makeText(context,"请选择地区",Toast.LENGTH_SHORT).show()
+                }else if (mAddress.length<5){
+                    Toast.makeText(context,"请输入详细地址5-120个字符",Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    //网络请求
+                    addressEditPresenter.requestAddressEdit(mConsignee,mMobile,mProvince,mCity,mDistrict,mAddress,mIs_default)
+
+                    Toast.makeText(context,"添加成功",Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+
+            }
+                 /** 修改地址*/
+            else{
+
+                //获得界面信息
                 //选中的tag标签
                 val chooseTag = when {
                     homeRb.isSelected -> homeRb.text.toString()
@@ -201,26 +274,22 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
                     else -> ""
                 }
 //            showToast(chooseTag)
-                    val consignee= user_id.text.toString()
-                    val mobile=user_phone.text.toString()
-                    val province=district.text.toString()
-                    val city=district.text.toString()
-                    val district=district.text.toString()
-                    val address=address.text.toString()
-                    var mis_default="0"
 
-//                    if (is_default.isChecked){
-//                        mis_default="1"
-//                    }
-                 //网络请求
-                addressEditPresenter.requestAddressEdit("测试添加","12345678","132","456","111","桃园西街","0")
-
-                Toast.makeText(context,"添加成功",Toast.LENGTH_SHORT).show()
+                val mConsignee =user_id.text.toString()
+                val mMobile=user_phone.text.toString()
+                var mProvince=data[4]
+                var mCity=data[5]
+                var mDistrict=data[6]
+                val mAddress=address.text.toString()
+                var mIs_default=""
+                if (is_default.isChecked){
+                    mIs_default="1"
+                }else{
+                    mIs_default="0"
+                }
+                addressEditPresenter.requestDeitAddress(data[0],mConsignee,mMobile,mProvince,mCity,mDistrict,mAddress,chooseTag,mIs_default)
+                Toast.makeText(context,"修改成功",Toast.LENGTH_SHORT).show()
                 finish()
-            }
-                 /** 修改地址*/
-            else{
-                Toast.makeText(context,"修改地址",Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -232,79 +301,52 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
             addressEditPresenter.requestRegion(provinceID[0])
 
 
-
               regionPopWindow = object : RegionPopupWindow(
                 this, R.layout.pop_region,
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
-
+                    provincAdapter.getItem(2)
                     contentView?.apply {
                         //赋值
                         provincePic.setCyclic(false)
                         cityPic.setCyclic(false)
                         areaPic.setCyclic(false)
-//                        var provinceData = ArrayList<String>()
-//                        var cityData = ArrayList<String>()
-//                        var areaData = ArrayList<String>()
-
-//                       if(regionData.size!=0){
-//                           provinceData.addAll(arrayOf(regionData[0].name, regionData[1].name, regionData[2].name, regionData[3].name))
-//                       }else{
-//                           provinceData.addAll(arrayOf("没有更新数据1", "没有更新数据2", "没有更新数据3", "没有更新数据4"))
-//                       }
-
-
-//                        cityData.addAll(arrayOf("广州", "东莞", "湛江"))
-
-//                        areaData.addAll(arrayOf("白云", "番禺", "车陂", "东圃", "天河"))
                         provincePic.adapter = provincAdapter
                         cityPic.adapter = cityAdapter
                         areaPic.adapter = areaAdapter
-
                         provincePic.setOnItemSelectedListener { index ->
                             /** 省份滑动，通过省份更新城市 */
 
                             switch = 2
                             addressEditPresenter.requestRegion(provinceID[index])
-
-//                            cityData = when (index) {
-//                                0 -> arrayListOf("广州", "东莞", "湛江"),
-//                                1 -> arrayListOf("湖南城市1", "湖南城市2", "湖南城市3")
-//                                else -> arrayListOf()
-//                            }
-//                            cityPic.adapter = ArrayWheelAdapter(cityData)
+                            province.text=provinceData[index]
 
 
-
-//                            areaData = when (cityPic.currentItem) {
-//                                0 -> arrayListOf("白云", "番禺", "车陂", "东圃", "天河")
-//                                1 -> arrayListOf("东莞区1", "东莞区2", "东莞区3")
-//                                2 -> arrayListOf("雷州", "遂溪", "徐闻")
-//                                else -> arrayListOf()
-//                            }
-//                            areaPic.adapter = ArrayWheelAdapter(areaData)
                         }
 
                         cityPic.setOnItemSelectedListener { index ->
+                           /**市滑动 更新区**/
 
-                            switch = 3
-                            addressEditPresenter.requestRegion(cityID[index])
-//                            switch = 3
-//                            regionData.clear()
-//                            areaData.clear()
-//                            areaID.clear()
-//                            addressEditPresenter.requestRegion(cityID[index])
-//                            areaData = when (index) {
-//                                0 -> arrayListOf("白云", "番禺", "车陂", "东圃", "天河")
-//                                1 -> arrayListOf("东莞区1", "东莞区2", "东莞区3")
-//                                2 -> arrayListOf("雷州", "遂溪", "徐闻")
-//                                else -> arrayListOf()
-//                            }
-//                            areaPic.adapter = ArrayWheelAdapter(areaData)
+                            if(cityID.size!=0){
+                                switch = 3
+                                addressEditPresenter.requestRegion(cityID[index])
+                                city.text=cityData[index]
+                            }else{
+                                city.text=""
+                                area.text=""
+                            }
+
+
                         }
+                        areaPic.setOnItemSelectedListener { index ->
+                            /**区滑动**/
+                            if(areaData.size!=0){
+                                area.text=areaData[index]
+                            }
 
+                        }
                     }
                 }
 
@@ -328,6 +370,15 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
         /**三级联动的请求*/
         addressEditPresenter.requestRegion("")
 
+    }
+
+    //判断手机号码格式是否正确
+    fun isMobileNO(mobiles:String): Boolean {
+        val telRegex = "[1][34578]\\d{9}"//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
+        if(TextUtils.isEmpty(mobiles)){
+            return false
+        }
+        else return mobiles.matches(telRegex.toRegex())
     }
 
     //地址标签
@@ -446,7 +497,7 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
         if(data[0]!=""){
             user_id.setText(data[1])
             user_phone.setText(data[2])
-            district.text=data[4]+data[5]+data[6]
+            province.text=data[4]+data[5]+data[6]
             address.setText(data[8])
             if (data[10]=="1"){
                 is_default.isChecked=true

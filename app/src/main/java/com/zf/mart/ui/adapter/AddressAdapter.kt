@@ -28,7 +28,7 @@ class AddressAdapter(val context: Context?,val addressData:List<AddressBean>) : 
 
             userName.text=addressData[position].consignee
 
-            district.text=addressData[position].province+addressData[position].city+addressData[position].district+addressData[position].twon+addressData[position].address
+            province.text=addressData[position].province+addressData[position].city+addressData[position].district+addressData[position].twon+addressData[position].address
         }
 
         holder.itemView.edit_btn.setOnClickListener {

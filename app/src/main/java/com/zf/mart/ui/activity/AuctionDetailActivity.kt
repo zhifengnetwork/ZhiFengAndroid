@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.mvp.bean.AddAddressBean
+import com.zf.mart.mvp.bean.EditAddressBean
 import com.zf.mart.mvp.bean.RegionBean
 import com.zf.mart.mvp.contract.AddressEditContract
 import com.zf.mart.ui.adapter.AuctionPeopleAdapter
@@ -24,6 +25,14 @@ import kotlinx.android.synthetic.main.pop_push_order.view.*
  * 竞拍详情页
  */
 class AuctionDetailActivity : BaseActivity(),AddressEditContract.View {
+    override fun deitAddress(bean: EditAddressBean) {
+
+    }
+
+    override fun setAddress(bean: AddAddressBean) {
+
+    }
+
     override fun delAddressSuccess() {
 
     }
@@ -36,9 +45,7 @@ class AuctionDetailActivity : BaseActivity(),AddressEditContract.View {
 
     }
 
-    override fun setAddress(bean: List<AddAddressBean>) {
 
-    }
 
     override fun showLoading() {
 

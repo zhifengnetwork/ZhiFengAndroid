@@ -74,7 +74,7 @@ interface ApiService {
         @Field("district") district: String,
         @Field("address") address: String,
         @Field("is_default") is_default: String
-        ):Observable<BaseBean<List<AddAddressBean>>>
+        ):Observable<BaseBean<AddAddressBean>>
 
     /**
      * 删除地址
@@ -85,6 +85,17 @@ interface ApiService {
     /**
      * 修改地址
      * */
+     @POST("api/User/edit_address")
+     @FormUrlEncoded
+     fun editAddress(@Field("id") id: String,
+                     @Field("consignee") consignee: String,
+                     @Field("mobile") mobile: String,
+                     @Field("province") province: String,
+                     @Field("city") city: String,
+                     @Field("district") district: String,
+                     @Field("address") address: String,
+                     @Field("label") label: String,
+                     @Field("is_default") is_default: String):Observable<BaseBean<EditAddressBean>>
 
     /**
      * 地址三级联动
