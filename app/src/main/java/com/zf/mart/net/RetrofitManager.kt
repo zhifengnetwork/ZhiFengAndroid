@@ -1,9 +1,10 @@
 package com.zf.mart.net
 
+import android.content.Intent
 import com.zf.mart.MyApplication
 import com.zf.mart.api.ApiService
 import com.zf.mart.api.UriConstant
-import com.zf.mart.utils.LogUtils
+import com.zf.mart.ui.activity.LoginActivity
 import com.zf.mart.utils.NetworkUtil
 import com.zf.mart.utils.Preference
 import okhttp3.*
@@ -72,7 +73,6 @@ object RetrofitManager {
             val modifiedUrl = originalRequest.url().newBuilder()
                 // Provide your custom parameter here
                 //添加自定义参数
-
                 .build()
             request = originalRequest.newBuilder().url(modifiedUrl).build()
             chain.proceed(request)
@@ -90,6 +90,16 @@ object RetrofitManager {
                 .header("Token", token)
                 .method(originalRequest.method(), originalRequest.body())
             val request = requestBuilder.build()
+
+            val response = chain.proceed(requestBuilder.build())
+            if (response.code() == 401) {
+                Preference.clearPreference(UriConstant.TOKEN)
+                val intent = Intent(MyApplication.context, LoginActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                MyApplication.context.startActivity(intent)
+            }
+
             chain.proceed(request)
         }
     }

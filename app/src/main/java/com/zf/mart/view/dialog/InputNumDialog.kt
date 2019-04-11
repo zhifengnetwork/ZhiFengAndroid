@@ -63,7 +63,6 @@ class InputNumDialog : DialogFragment() {
             /** 让光标移到后面 */
             numberInput.setSelection(numberInput.length())
 
-
             decrease.isSelected = numberInput.text.toString().toInt() < 2
 
             //增加
