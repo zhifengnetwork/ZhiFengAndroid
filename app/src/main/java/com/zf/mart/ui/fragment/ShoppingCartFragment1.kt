@@ -213,7 +213,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
 
             initCheckId(shopList)
         }
- 
+
         settle.setOnClickListener {
             //获取选中的id
             Toast.makeText(context, "选中id:$mChooseIdList", Toast.LENGTH_LONG).show()
@@ -251,58 +251,6 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         cartOperatePresenter.detachView()
     }
 
-//    private fun getCartData(): ArrayList<ShopList> {
-//        val list = ArrayList<ShopList>()
-//        list.addAll(
-//            arrayListOf(
-//                ShopList(
-//                    "小米旗舰店", arrayListOf(
-//                        CartGoodsList(1, "小米Note"),
-//                        CartGoodsList(2, "小米5"),
-//                        CartGoodsList(3, "小米8"),
-//                        CartGoodsList(4, "小米8se")
-//                    )
-//                ),
-//                ShopList(
-//                    "华为旗舰店", arrayListOf(
-//                        CartGoodsList(5, "华为mate"),
-//                        CartGoodsList(6, "华为荣耀")
-//                    )
-//                ),
-//                ShopList(
-//                    "格力空调", arrayListOf(
-//                        CartGoodsList(7, "1匹"),
-//                        CartGoodsList(8, "2匹"),
-//                        CartGoodsList(9, "3匹")
-//                    )
-//                ),
-//                ShopList(
-//                    "oppo手机", arrayListOf(
-//                        CartGoodsList(10, "oppo r1"),
-//                        CartGoodsList(11, "oppo r2"),
-//                        CartGoodsList(12, "oppo r3")
-//                    )
-//                ),
-//                ShopList(
-//                    "戴尔", arrayListOf(
-//                        CartGoodsList(13, "笔记本"),
-//                        CartGoodsList(14, "台式机"),
-//                        CartGoodsList(15, "屏幕")
-//                    )
-//                ),
-//                ShopList(
-//                    "索尼", arrayListOf(
-//                        CartGoodsList(16, "索尼手机"),
-//                        CartGoodsList(17, "索尼相机"),
-//                        CartGoodsList(18, "索尼其他东西")
-//                    )
-//                )
-//
-//
-//            )
-//        )
-//        return list
-//    }
 
     //支付方式
 //    private fun showPayPopWindow() {

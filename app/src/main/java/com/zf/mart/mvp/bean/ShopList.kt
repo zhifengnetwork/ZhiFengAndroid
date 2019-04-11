@@ -12,13 +12,14 @@ data class CartGoodsList(
     val goods_price: String,
     val goods_num: String,
     val goods: Goods,
-    val cat_id: String
+    val cat_id: String,
+    val selected: String
 )
 
 data class Goods(
     val goods_name: String, //商品名字
     val original_img: String, //商品图片
     val cat_id: String,
-    val goods_id:String
+    val goods_id: String
 
 )

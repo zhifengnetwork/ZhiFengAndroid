@@ -76,7 +76,6 @@ class CartGoodsAdapter1(val context: Context?, val data: ArrayList<CartGoodsList
             reduce.setOnClickListener {
                 if (numberInput.text.toString().toInt() > 1) {
                     reduce.isSelected = false
-//                    numberInput.text = (numberInput.text.toString().toInt() - 1).toString()
                     onCountListener?.invoke(
                         CartCountBean(
                             data[position].id, (numberInput.text.toString().toInt() - 1).toString()
@@ -88,10 +87,10 @@ class CartGoodsAdapter1(val context: Context?, val data: ArrayList<CartGoodsList
 
             //增加
             increase.setOnClickListener {
-                //                numberInput.text = (numberInput.text.toString().toInt() + 1).toString()
                 onCountListener?.invoke(
                     CartCountBean(
-                        data[position].id, (numberInput.text.toString().toInt() + 1).toString()
+                        data[position].id,
+                        (numberInput.text.toString().toInt() + 1).toString()
                     )
                 )
             }
@@ -108,7 +107,6 @@ class CartGoodsAdapter1(val context: Context?, val data: ArrayList<CartGoodsList
                 data[position].ifCheck = checkBox.isChecked
                 checkGoodsListener?.invoke(data)
             }
-
             checkBox.isChecked = data[position].ifCheck
 
         }
