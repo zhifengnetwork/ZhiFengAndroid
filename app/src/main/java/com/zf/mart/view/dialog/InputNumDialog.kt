@@ -26,8 +26,8 @@ class InputNumDialog : DialogFragment() {
 
     companion object {
 
-        var mNum: Int = 0
-        fun showDialog(fragmentManager: FragmentManager, num: Int): InputNumDialog {
+        var mNum: String = ""
+        fun showDialog(fragmentManager: FragmentManager, num: String): InputNumDialog {
             val receiveDialog = InputNumDialog()
 
             mNum = num
@@ -58,8 +58,7 @@ class InputNumDialog : DialogFragment() {
         view.apply {
 
 
-
-            numberInput.setText(mNum.toString())
+            numberInput.setText(mNum)
 
             /** 让光标移到后面 */
             numberInput.setSelection(numberInput.length())

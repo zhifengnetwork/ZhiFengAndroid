@@ -12,7 +12,9 @@ import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.mvp.bean.ShopList
 import com.zf.mart.mvp.contract.CartListContract
+import com.zf.mart.mvp.contract.CartOperateContract
 import com.zf.mart.mvp.presenter.CartListPresenter
+import com.zf.mart.mvp.presenter.CartOperatePresenter
 import com.zf.mart.net.exception.ErrorStatus
 import com.zf.mart.showToast
 import com.zf.mart.ui.activity.ConfirmOrderActivity
@@ -27,7 +29,19 @@ import kotlinx.android.synthetic.main.fragment_shoping_cart.*
 /**
  * 购物车页面
  */
-class ShoppingCartFragment1 : BaseFragment(), CartListContract.View {
+class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperateContract.View {
+
+    //加减成功
+    override fun setCount() {
+        LogUtils.e(">>>>success")
+        //刷新列表
+        lazyLoad()
+    }
+
+    //加减失败
+    override fun cartOperateError(msg: String, errorCode: Int) {
+        showToast(msg)
+    }
 
     //购物车为空
     override fun setEmpty() {
@@ -88,7 +102,9 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View {
     //购物车适配器
     private var cartData = ArrayList<ShopList>()
     private val cartAdapter by lazy { CartShopAdapter1(context, cartData) }
-    private val cartPresenter by lazy { CartListPresenter() }
+    private val cartListPresenter by lazy { CartListPresenter() }
+    private val cartOperatePresenter by lazy { CartOperatePresenter() }
+
 
     private fun initCart() {
         cartRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -108,11 +124,12 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View {
             mLayoutStatusView?.showLoading()
         }
         refreshLayout.setEnableLoadMore(false)
-        cartPresenter.requestCartList(1)
+        cartListPresenter.requestCartList(1)
     }
 
     override fun initView() {
-        cartPresenter.attachView(this)
+        cartOperatePresenter.attachView(this)
+        cartListPresenter.attachView(this)
         mLayoutStatusView = multipleStatusView
         //购物车
         initCart()
@@ -120,10 +137,10 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View {
 
 
     /** 选中的id列表 */
-    private var mChooseIdList = ArrayList<Int>()
+    private var mChooseIdList = ArrayList<String>()
 
     private fun initCheckId(list: List<ShopList>) {
-        val chooseGoodsListId = ArrayList<Int>()
+        val chooseGoodsListId = ArrayList<String>()
         list.forEach { shop ->
             shop.data.forEach { goodsList ->
                 if (goodsList.ifCheck) {
@@ -136,21 +153,25 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View {
 
     override fun initEvent() {
 
-
         refreshLayout.setOnRefreshListener {
             lazyLoad()
         }
 
         refreshLayout.setOnLoadMoreListener {
-            cartPresenter.requestCartList(null)
+            cartListPresenter.requestCartList(null)
+        }
+
+        /** 更改商品数量加减*/
+        cartAdapter.onGoodsCount = {
+            cartOperatePresenter.requestCount(it.cartId, it.sum)
         }
 
 
-        /** 商品数量 */
-        cartAdapter.onShopNumListener = {
-            InputNumDialog.showDialog(childFragmentManager, it)
+        /** 商品数量*/
+        cartAdapter.onShopNumListener = { bean ->
+            InputNumDialog.showDialog(childFragmentManager, bean.sum)
                 .onNumListener = { num ->
-                LogUtils.e(">>>>>:$num")
+                cartOperatePresenter.requestCount(bean.cartId, num)
             }
         }
 
@@ -193,8 +214,6 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View {
             initCheckId(shopList)
         }
 
-
-
         settle.setOnClickListener {
             //获取选中的id
             Toast.makeText(context, "选中id:$mChooseIdList", Toast.LENGTH_LONG).show()
@@ -228,61 +247,10 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View {
 
     override fun onDestroy() {
         super.onDestroy()
-        cartPresenter.detachView()
+        cartListPresenter.detachView()
+        cartOperatePresenter.detachView()
     }
 
-//    private fun getCartData(): ArrayList<ShopList> {
-//        val list = ArrayList<ShopList>()
-//        list.addAll(
-//            arrayListOf(
-//                ShopList(
-//                    "小米旗舰店", arrayListOf(
-//                        CartGoodsList(1, "小米Note"),
-//                        CartGoodsList(2, "小米5"),
-//                        CartGoodsList(3, "小米8"),
-//                        CartGoodsList(4, "小米8se")
-//                    )
-//                ),
-//                ShopList(
-//                    "华为旗舰店", arrayListOf(
-//                        CartGoodsList(5, "华为mate"),
-//                        CartGoodsList(6, "华为荣耀")
-//                    )
-//                ),
-//                ShopList(
-//                    "格力空调", arrayListOf(
-//                        CartGoodsList(7, "1匹"),
-//                        CartGoodsList(8, "2匹"),
-//                        CartGoodsList(9, "3匹")
-//                    )
-//                ),
-//                ShopList(
-//                    "oppo手机", arrayListOf(
-//                        CartGoodsList(10, "oppo r1"),
-//                        CartGoodsList(11, "oppo r2"),
-//                        CartGoodsList(12, "oppo r3")
-//                    )
-//                ),
-//                ShopList(
-//                    "戴尔", arrayListOf(
-//                        CartGoodsList(13, "笔记本"),
-//                        CartGoodsList(14, "台式机"),
-//                        CartGoodsList(15, "屏幕")
-//                    )
-//                ),
-//                ShopList(
-//                    "索尼", arrayListOf(
-//                        CartGoodsList(16, "索尼手机"),
-//                        CartGoodsList(17, "索尼相机"),
-//                        CartGoodsList(18, "索尼其他东西")
-//                    )
-//                )
-//
-//
-//            )
-//        )
-//        return list
-//    }
 
     //支付方式
 //    private fun showPayPopWindow() {

@@ -14,6 +14,10 @@ import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.mvp.bean.GroupDetailBean
+import com.zf.mart.mvp.contract.GroupDetailContract
+import com.zf.mart.mvp.presenter.GroupDetailPresenter
+import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.GroupEvaAdapter
 import com.zf.mart.ui.adapter.GroupUserAdapter
 import com.zf.mart.ui.adapter.GuideAdapter
@@ -29,11 +33,30 @@ import kotlinx.android.synthetic.main.layout_group_bottom.*
 /**
  * 拼团 详情
  */
-class GroupDetailActivity : BaseActivity() {
+class GroupDetailActivity : BaseActivity(), GroupDetailContract.View {
+
+    override fun showError(msg: String, errorCode: Int) {
+        showToast(msg)
+    }
+
+    override fun setGroupDetail(bean: GroupDetailBean) {
+
+    }
+
+    override fun showLoading() {
+    }
+
+    override fun dismissLoading() {
+    }
+
+    private var mTeamId = ""
 
     companion object {
-        fun actionStart(context: Context?) {
-            context?.startActivity(Intent(context, GroupDetailActivity::class.java))
+
+        fun actionStart(context: Context?, teamId: String) {
+            val intent = Intent(context, GroupDetailActivity::class.java)
+            intent.putExtra("teamId", teamId)
+            context?.startActivity(intent)
         }
     }
 
@@ -43,13 +66,15 @@ class GroupDetailActivity : BaseActivity() {
             ContextCompat.getColor(this, R.color.colorSecondText),
             0.3f
         )
-
     }
 
     override fun layoutId(): Int = R.layout.activity_group_detail
 
     override fun initData() {
+        mTeamId = intent.getStringExtra("teamId")
     }
+
+    private val groupDetailPresenter by lazy { GroupDetailPresenter() }
 
     //评价
     private val evaAdapter by lazy { GroupEvaAdapter(this) }
@@ -57,7 +82,13 @@ class GroupDetailActivity : BaseActivity() {
     //正在拼单的团
     private val userAdapter by lazy { GroupUserAdapter(this) }
 
+    override fun start() {
+        groupDetailPresenter.requestGroupDetail(mTeamId)
+    }
+
     override fun initView() {
+
+        groupDetailPresenter.attachView(this)
 
         originalPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
 
@@ -173,6 +204,10 @@ class GroupDetailActivity : BaseActivity() {
         }
     }
 
-    override fun start() {
+    override fun onDestroy() {
+        super.onDestroy()
+        groupDetailPresenter.detachView()
     }
+
+
 }

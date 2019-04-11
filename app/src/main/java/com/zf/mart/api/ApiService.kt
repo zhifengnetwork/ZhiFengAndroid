@@ -137,4 +137,43 @@ interface ApiService {
     @GET("api/goods/Products")
     fun getClassifyProduct(@Query("cat_id") cat_id: String): Observable<BaseBean<List<ClassifyProductBean>>>
 
+    /**
+     * 平团列表
+     */
+    @FormUrlEncoded
+    @POST("api/groupbuy/grouplist")
+    fun getGroupList(@Field("page") page: Int, @Field("num") num: Int): Observable<BaseBean<List<GroupBean>>>
+
+    /**
+     * 团购商品详情
+     */
+    @FormUrlEncoded
+    @POST("api/groupbuy/detail")
+    fun getGroupDetail(@Field("team_id") team_id: String): Observable<BaseBean<GroupDetailBean>>
+
+    /**
+     * 修改用户信息
+     */
+    @FormUrlEncoded
+    @POST("api/User/update_username")
+    fun updateUserInfo(
+        @Field("nickname") nickname: String,
+        @Field("mobile") mobile: String,
+        @Field("sex") sex: String,
+        @Field("birthyear") birthyear: String,
+        @Field("birthmonth") birthmonth: String,
+        @Field("birthday") birthday: String
+    ): Observable<BaseBean<ChangeUserBean>>
+
+    /**
+     * 购物车加减
+     */
+    @FormUrlEncoded
+    @POST("api/Cart/changeNum")
+    fun cartCount(
+        @Field("cart[id]") id: String,
+        @Field("cart[goods_num]") goods_num: String
+    ): Observable<BaseBean<Unit>>
+
+
 }

@@ -42,6 +42,7 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
     }
 
     override fun getRegion(bean: List<RegionBean>) {
+        regionData.clear()
         regionData.addAll(bean)
         Log.e("检测","三级列表数据获取成功"+regionData)
 
@@ -58,15 +59,26 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
             cityID.clear()
             cityData.clear()
             //获取 市
-            for (i in regionData.indices) {
-                //储存 市ID
-                cityID.add(regionData[i].id)
-                //储存 市名字
-                cityData.add(regionData[i].name)
+            if(regionData.size!=0){
+                for (i in regionData.indices) {
+                    //储存 市ID
+                    cityID.add(regionData[i].id)
+                    //储存 市名字
+                    cityData.add(regionData[i].name)
+                }
             }
-            cityPic.adapter = ArrayWheelAdapter(cityData)
+            
+            cityAdapter=ArrayWheelAdapter(cityData)
 
-        }else{
+            /** 城市更新后更新区域 */
+            switch = 3
+            addressEditPresenter.requestRegion(cityID[0])
+
+            regionPopWindow.updata()
+
+        }else if (switch==3){
+            areaData.clear()
+            areaID.clear()
             //获取 区
             for (i in regionData.indices){
                 //储存 市ID
@@ -74,6 +86,8 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
                 //储存 市名字
                 areaData.add(regionData[i].name)
             }
+            areaAdapter=ArrayWheelAdapter(areaData)
+            regionPopWindow.updata()
         }
 
     }
@@ -141,6 +155,8 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
     private var areaData = ArrayList<String>()
     private var areaID = ArrayList<String>()
 
+    private lateinit var regionPopWindow:RegionPopupWindow
+
     private var switch = 1
 
     private var provincAdapter=ArrayWheelAdapter(provinceData)
@@ -148,6 +164,8 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
     private var cityAdapter=ArrayWheelAdapter(cityData)
 
     private var areaAdapter=ArrayWheelAdapter(areaData)
+
+
 
 
     override fun initEvent() {
@@ -209,9 +227,13 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
 
         addressLayout.setOnClickListener {
 
+            //初始页面数据 保证打开页面 三级联动有数据显示
+            switch = 2
+            addressEditPresenter.requestRegion(provinceID[0])
 
 
-             val regionPopWindow = object : RegionPopupWindow(
+
+              regionPopWindow = object : RegionPopupWindow(
                 this, R.layout.pop_region,
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -238,26 +260,24 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
 
 //                        areaData.addAll(arrayOf("白云", "番禺", "车陂", "东圃", "天河"))
                         provincePic.adapter = provincAdapter
-                        cityPic.adapter = ArrayWheelAdapter(cityData)
+                        cityPic.adapter = cityAdapter
                         areaPic.adapter = areaAdapter
 
                         provincePic.setOnItemSelectedListener { index ->
                             /** 省份滑动，通过省份更新城市 */
 
                             switch = 2
-                            regionData.clear()
-
                             addressEditPresenter.requestRegion(provinceID[index])
-
 
 //                            cityData = when (index) {
 //                                0 -> arrayListOf("广州", "东莞", "湛江"),
 //                                1 -> arrayListOf("湖南城市1", "湖南城市2", "湖南城市3")
 //                                else -> arrayListOf()
 //                            }
-                            cityPic.adapter = ArrayWheelAdapter(cityData)
+//                            cityPic.adapter = ArrayWheelAdapter(cityData)
 
-                            /** 城市更新后更新区域 */
+
+
 //                            areaData = when (cityPic.currentItem) {
 //                                0 -> arrayListOf("白云", "番禺", "车陂", "东圃", "天河")
 //                                1 -> arrayListOf("东莞区1", "东莞区2", "东莞区3")
@@ -268,6 +288,9 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
                         }
 
                         cityPic.setOnItemSelectedListener { index ->
+
+                            switch = 3
+                            addressEditPresenter.requestRegion(cityID[index])
 //                            switch = 3
 //                            regionData.clear()
 //                            areaData.clear()
@@ -279,7 +302,7 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
 //                                2 -> arrayListOf("雷州", "遂溪", "徐闻")
 //                                else -> arrayListOf()
 //                            }
-                            areaPic.adapter = ArrayWheelAdapter(areaData)
+//                            areaPic.adapter = ArrayWheelAdapter(areaData)
                         }
 
                     }

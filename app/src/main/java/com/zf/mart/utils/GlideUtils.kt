@@ -8,12 +8,15 @@ import com.zf.mart.GlideApp
 class GlideUtils {
 
     companion object {
-        fun loadUrlImage(context: Context?, url: String, imageView: ImageView) {
+        fun loadUrlImage(context: Context?, url: String?, imageView: ImageView) {
             context?.let {
-                GlideApp.with(it)
-                    .asBitmap()
-                    .load(url)
-                    .into(imageView)
+                url?.let { url ->
+                    GlideApp.with(it)
+                        .asBitmap()
+                        .load(url)
+                        .into(imageView)
+                }
+
             }
         }
     }

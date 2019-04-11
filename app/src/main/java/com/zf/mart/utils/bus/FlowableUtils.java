@@ -1,4 +1,4 @@
-package com.zf.mart.utils.rxbus;
+package com.zf.mart.utils.bus;
 
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
@@ -9,14 +9,6 @@ import io.reactivex.internal.functions.ObjectHelper;
 import io.reactivex.internal.operators.flowable.FlowableInternalHelper;
 import org.reactivestreams.Subscription;
 
-/**
- * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
- *     time  : 2018/05/08
- *     desc  :
- * </pre>
- */
 public final class FlowableUtils {
 
     public static <T> Disposable subscribe(Flowable<T> flowable,

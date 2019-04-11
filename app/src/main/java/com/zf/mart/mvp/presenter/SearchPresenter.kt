@@ -37,25 +37,23 @@ class SearchPresenter : BasePresenter<SearchContract.View>(), SearchContract.Pre
                         when (it.status) {
                             0 -> {
                                 if (mPage == 1) {
-                                    if (it.data.goods_list != null && it.data.goods_list.isNotEmpty()) {
+                                    if (it.data?.goods_list != null && it.data.goods_list.isNotEmpty()) {
                                         setSearchList(it.data.goods_list)
                                     } else {
                                         freshEmpty()
                                     }
                                 } else {
-                                    if (it.data.goods_list != null && it.data.goods_list.isNotEmpty()) {
+                                    if (it.data?.goods_list != null && it.data.goods_list.isNotEmpty()) {
                                         setLoadMore(it.data.goods_list)
                                     } else {
                                         loadComplete()
                                     }
                                 }
-                                if (it.data.goods_list != null && it.data.goods_list.isNotEmpty()) {
+                                if (it.data?.goods_list != null && it.data.goods_list.isNotEmpty()) {
                                     if (it.data.goods_list.size < UriConstant.PER_PAGE) {
                                         loadComplete()
                                     }
                                 }
-
-
                             }
                             else -> if (mPage == 1) showError(it.msg, it.status) else loadMoreError(it.msg, it.status)
 

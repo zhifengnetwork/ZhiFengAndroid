@@ -17,7 +17,7 @@ class UserInfoPresenter : BasePresenter<UserInfoContract.View>(), UserInfoContra
             {
                 mRootView?.apply {
                     when (it.status) {
-                        0 -> {
+                        0 -> if (it.data != null) {
                             setUserInfo(it.data)
                         }
                         else -> {

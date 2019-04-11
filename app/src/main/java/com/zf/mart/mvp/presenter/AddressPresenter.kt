@@ -15,7 +15,11 @@ class AddressPresenter : BasePresenter<AddressContract.View>(), AddressContract.
                 mRootView?.apply {
                     dismissLoading()
                     when (it.status) {
-                        0 -> getAddress(it.data)
+                        0 -> {
+                            if (it.data!=null){
+                                getAddress(it.data)
+                            }
+                        }
                         else -> showError(it.msg, it.status)
                     }
                 }

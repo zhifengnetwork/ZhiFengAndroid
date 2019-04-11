@@ -21,6 +21,7 @@ import com.zf.mart.ui.fragment.HomeFragment
 import com.zf.mart.ui.fragment.MeFragment
 import com.zf.mart.ui.fragment.ShoppingCartFragment1
 import com.zf.mart.utils.Preference
+import com.zf.mart.utils.bus.RxBus
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity(), UserInfoContract.View {
@@ -54,6 +55,7 @@ class MainActivity : BaseActivity(), UserInfoContract.View {
 
     override fun start() {
         requestUserInfo()
+
     }
 
     //退出登录->登录->再次进主页->同样要获取用户信息

@@ -20,7 +20,11 @@ class AddressEditPresenter:BasePresenter<AddressEditContract.View>(),AddressEdit
                     dismissLoading()
 
                     when(it.status){
-                        1 -> getRegion(it.data)
+                        1 -> {
+                            if (it.data!= null){
+                                getRegion(it.data)
+                            }
+                        }
                         else -> showError(it.msg, it.status)
                     }
 
@@ -69,7 +73,12 @@ class AddressEditPresenter:BasePresenter<AddressEditContract.View>(),AddressEdit
             .subscribe({
                 mRootView?.apply {
                     when (it.status) {
-                        0 -> setAddress(it.data)
+                        0 -> {
+                            if (it.data!=null){
+                                setAddress(it.data)
+                            }
+                        }
+
                         else -> showError(it.msg, it.status)
                     }
                 }

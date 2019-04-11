@@ -1,27 +1,25 @@
 package com.zf.mart.mvp.presenter
 
 import com.zf.mart.base.BasePresenter
-import com.zf.mart.mvp.contract.UploadHeadContract
-import com.zf.mart.mvp.model.UploadHeadModel
+import com.zf.mart.mvp.contract.GroupDetailContract
+import com.zf.mart.mvp.model.GroupDetailModel
 import com.zf.mart.net.exception.ExceptionHandle
-import okhttp3.MultipartBody
 
-class UploadHeadPresenter : BasePresenter<UploadHeadContract.View>(), UploadHeadContract.Presenter {
+class GroupDetailPresenter : BasePresenter<GroupDetailContract.View>(), GroupDetailContract.Presenter {
 
-    private val model: UploadHeadModel by lazy {
-        UploadHeadModel()
-    }
+    private val model: GroupDetailModel by lazy { GroupDetailModel() }
 
-    override fun upLoadHead(head: MultipartBody.Part) {
+    override fun requestGroupDetail(id: String) {
         checkViewAttached()
         mRootView?.showLoading()
-        val disposable = model.uploadHead(head)
-            .subscribe({ it ->
+        val disposable = model.getGroupDetail(id)
+            .subscribe({
                 mRootView?.apply {
                     dismissLoading()
                     when (it.status) {
-                        0 -> setHead(it)
-                        -2 -> showError(it.data, it.status)
+                        0 -> if (it.data != null) {
+                            setGroupDetail(it.data)
+                        }
                         else -> showError(it.msg, it.status)
                     }
                 }
@@ -33,4 +31,5 @@ class UploadHeadPresenter : BasePresenter<UploadHeadContract.View>(), UploadHead
             })
         addSubscription(disposable)
     }
+
 }

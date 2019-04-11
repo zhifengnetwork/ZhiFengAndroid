@@ -1,4 +1,4 @@
-package com.zf.mart.utils.rxbus;
+package com.zf.mart.utils.bus;
 
 import io.reactivex.disposables.Disposable;
 
@@ -7,14 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
- *     time  : 2017/12/25
- *     desc  :
- * </pre>
- */
 final class CacheUtils {
 
     private final Map<Class, List<TagMessage>> stickyEventsMap = new ConcurrentHashMap<>();
