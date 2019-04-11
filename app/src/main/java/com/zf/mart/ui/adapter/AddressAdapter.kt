@@ -32,7 +32,8 @@ class AddressAdapter(val context: Context?,val addressData:List<AddressBean>) : 
         }
 
         holder.itemView.edit_btn.setOnClickListener {
-            var address:Array<String> = arrayOf(addressData[position].consignee,
+            var address:Array<String> = arrayOf(addressData[position].address_id,
+                addressData[position].consignee,
                 addressData[position].mobile,
                 addressData[position].country,
                 addressData[position].province,

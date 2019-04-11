@@ -28,6 +28,7 @@
 
 
             <TextView
+                    android:id="@+id/aaaaa"
                     android:layout_width="70dp"
                       android:layout_height="wrap_content"
                       android:layout_marginTop="15dp"

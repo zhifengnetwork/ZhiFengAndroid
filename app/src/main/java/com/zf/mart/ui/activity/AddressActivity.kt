@@ -46,8 +46,10 @@ class AddressActivity : BaseActivity(),AddressContract.View {
         titleName.text = "地址管理"
         rightLayout.visibility = View.INVISIBLE
     }
-    private val addressData = ArrayList<AddressBean>()
+    private var addressData = ArrayList<AddressBean>()
+
     private val adapter by lazy { AddressAdapter(this,addressData) }
+
     private val addressPresenter by lazy { AddressPresenter() }
 
     override fun layoutId(): Int = R.layout.activity_address
@@ -81,6 +83,13 @@ class AddressActivity : BaseActivity(),AddressContract.View {
 
     }
 
+    override fun onRestart() {
+        super.onRestart()
+
+        addressData.clear()
+        addressPresenter.requestAddress()
+
+    }
     override fun start() {
         addressPresenter.requestAddress()
 

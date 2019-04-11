@@ -1,6 +1,6 @@
 package com.zf.mart.mvp.bean
 
-data class AddressEditBean(
+data class AddAddressBean(
 
      val consignee:String,
      val mobile:String,
