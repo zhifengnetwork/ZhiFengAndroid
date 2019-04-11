@@ -158,7 +158,7 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
 
 
     /**省 市 区 列表*/
- 
+
     private var provinceData = ArrayList<String>()
 
     private var provinceID = ArrayList<String>()
