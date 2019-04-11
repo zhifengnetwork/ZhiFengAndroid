@@ -15,8 +15,6 @@ import com.zf.mart.R
  */
 abstract  class RegionPopupWindow(var context: Activity, layoutRes: Int, w: Int, h: Int)   {
 
-
-
     var contentView: View? = null
     private var popupWindow: PopupWindow? = null
     private var isShowing = false
@@ -28,6 +26,12 @@ abstract  class RegionPopupWindow(var context: Activity, layoutRes: Int, w: Int,
         initWindow()
     }
 
+    fun updata(){
+
+
+            initView()
+
+    }
 
     abstract fun initView()
 
@@ -56,7 +60,6 @@ abstract  class RegionPopupWindow(var context: Activity, layoutRes: Int, w: Int,
         context.window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         context.window.attributes = lp
     }
-
     fun onDismiss() {
         popupWindow?.dismiss()
         isShowing = false

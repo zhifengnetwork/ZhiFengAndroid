@@ -11,7 +11,7 @@ interface AddressContract {
 
         fun showError(msg: String, errorCode: Int)
 
-        fun setAddress(bean: List<AddressBean>)
+        fun getAddress(bean: List<AddressBean>)
     }
 
     interface Presenter : IPresenter<View> {

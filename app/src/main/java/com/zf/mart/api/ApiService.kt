@@ -61,6 +61,52 @@ interface ApiService {
     fun getAddressList(): Observable<BaseBean<List<AddressBean>>>
 
     /**
+     * 添加地址
+     */
+
+     @POST("api/User/add_address")
+     @FormUrlEncoded
+     fun setAddressList(
+        @Field("consignee") consignee: String,
+        @Field("mobile") mobile: String,
+        @Field("province") province: String,
+        @Field("city") city: String,
+        @Field("district") district: String,
+        @Field("address") address: String,
+        @Field("is_default") is_default: String
+        ):Observable<BaseBean<AddAddressBean>>
+
+    /**
+     * 删除地址
+     */
+    @GET("api/User/del_address")
+    fun delAddress(@Query("id") id: String): Observable<BaseBean<Unit>>
+
+    /**
+     * 修改地址
+     * */
+     @POST("api/User/edit_address")
+     @FormUrlEncoded
+     fun editAddress(@Field("id") id: String,
+                     @Field("consignee") consignee: String,
+                     @Field("mobile") mobile: String,
+                     @Field("province") province: String,
+                     @Field("city") city: String,
+                     @Field("district") district: String,
+                     @Field("address") address: String,
+                     @Field("label") label: String,
+                     @Field("is_default") is_default: String):Observable<BaseBean<EditAddressBean>>
+
+    /**
+     * 地址三级联动
+     */
+    @POST("api/region/get_region")
+    @FormUrlEncoded
+    fun getRegion( @Field("id") id: String):Observable<BaseBean<List<RegionBean>>>
+
+
+
+    /**
      * 订单详情
      */
     @GET("api/order/order_detail")

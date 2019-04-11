@@ -2,9 +2,7 @@ package com.zf.mart.mvp.presenter
 
 import com.zf.mart.base.BasePresenter
 import com.zf.mart.mvp.contract.AddressContract
-import com.zf.mart.mvp.contract.LoginContract
 import com.zf.mart.mvp.model.AddressModel
-import com.zf.mart.mvp.model.LoginModel
 import com.zf.mart.net.exception.ExceptionHandle
 
 class AddressPresenter : BasePresenter<AddressContract.View>(), AddressContract.Presenter {
@@ -19,7 +17,7 @@ class AddressPresenter : BasePresenter<AddressContract.View>(), AddressContract.
                     when (it.status) {
                         0 -> {
                             if (it.data!=null){
-                                setAddress(it.data)
+                                getAddress(it.data)
                             }
                         }
                         else -> showError(it.msg, it.status)

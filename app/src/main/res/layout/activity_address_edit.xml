@@ -26,7 +26,10 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-            <TextView android:layout_width="70dp"
+
+            <TextView
+                    android:id="@+id/aaaaa"
+                    android:layout_width="70dp"
                       android:layout_height="wrap_content"
                       android:layout_marginTop="15dp"
                       android:layout_marginBottom="15dp"
@@ -34,11 +37,13 @@
                       android:textColor="@color/colorSecondText"
                       android:text="收货人:"/>
 
-            <EditText android:layout_width="match_parent"
+            <EditText android:id="@+id/user_id"
+                      android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:gravity="center_vertical"
                       android:layout_marginLeft="14dp"
                       android:singleLine="true"
+                      android:maxLength="25"
                       android:background="@null"
                       android:textColor="@color/colorPrimaryText"
                       android:textSize="14sp"
@@ -65,14 +70,17 @@
                       android:textColor="@color/colorSecondText"
                       android:text="手机号码:"/>
 
-            <EditText android:layout_width="match_parent"
+            <EditText android:id="@+id/user_phone"
+                      android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:gravity="center_vertical"
                       android:layout_marginLeft="14dp"
+                      android:inputType="phone"
                       android:singleLine="true"
                       android:background="@null"
                       android:textColor="@color/colorPrimaryText"
                       android:textSize="14sp"
+                      android:maxLength="11"
                       android:text="1023655221"/>
 
         </LinearLayout>
@@ -102,11 +110,29 @@
                       android:layout_height="wrap_content"
                       android:layout_marginLeft="14dp"
                       android:singleLine="true"
-                      android:id="@+id/address"
+                      android:id="@+id/province"
                       android:background="@null"
                       android:textColor="@color/colorPrimaryText"
                       android:textSize="14sp"
-                      android:text="广东省白云区"/>
+                      android:text="请选择地区"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginRight="3dp"
+                      android:layout_marginLeft="3dp"
+                      android:singleLine="true"
+                      android:background="@null"
+                      android:id="@+id/city"
+                      android:textColor="@color/colorPrimaryText"
+                      android:textSize="14sp"
+                       />
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:singleLine="true"
+                      android:background="@null"
+                      android:id="@+id/area"
+                      android:textColor="@color/colorPrimaryText"
+                      android:textSize="14sp"
+                       />
 
         </LinearLayout>
 
@@ -129,10 +155,12 @@
                       android:textColor="@color/colorSecondText"
                       android:text="详细地址:"/>
 
-            <EditText android:layout_width="match_parent"
+            <EditText android:id="@+id/address"
+                      android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:layout_marginLeft="14dp"
                       android:gravity="center_vertical"
+                      android:maxLength="120"
                       android:singleLine="true"
                       android:background="@null"
                       android:textColor="@color/colorPrimaryText"
@@ -296,7 +324,9 @@
                       android:textColor="@color/colorSecondText"
                       android:text="设置默认地址(每次下单会使用该地址)"/>
 
-            <CheckBox android:layout_width="wrap_content"
+
+            <CheckBox android:id="@+id/is_default"
+                      android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_marginLeft="24dp"
                       android:button="@null"

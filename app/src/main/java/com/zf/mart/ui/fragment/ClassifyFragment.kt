@@ -5,6 +5,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -28,12 +29,15 @@ import pub.devrel.easypermissions.EasyPermissions
 
 
 class ClassifyFragment : BaseFragment(),EasyPermissions.PermissionCallbacks,ClassifyContract.View {
+
     override fun showError(msg: String, errorCode: Int) {
 
     }
 
     override fun setTitle(bean: List<ClassifyBean>) {
+
         classifyData.addAll(bean)
+
         mPagerAdapter.setTitleList(classifyData)
         adapter.notifyDataSetChanged()
         mPagerAdapter.notifyDataSetChanged()
@@ -60,11 +64,14 @@ class ClassifyFragment : BaseFragment(),EasyPermissions.PermissionCallbacks,Clas
     //接收数据
     private val classifyData = ArrayList<ClassifyBean>()
 
+
     //网络请求
     private val classifyPresenter by lazy { ClassifyPresenter() }
 
 
+
    //分类标题适配器
+//    private val adapter by lazy { ClassifyTitleAdapter(context, classifyData) }
     private val adapter by lazy { ClassifyTitleAdapter(context, classifyData) }
     //ViewPager适配器
 
@@ -88,6 +95,7 @@ class ClassifyFragment : BaseFragment(),EasyPermissions.PermissionCallbacks,Clas
     override fun initView() {
 
         classifyPresenter.attachView(this)
+
 
         /** 左边分类 */
        //给左边的recyclerView设置数据和adapter
@@ -153,6 +161,7 @@ class ClassifyFragment : BaseFragment(),EasyPermissions.PermissionCallbacks,Clas
     override fun onDestroy() {
         super.onDestroy()
         classifyPresenter.detachView()
+
     }
 
     override fun onStart() {
@@ -160,6 +169,7 @@ class ClassifyFragment : BaseFragment(),EasyPermissions.PermissionCallbacks,Clas
         /**每次生成时界面时清空接收数组，才开始网络请求*/
         classifyData.clear()
         classifyPresenter.requestClassify()
+
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
