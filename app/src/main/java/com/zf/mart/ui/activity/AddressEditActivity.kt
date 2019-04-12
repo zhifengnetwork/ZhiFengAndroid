@@ -29,7 +29,7 @@ import android.text.TextUtils
 import com.zf.mart.mvp.bean.EditAddressBean
 
 
-class AddressEditActivity : BaseActivity(),AddressEditContract.View{
+class AddressEditActivity : BaseActivity(), AddressEditContract.View {
     override fun deitAddress(bean: EditAddressBean) {
 
     }
@@ -50,8 +50,8 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
         regionData.clear()
         regionData.addAll(bean)
 
-       //获取省份，通过省份获取城市，获取区域
-        if(switch==1) {
+        //获取省份，通过省份获取城市，获取区域
+        if (switch == 1) {
             //获取省份
             for (i in regionData.indices) {
                 //储存省名字
@@ -59,11 +59,11 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
                 //储存省ID
                 provinceID.add(regionData[i].id)
             }
-        }else if (switch==2) {
+        } else if (switch == 2) {
             cityID.clear()
             cityData.clear()
             //获取 市
-            if(regionData.size!=0){
+            if (regionData.size != 0) {
                 for (i in regionData.indices) {
                     //储存 市ID
                     cityID.add(regionData[i].id)
@@ -71,30 +71,30 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
                     cityData.add(regionData[i].name)
                 }
             }
-            cityAdapter=ArrayWheelAdapter(cityData)
+            cityAdapter = ArrayWheelAdapter(cityData)
 
             /** 城市更新后更新区域 */
 
-            if(cityID.size!=0){
+            if (cityID.size != 0) {
                 switch = 3
                 addressEditPresenter.requestRegion(cityID[0])
-            }else{
+            } else {
                 areaData.clear()
                 areaID.clear()
             }
             regionPopWindow.updata()
 
-        }else if (switch==3){
+        } else if (switch == 3) {
             areaData.clear()
             areaID.clear()
             //获取 区
-            for (i in regionData.indices){
+            for (i in regionData.indices) {
                 //储存 市ID
                 areaID.add(regionData[i].id)
                 //储存 市名字
                 areaData.add(regionData[i].name)
             }
-            areaAdapter=ArrayWheelAdapter(areaData)
+            areaAdapter = ArrayWheelAdapter(areaData)
             regionPopWindow.updata()
         }
 
@@ -110,9 +110,9 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
 
 
     companion object {
-        fun actionStart(context: Context?,addressData:Array<String>) {
-            val intent=Intent(context, AddressEditActivity::class.java)
-            intent.putExtra("address",addressData)
+        fun actionStart(context: Context?, addressData: Array<String>) {
+            val intent = Intent(context, AddressEditActivity::class.java)
+            intent.putExtra("address", addressData)
             context?.startActivity(intent)
         }
     }
@@ -124,34 +124,33 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
         rightIcon.setImageResource(R.drawable.ic_delete)
 
     }
+
     //接收传递过来的用户地址信息
-    private var data:Array<String> = emptyArray()
+    private var data: Array<String> = emptyArray()
 
     //接收三级联动信息
     private val regionData = ArrayList<RegionBean>()
 
 
-
     private val addressEditPresenter by lazy { AddressEditPresenter() }
-
-
 
 
     override fun layoutId(): Int = R.layout.activity_address_edit
 
     override fun initData() {
     }
+
     override fun initView() {
 
-       addressEditPresenter.attachView(this)
+        addressEditPresenter.attachView(this)
 
         upinfo()
 
         initTag()
 
-       //添加地址 隐藏删除图标
-        if(data[0]==""){
-            rightIcon.visibility=View.GONE
+        //添加地址 隐藏删除图标
+        if (data[0] == "") {
+            rightIcon.visibility = View.GONE
         }
 
     }
@@ -167,31 +166,29 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
     private var areaData = ArrayList<String>()
     private var areaID = ArrayList<String>()
 
-    private lateinit var regionPopWindow:RegionPopupWindow
+    private lateinit var regionPopWindow: RegionPopupWindow
 
     private var switch = 1
 
-    private var provincAdapter=ArrayWheelAdapter(provinceData)
+    private var provincAdapter = ArrayWheelAdapter(provinceData)
 
-    private var cityAdapter=ArrayWheelAdapter(cityData)
+    private var cityAdapter = ArrayWheelAdapter(cityData)
 
-    private var areaAdapter=ArrayWheelAdapter(areaData)
-
-
+    private var areaAdapter = ArrayWheelAdapter(areaData)
 
 
     override fun initEvent() {
-       /**点击删除地址*/
+        /**点击删除地址*/
         rightLayout.setOnClickListener {
 
             val builder = AlertDialog.Builder(this)
             builder.setMessage("确定要删除该地址吗?")
-            builder.setPositiveButton("确定",DialogInterface.OnClickListener { dialog, which ->
+            builder.setPositiveButton("确定", DialogInterface.OnClickListener { dialog, which ->
                 //网络请求
                 addressEditPresenter.requestDelAddress(data[0])
                 finish()
             })
-            builder.setNegativeButton("取消",null)
+            builder.setNegativeButton("取消", null)
             builder.show()
 
         }
@@ -200,7 +197,7 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
         confirm.setOnClickListener {
 
             /**添加地址*/
-            if (data[0]==""){
+            if (data[0] == "") {
                 //选中的tag标签
                 val chooseTag = when {
                     homeRb.isSelected -> homeRb.text.toString()
@@ -222,35 +219,33 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
                         mIs_default="0"
                     }
 
+
                 /**判断 省 市 区 的ID*/
-                for(i in provinceData.indices){
-                     if(province.text==provinceData[i]){
-                         mProvince=provinceID[i]
-                     }
-                }
-                for(i in cityData.indices){
-                    if(city.text==cityData[i]){
-                        mCity=cityID[i]
+                for (i in provinceData.indices) {
+                    if (province.text == provinceData[i]) {
+                        mProvince = provinceID[i]
                     }
                 }
-                for(i in areaData.indices){
-                    if(area.text==areaData[i]){
-                        mDistrict=areaID[i]
+                for (i in cityData.indices) {
+                    if (city.text == cityData[i]) {
+                        mCity = cityID[i]
                     }
                 }
+
                /**判断用户输入信息是否规范*/
                 if(judge(mConsignee.length,!isMobileNO(mMobile),province.text.isEmpty(),mAddress.length)){
                     //网络请求
                     addressEditPresenter.requestAddressEdit(mConsignee,mMobile,mProvince,mCity,mDistrict,mAddress,chooseTag,mIs_default)
 
                     Toast.makeText(context,"添加成功",Toast.LENGTH_SHORT).show()
+
                     finish()
                 }
 
 
             }
-                 /** 修改地址*/
-            else{
+            /** 修改地址*/
+            else {
 
                 //获得界面信息
                 //选中的tag标签
@@ -261,6 +256,7 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
                     inputEditText.isSelected -> inputEditText.text.toString()
                     else -> ""
                 }
+
                //5 7 9 名字 4 6 8 id   15便签
                 val mConsignee =user_id.text.toString()
                 val mMobile=user_phone.text.toString()
@@ -305,7 +301,6 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
                     finish()
                 }
 
-
             }
 
         }
@@ -317,7 +312,7 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
             addressEditPresenter.requestRegion(provinceID[0])
 
 
-              regionPopWindow = object : RegionPopupWindow(
+            regionPopWindow = object : RegionPopupWindow(
                 this, R.layout.pop_region,
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -337,29 +332,29 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
 
                             switch = 2
                             addressEditPresenter.requestRegion(provinceID[index])
-                            province.text=provinceData[index]
+                            province.text = provinceData[index]
 
 
                         }
 
                         cityPic.setOnItemSelectedListener { index ->
-                           /**市滑动 更新区**/
+                            /**市滑动 更新区**/
 
-                            if(cityID.size!=0){
+                            if (cityID.size != 0) {
                                 switch = 3
                                 addressEditPresenter.requestRegion(cityID[index])
-                                city.text=cityData[index]
-                            }else{
-                                city.text=""
-                                area.text=""
+                                city.text = cityData[index]
+                            } else {
+                                city.text = ""
+                                area.text = ""
                             }
 
 
                         }
                         areaPic.setOnItemSelectedListener { index ->
                             /**区滑动**/
-                            if(areaData.size!=0){
-                                area.text=areaData[index]
+                            if (areaData.size != 0) {
+                                area.text = areaData[index]
                             }
 
                         }
@@ -377,10 +372,11 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
 
     override fun onDestroy() {
         super.onDestroy()
-       addressEditPresenter.detachView()
+        addressEditPresenter.detachView()
 
 
     }
+
     override fun start() {
 
         /**三级联动的请求*/
@@ -389,12 +385,12 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
     }
 
     /**判断手机号码格式是否正确*/
-    private fun isMobileNO(mobiles:String): Boolean {
+    fun isMobileNO(mobiles: String): Boolean {
+
         val telRegex = "[1][34578]\\d{9}"//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
-        if(TextUtils.isEmpty(mobiles)){
+        if (TextUtils.isEmpty(mobiles)) {
             return false
-        }
-        else return mobiles.matches(telRegex.toRegex())
+        } else return mobiles.matches(telRegex.toRegex())
     }
 
     /**判断用户输入信息是否规范*/
@@ -526,12 +522,13 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
     /**
      * 点击地址编辑按钮将传递过来的数据赋值再界面上
      * */
-    fun upinfo(){
-         data = intent.getStringArrayExtra("address")
+    fun upinfo() {
+        data = intent.getStringArrayExtra("address")
 
-        if(data[0]!=""){
+        if (data[0] != "") {
             user_id.setText(data[1])
             user_phone.setText(data[2])
+
             province.text=data[5]
             city.text=data[7]
             area.text=data[9]
@@ -551,12 +548,12 @@ class AddressEditActivity : BaseActivity(),AddressEditContract.View{
 
                 }
             }
-        }else{
+
             user_id.setText("")
             user_phone.setText("")
 //            district.text=""
             address.setText("")
-            is_default.isChecked=false
+            is_default.isChecked = false
         }
     }
 

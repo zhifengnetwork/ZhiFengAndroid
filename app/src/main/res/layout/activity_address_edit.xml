@@ -28,14 +28,13 @@
 
 
             <TextView
-                    android:id="@+id/aaaaa"
                     android:layout_width="70dp"
-                      android:layout_height="wrap_content"
-                      android:layout_marginTop="15dp"
-                      android:layout_marginBottom="15dp"
-                      android:textSize="14sp"
-                      android:textColor="@color/colorSecondText"
-                      android:text="收货人:"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorSecondText"
+                    android:text="收货人:"/>
 
             <EditText android:id="@+id/user_id"
                       android:layout_width="match_parent"
@@ -115,6 +114,7 @@
                       android:textColor="@color/colorPrimaryText"
                       android:textSize="14sp"
                       android:text="请选择地区"/>
+
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_marginRight="3dp"
@@ -124,7 +124,7 @@
                       android:id="@+id/city"
                       android:textColor="@color/colorPrimaryText"
                       android:textSize="14sp"
-                       />
+            />
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:singleLine="true"
@@ -132,7 +132,7 @@
                       android:id="@+id/area"
                       android:textColor="@color/colorPrimaryText"
                       android:textSize="14sp"
-                       />
+            />
 
         </LinearLayout>
 

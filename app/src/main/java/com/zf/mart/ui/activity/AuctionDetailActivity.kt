@@ -9,10 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
-import com.zf.mart.mvp.bean.AddAddressBean
-import com.zf.mart.mvp.bean.EditAddressBean
-import com.zf.mart.mvp.bean.RegionBean
-import com.zf.mart.mvp.contract.AddressEditContract
 import com.zf.mart.ui.adapter.AuctionPeopleAdapter
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.dialog.AuctionSuccessDialog
@@ -24,38 +20,7 @@ import kotlinx.android.synthetic.main.pop_push_order.view.*
 /**
  * 竞拍详情页
  */
-class AuctionDetailActivity : BaseActivity(),AddressEditContract.View {
-    override fun deitAddress(bean: EditAddressBean) {
-
-    }
-
-    override fun setAddress(bean: AddAddressBean) {
-
-    }
-
-    override fun delAddressSuccess() {
-
-    }
-
-    override fun getRegion(bean: List<RegionBean>) {
-
-    }
-
-    override fun showError(msg: String, errorCode: Int) {
-
-    }
-
-
-
-    override fun showLoading() {
-
-    }
-
-    override fun dismissLoading() {
-
-    }
-
-
+class AuctionDetailActivity : BaseActivity() {
 
     companion object {
         fun actionStart(context: Context?) {
