@@ -6,6 +6,7 @@ import com.zf.mart.api.ApiService
 import com.zf.mart.api.UriConstant
 import com.zf.mart.livedata.UserInfoLiveData
 import com.zf.mart.ui.activity.LoginActivity
+import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.NetworkUtil
 import com.zf.mart.utils.Preference
 import okhttp3.*
@@ -93,7 +94,9 @@ object RetrofitManager {
             val request = requestBuilder.build()
 
             val response = chain.proceed(requestBuilder.build())
+            LogUtils.e(">>>>>>httpCode:" + response.code())
             if (response.code() == 401) {
+                LogUtils.e(">>>>>>401过期")
                 //清空用户token,清空用户信息
                 Preference.clearPreference(UriConstant.TOKEN)
                 UserInfoLiveData.value = null

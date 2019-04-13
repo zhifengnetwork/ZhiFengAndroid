@@ -1,32 +1,31 @@
 package com.zf.mart.ui.activity
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.bigkoo.pickerview.adapter.ArrayWheelAdapter
+import com.zf.mart.MyApplication.Companion.context
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.mvp.bean.AddAddressBean
+import com.zf.mart.mvp.bean.EditAddressBean
+import com.zf.mart.mvp.bean.RegionBean
+import com.zf.mart.mvp.contract.AddressEditContract
+import com.zf.mart.mvp.presenter.AddressEditPresenter
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.popwindow.RegionPopupWindow
 import kotlinx.android.synthetic.main.activity_address_edit.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import kotlinx.android.synthetic.main.pop_region.view.*
-import android.app.AlertDialog
-import android.content.DialogInterface
-import android.util.Log
-import android.widget.Toast
-import com.zf.mart.MyApplication.Companion.context
-import com.zf.mart.mvp.bean.AddAddressBean
-import com.zf.mart.mvp.bean.RegionBean
-import com.zf.mart.mvp.contract.AddressEditContract
-import com.zf.mart.mvp.presenter.AddressEditPresenter
-import android.text.TextUtils
-import com.zf.mart.mvp.bean.EditAddressBean
 
 
 class AddressEditActivity : BaseActivity(), AddressEditContract.View {
@@ -206,18 +205,18 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View {
                     inputEditText.isSelected -> inputEditText.text.toString()
                     else -> ""
                 }
-                    val mConsignee =user_id.text.toString()
-                    val mMobile=user_phone.text.toString()
-                    var mProvince=""
-                    var mCity=""
-                    var mDistrict=""
-                    val mAddress=address.text.toString()
-                    var mIs_default="0"
-                    if (is_default.isChecked){
-                        mIs_default="1"
-                    }else{
-                        mIs_default="0"
-                    }
+                val mConsignee = user_id.text.toString()
+                val mMobile = user_phone.text.toString()
+                var mProvince = ""
+                var mCity = ""
+                var mDistrict = ""
+                val mAddress = address.text.toString()
+                var mIs_default = "0"
+                if (is_default.isChecked) {
+                    mIs_default = "1"
+                } else {
+                    mIs_default = "0"
+                }
 
 
                 /**判断 省 市 区 的ID*/
@@ -232,12 +231,21 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View {
                     }
                 }
 
-               /**判断用户输入信息是否规范*/
-                if(judge(mConsignee.length,!isMobileNO(mMobile),province.text.isEmpty(),mAddress.length)){
+                /**判断用户输入信息是否规范*/
+                if (judge(mConsignee.length, !isMobileNO(mMobile), province.text.isEmpty(), mAddress.length)) {
                     //网络请求
-                    addressEditPresenter.requestAddressEdit(mConsignee,mMobile,mProvince,mCity,mDistrict,mAddress,chooseTag,mIs_default)
+                    addressEditPresenter.requestAddressEdit(
+                        mConsignee,
+                        mMobile,
+                        mProvince,
+                        mCity,
+                        mDistrict,
+                        mAddress,
+                        chooseTag,
+                        mIs_default
+                    )
 
-                    Toast.makeText(context,"添加成功",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show()
 
                     finish()
                 }
@@ -257,47 +265,57 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View {
                     else -> ""
                 }
 
-               //5 7 9 名字 4 6 8 id   15便签
-                val mConsignee =user_id.text.toString()
-                val mMobile=user_phone.text.toString()
-                var mProvince=data[4]
-                var mCity=data[6]
-                var mDistrict=data[8]
-                val mAddress=address.text.toString()
-                var mIs_default=""
-                if (is_default.isChecked){
-                    mIs_default="1"
-                }else{
-                    mIs_default="0"
+                //5 7 9 名字 4 6 8 id   15便签
+                val mConsignee = user_id.text.toString()
+                val mMobile = user_phone.text.toString()
+                var mProvince = data[4]
+                var mCity = data[6]
+                var mDistrict = data[8]
+                val mAddress = address.text.toString()
+                var mIs_default = ""
+                if (is_default.isChecked) {
+                    mIs_default = "1"
+                } else {
+                    mIs_default = "0"
                 }
 
                 /**判断修改后 省 市 区 的ID*/
 
-                if(province.text!=data[5]){
-                    for(i in provinceData.indices){
-                        if(province.text==provinceData[i]){
-                            mProvince=provinceID[i]
+                if (province.text != data[5]) {
+                    for (i in provinceData.indices) {
+                        if (province.text == provinceData[i]) {
+                            mProvince = provinceID[i]
                         }
                     }
                 }
-                if (city.text!=data[6]){
-                    for(i in cityData.indices){
-                        if(city.text==cityData[i]){
-                            mCity=cityID[i]
+                if (city.text != data[6]) {
+                    for (i in cityData.indices) {
+                        if (city.text == cityData[i]) {
+                            mCity = cityID[i]
                         }
                     }
                 }
-                if (area.text!=data[8]){
-                    for(i in areaData.indices){
-                        if(area.text==areaData[i]){
-                            mDistrict=areaID[i]
+                if (area.text != data[8]) {
+                    for (i in areaData.indices) {
+                        if (area.text == areaData[i]) {
+                            mDistrict = areaID[i]
                         }
                     }
                 }
                 /**判断用户输入信息是否规范*/
-                if(judge(mConsignee.length,!isMobileNO(mMobile),province.text.isEmpty(),mAddress.length)){
-                    addressEditPresenter.requestDeitAddress(data[0],mConsignee,mMobile,mProvince,mCity,mDistrict,mAddress,chooseTag,mIs_default)
-                    Toast.makeText(context,"修改成功",Toast.LENGTH_SHORT).show()
+                if (judge(mConsignee.length, !isMobileNO(mMobile), province.text.isEmpty(), mAddress.length)) {
+                    addressEditPresenter.requestDeitAddress(
+                        data[0],
+                        mConsignee,
+                        mMobile,
+                        mProvince,
+                        mCity,
+                        mDistrict,
+                        mAddress,
+                        chooseTag,
+                        mIs_default
+                    )
+                    Toast.makeText(context, "修改成功", Toast.LENGTH_SHORT).show()
                     finish()
                 }
 
@@ -394,20 +412,20 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View {
     }
 
     /**判断用户输入信息是否规范*/
-    private fun judge(a:Int,b:Boolean,c:Boolean,d:Int): Boolean {
-            if (a < 2) {
-                Toast.makeText(context, "请输入姓名2-25个字符", Toast.LENGTH_SHORT).show()
-                return false
-            } else if (b) {
-                Toast.makeText(context, "请正确输入11位手机号码", Toast.LENGTH_SHORT).show()
-                return false
-            } else if (c) {
-                Toast.makeText(context, "请选择地区", Toast.LENGTH_SHORT).show()
-                return false
-            } else if (d < 5) {
-                Toast.makeText(context, "请输入详细地址5-120个字符", Toast.LENGTH_SHORT).show()
-                return false
-            } else return true
+    private fun judge(a: Int, b: Boolean, c: Boolean, d: Int): Boolean {
+        if (a < 2) {
+            Toast.makeText(context, "请输入姓名2-25个字符", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (b) {
+            Toast.makeText(context, "请正确输入11位手机号码", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (c) {
+            Toast.makeText(context, "请选择地区", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (d < 5) {
+            Toast.makeText(context, "请输入详细地址5-120个字符", Toast.LENGTH_SHORT).show()
+            return false
+        } else return true
 
     }
 
@@ -529,22 +547,23 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View {
             user_id.setText(data[1])
             user_phone.setText(data[2])
 
-            province.text=data[5]
-            city.text=data[7]
-            area.text=data[9]
-            address.setText(data[15]+data[12])
+            province.text = data[5]
+            city.text = data[7]
+            area.text = data[9]
+            address.setText(data[15] + data[12])
 
-            if (data[14]=="1"){
-                is_default.isChecked=true
+            if (data[14] == "1") {
+                is_default.isChecked = true
             }
-            when(data[15]){
+            when (data[15]) {
                 "家" -> homeRb.isSelected = true
-                "公司" -> companyRb.isSelected=true
-                "学校"-> schoolRb.isSelected=true
-                else -> {if(data[15]!="null"&&data[15]!=""){
-                    customRb.text=data[15]
-                    customRb.isSelected=true
-                }
+                "公司" -> companyRb.isSelected = true
+                "学校" -> schoolRb.isSelected = true
+                else -> {
+                    if (data[15] != "null" && data[15] != "") {
+                        customRb.text = data[15]
+                        customRb.isSelected = true
+                    }
 
                 }
             }
