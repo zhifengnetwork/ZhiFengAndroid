@@ -73,6 +73,7 @@ interface ApiService {
         @Field("city") city: String,
         @Field("district") district: String,
         @Field("address") address: String,
+        @Field("label") label: String,
         @Field("is_default") is_default: String
         ):Observable<BaseBean<AddAddressBean>>
 

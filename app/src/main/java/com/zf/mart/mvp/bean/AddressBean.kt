@@ -15,5 +15,11 @@ data class AddressBean(
     val mobile: String,
     val is_default: String,
     val longitude: String,
-    val latitude: String
+    val latitude: String,
+    val label:String,
+    val province_name:String,
+    val city_name:String,
+    val district_name:String,
+    val twon_name:String
+
 )

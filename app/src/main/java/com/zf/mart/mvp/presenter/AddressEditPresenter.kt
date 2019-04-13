@@ -46,7 +46,7 @@ class AddressEditPresenter:BasePresenter<AddressEditContract.View>(),AddressEdit
                     dismissLoading()
 
                     when(it.status){
-                        1 -> {
+                         0 -> {
                             if (it.data!= null){
                                 getRegion(it.data)
                             }
@@ -92,10 +92,10 @@ class AddressEditPresenter:BasePresenter<AddressEditContract.View>(),AddressEdit
     }
 
 
-    override fun requestAddressEdit(consignee:String,mobile:String,province:String,city:String,district:String,address:String,is_default:String) {
+    override fun requestAddressEdit(consignee:String,mobile:String,province:String,city:String,district:String,address:String,label:String,is_default:String) {
         checkViewAttached()
         mRootView?.showLoading()
-        val disposable = modelEdit.requestAddressEdit(consignee,mobile,province,city,district,address,is_default)
+        val disposable = modelEdit.requestAddressEdit(consignee,mobile,province,city,district,address,label,is_default)
             .subscribe({
                 mRootView?.apply {
                     when (it.status) {

@@ -157,10 +157,7 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View {
 
 
     /**省 市 区 列表*/
-//    private var provinceData = arrayOf<String>()
-//    private var cityData = arrayOf<String>()
-//    private var areaData = arrayOf<String>()
-//    private var townData = arrayOf<String>()
+
     private var provinceData = ArrayList<String>()
 
     private var provinceID = ArrayList<String>()
@@ -202,26 +199,26 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View {
             /**添加地址*/
             if (data[0] == "") {
                 //选中的tag标签
-//                val chooseTag = when {
-//                    homeRb.isSelected -> homeRb.text.toString()
-//                    companyRb.isSelected -> companyRb.text.toString()
-//                    schoolRb.isSelected -> schoolRb.text.toString()
-//                    inputEditText.isSelected -> inputEditText.text.toString()
-//                    else -> ""
-//                }
-//            showToast(chooseTag)
-                val mConsignee = user_id.text.toString()
-                val mMobile = user_phone.text.toString()
-                var mProvince = ""
-                var mCity = ""
-                var mDistrict = ""
-                val mAddress = address.text.toString()
-                var mIs_default = "0"
-                if (is_default.isChecked) {
-                    mIs_default = "1"
-                } else {
-                    mIs_default = "0"
+                val chooseTag = when {
+                    homeRb.isSelected -> homeRb.text.toString()
+                    companyRb.isSelected -> companyRb.text.toString()
+                    schoolRb.isSelected -> schoolRb.text.toString()
+                    inputEditText.isSelected -> inputEditText.text.toString()
+                    else -> ""
                 }
+                    val mConsignee =user_id.text.toString()
+                    val mMobile=user_phone.text.toString()
+                    var mProvince=""
+                    var mCity=""
+                    var mDistrict=""
+                    val mAddress=address.text.toString()
+                    var mIs_default="0"
+                    if (is_default.isChecked){
+                        mIs_default="1"
+                    }else{
+                        mIs_default="0"
+                    }
+
 
                 /**判断 省 市 区 的ID*/
                 for (i in provinceData.indices) {
@@ -234,35 +231,17 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View {
                         mCity = cityID[i]
                     }
                 }
-                for (i in areaData.indices) {
-                    if (area.text == areaData[i]) {
-                        mDistrict = areaID[i]
-                    }
-                }
-                /**判断用户输入信息是否规范*/
-                if (mConsignee.length < 2) {
-                    Toast.makeText(context, "请输入姓名2-25个字符", Toast.LENGTH_SHORT).show()
-                } else if (!isMobileNO(mMobile)) {
-                    Toast.makeText(context, "请正确输入11位手机号码", Toast.LENGTH_SHORT).show()
-                } else if (province.text.isEmpty()) {
-                    Toast.makeText(context, "请选择地区", Toast.LENGTH_SHORT).show()
-                } else if (mAddress.length < 5) {
-                    Toast.makeText(context, "请输入详细地址5-120个字符", Toast.LENGTH_SHORT).show()
-                } else {
-                    //网络请求
-                    addressEditPresenter.requestAddressEdit(
-                        mConsignee,
-                        mMobile,
-                        mProvince,
-                        mCity,
-                        mDistrict,
-                        mAddress,
-                        mIs_default
-                    )
 
-                    Toast.makeText(context, "添加成功", Toast.LENGTH_SHORT).show()
+               /**判断用户输入信息是否规范*/
+                if(judge(mConsignee.length,!isMobileNO(mMobile),province.text.isEmpty(),mAddress.length)){
+                    //网络请求
+                    addressEditPresenter.requestAddressEdit(mConsignee,mMobile,mProvince,mCity,mDistrict,mAddress,chooseTag,mIs_default)
+
+                    Toast.makeText(context,"添加成功",Toast.LENGTH_SHORT).show()
+
                     finish()
                 }
+
 
             }
             /** 修改地址*/
@@ -277,33 +256,51 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View {
                     inputEditText.isSelected -> inputEditText.text.toString()
                     else -> ""
                 }
-//            showToast(chooseTag)
 
-                val mConsignee = user_id.text.toString()
-                val mMobile = user_phone.text.toString()
-                var mProvince = data[4]
-                var mCity = data[5]
-                var mDistrict = data[6]
-                val mAddress = address.text.toString()
-                var mIs_default = ""
-                if (is_default.isChecked) {
-                    mIs_default = "1"
-                } else {
-                    mIs_default = "0"
+               //5 7 9 名字 4 6 8 id   15便签
+                val mConsignee =user_id.text.toString()
+                val mMobile=user_phone.text.toString()
+                var mProvince=data[4]
+                var mCity=data[6]
+                var mDistrict=data[8]
+                val mAddress=address.text.toString()
+                var mIs_default=""
+                if (is_default.isChecked){
+                    mIs_default="1"
+                }else{
+                    mIs_default="0"
                 }
-                addressEditPresenter.requestDeitAddress(
-                    data[0],
-                    mConsignee,
-                    mMobile,
-                    mProvince,
-                    mCity,
-                    mDistrict,
-                    mAddress,
-                    chooseTag,
-                    mIs_default
-                )
-                Toast.makeText(context, "修改成功", Toast.LENGTH_SHORT).show()
-                finish()
+
+                /**判断修改后 省 市 区 的ID*/
+
+                if(province.text!=data[5]){
+                    for(i in provinceData.indices){
+                        if(province.text==provinceData[i]){
+                            mProvince=provinceID[i]
+                        }
+                    }
+                }
+                if (city.text!=data[6]){
+                    for(i in cityData.indices){
+                        if(city.text==cityData[i]){
+                            mCity=cityID[i]
+                        }
+                    }
+                }
+                if (area.text!=data[8]){
+                    for(i in areaData.indices){
+                        if(area.text==areaData[i]){
+                            mDistrict=areaID[i]
+                        }
+                    }
+                }
+                /**判断用户输入信息是否规范*/
+                if(judge(mConsignee.length,!isMobileNO(mMobile),province.text.isEmpty(),mAddress.length)){
+                    addressEditPresenter.requestDeitAddress(data[0],mConsignee,mMobile,mProvince,mCity,mDistrict,mAddress,chooseTag,mIs_default)
+                    Toast.makeText(context,"修改成功",Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+
             }
 
         }
@@ -387,13 +384,33 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View {
 
     }
 
-    //判断手机号码格式是否正确
+    /**判断手机号码格式是否正确*/
     fun isMobileNO(mobiles: String): Boolean {
+
         val telRegex = "[1][34578]\\d{9}"//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
         if (TextUtils.isEmpty(mobiles)) {
             return false
         } else return mobiles.matches(telRegex.toRegex())
     }
+
+    /**判断用户输入信息是否规范*/
+    private fun judge(a:Int,b:Boolean,c:Boolean,d:Int): Boolean {
+            if (a < 2) {
+                Toast.makeText(context, "请输入姓名2-25个字符", Toast.LENGTH_SHORT).show()
+                return false
+            } else if (b) {
+                Toast.makeText(context, "请正确输入11位手机号码", Toast.LENGTH_SHORT).show()
+                return false
+            } else if (c) {
+                Toast.makeText(context, "请选择地区", Toast.LENGTH_SHORT).show()
+                return false
+            } else if (d < 5) {
+                Toast.makeText(context, "请输入详细地址5-120个字符", Toast.LENGTH_SHORT).show()
+                return false
+            } else return true
+
+    }
+
 
     //地址标签
     private fun initTag() {
@@ -511,12 +528,27 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View {
         if (data[0] != "") {
             user_id.setText(data[1])
             user_phone.setText(data[2])
-            province.text = data[4] + data[5] + data[6]
-            address.setText(data[8])
-            if (data[10] == "1") {
-                is_default.isChecked = true
+
+            province.text=data[5]
+            city.text=data[7]
+            area.text=data[9]
+            address.setText(data[15]+data[12])
+
+            if (data[14]=="1"){
+                is_default.isChecked=true
             }
-        } else {
+            when(data[15]){
+                "家" -> homeRb.isSelected = true
+                "公司" -> companyRb.isSelected=true
+                "学校"-> schoolRb.isSelected=true
+                else -> {if(data[15]!="null"&&data[15]!=""){
+                    customRb.text=data[15]
+                    customRb.isSelected=true
+                }
+
+                }
+            }
+
             user_id.setText("")
             user_phone.setText("")
 //            district.text=""

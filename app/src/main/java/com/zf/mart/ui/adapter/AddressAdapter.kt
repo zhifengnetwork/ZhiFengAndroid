@@ -28,7 +28,9 @@ class AddressAdapter(val context: Context?,val addressData:List<AddressBean>) : 
 
             userName.text=addressData[position].consignee
 
-            province.text=addressData[position].province+addressData[position].city+addressData[position].district+addressData[position].twon+addressData[position].address
+            province.text=addressData[position].province_name+addressData[position].city_name+addressData[position].district_name +addressData[position].address
+
+
         }
 
         holder.itemView.edit_btn.setOnClickListener {
@@ -37,12 +39,17 @@ class AddressAdapter(val context: Context?,val addressData:List<AddressBean>) : 
                 addressData[position].mobile,
                 addressData[position].country,
                 addressData[position].province,
+                addressData[position].province_name,
                 addressData[position].city,
+                addressData[position].city_name,
                 addressData[position].district,
+                addressData[position].district_name,
                 addressData[position].twon,
+                addressData[position].twon_name,
                 addressData[position].address,
                 addressData[position].zipcode,
-                addressData[position].is_default)
+                addressData[position].is_default,
+                addressData[position].label)
             AddressEditActivity.actionStart(context,address)
         }
     }
