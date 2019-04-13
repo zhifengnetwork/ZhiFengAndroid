@@ -4,6 +4,7 @@ import android.content.Intent
 import com.zf.mart.MyApplication
 import com.zf.mart.api.ApiService
 import com.zf.mart.api.UriConstant
+import com.zf.mart.livedata.UserInfoLiveData
 import com.zf.mart.ui.activity.LoginActivity
 import com.zf.mart.utils.NetworkUtil
 import com.zf.mart.utils.Preference
@@ -93,10 +94,11 @@ object RetrofitManager {
 
             val response = chain.proceed(requestBuilder.build())
             if (response.code() == 401) {
+                //清空用户token,清空用户信息
                 Preference.clearPreference(UriConstant.TOKEN)
+                UserInfoLiveData.value = null
                 val intent = Intent(MyApplication.context, LoginActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 MyApplication.context.startActivity(intent)
             }
 

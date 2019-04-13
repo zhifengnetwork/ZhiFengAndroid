@@ -144,7 +144,6 @@ class HomeFragment : BaseFragment() {
     override fun initEvent() {
 
 
-
         home_nestedscroll.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             var alpha = scrollY / 100 * 0.7f
             if (alpha >= 1.0) {

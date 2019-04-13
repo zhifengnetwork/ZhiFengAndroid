@@ -211,5 +211,4 @@ class MainActivity : BaseActivity(), UserInfoContract.View {
     override fun initData() {
     }
 
-
 }
