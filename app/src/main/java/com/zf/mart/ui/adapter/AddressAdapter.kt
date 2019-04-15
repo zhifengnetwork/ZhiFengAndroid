@@ -10,7 +10,8 @@ import com.zf.mart.mvp.bean.AddressBean
 import com.zf.mart.ui.activity.AddressEditActivity
 import kotlinx.android.synthetic.main.item_address.view.*
 
-class AddressAdapter(val context: Context?,val addressData:List<AddressBean>) : RecyclerView.Adapter<AddressAdapter.ViewHolder>() {
+class AddressAdapter(val context: Context?, val addressData: List<AddressBean>) :
+    RecyclerView.Adapter<AddressAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,16 +27,22 @@ class AddressAdapter(val context: Context?,val addressData:List<AddressBean>) : 
 
             phoneNum.text = addressData[position].mobile
 
-            userName.text=addressData[position].consignee
+            userName.text = addressData[position].consignee
 
-            province.text=addressData[position].province_name+addressData[position].city_name+addressData[position].district_name +addressData[position].address
+            province.text = addressData[position].province_name +
+                    addressData[position].city_name +
+                    addressData[position].district_name +
+                    addressData[position].address
 
 
         }
 
         holder.itemView.edit_btn.setOnClickListener {
+
             //将地址信息传递过去
             AddressEditActivity.actionStart(context,addressData[position])
+
+
         }
     }
 

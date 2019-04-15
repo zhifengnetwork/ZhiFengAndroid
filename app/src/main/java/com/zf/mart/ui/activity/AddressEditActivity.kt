@@ -1,42 +1,39 @@
 package com.zf.mart.ui.activity
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.bigkoo.pickerview.adapter.ArrayWheelAdapter
+import com.zf.mart.MyApplication.Companion.context
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.mvp.bean.AddAddressBean
+import com.zf.mart.mvp.bean.EditAddressBean
+import com.zf.mart.mvp.bean.RegionBean
+import com.zf.mart.mvp.contract.AddressEditContract
+import com.zf.mart.mvp.presenter.AddressEditPresenter
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.popwindow.RegionPopupWindow
 import kotlinx.android.synthetic.main.activity_address_edit.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import kotlinx.android.synthetic.main.pop_region.view.*
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.util.Log
-import android.widget.Toast
-import com.zf.mart.MyApplication.Companion.context
-import com.zf.mart.mvp.bean.AddAddressBean
-import com.zf.mart.mvp.bean.RegionBean
-import com.zf.mart.mvp.contract.AddressEditContract
-import com.zf.mart.mvp.presenter.AddressEditPresenter
-import android.text.TextUtils
 import com.zf.mart.mvp.bean.AddressBean
-import com.zf.mart.mvp.bean.EditAddressBean
-import com.zf.mart.mvp.contract.AddressContract
-import com.zf.mart.mvp.presenter.AddressPresenter
 import com.zf.mart.utils.LogUtils
 
 
-class AddressEditActivity : BaseActivity(), AddressEditContract.View,AddressContract.View {
-    override fun getAddress(bean: List<AddressBean>) {
 
-    }
+class AddressEditActivity : BaseActivity(), AddressEditContract.View {
+
 
     override fun deitAddress(bean: EditAddressBean) {
         Toast.makeText(context,"修改成功",Toast.LENGTH_SHORT).show()
@@ -148,7 +145,6 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View,AddressCont
 
     private val addressEditPresenter by lazy { AddressEditPresenter() }
 
-     val presenter:AddressPresenter by lazy { AddressPresenter() }
 
     override fun layoutId(): Int = R.layout.activity_address_edit
 
@@ -161,7 +157,7 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View,AddressCont
     }
 
     override fun initView() {
-       presenter.attachView(this)
+
         addressEditPresenter.attachView(this)
 
         upiNfo()
@@ -169,9 +165,9 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View,AddressCont
         initTag()
 
         //添加地址 隐藏删除图标
-//        if (data[0] == "") {
-//            rightIcon.visibility = View.GONE
-//        }
+        if (data== null) {
+            rightIcon.visibility = View.GONE
+        }
 
     }
 
@@ -231,18 +227,18 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View,AddressCont
                     inputEditText.isSelected -> inputEditText.text.toString()
                     else -> ""
                 }
-                    val mConsignee =user_id.text.toString()
-                    val mMobile=user_phone.text.toString()
-                    var mProvince=""
-                    var mCity=""
-                    var mDistrict=""
-                    val mAddress=address.text.toString()
-                    var mIs_default="0"
-                    if (is_default.isChecked){
-                        mIs_default="1"
-                    }else{
-                        mIs_default="0"
-                    }
+                val mConsignee = user_id.text.toString()
+                val mMobile = user_phone.text.toString()
+                var mProvince = ""
+                var mCity = ""
+                var mDistrict = ""
+                val mAddress = address.text.toString()
+                var mIs_default = "0"
+                if (is_default.isChecked) {
+                    mIs_default = "1"
+                } else {
+                    mIs_default = "0"
+                }
 
 
                 /**判断 省 市 区 的ID*/
@@ -263,6 +259,7 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View,AddressCont
 
                 }
 
+
                /**判断用户输入信息是否规范*/
                 if(judge(mConsignee.length,!isMobileNO(mMobile),province.text.isEmpty(),mAddress.length)){
                     Log.e("检测","网络请求执行了")
@@ -271,7 +268,8 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View,AddressCont
 
                 }else{
                     Toast.makeText(context,"添加失败",Toast.LENGTH_SHORT).show()
-                }
+
+               }
 
 
             }
@@ -290,6 +288,7 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View,AddressCont
                     else -> ""
                 }
 
+
                //5 7 9 名字 4 6 8 id   15便签
                 val mConsignee =user_id.text.toString()
                 val mMobile=user_phone.text.toString()
@@ -304,7 +303,9 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View,AddressCont
                     mIs_default="0"
                 }
 
+
                 /**判断修改后 省 市 区 的ID*/
+
 
                 if(province.text != data?.province_name){
                     for(i in provinceData.indices){
@@ -320,19 +321,20 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View,AddressCont
                         }
                     }
                 }
-                if (area.text != data?.district_name){
-                    for(i in areaData.indices){
-                        if(area.text==areaData[i]){
-                            mDistrict=areaID[i]
+                if (area.text != data?.district_name) {
+                    for (i in areaData.indices) {
+                        if (area.text == areaData[i]) {
+                            mDistrict = areaID[i]
                         }
                     }
                 }
+
                 /**判断用户输入信息是否规范*/
+
                 if(judge(mConsignee.length,!isMobileNO(mMobile),province.text.isEmpty(),mAddress.length)){
                     addressEditPresenter.requestDeitAddress(data!!.address_id,mConsignee,mMobile,mProvince,mCity,mDistrict,mAddress,chooseTag,mIs_default)
-                }else{
-                    Toast.makeText(context,"修改失败",Toast.LENGTH_SHORT).show()
-
+                }else {
+                    Toast.makeText(context, "修改失败", Toast.LENGTH_SHORT).show()
                 }
 
             }
@@ -406,14 +408,14 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View,AddressCont
 
     override fun onDestroy() {
         super.onDestroy()
-         presenter.detachView()
+
         addressEditPresenter.detachView()
 
 
     }
 
     override fun start() {
-        presenter.requestAddress()
+
         /**三级联动的请求*/
         addressEditPresenter.requestRegion("")
 
@@ -429,20 +431,20 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View,AddressCont
     }
 
     /**判断用户输入信息是否规范*/
-    private fun judge(a:Int,b:Boolean,c:Boolean,d:Int): Boolean {
-            if (a < 2) {
-                Toast.makeText(context, "请输入姓名2-25个字符", Toast.LENGTH_SHORT).show()
-                return false
-            } else if (b) {
-                Toast.makeText(context, "请正确输入11位手机号码", Toast.LENGTH_SHORT).show()
-                return false
-            } else if (c) {
-                Toast.makeText(context, "请选择地区", Toast.LENGTH_SHORT).show()
-                return false
-            } else if (d < 5) {
-                Toast.makeText(context, "请输入详细地址5-120个字符", Toast.LENGTH_SHORT).show()
-                return false
-            } else return true
+    private fun judge(a: Int, b: Boolean, c: Boolean, d: Int): Boolean {
+        if (a < 2) {
+            Toast.makeText(context, "请输入姓名2-25个字符", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (b) {
+            Toast.makeText(context, "请正确输入11位手机号码", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (c) {
+            Toast.makeText(context, "请选择地区", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (d < 5) {
+            Toast.makeText(context, "请输入详细地址5-120个字符", Toast.LENGTH_SHORT).show()
+            return false
+        } else return true
 
     }
 
@@ -564,6 +566,7 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View,AddressCont
             user_id.setText(data?.consignee)
             user_phone.setText(data?.mobile)
 
+
             province.text=data?.province_name
             city.text=data?.city_name
             area.text=data?.district_name
@@ -580,6 +583,7 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View,AddressCont
                     customRb.text=data?.label
                     customRb.isSelected=true
                   }
+
 
                 }
             }

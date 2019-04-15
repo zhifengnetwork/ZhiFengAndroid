@@ -4,7 +4,9 @@ import android.content.Intent
 import com.zf.mart.MyApplication
 import com.zf.mart.api.ApiService
 import com.zf.mart.api.UriConstant
+import com.zf.mart.livedata.UserInfoLiveData
 import com.zf.mart.ui.activity.LoginActivity
+import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.NetworkUtil
 import com.zf.mart.utils.Preference
 import okhttp3.*
@@ -92,11 +94,14 @@ object RetrofitManager {
             val request = requestBuilder.build()
 
             val response = chain.proceed(requestBuilder.build())
+            LogUtils.e(">>>>>>httpCode:" + response.code())
             if (response.code() == 401) {
+                LogUtils.e(">>>>>>401过期")
+                //清空用户token,清空用户信息
                 Preference.clearPreference(UriConstant.TOKEN)
+                UserInfoLiveData.value = null
                 val intent = Intent(MyApplication.context, LoginActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 MyApplication.context.startActivity(intent)
             }
 

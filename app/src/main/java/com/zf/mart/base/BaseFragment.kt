@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.classic.common.MultipleStatusView
+import com.zf.mart.view.loadingDialog.LoadingDialog
 
 abstract class BaseFragment : Fragment() {
 
@@ -55,6 +56,19 @@ abstract class BaseFragment : Fragment() {
         lazyLoad()
     }
 
+    private var loadingDialog: LoadingDialog? = null
+
+    fun showLoadingDialog() {
+        loadingDialog?.close()
+        loadingDialog = null
+        loadingDialog = LoadingDialog(context, "")
+        loadingDialog?.show()
+    }
+
+    fun dismissLoadingDialog() {
+        loadingDialog?.close()
+        loadingDialog = null
+    }
 
     /**
      * 加载布局
