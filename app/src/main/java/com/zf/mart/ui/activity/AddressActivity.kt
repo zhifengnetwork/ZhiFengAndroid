@@ -2,6 +2,7 @@ package com.zf.mart.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +23,9 @@ class AddressActivity : BaseActivity(),AddressContract.View {
     }
 
     override fun getAddress(bean: List<AddressBean>) {
+        addressData.clear()
         addressData.addAll(bean)
+        Log.e("检测","地址列表为："+bean)
         adapter.notifyDataSetChanged()
     }
 
@@ -56,10 +59,7 @@ class AddressActivity : BaseActivity(),AddressContract.View {
 
     override fun initData() {
     }
-     /**空数组
-      * 没用的
-      * */
-    private val a:Array<String> = arrayOf("")
+
     override fun initView() {
 
         addressPresenter.attachView(this)
@@ -71,7 +71,7 @@ class AddressActivity : BaseActivity(),AddressContract.View {
 
     override fun initEvent() {
         newAddress.setOnClickListener {
-            AddressEditActivity.actionStart(this,a)
+            AddressEditActivity.actionStart(this,null)
         }
 
 
@@ -85,8 +85,6 @@ class AddressActivity : BaseActivity(),AddressContract.View {
 
     override fun onRestart() {
         super.onRestart()
-
-        addressData.clear()
         addressPresenter.requestAddress()
 
     }

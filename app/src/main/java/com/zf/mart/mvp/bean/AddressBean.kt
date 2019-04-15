@@ -1,5 +1,7 @@
 package com.zf.mart.mvp.bean
 
+import java.io.Serializable
+
 data class AddressBean(
     val address_id: String,
     val user_id: String,
@@ -22,4 +24,4 @@ data class AddressBean(
     val district_name:String,
     val twon_name:String
 
-)
+):Serializable
