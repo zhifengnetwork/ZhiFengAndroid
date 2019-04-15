@@ -7,9 +7,11 @@ import com.zf.mart.mvp.bean.EditAddressBean
 import com.zf.mart.mvp.bean.RegionBean
 import com.zf.mart.net.RetrofitManager
 import com.zf.mart.scheduler.SchedulerUtils
+import com.zf.mart.utils.LogUtils
 import io.reactivex.Observable
 
 class AddressEditModel{
+
     fun requestAddressEdit(consignee:String,mobile:String,province:String,city:String,district:String,address:String,label:String,is_default:String): Observable<BaseBean<AddAddressBean>> {
         return RetrofitManager.service.setAddressList(consignee,mobile,province,city,district,address,label,is_default)
             .compose(SchedulerUtils.ioToMain())

@@ -24,4 +24,5 @@ data class AddressBean(
     val district_name: String,
     val twon_name: String
 
-) : Serializable
+):Serializable
+

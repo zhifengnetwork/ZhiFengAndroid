@@ -33,6 +33,7 @@
               android:id="@+id/province"
               android:layout_below="@+id/userName"
               android:textSize="12sp"
+              android:layout_marginRight="50dp"
               android:layout_marginTop="3dp"
               android:textColor="#424242"
               android:text="广东省广州市白云区"/>
