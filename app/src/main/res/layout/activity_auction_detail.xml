@@ -1,231 +1,264 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whit"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_toolbar" />
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:background="@color/whit"
-        android:orientation="vertical">
-
-    <include layout="@layout/layout_toolbar"/>
-
-    <View android:layout_width="match_parent"
-          android:layout_height="1px"
-          android:background="@color/colorLine"/>
+        android:layout_height="1px"
+        android:background="@color/colorLine" />
 
     <androidx.core.widget.NestedScrollView
-            android:overScrollMode="never"
-            android:id="@+id/parentLayout"
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:id="@+id/parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:overScrollMode="never">
 
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginBottom="52dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="52dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/startTime"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_round_red"
+                android:gravity="center"
+                android:text="距离结束还有00:20:00"
+                android:textColor="@color/colorPrice"
+                android:textSize="14sp" />
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
 
-            <TextView android:layout_width="200dp"
-                      android:textColor="@color/colorPrice"
-                      android:background="@drawable/shape_round_red"
-                      android:layout_gravity="center_horizontal"
-                      android:layout_marginTop="10dp"
-                      android:gravity="center"
-                      android:textSize="14sp"
-                      android:text="距离结束还有00:20:00"
-                      android:layout_height="50dp"/>
+                <ImageView
+                    android:id="@+id/goodsIcon"
+                    android:layout_width="312dp"
+                    android:layout_height="130dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/colorBackground" />
 
-            <RelativeLayout android:layout_width="match_parent"
-                            android:layout_marginTop="20dp"
-                            android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/goodsName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/goodsIcon"
+                    android:layout_alignLeft="@+id/goodsIcon"
+                    android:layout_marginTop="10dp"
+                    android:maxLines="2"
+                    android:text="南极人保暖运动衣 19款 夏季保暖长袖棉"
+                    android:textColor="@color/colorBlackText"
+                    android:textSize="15sp" />
 
-                <ImageView android:layout_width="312dp"
-                           android:layout_height="130dp"
-                           android:layout_centerHorizontal="true"
-                           android:id="@+id/goodsIcon"
-                           android:scaleType="fitXY"
-                           android:src="@mipmap/ms_g3"/>
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/goodsName"
+                    android:layout_alignLeft="@+id/goodsIcon"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="25dp"
+                    android:gravity="bottom"
+                    android:text="￥79"
+                    android:textColor="@color/colorPrice"
+                    android:textSize="28sp" />
 
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_alignLeft="@+id/goodsIcon"
-                          android:layout_below="@+id/goodsIcon"
-                          android:layout_marginTop="10dp"
-                          android:maxLines="2"
-                          android:textSize="15sp"
-                          android:id="@+id/goodsName"
-                          android:textColor="@color/colorBlackText"
-                          android:text="南极人保暖运动衣 19款 夏季保暖长袖棉"/>
-
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginTop="50dp"
-                          android:textSize="28sp"
-                          android:layout_marginBottom="25dp"
-                          android:textColor="@color/colorPrice"
-                          android:layout_alignLeft="@+id/goodsIcon"
-                          android:gravity="bottom"
-                          android:layout_below="@+id/goodsName"
-                          android:id="@+id/price"
-                          android:text="￥79"/>
-
-                <TextView android:layout_width="wrap_content"
-                          android:layout_toRightOf="@+id/price"
-                          android:textSize="15sp"
-                          android:layout_marginBottom="3dp"
-                          android:textColor="@color/colorBlackText"
-                          android:layout_alignBottom="@+id/price"
-                          android:layout_marginLeft="2dp"
-                          android:layout_height="wrap_content"
-                          android:text="起拍"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/price"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_toRightOf="@+id/price"
+                    android:text="起拍"
+                    android:textColor="@color/colorBlackText"
+                    android:textSize="15sp" />
 
                 <LinearLayout
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/price"
-                        android:layout_alignRight="@+id/goodsIcon"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="4dp"
-                        android:background="@drawable/shape_round_line"
-                        android:paddingBottom="4dp"
-                        android:paddingRight="12dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/goodsIcon"
+                    android:layout_alignBottom="@+id/price"
+                    android:background="@drawable/shape_round_line"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="12dp"
+                    android:paddingBottom="4dp">
 
-                    <ImageView android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:src="@drawable/i"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/i" />
 
-                    <TextView android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:textSize="14sp"
-                              android:textColor="@color/colorBlackText"
-                              android:layout_marginLeft="7dp"
-                              android:text="张三"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:text="张三"
+                        android:textColor="@color/colorBlackText"
+                        android:textSize="14sp" />
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textSize="14sp"
-                              android:textColor="@color/colorBlackText"
-                              android:layout_marginLeft="10dp"
-                              android:text="当前最高"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="当前最高"
+                        android:textColor="@color/colorBlackText"
+                        android:textSize="14sp" />
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:textSize="14sp"
-                              android:textColor="@color/colorBlackText"
-                              android:layout_marginLeft="2dp"
-                              android:text="￥90"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:text="￥90"
+                        android:textColor="@color/colorBlackText"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
             </RelativeLayout>
 
-            <View android:layout_width="match_parent"
-                  android:layout_height="1dp"
-                  android:background="@color/colorBackground"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorBackground" />
 
             <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:overScrollMode="never"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="wrap_content"/>
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:overScrollMode="never" />
 
-            <View android:layout_width="match_parent"
-                  android:layout_height="1dp"
-                  android:layout_marginTop="10dp"
-                  android:background="@color/colorBackground"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorBackground" />
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp">
 
-                <LinearLayout
-                        android:layout_width="match_parent"
+                    <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:paddingTop="7dp"
-                        android:paddingBottom="7dp"
-                        android:orientation="horizontal">
-
-                    <ImageView android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:layout_marginLeft="12dp"
-                               android:src="@drawable/ic_jian"/>
-
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                              android:layout_marginLeft="10dp"
-                              android:layout_marginRight="10dp"
-                              android:text="1"/>
-
-                    <ImageView android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:src="@drawable/ic_jia"/>
-
-
-                    <Space android:layout_width="0dp" android:layout_height="1dp"
-                           android:layout_weight="1"/>
+                        android:layout_marginLeft="12dp"
+                        android:src="@drawable/ic_jian" />
 
                     <TextView
-                            android:id="@+id/confirm"
-                            android:layout_width="95dp"
-                            android:gravity="center"
-                            android:textColor="@color/whit"
-                            android:layout_height="30dp"
-                            android:textSize="15sp"
-                            android:background="@drawable/shape_button_small"
-                            android:layout_marginRight="10dp"
-                            android:text="确认出价"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="1" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_jia" />
+
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/confirm"
+                        android:layout_width="95dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/shape_button_small"
+                        android:gravity="center"
+                        android:text="确认出价"
+                        android:textColor="@color/whit"
+                        android:textSize="15sp" />
 
 
                 </LinearLayout>
 
-                <View android:layout_width="match_parent" android:layout_height="1dp"
-                      android:background="@color/colorBackground"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorBackground" />
 
 
             </LinearLayout>
 
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:layout_gravity="center_horizontal"
-                      android:layout_marginTop="50dp"
-                      android:textSize="15sp"
-                      android:textColor="@color/colorBlackText"
-                      android:text="竞拍规则"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:text="竞拍规则"
+                android:textColor="@color/colorBlackText"
+                android:textSize="15sp" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:layout_marginTop="20dp"
-                      android:textSize="15sp"
-                      android:paddingLeft="10dp"
-                      android:paddingRight="10dp"
-                      android:textColor="@color/colorBlackText"
-                      android:text="1.集满福袋的人才可以参与竞拍；"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="1.集满福袋的人才可以参与竞拍；"
+                android:textColor="@color/colorBlackText"
+                android:textSize="15sp" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:layout_marginTop="3dp"
-                      android:textSize="15sp"
-                      android:paddingLeft="10dp"
-                      android:paddingRight="10dp"
-                      android:textColor="@color/colorBlackText"
-                      android:text="2.竞拍时间30分钟，价高者得；"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="2.竞拍时间30分钟，价高者得；"
+                android:textColor="@color/colorBlackText"
+                android:textSize="15sp" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:layout_marginTop="3dp"
-                      android:textSize="15sp"
-                      android:paddingLeft="10dp"
-                      android:paddingRight="10dp"
-                      android:textColor="@color/colorBlackText"
-                      android:text="3.竞拍成功需要在24小时内支付，如不支付购买，奖品取消，并且取消已获得的福袋；"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="3.竞拍成功需要在24小时内支付，如不支付购买，奖品取消，并且取消已获得的福袋；"
+                android:textColor="@color/colorBlackText"
+                android:textSize="15sp" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:layout_marginTop="3dp"
-                      android:textSize="15sp"
-                      android:paddingLeft="10dp"
-                      android:paddingRight="10dp"
-                      android:textColor="@color/colorBlackText"
-                      android:text="4.对于恶意抬价，活动方有取消该用户以后参与活动的权力"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="4.对于恶意抬价，活动方有取消该用户以后参与活动的权力"
+                android:textColor="@color/colorBlackText"
+                android:textSize="15sp" />
 
         </LinearLayout>
 

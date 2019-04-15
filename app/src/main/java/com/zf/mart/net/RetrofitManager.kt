@@ -4,9 +4,7 @@ import android.content.Intent
 import com.zf.mart.MyApplication
 import com.zf.mart.api.ApiService
 import com.zf.mart.api.UriConstant
-import com.zf.mart.livedata.UserInfoLiveData
 import com.zf.mart.ui.activity.LoginActivity
-import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.NetworkUtil
 import com.zf.mart.utils.Preference
 import okhttp3.*
@@ -41,7 +39,7 @@ object RetrofitManager {
 
                     client = OkHttpClient.Builder()
                         .addInterceptor(addQueryParameterInterceptor())  //参数添加
-                        .addInterceptor(addHeaderInterceptor()) // token过滤
+                        .addInterceptor(TokenFreshInterceptor()) // token过滤
 //                        .addInterceptor(addCacheInterceptor()) //缓存
 //                        .addNetworkInterceptor(addCacheInterceptor()) //缓存
                         .addInterceptor(httpLoggingInterceptor) //日志,所有的请求响应度看到
@@ -82,32 +80,29 @@ object RetrofitManager {
     }
 
     /**
-     * 设置头
+     * 处理头部信息
      */
-    private fun addHeaderInterceptor(): Interceptor {
-        return Interceptor { chain ->
+    class TokenFreshInterceptor : Interceptor {
+        override fun intercept(chain: Interceptor.Chain): Response {
+
             val originalRequest = chain.request()
-            val requestBuilder = originalRequest.newBuilder()
-                // Provide your custom header here
+            val request = chain.request().newBuilder()
                 .header("Token", token)
                 .method(originalRequest.method(), originalRequest.body())
-            val request = requestBuilder.build()
+            val response = chain.proceed(request.build())
 
-            val response = chain.proceed(requestBuilder.build())
-            LogUtils.e(">>>>>>httpCode:" + response.code())
             if (response.code() == 401) {
-                LogUtils.e(">>>>>>401过期")
-                //清空用户token,清空用户信息
+                //过期，去登陆
                 Preference.clearPreference(UriConstant.TOKEN)
-                UserInfoLiveData.value = null
                 val intent = Intent(MyApplication.context, LoginActivity::class.java)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 MyApplication.context.startActivity(intent)
             }
-
-            chain.proceed(request)
+            return response
         }
     }
+
 
     /**
      * 设置缓存

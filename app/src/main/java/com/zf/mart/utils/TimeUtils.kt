@@ -16,4 +16,10 @@ object TimeUtils {
         return format.format(time * 1000)
     }
 
+    fun auctionTime(startTime: Long): String {
+        //活动未开始，显示开始时间
+        val format = SimpleDateFormat("MM月dd号 HH:mm", Locale.getDefault())
+        return format.format(startTime * 1000)
+    }
+
 }

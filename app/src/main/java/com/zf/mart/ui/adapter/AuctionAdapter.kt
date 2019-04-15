@@ -6,30 +6,33 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
+import com.zf.mart.mvp.bean.AuctionList
+import com.zf.mart.utils.GlideUtils
+import com.zf.mart.utils.TimeUtils
 import kotlinx.android.synthetic.main.item_auction.view.*
 
-class AuctionAdapter(val context: Context?) : RecyclerView.Adapter<AuctionAdapter.ViewHolder>() {
+class AuctionAdapter(val context: Context?, val data: List<AuctionList>) :
+        RecyclerView.Adapter<AuctionAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_auction, parent, false)
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = 10
+    override fun getItemCount(): Int = data.size
 
-    private var mListener: OnItemClickListener? = null
-
-    fun setOnclickListener(listener: OnItemClickListener) {
-        mListener = listener
-    }
-
-    interface OnItemClickListener {
-        fun onClick()
-    }
+    var mClickListener: ((String) -> Unit)? = null
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
+
+            startTime.text = "${TimeUtils.auctionTime(data[position].start_time)}准时开拍"
+            goodsName.text = data[position].goods_name
+            price.text = "¥${data[position].start_price}"
+            GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + data[position].original_img, goodsIcon)
+
             goAuction.setOnClickListener {
-                mListener?.onClick()
+                mClickListener?.invoke(data[position].id)
             }
         }
     }
