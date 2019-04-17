@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="wrap_content"
-              android:paddingLeft="15dp"
-              android:paddingRight="15dp"
-              android:gravity="center_horizontal"
-              android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
 
     <com.zf.mart.view.CircleImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/i"/>
+        android:id="@+id/avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
 
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:textSize="10sp"
-              android:textColor="@color/colorBlackText"
-              android:text="张三"/>
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="**"
+        android:textColor="@color/colorBlackText"
+        android:textSize="10sp" />
 
-    <TextView android:layout_width="wrap_content"
-              android:textSize="10sp"
-              android:layout_height="wrap_content"
-              android:textColor="@color/colorBlackText"
-              android:text="出价￥90"/>
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="出价￥90"
+        android:textColor="@color/colorBlackText"
+        android:textSize="10sp" />
 
 </LinearLayout>

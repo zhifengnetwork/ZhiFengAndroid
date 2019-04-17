@@ -11,5 +11,6 @@ data class AuctionList(
     val activity_name: String,
     val start_price: String,
     val start_time: Long,
-    val original_img: String
+    val original_img: String,
+    val end_time:Long
 )

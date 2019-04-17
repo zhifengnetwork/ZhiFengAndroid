@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.mvp.bean.SecKillData
+import com.zf.mart.utils.TimeUtils
 import kotlinx.android.synthetic.main.item_top_time.view.*
 
-class TopTimeAdapter(val context: Context?, val data: List<String>) :
-    RecyclerView.Adapter<TopTimeAdapter.ViewHolder>() {
+class TopTimeAdapter(val context: Context?, val data: List<SecKillData>) :
+        RecyclerView.Adapter<TopTimeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_top_time, parent, false)
@@ -39,7 +41,8 @@ class TopTimeAdapter(val context: Context?, val data: List<String>) :
 
         holder.itemView.apply {
 
-            time.text = data[position]
+            time.text =TimeUtils.getHourMinute(data[position].start_time)
+            state.text = data[position].status
 
             time.isSelected = selectedPos == position
             state.isSelected = selectedPos == position

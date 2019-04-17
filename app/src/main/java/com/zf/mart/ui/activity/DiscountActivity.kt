@@ -26,9 +26,9 @@ class DiscountActivity : BaseActivity() {
     override fun initToolBar() {
 
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
 
         titleName.text = "我的优惠券中心"
@@ -46,12 +46,13 @@ class DiscountActivity : BaseActivity() {
     override fun initView() {
         val titles = arrayListOf("未使用", "使用记录", "已过期")
         val fragments = arrayListOf(
-            DiscountFragment.newInstance(DiscountFragment.unUse),
-            DiscountFragment.newInstance(DiscountFragment.haveUse),
-            DiscountFragment.newInstance(DiscountFragment.timeOut)
+                DiscountFragment.newInstance(DiscountFragment.unUse),
+                DiscountFragment.newInstance(DiscountFragment.haveUse),
+                DiscountFragment.newInstance(DiscountFragment.timeOut)
         )
         val adapter = BaseFragmentAdapter(supportFragmentManager, fragments, titles)
         viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = 3
         tabLayout.setViewPager(viewPager)
     }
 

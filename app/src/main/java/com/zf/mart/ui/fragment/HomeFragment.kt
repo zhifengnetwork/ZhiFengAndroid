@@ -150,10 +150,10 @@ class HomeFragment : BaseFragment() {
                 alpha = 1.0f
             }
             home_title.setBackgroundColor(
-                changeAlpha(
-                    ContextCompat.getColor(context!!, R.color.head_bg)
-                    , alpha
-                )
+                    changeAlpha(
+                            ContextCompat.getColor(context!!, R.color.head_bg)
+                            , alpha
+                    )
             )
         }
 

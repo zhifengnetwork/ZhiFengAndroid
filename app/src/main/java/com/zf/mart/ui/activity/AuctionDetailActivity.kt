@@ -12,6 +12,8 @@ import com.zf.mart.R
 import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.mvp.bean.AuctionDetailBean
+import com.zf.mart.mvp.bean.AuctionPriceBean
+import com.zf.mart.mvp.bean.PriceList
 import com.zf.mart.mvp.contract.AuctionDetailContract
 import com.zf.mart.mvp.presenter.AuctionDetailPresenter
 import com.zf.mart.showToast
@@ -30,31 +32,63 @@ import kotlinx.android.synthetic.main.pop_push_order.view.*
  */
 class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
 
+
     override fun showError(msg: String, errorCode: Int) {
         showToast(msg)
     }
 
+    private var countDownTimer: CountDownTimer? = null
+
+    //出价列表
+    override fun setAuctionPrice(bean: AuctionPriceBean) {
+        //出价最高
+        if (bean.max_price.isNotEmpty()) {
+            highPriceLayout.visibility = View.VISIBLE
+            GlideUtils.loadUrlImage(this, bean.max_price[0].head_pic, avatar)
+            name.text = bean.max_price[0].user_name
+            highPrice.text = "¥" + bean.max_price[0].offer_price
+        } else {
+            highPriceLayout.visibility = View.INVISIBLE
+        }
+        //出价人列表
+        data.clear()
+        data.addAll(bean.max_price)
+        adapter.notifyDataSetChanged()
+    }
+
+    //竞拍详情
     override fun setAuctionDetail(bean: AuctionDetailBean) {
-
-        if (bean.auction.start_time * 1000 > System.currentTimeMillis()) {
+        //时间
+        if ((bean.auction.start_time * 1000 > System.currentTimeMillis())) {
             startTime.text = "${TimeUtils.auctionTime(bean.auction.start_time)}准时开拍"
-        } else if (bean.auction.start_time * 1000 < System.currentTimeMillis()) {
-            //开启定时器
-            val countDownTimer = object : CountDownTimer((10 * 1000), 1000) {
-                override fun onFinish() {
+        } else {
 
+
+
+
+
+            val time: Long = (bean.auction.end_time * 1000) - System.currentTimeMillis()
+            countDownTimer = object : CountDownTimer((time), 1000) {
+                override fun onFinish() {
                 }
 
                 override fun onTick(millisUntilFinished: Long) {
-
+                    startTime.text = "距离结束还有${TimeUtils.getCountTime2(millisUntilFinished)}"
                 }
             }
-            countDownTimer.start()
+            countDownTimer?.start()
+
+
+
+
+
         }
 
+        //other
         goodsName.text = bean.auction.goods_name
         price.text = "¥${bean.auction.start_price}"
         GlideUtils.loadUrlImage(this, UriConstant.BASE_URL + bean.auction.original_img, goodsIcon)
+
 
     }
 
@@ -89,7 +123,9 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
         mId = intent.getStringExtra("mId")
     }
 
-    private val adapter by lazy { AuctionPeopleAdapter(this) }
+    private val data = ArrayList<PriceList>()
+
+    private val adapter by lazy { AuctionPeopleAdapter(this, data) }
 
     private val presenter by lazy { AuctionDetailPresenter() }
 
@@ -128,10 +164,12 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
 
     override fun onDestroy() {
         super.onDestroy()
+        countDownTimer?.cancel()
         presenter.detachView()
     }
 
     override fun start() {
         presenter.requestAuctionDetail(mId)
+        presenter.requestAuctionPrice(mId)
     }
 }

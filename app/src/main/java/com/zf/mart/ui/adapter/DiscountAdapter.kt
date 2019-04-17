@@ -7,32 +7,34 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.mvp.bean.DiscountBean
 import com.zf.mart.ui.fragment.DiscountFragment
-import com.zf.mart.view.dialog.DiscountDialog
+import com.zf.mart.utils.TimeUtils
 import kotlinx.android.synthetic.main.item_discount.view.*
-import kotlinx.android.synthetic.main.layout_toolbar.view.*
 
-class DiscountAdapter(val context: Context?, val flag: String) : RecyclerView.Adapter<DiscountAdapter.ViewHolder>() {
+class DiscountAdapter(val context: Context?, val flag: String, val data: List<DiscountBean>) :
+        RecyclerView.Adapter<DiscountAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_discount, parent, false)
         return ViewHolder(view)
     }
 
-    private var mListener: OnItemClickListener? = null
 
-    fun setOnClickListerner(listener: OnItemClickListener) {
-        mListener = listener
-    }
+    var onClickListener: ((DiscountBean) -> Unit)? = null
 
-    interface OnItemClickListener {
-        fun onClick()
-    }
-
-    override fun getItemCount(): Int = 8
+    override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
+
+            priceTxt.text = data[position].money
+            condition.text = "满${data[position].condition}元可用"
+            type.text = data[position].name
+            discountType.text = data[position].use_scope
+            useTime.text = "${TimeUtils.getYmd(data[position].use_start_time)}-${TimeUtils.getYmd(data[position].use_end_time)}"
+
+
             when (flag) {
                 DiscountFragment.unUse -> {
                     parenLayout.background = ContextCompat.getDrawable(context, R.drawable.preferential_a)
@@ -43,7 +45,7 @@ class DiscountAdapter(val context: Context?, val flag: String) : RecyclerView.Ad
                     condition.setTextColor(ContextCompat.getColor(context, R.color.colorDiscountUnUse2))
                     operation.text = "立即使用"
                     operation.setOnClickListener {
-                        mListener?.onClick()
+                        onClickListener?.invoke(data[position])
                     }
                 }
                 DiscountFragment.haveUse -> {

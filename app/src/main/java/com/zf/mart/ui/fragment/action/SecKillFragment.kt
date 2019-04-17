@@ -6,48 +6,90 @@ import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.base.BaseFragmentAdapter
 import com.zf.mart.base.NotLazyBaseFragment
+import com.zf.mart.mvp.bean.SecKillData
+import com.zf.mart.mvp.bean.SecKillTimeBean
+import com.zf.mart.mvp.contract.SecKillTimeContract
+import com.zf.mart.mvp.presenter.SecKillTimePresenter
 import com.zf.mart.ui.adapter.TopTimeAdapter
-import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.fragment_seckill.*
 
 /**
  * 秒杀
  */
-class SecKillFragment : BaseFragment() {
+class SecKillFragment : BaseFragment(), SecKillTimeContract.View {
+
+    override fun showError(msg: String, errorCode: Int) {
+    }
+
+    override fun setSecKillTime(bean: SecKillTimeBean) {
+
+        data.clear()
+        for (past in bean.time_space_past.reversed()) {
+            data.add(SecKillData(past.font, past.start_time, past.end_time, "已开抢"))
+        }
+
+        repeat(bean.time_space_future.size) {
+            data.add(SecKillData(bean.time_space_future[it].font,
+                    bean.time_space_future[it].start_time,
+                    bean.time_space_future[it].end_time, if (it == 0) "抢购中" else "即将开抢"))
+        }
+
+        //时间滑动条
+        topRecyclerView.adapter = topTimeAdapter
+        val fgms = ArrayList<NotLazyBaseFragment>()
+        repeat(data.size) {
+            fgms.add(SecKillPagerFragment.newInstance(data[it].start_time.toString(), data[it].end_time.toString()))
+        }
+        val adapter = BaseFragmentAdapter(childFragmentManager, fgms, arrayListOf())
+        viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = bean.time_space_past.size + bean.time_space_future.size
+
+        /**
+         * 选中第几个
+         * 可能需要判断是否为空
+         */
+        topTimeAdapter.setCheck(bean.time_space_past.size)
+        viewPager.currentItem = bean.time_space_past.size
+
+        topRecyclerView.smoothScrollToPosition(
+                if (data.size > bean.time_space_past.size + 2) bean.time_space_past.size + 2
+                else bean.time_space_past.size)
+    }
+
+    override fun showLoading() {
+    }
+
+    override fun dismissLoading() {
+    }
 
     override fun getLayoutId(): Int = R.layout.fragment_seckill
 
-
     private val topTimeAdapter by lazy { TopTimeAdapter(context, data) }
 
-    private val data = ArrayList<String>()
+    private val presenter by lazy { SecKillTimePresenter() }
+
+    private val data = ArrayList<SecKillData>()
 
     override fun initView() {
-        LogUtils.e(">>>>>>SecKillFragment initView")
+        presenter.attachView(this)
 
-        data.addAll(arrayListOf("07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00"))
-
-        //时间滑动条
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         topRecyclerView.layoutManager = layoutManager
-        topRecyclerView.adapter = topTimeAdapter
+    }
 
-        topTimeAdapter.setOnClickListener(object : TopTimeAdapter.OnItemClickListener {
-            override fun onClick(pos: Int) {
-                viewPager.currentItem = pos
-            }
-        })
 
-        val fgms = ArrayList<NotLazyBaseFragment>()
+    override fun lazyLoad() {
+        presenter.requestSecKillTime()
+    }
 
-        repeat(data.size) {
-            fgms.add(SecKillPagerFragment.newInstance(it))
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
+    }
 
-        val adapter = BaseFragmentAdapter(childFragmentManager, fgms, arrayListOf())
-        viewPager.adapter = adapter
-        viewPager.offscreenPageLimit = 1
+    override fun initEvent() {
+
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
             }
@@ -61,22 +103,11 @@ class SecKillFragment : BaseFragment() {
             }
         })
 
-    }
-
-
-    override fun lazyLoad() {
-
-        LogUtils.e(">>>>>>SecKillFragment lazyLoad ")
-
-        /**
-         * 测试选中第三个
-         */
-        topTimeAdapter.setCheck(3)
-        viewPager.currentItem = 3
-
-    }
-
-    override fun initEvent() {
+        topTimeAdapter.setOnClickListener(object : TopTimeAdapter.OnItemClickListener {
+            override fun onClick(pos: Int) {
+                viewPager.currentItem = pos
+            }
+        })
     }
 
 }

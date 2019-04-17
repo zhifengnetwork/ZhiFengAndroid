@@ -8,30 +8,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
+import com.zf.mart.mvp.bean.DiscountBean
+import com.zf.mart.utils.LogUtils
+import kotlinx.android.synthetic.main.dialog_discount.view.*
 
 /**
  * 优惠券码
  */
 class DiscountDialog : DialogFragment() {
 
-    interface OnItemClickListener {
-        fun onItemClick()
-    }
-
-    private var mListener: OnItemClickListener? = null
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        mListener = listener
-    }
 
     companion object {
 
-        fun showDialog(fragmentManager: FragmentManager): DiscountDialog {
+        private var discountBean: DiscountBean? = null
+
+        fun showDialog(fragmentManager: FragmentManager, bean: DiscountBean): DiscountDialog {
+
             val receiveDialog = DiscountDialog()
+
+            discountBean = bean
+
             receiveDialog.show(fragmentManager, "")
             //点击空白处是否关闭dialog
             receiveDialog.isCancelable = true
@@ -55,10 +55,10 @@ class DiscountDialog : DialogFragment() {
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val view = LayoutInflater.from(activity).inflate(R.layout.dialog_discount, container, false)
-//        view.confirm.setOnClickListener {
-//            mListener?.onItemClick()
-//            dismiss()
-//        }
+        view.apply {
+            LogUtils.e(">>>>>券码：" + discountBean?.coupon_code)
+            codeTxt.text = "券码:${discountBean?.coupon_code}"
+        }
         return view
     }
 

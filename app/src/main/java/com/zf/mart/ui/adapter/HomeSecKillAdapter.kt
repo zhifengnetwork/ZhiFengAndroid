@@ -20,7 +20,7 @@ class HomeSecKillAdapter(val context: Context?) : RecyclerView.Adapter<HomeSecKi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
             setOnClickListener {
-                SecKillDetailActivity.actionStart(context)
+                SecKillDetailActivity.actionStart(context,"11")
             }
         }
     }

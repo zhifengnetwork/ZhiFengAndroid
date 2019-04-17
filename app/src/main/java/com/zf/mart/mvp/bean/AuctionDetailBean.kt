@@ -26,5 +26,9 @@ data class AuctionDetail(
 data class BondUser(
         val id: String,
         val user_id: String,
-        val offer_price: String
+        val offer_price: String,
+        val offer_time: String,
+        val user_name: String,
+        val auction_id: String,
+        val head_pic: String
 )

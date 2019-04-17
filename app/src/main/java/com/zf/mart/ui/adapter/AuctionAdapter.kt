@@ -1,6 +1,7 @@
 package com.zf.mart.ui.adapter
 
 import android.content.Context
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +27,22 @@ class AuctionAdapter(val context: Context?, val data: List<AuctionList>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
 
-            startTime.text = "${TimeUtils.auctionTime(data[position].start_time)}准时开拍"
+            //时间
+            if ((data[position].start_time * 1000 > System.currentTimeMillis())) {
+                startTime.text = "${TimeUtils.auctionTime(data[position].start_time)}准时开始"
+            } else {
+                val time: Long = (data[position].end_time * 1000) - System.currentTimeMillis()
+                val countDownTimer = object : CountDownTimer((time), 1000) {
+                    override fun onFinish() {
+                    }
+
+                    override fun onTick(millisUntilFinished: Long) {
+                        startTime.text = "距离结束还有${TimeUtils.getCountTime2(millisUntilFinished)}"
+                    }
+                }
+                countDownTimer.start()
+            }
+
             goodsName.text = data[position].goods_name
             price.text = "¥${data[position].start_price}"
             GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + data[position].original_img, goodsIcon)

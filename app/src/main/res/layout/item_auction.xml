@@ -78,7 +78,7 @@
         android:layout_marginTop="3dp"
         android:background="@drawable/shape_round_line"
         android:gravity="center"
-        android:text="1月12号 12:02:00 准时开拍"
+        android:text="--月--号 --:--:-- 准时开拍"
         android:textColor="@color/colorBlackText"
         android:textSize="14sp" />
 

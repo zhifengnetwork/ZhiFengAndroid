@@ -34,7 +34,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_round_red"
                 android:gravity="center"
-                android:text="距离结束还有00:20:00"
+                android:text="距离结束还有--:--:--"
                 android:textColor="@color/colorPrice"
                 android:textSize="14sp" />
 
@@ -45,9 +45,11 @@
 
                 <ImageView
                     android:id="@+id/goodsIcon"
-                    android:layout_width="312dp"
-                    android:layout_height="130dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
                     android:background="@color/colorBackground" />
 
                 <TextView
@@ -56,6 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/goodsIcon"
                     android:layout_alignLeft="@+id/goodsIcon"
+                    android:layout_alignRight="@id/goodsIcon"
                     android:layout_marginTop="10dp"
                     android:maxLines="2"
                     android:text="南极人保暖运动衣 19款 夏季保暖长袖棉"
@@ -73,7 +76,7 @@
                     android:gravity="bottom"
                     android:text="￥79"
                     android:textColor="@color/colorPrice"
-                    android:textSize="28sp" />
+                    android:textSize="25sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -84,9 +87,10 @@
                     android:layout_toRightOf="@+id/price"
                     android:text="起拍"
                     android:textColor="@color/colorBlackText"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <LinearLayout
+                    android:id="@+id/highPriceLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignRight="@+id/goodsIcon"
@@ -94,39 +98,40 @@
                     android:background="@drawable/shape_round_line"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="4dp"
-                    android:paddingRight="12dp"
-                    android:paddingBottom="4dp">
+                    android:padding="5dp">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/i" />
+                    <com.zf.mart.view.CircleImageView
+                        android:id="@+id/avatar"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
 
                     <TextView
+                        android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="7dp"
+                        android:ellipsize="end"
+                        android:maxLength="5"
                         android:text="张三"
                         android:textColor="@color/colorBlackText"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:text="当前最高"
                         android:textColor="@color/colorBlackText"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/highPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
                         android:text="￥90"
                         android:textColor="@color/colorBlackText"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
