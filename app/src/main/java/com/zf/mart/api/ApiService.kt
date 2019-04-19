@@ -263,7 +263,14 @@ interface ApiService {
     ): Observable<BaseBean<List<DiscountBean>>>
 
     /**
-     * 获取商品评论
+     * 我关注的商品
+     */
+    @FormUrlEncoded
+    @POST("api/User/collect_list")
+    fun getMyfollow(): Observable<BaseBean<Unit>>
+
+     /**
+      *  获取商品评论
      */
     @FormUrlEncoded
     @POST("api/goods/getGoodsComment")
