@@ -253,4 +253,10 @@ interface ApiService {
         @Field("status") status: String
     ): Observable<BaseBean<List<DiscountBean>>>
 
+    /**
+     * 我关注的商品
+     */
+    @FormUrlEncoded
+    @POST("api/User/collect_list")
+    fun getMyfollow(): Observable<BaseBean<Unit>>
 }

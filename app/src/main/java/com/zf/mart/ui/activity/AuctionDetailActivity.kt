@@ -63,10 +63,6 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
             startTime.text = "${TimeUtils.auctionTime(bean.auction.start_time)}准时开拍"
         } else {
 
-
-
-
-
             val time: Long = (bean.auction.end_time * 1000) - System.currentTimeMillis()
             countDownTimer = object : CountDownTimer((time), 1000) {
                 override fun onFinish() {
