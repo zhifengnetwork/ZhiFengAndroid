@@ -18,7 +18,7 @@ class GroupAdapter(val context: Context?, val data: List<GroupBean>) : RecyclerV
         return ViewHolder(view)
     }
 
-    var itemClickListener: ((String) -> Unit)? = null
+    var itemClickListener: ((GroupBean) -> Unit)? = null
 
     override fun getItemCount(): Int = data.size
 
@@ -31,7 +31,7 @@ class GroupAdapter(val context: Context?, val data: List<GroupBean>) : RecyclerV
             price.text = data[position].group_price
 
             setOnClickListener {
-                itemClickListener?.invoke(data[position].team_id)
+                itemClickListener?.invoke(data[position])
             }
         }
     }

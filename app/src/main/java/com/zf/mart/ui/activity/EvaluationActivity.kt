@@ -16,10 +16,14 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 class EvaluationActivity : BaseActivity() {
 
     companion object {
-        fun actionStart(context: Context?) {
-            context?.startActivity(Intent(context, EvaluationActivity::class.java))
+        fun actionStart(context: Context?, goodId: String) {
+            val intent = Intent(context, EvaluationActivity::class.java)
+            intent.putExtra("goodId", goodId)
+            context?.startActivity(intent)
         }
     }
+
+    private var mGoodId = ""
 
     override fun initToolBar() {
         back.setOnClickListener { finish() }
@@ -30,16 +34,17 @@ class EvaluationActivity : BaseActivity() {
     override fun layoutId(): Int = R.layout.activity_evaluation
 
     override fun initData() {
+        mGoodId = intent.getStringExtra("goodId")
     }
 
     override fun initView() {
         val titles = arrayListOf("全部\n10+", "好评\n4", "中评\n2", "差评\n1", "晒单\n0")
         val fgms = arrayListOf(
-            GroupEvaluationFragment.newInstance(),
-            GroupEvaluationFragment.newInstance(),
-            GroupEvaluationFragment.newInstance(),
-            GroupEvaluationFragment.newInstance(),
-            GroupEvaluationFragment.newInstance()
+                GroupEvaluationFragment.newInstance(mGoodId, 1),
+                GroupEvaluationFragment.newInstance(mGoodId, 2),
+                GroupEvaluationFragment.newInstance(mGoodId, 3),
+                GroupEvaluationFragment.newInstance(mGoodId, 4),
+                GroupEvaluationFragment.newInstance(mGoodId, 5)
         )
         val adapter = BaseFragmentAdapter(supportFragmentManager, fgms, titles)
         viewPager.adapter = adapter

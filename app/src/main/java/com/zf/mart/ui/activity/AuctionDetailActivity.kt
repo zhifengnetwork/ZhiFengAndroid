@@ -56,13 +56,17 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
         adapter.notifyDataSetChanged()
     }
 
+
+
     //竞拍详情
     override fun setAuctionDetail(bean: AuctionDetailBean) {
         //时间
         if ((bean.auction.start_time * 1000 > System.currentTimeMillis())) {
             startTime.text = "${TimeUtils.auctionTime(bean.auction.start_time)}准时开拍"
-        } else {
-
+        } else if ((bean.auction.start_time * 1000 < System.currentTimeMillis())
+            && (bean.auction.end_time * 1000 > System.currentTimeMillis())
+        ) {
+            countDownTimer?.cancel()
             val time: Long = (bean.auction.end_time * 1000) - System.currentTimeMillis()
             countDownTimer = object : CountDownTimer((time), 1000) {
                 override fun onFinish() {
@@ -71,20 +75,15 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
                 override fun onTick(millisUntilFinished: Long) {
                     startTime.text = "距离结束还有${TimeUtils.getCountTime2(millisUntilFinished)}"
                 }
-            }
-            countDownTimer?.start()
-
-
-
-
-
+            }.start()
+        } else {
+            startTime.text = "活动已结束"
         }
 
         //other
         goodsName.text = bean.auction.goods_name
         price.text = "¥${bean.auction.start_price}"
         GlideUtils.loadUrlImage(this, UriConstant.BASE_URL + bean.auction.original_img, goodsIcon)
-
 
     }
 
@@ -135,26 +134,27 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
 
     override fun initEvent() {
 
+
+
         confirm.setOnClickListener {
             AuctionSuccessDialog.showDialog(supportFragmentManager)
-                    .setOnItemClickListener(object : AuctionSuccessDialog.OnItemClickListener {
-                        override fun onItemClick() {
-
-                            val window = object : ServicePopupWindow(
-                                    this@AuctionDetailActivity, R.layout.pop_push_order,
-                                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
-                            ) {
-                                override fun initView() {
-                                    contentView.apply {
-                                        submit.setOnClickListener {
-                                            onDismiss()
-                                        }
+                .setOnItemClickListener(object : AuctionSuccessDialog.OnItemClickListener {
+                    override fun onItemClick() {
+                        val window = object : ServicePopupWindow(
+                            this@AuctionDetailActivity, R.layout.pop_push_order,
+                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                        ) {
+                            override fun initView() {
+                                contentView.apply {
+                                    submit.setOnClickListener {
+                                        onDismiss()
                                     }
                                 }
                             }
-                            window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
                         }
-                    })
+                        window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+                    }
+                })
         }
     }
 
