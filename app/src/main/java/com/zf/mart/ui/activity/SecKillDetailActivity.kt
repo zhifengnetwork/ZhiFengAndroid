@@ -3,6 +3,7 @@ package com.zf.mart.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
@@ -18,6 +19,8 @@ import com.zf.mart.mvp.presenter.SecKillDetailPresenter
 import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.GuideAdapter
 import com.zf.mart.utils.StatusBarUtils
+import com.zf.mart.utils.TimeUtils
+import com.zf.mart.utils.UnicodeUtil
 import com.zzhoujay.richtext.RichText
 import kotlinx.android.synthetic.main.activity_seckill_detail.*
 import kotlinx.android.synthetic.main.layout_detail_head.*
@@ -30,13 +33,25 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
         showToast(msg)
     }
 
+    private var timer: CountDownTimer? = null
+
     override fun setSecKillDetail(bean: SecKillDetailBean) {
-        goodsName.text = bean.info.goods_name
 
+        goodsName.text = bean.info.title
+        name.text = bean.info.goods_name
+
+        markPrice.text = "¥" + bean.info.shop_price
+        secPrice.text = "¥" + bean.info.price
+        //库存
+        inventory.text = bean.info.store_count
+        //销量
+        sellNum.text = bean.info.sales_sum
         //图文详情
-        RichText.from(bean.info.goods_content).into(detail)
-
+        RichText.fromHtml(UnicodeUtil.translation(bean.info.goods_content)).into(detail)
+        //banner
         initBanner(bean.info.goods_images)
+        //倒计时
+        initDownTime(bean)
 
     }
 
@@ -60,9 +75,9 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(
-                this,
-                ContextCompat.getColor(this, R.color.colorSecondText),
-                0.3f
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
         )
 
         shareLayout.visibility = View.INVISIBLE
@@ -129,6 +144,39 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
         })
     }
 
+    private fun initDownTime(bean: SecKillDetailBean) {
+        if ((bean.info.start_time * 1000 > System.currentTimeMillis())) {
+            timeTxt.text = "距离秒杀开始"
+            timer?.cancel()
+            val time: Long = (bean.info.start_time * 1000) - System.currentTimeMillis()
+            timer = object : CountDownTimer((time), 1000) {
+                override fun onFinish() {
+                }
+
+                override fun onTick(millisUntilFinished: Long) {
+                    downTime.text = TimeUtils.getCountTime2(millisUntilFinished)
+                }
+            }.start()
+        } else if ((bean.info.start_time * 1000 < System.currentTimeMillis())
+            && (bean.info.end_time * 1000 > System.currentTimeMillis())
+        ) {
+            timeTxt.text = "距离秒杀结束"
+            timer?.cancel()
+            val time: Long = (bean.info.end_time * 1000) - System.currentTimeMillis()
+            timer = object : CountDownTimer((time), 1000) {
+                override fun onFinish() {
+                }
+
+                override fun onTick(millisUntilFinished: Long) {
+                    downTime.text = TimeUtils.getCountTime2(millisUntilFinished)
+                }
+            }.start()
+        } else {
+            timeTxt.text = "秒杀已结束"
+            downTime.visibility = View.INVISIBLE
+        }
+    }
+
     private fun initScrollHead() {
         scrollView.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             var alpha = scrollY / 100 * 0.7f
@@ -136,10 +184,10 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
                 alpha = 1.0f
             }
             orderDetailHead.setBackgroundColor(
-                    changeAlpha(
-                            ContextCompat.getColor(this, R.color.whit)
-                            , alpha
-                    )
+                changeAlpha(
+                    ContextCompat.getColor(this, R.color.whit)
+                    , alpha
+                )
             )
         }
     }
@@ -149,6 +197,7 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
         super.onDestroy()
         presenter.detachView()
         RichText.clear(this)
+        timer?.cancel()
     }
 
 

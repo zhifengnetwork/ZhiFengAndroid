@@ -16,12 +16,14 @@ import kotlinx.android.synthetic.main.fragment_auction.*
  * 竞拍
  */
 class AuctionFragment : BaseFragment(), AuctionListContract.View {
+
     override fun setAuctionList(bean: List<AuctionList>) {
         mLayoutStatusView?.showContent()
         refreshLayout.setEnableLoadMore(true)
         data.clear()
         data.addAll(bean)
         adapter.notifyDataSetChanged()
+
     }
 
     override fun setLoadMore(bean: List<AuctionList>) {
@@ -81,6 +83,7 @@ class AuctionFragment : BaseFragment(), AuctionListContract.View {
             mLayoutStatusView?.showLoading()
         }
         presenter.requestAuctionList(1)
+
     }
 
     override fun initEvent() {
@@ -89,10 +92,16 @@ class AuctionFragment : BaseFragment(), AuctionListContract.View {
             presenter.requestAuctionList(null)
         }
 
-        adapter.mClickListener={
-            AuctionDetailActivity.actionStart(context,it)
+        adapter.mClickListener = {
+            AuctionDetailActivity.actionStart(context, it)
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        adapter.finishCountDown()
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

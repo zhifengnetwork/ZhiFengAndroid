@@ -40,6 +40,18 @@ class CartGoodsAdapter1(val context: Context?, val data: ArrayList<CartGoodsList
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
 
+            /**
+             * checkBox逻辑
+             * checkBox 首先判断是否选中
+             */
+            checkBox.setOnClickListener {
+                data[position].ifCheck = checkBox.isChecked
+                checkGoodsListener?.invoke(data)
+            }
+            checkBox.isChecked = data[position].ifCheck
+
+
+
             //商品名字
             goodsName.text = data[position].goods.goods_name
             //商品图片
@@ -99,15 +111,6 @@ class CartGoodsAdapter1(val context: Context?, val data: ArrayList<CartGoodsList
             numberInput.setOnClickListener {
                 onInputListener?.invoke(CartCountBean(data[position].id, numberInput.text.toString()))
             }
-
-            /**
-             * checkBox逻辑
-             */
-            checkBox.setOnClickListener {
-                data[position].ifCheck = checkBox.isChecked
-                checkGoodsListener?.invoke(data)
-            }
-            checkBox.isChecked = data[position].ifCheck
 
         }
     }

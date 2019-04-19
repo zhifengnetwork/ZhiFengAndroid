@@ -33,7 +33,6 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
 
     //加减成功
     override fun setCount() {
-        LogUtils.e(">>>>success")
         //刷新列表
         lazyLoad()
     }

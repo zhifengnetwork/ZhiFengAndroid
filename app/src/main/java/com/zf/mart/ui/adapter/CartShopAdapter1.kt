@@ -43,7 +43,7 @@ class CartShopAdapter1(val context: Context?, val data: List<ShopList>) :
             /** checkBox 逻辑 */
             checkBox.isChecked = data[position].ifCheck
 
-            //商品适配器的选中监听回调
+            /** checkBox 逻辑   商品适配器的选中监听回调 */
             adapter.checkGoodsListener = {
                 /** 重组数据 */
                 data[position].data = it
@@ -59,6 +59,7 @@ class CartShopAdapter1(val context: Context?, val data: List<ShopList>) :
                 //通知fragment刷新
                 checkGoodsListener?.invoke(data)
             }
+
 
             adapter.apply {
                 onInputListener = {

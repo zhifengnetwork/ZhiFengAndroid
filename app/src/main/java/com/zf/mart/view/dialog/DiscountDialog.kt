@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.mvp.bean.DiscountBean
-import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.dialog_discount.view.*
 
 /**
@@ -44,8 +43,8 @@ class DiscountDialog : DialogFragment() {
         super.onStart()
         val window = dialog?.window
         val sp = window?.attributes
-        sp?.width = DensityUtil.dp2px(270f)
-        sp?.height = DensityUtil.dp2px(290f)
+        sp?.width = DensityUtil.dp2px(250f)
+        sp?.height = DensityUtil.dp2px(90f)
         sp?.dimAmount = 0.3f
         window?.attributes = sp
     }
@@ -56,7 +55,6 @@ class DiscountDialog : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val view = LayoutInflater.from(activity).inflate(R.layout.dialog_discount, container, false)
         view.apply {
-            LogUtils.e(">>>>>券码：" + discountBean?.coupon_code)
             codeTxt.text = "券码:${discountBean?.coupon_code}"
         }
         return view

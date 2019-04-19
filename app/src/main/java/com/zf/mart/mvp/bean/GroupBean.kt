@@ -1,5 +1,7 @@
 package com.zf.mart.mvp.bean
 
+import java.io.Serializable
+
 data class GroupBean(
     val team_id: String,
     val act_name: String,
@@ -12,4 +14,4 @@ data class GroupBean(
     val shop_price: String,
     val market_price: String,
     val original_img: String
-)
+):Serializable

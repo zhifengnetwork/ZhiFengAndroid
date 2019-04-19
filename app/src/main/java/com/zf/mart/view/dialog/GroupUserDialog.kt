@@ -1,6 +1,7 @@
 package com.zf.mart.view.dialog
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -13,9 +14,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
+import com.zf.mart.mvp.bean.GroupMemberList
 import com.zf.mart.ui.adapter.GroupUserAdapter
+import com.zf.mart.utils.LogUtils
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.dialog_group_user.view.*
 
@@ -35,8 +37,14 @@ class GroupUserDialog : DialogFragment() {
 
     companion object {
 
-        fun showDialog(fragmentManager: FragmentManager): GroupUserDialog {
+        private val mList = ArrayList<GroupMemberList>()
+
+        fun showDialog(fragmentManager: FragmentManager, list: List<GroupMemberList>): GroupUserDialog {
             val receiveDialog = GroupUserDialog()
+
+            mList.clear()
+            mList.addAll(list)
+
             receiveDialog.show(fragmentManager, "")
             //点击空白处是否关闭dialog
             receiveDialog.isCancelable = true
@@ -51,8 +59,6 @@ class GroupUserDialog : DialogFragment() {
         val sp = window?.attributes
         sp?.width = LinearLayout.LayoutParams.WRAP_CONTENT
         sp?.height = LinearLayout.LayoutParams.WRAP_CONTENT
-//        sp?.width = DensityUtil.dp2px(270f)
-//        sp?.height = DensityUtil.dp2px(290f)
         sp?.dimAmount = 0.3f
         window?.attributes = sp
     }
@@ -68,22 +74,28 @@ class GroupUserDialog : DialogFragment() {
 
         context?.apply {
             view.recyclerView.layoutManager = LinearLayoutManager(this)
-            view.recyclerView.adapter = GroupUserAdapter(this)
+            view.recyclerView.adapter = adapter
             view.recyclerView.addItemDecoration(
-                RecyclerViewDivider(
-                    this,
-                    LinearLayoutManager.VERTICAL,
-                    1,
-                    ContextCompat.getColor(this, R.color.colorBackground)
-                )
+                    RecyclerViewDivider(
+                            this,
+                            LinearLayoutManager.VERTICAL,
+                            1,
+                            ContextCompat.getColor(this, R.color.colorBackground)
+                    )
             )
+            adapter.notifyDataSetChanged()
         }
 
-//        view.confirm.setOnClickListener {
-//            mListener?.onItemClick()
-//            dismiss()
-//        }
         return view
+    }
+
+    private val adapter by lazy { GroupUserAdapter(context!!, mList) }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        LogUtils.e(">>>>>>结束")
+        adapter.finishCountDown()
+
     }
 
 }

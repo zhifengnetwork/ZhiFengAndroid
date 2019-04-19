@@ -13,7 +13,8 @@ import com.zf.mart.ui.activity.SecKillDetailActivity
 import com.zf.mart.utils.GlideUtils
 import kotlinx.android.synthetic.main.item_seckill.view.*
 
-class SecKillAdapter(val context: Context?, val data: List<SecKillList>) : RecyclerView.Adapter<SecKillAdapter.ViewHolder>() {
+class SecKillAdapter(val context: Context?, val data: List<SecKillList>) :
+    RecyclerView.Adapter<SecKillAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_seckill, parent, false)
@@ -33,7 +34,11 @@ class SecKillAdapter(val context: Context?, val data: List<SecKillList>) : Recyc
             name.text = data[position].title
             content.text = data[position].goods_name
             pay.text = "¥ ${data[position].price}"
-            discount.text = "${data[position].disc}折"
+//            discount.text = "${data[position].disc}折"
+
+            discount.text =
+                "${((data[position].price.toDouble() / data[position].shop_price.toDouble()) * 10).toInt()}折"
+
             price.text = "¥ ${data[position].shop_price}"
             number.text = "仅剩${(data[position].goods_num - data[position].order_num)}件"
             loadingView.setPercentage((data[position].order_num / data[position].goods_num).toFloat())
