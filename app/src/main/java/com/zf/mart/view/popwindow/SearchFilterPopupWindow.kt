@@ -7,12 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
+import android.widget.TextView
 import com.zf.mart.R
+import com.zhy.view.flowlayout.FlowLayout
+import com.zhy.view.flowlayout.TagAdapter
+import kotlinx.android.synthetic.main.pop_search_filter.view.*
 
 /**
  * 搜索订单列表筛选
  */
-abstract class SearchFilterPopupWindow(var context: Activity, layoutRes: Int, w: Int, h: Int) {
+abstract class SearchFilterPopupWindow(var context: Activity, layoutRes: Int, w: Int, h: Int, val chooseSel: String) {
     val contentView: View
     val popupWindow: PopupWindow
     private var isShowing = false
@@ -24,27 +28,54 @@ abstract class SearchFilterPopupWindow(var context: Activity, layoutRes: Int, w:
         initWindow()
     }
 
-    private var mListener: OnItemClickListener? = null
-
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        mListener = listener
-    }
-
-    interface OnItemClickListener {
-        fun onBack(address: String)
-    }
+    var onConfirmListener: ((String) -> Unit)? = null
 
     private fun initView() {
         contentView.apply {
 
-            //            back.setOnClickListener {
-//                onDismiss()
-//            }
-//
-//            confirmAddress.setOnClickListener {
-//                onDismiss()
-//                mListener?.onBack(detailAddress.text.toString())
-//            }
+            val filterName = arrayOf("显示全部", "仅看包邮", "仅看有货", "促销商品")
+            hotLayout.adapter = object : TagAdapter<String>(filterName) {
+                override fun getView(parent: FlowLayout?, position: Int, t: String?): View {
+                    val tv: TextView = LayoutInflater.from(context).inflate(
+                            R.layout.layout_textview_style, hotLayout, false
+                    ) as TextView
+                    tv.text = t
+                    return tv
+                }
+            }
+
+            if (chooseSel.isNotEmpty()) {
+                hotLayout.adapter.setSelectedList(setOf(when (chooseSel) {
+                    "all" -> 0
+                    "free_post" -> 1
+                    "store_count" -> 2
+                    "prom_type" -> 3
+                    else -> 0
+                }))
+            }
+
+            hotLayout.setOnSelectListener {
+                if (it.toIntArray().isNotEmpty()) {
+                    onConfirmListener?.invoke(
+                            when (it.toIntArray()[0]) {
+                                0 -> "all"
+                                1 -> "free_post"
+                                2 -> "store_count"
+                                3 -> "prom_type"
+                                else -> ""
+                            }
+                    )
+                } else {
+                    onConfirmListener?.invoke("")
+                }
+            }
+
+            confirm.setOnClickListener {
+                onDismiss()
+            }
+
+            back.setOnClickListener { onDismiss() }
+
         }
     }
 

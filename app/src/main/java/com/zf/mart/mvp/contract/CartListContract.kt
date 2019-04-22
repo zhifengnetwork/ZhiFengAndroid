@@ -23,7 +23,7 @@ interface CartListContract {
     }
 
     interface Presenter : IPresenter<View> {
-        fun requestCartList(page:Int?)
+        fun requestCartList(page: Int?)
 
     }
 

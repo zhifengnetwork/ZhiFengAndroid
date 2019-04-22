@@ -17,4 +17,10 @@ class AuctionDetailModel {
         return RetrofitManager.service.getAuctionPrice(id)
                 .compose(SchedulerUtils.ioToMain())
     }
+
+    fun requestBid(id: String, price: String): Observable<BaseBean<Unit>> {
+        return RetrofitManager.service.requestBid(id, price)
+                .compose(SchedulerUtils.ioToMain())
+    }
+
 }

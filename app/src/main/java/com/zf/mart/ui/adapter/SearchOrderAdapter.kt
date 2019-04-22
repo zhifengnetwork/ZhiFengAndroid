@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.item_search_order.view.*
  *            2 是2列排版
  */
 class SearchOrderAdapter(val context: Context, val data: List<SearchList>) :
-    RecyclerView.Adapter<SearchOrderAdapter.ViewHolder>() {
+        RecyclerView.Adapter<SearchOrderAdapter.ViewHolder>() {
 
     private var mType = 1
 
@@ -47,12 +47,17 @@ class SearchOrderAdapter(val context: Context, val data: List<SearchList>) :
                     GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + it[0].image_url, goodsIcon)
                 }
                 price.text = data[position].shop_price
+                sellNum.text = "销量:${data[position].sales_sum}"
+
             } else {
                 goodsName2.text = data[position].goods_name
                 data[position].goods_images?.let {
                     GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + it[0].image_url, home_recommend_iv)
                 }
                 home_recommend_price.text = data[position].shop_price
+                sellNum2.text = "销量:${data[position].sales_sum}"
+
+
             }
 
             setOnClickListener {

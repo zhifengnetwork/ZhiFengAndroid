@@ -40,8 +40,8 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
         goodsName.text = bean.info.title
         name.text = bean.info.goods_name
 
-        markPrice.text = "¥" + bean.info.shop_price
-        secPrice.text = "¥" + bean.info.price
+        markPrice.text = "¥${bean.info.shop_price}"
+        secPrice.text = "¥${bean.info.price}"
         //库存
         inventory.text = bean.info.store_count
         //销量
@@ -75,9 +75,9 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
 
         shareLayout.visibility = View.INVISIBLE
@@ -93,7 +93,6 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
         RichText.initCacheDir(this)
         RichText.debugMode = true
         presenter.attachView(this)
-
 
         //标题栏
         initScrollHead()
@@ -157,8 +156,11 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
                     downTime.text = TimeUtils.getCountTime2(millisUntilFinished)
                 }
             }.start()
+
+            operation.text = "即将开始"
+            operation.isEnabled = false
         } else if ((bean.info.start_time * 1000 < System.currentTimeMillis())
-            && (bean.info.end_time * 1000 > System.currentTimeMillis())
+                && (bean.info.end_time * 1000 > System.currentTimeMillis())
         ) {
             timeTxt.text = "距离秒杀结束"
             timer?.cancel()
@@ -171,9 +173,15 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
                     downTime.text = TimeUtils.getCountTime2(millisUntilFinished)
                 }
             }.start()
+
+            operation.text = "立即购买"
+            operation.isEnabled = true
         } else {
             timeTxt.text = "秒杀已结束"
             downTime.visibility = View.INVISIBLE
+
+            operation.text = "活动已结束"
+            operation.isEnabled = false
         }
     }
 
@@ -184,10 +192,10 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
                 alpha = 1.0f
             }
             orderDetailHead.setBackgroundColor(
-                changeAlpha(
-                    ContextCompat.getColor(this, R.color.whit)
-                    , alpha
-                )
+                    changeAlpha(
+                            ContextCompat.getColor(this, R.color.whit)
+                            , alpha
+                    )
             )
         }
     }
@@ -209,142 +217,5 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
         return Color.argb(alpha, red, green, blue)
     }
 
-    val htmlTxt = "<!DOCTYPE html>\n" +
-            "<html>\n" +
-            "<head>\n" +
-            "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n" +
-            "<title>这是图文详情-----------------------------------</title>\n" +
-            "<meta name=\"keywords\" content=\"这里填写关键词\" />\n" +
-            "<meta name=\"description\" content=\"这里填写说明内容\" />\n" +
-            "\n" +
-            "<script language=\"JavaScript\" type=\"text/javascript\">\n" +
-            "<!--JS代码位置-->\n" +
-            "</script>\n" +
-            "\n" +
-            "<style type=\"text/css\">\n" +
-            "<!--CSS样式代码位置-->\n" +
-            "</style>\n" +
-            "\n" +
-            "</head>\n" +
-            "\n" +
-            "<body>\n" +
-            "\n" +
-            "这里填写HTML代码\n" +
-            "\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "\n" +
-            "\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "\n" +
-            "\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "\n" +
-            "\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p>\n" +
-            "\n" +
-            "<p>\n" +
-            "这是段落\n" +
-            "</p> \n" +
-            "\n" +
-            "<p>\n" +
-            "\n" +
-            "<img src=\"http://www.pptok.com/wp-content/uploads/2012/08/xunguang-4.jpg\" width=\"258\" height=\"39\" />\n" +
-            "</p>\n" +
-            "\n" +
-            "<p>\n" +
-            "\n" +
-            "<img src=\"http://www.pptok.com/wp-content/uploads/2012/08/xunguang-4.jpg\" width=\"258\" height=\"39\" />\n" +
-            "</p>\n" +
-            "\n" +
-            "<p>\n" +
-            "\n" +
-            "<img src=\"http://www.pptok.com/wp-content/uploads/2012/08/xunguang-4.jpg\" width=\"258\" height=\"39\" />\n" +
-            "</p>\n" +
-            "\n" +
-            "<p>\n" +
-            "\n" +
-            "<img src=\"http://pic3.huitu.com/res/20120531/721_20120531125839525174_1.jpg\" width=\"258\" height=\"39\" />\n" +
-            "</p>\n" +
-            "\n" +
-            "<p>\n" +
-            "\n" +
-            "<img src=\"http://www.pptok.com/wp-content/uploads/2012/08/xunguang-4.jpg\" width=\"258\" height=\"39\" />\n" +
-            "</p>\n" +
-            "\n" +
-            "<p>\n" +
-            "\n" +
-            "<img src=\"http://www.pptok.com/wp-content/uploads/2012/08/xunguang-4.jpg\" width=\"258\" height=\"39\" />\n" +
-            "</p>\n" +
-            "<p>\n" +
-            "\n" +
-            "<img src=\"http://img.zcool.cn/community/01dc60554bf752000001bf72fa836b.jpg@1280w_1l_2o_100sh.png\" width=\"258\" height=\"39\" />\n" +
-            "</p>\n" +
-            "\n" +
-            "<p>\n" +
-            "\n" +
-            "<img src=\"http://www.pptok.com/wp-content/uploads/2012/08/xunguang-4.jpg\" width=\"258\" height=\"39\" />\n" +
-            "</p>\n" +
-            "<img src=\"http://www.pptok.com/wp-content/uploads/2012/08/xunguang-4.jpg\" width=\"258\" height=\"39\" />\n" +
-            "\n" +
-            "<img src=\"http://img2.imgtn.bdimg.com/it/u=3496345838,732839400&fm=26&gp=0.jpg\" width=\"258\" height=\"39\" />\n" +
-            "\n" +
-            "\n" +
-            "<img src=\"http://pic11.nipic.com/20101203/6066308_121059019434_2.jpg\" width=\"258\" height=\"39\" />\n" +
-            "\n" +
-            "\n" +
-            "<img src=\"http://www.pptok.com/wp-content/uploads/2012/08/xunguang-4.jpg\" width=\"258\" height=\"39\" />\n" +
-            "\n" +
-            "\n" +
-            "<img src=\"http://www.pptok.com/wp-content/uploads/2012/08/xunguang-4.jpg\" width=\"258\" height=\"39\" />\n" +
-            "\n" +
-            "很长\n" +
-            "</body>\n" +
-            "</html>\n"
+
 }

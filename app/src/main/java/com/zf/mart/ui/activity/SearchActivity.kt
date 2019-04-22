@@ -37,9 +37,9 @@ class SearchActivity : BaseActivity() {
     override fun initToolBar() {
 
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
 
         backLayout.setOnClickListener {
@@ -53,6 +53,7 @@ class SearchActivity : BaseActivity() {
         super.onNewIntent(intent)
         mKeyWord = intent.getStringExtra("key")
         inputText.setText(mKeyWord)
+        inputText.setSelection(inputText.length())
     }
 
     override fun initData() {
@@ -67,13 +68,14 @@ class SearchActivity : BaseActivity() {
         recyclerView.adapter = adapter
 
         inputText.setText(mKeyWord)
+        inputText.setSelection(inputText.length())
 
         /** 热门搜索 */
         val history = arrayListOf("洗衣机", "热水器", "电风扇", "电脑", "水壶", "手机", "衣服", "游戏", "扇子")
         hotLayout.adapter = object : TagAdapter<String>(history) {
             override fun getView(parent: FlowLayout?, position: Int, t: String?): View {
                 val tv: TextView = LayoutInflater.from(this@SearchActivity).inflate(
-                    R.layout.layout_textview, hotLayout, false
+                        R.layout.layout_textview, hotLayout, false
                 ) as TextView
                 tv.text = t
                 return tv
@@ -86,14 +88,14 @@ class SearchActivity : BaseActivity() {
 
         /** 搜索发现 */
         val discovery = arrayListOf(
-            "洗衣机2", "热水器2", "电风扇2", "热门电脑", "水壶", "手机", "衣服"
-            , "好玩的游戏", "扇子", "游戏", "扇子"
+                "洗衣机2", "热水器2", "电风扇2", "热门电脑", "水壶", "手机", "衣服"
+                , "好玩的游戏", "扇子", "游戏", "扇子"
         )
 
         discoveryLayout.adapter = object : TagAdapter<String>(discovery) {
             override fun getView(parent: FlowLayout?, position: Int, t: String?): View {
                 val tv: TextView = LayoutInflater.from(this@SearchActivity).inflate(
-                    R.layout.layout_textview, discoveryLayout, false
+                        R.layout.layout_textview, discoveryLayout, false
                 ) as TextView
                 tv.text = t
                 return tv

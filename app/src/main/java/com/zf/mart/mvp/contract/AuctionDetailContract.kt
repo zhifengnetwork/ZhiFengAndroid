@@ -14,12 +14,18 @@ interface AuctionDetailContract {
         fun setAuctionDetail(bean: AuctionDetailBean)
 
         fun setAuctionPrice(bean: AuctionPriceBean)
+
+        fun setBid()
     }
 
     interface Presenter : IPresenter<View> {
+
+        //出价
+        fun requestBid(id: String, price: String)
+
         fun requestAuctionDetail(id: String)
 
-        fun requestAuctionPrice(id:String)
+        fun requestAuctionPrice(id: String)
 
     }
 

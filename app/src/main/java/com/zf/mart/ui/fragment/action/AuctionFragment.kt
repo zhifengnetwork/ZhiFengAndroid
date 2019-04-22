@@ -17,6 +17,13 @@ import kotlinx.android.synthetic.main.fragment_auction.*
  */
 class AuctionFragment : BaseFragment(), AuctionListContract.View {
 
+    companion object {
+        fun newInstance(): AuctionFragment {
+            val fragment = AuctionFragment()
+            return fragment
+        }
+    }
+
     override fun setAuctionList(bean: List<AuctionList>) {
         mLayoutStatusView?.showContent()
         refreshLayout.setEnableLoadMore(true)
@@ -83,7 +90,6 @@ class AuctionFragment : BaseFragment(), AuctionListContract.View {
             mLayoutStatusView?.showLoading()
         }
         presenter.requestAuctionList(1)
-
     }
 
     override fun initEvent() {
@@ -100,11 +106,6 @@ class AuctionFragment : BaseFragment(), AuctionListContract.View {
     override fun onDestroyView() {
         super.onDestroyView()
         adapter.finishCountDown()
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
         presenter.detachView()
     }
 

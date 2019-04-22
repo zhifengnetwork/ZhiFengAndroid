@@ -19,6 +19,13 @@ import kotlinx.android.synthetic.main.fragment_group.*
  */
 class GroupFragment : BaseFragment(), GroupContract.View {
 
+    companion object {
+        fun newInstance(): GroupFragment {
+            val fragment = GroupFragment()
+            return fragment
+        }
+    }
+
     override fun loadMoreError(msg: String, errorCode: Int) {
         showToast(msg)
     }
@@ -81,8 +88,8 @@ class GroupFragment : BaseFragment(), GroupContract.View {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         presenter.detachView()
     }
 

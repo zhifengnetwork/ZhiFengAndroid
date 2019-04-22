@@ -26,18 +26,24 @@ import com.zf.mart.view.popwindow.ServicePopupWindow
 import kotlinx.android.synthetic.main.activity_auction_detail.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import kotlinx.android.synthetic.main.pop_push_order.view.*
+import java.math.BigDecimal
+import java.text.DecimalFormat
 
 /**
  * 竞拍详情页
  */
 class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
 
-
     override fun showError(msg: String, errorCode: Int) {
         showToast(msg)
     }
 
     private var countDownTimer: CountDownTimer? = null
+
+    //出价成功
+    override fun setBid() {
+
+    }
 
     //出价列表
     override fun setAuctionPrice(bean: AuctionPriceBean) {
@@ -56,15 +62,16 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
         adapter.notifyDataSetChanged()
     }
 
-
+    private var mBean: AuctionDetailBean? = null
 
     //竞拍详情
     override fun setAuctionDetail(bean: AuctionDetailBean) {
+        mBean = bean
         //时间
         if ((bean.auction.start_time * 1000 > System.currentTimeMillis())) {
             startTime.text = "${TimeUtils.auctionTime(bean.auction.start_time)}准时开拍"
         } else if ((bean.auction.start_time * 1000 < System.currentTimeMillis())
-            && (bean.auction.end_time * 1000 > System.currentTimeMillis())
+                && (bean.auction.end_time * 1000 > System.currentTimeMillis())
         ) {
             countDownTimer?.cancel()
             val time: Long = (bean.auction.end_time * 1000) - System.currentTimeMillis()
@@ -84,7 +91,11 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
         goodsName.text = bean.auction.goods_name
         price.text = "¥${bean.auction.start_price}"
         GlideUtils.loadUrlImage(this, UriConstant.BASE_URL + bean.auction.original_img, goodsIcon)
+        bid.text = bean.auction.start_price
 
+        confirm.isEnabled = true
+        increase.isEnabled = true
+        reduce.isEnabled = true
     }
 
     override fun showLoading() {
@@ -134,27 +145,47 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
 
     override fun initEvent() {
 
+        //减价
+        reduce.setOnClickListener { _ ->
+            mBean?.let {
+                if (bid.text.toString().toDouble() <= it.auction.start_price.toDouble()) {
+                    return@setOnClickListener
+                }
+                bid.text = DecimalFormat("#.00").format(BigDecimal(bid.text.toString()).subtract(BigDecimal(it.auction.increase_price)))
+            }
+        }
+
+        //加价
+        increase.setOnClickListener {
+            mBean?.let {
+                bid.text = DecimalFormat("#.00").format(BigDecimal(bid.text.toString()).add(BigDecimal(it.auction.increase_price)))
+            }
+        }
 
 
+        /** 出价 */
         confirm.setOnClickListener {
+
+            presenter.requestBid(mId, bid.text.toString())
+
             AuctionSuccessDialog.showDialog(supportFragmentManager)
-                .setOnItemClickListener(object : AuctionSuccessDialog.OnItemClickListener {
-                    override fun onItemClick() {
-                        val window = object : ServicePopupWindow(
-                            this@AuctionDetailActivity, R.layout.pop_push_order,
-                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
-                        ) {
-                            override fun initView() {
-                                contentView.apply {
-                                    submit.setOnClickListener {
-                                        onDismiss()
+                    .setOnItemClickListener(object : AuctionSuccessDialog.OnItemClickListener {
+                        override fun onItemClick() {
+                            val window = object : ServicePopupWindow(
+                                    this@AuctionDetailActivity, R.layout.pop_push_order,
+                                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                            ) {
+                                override fun initView() {
+                                    contentView.apply {
+                                        submit.setOnClickListener {
+                                            onDismiss()
+                                        }
                                     }
                                 }
                             }
+                            window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
                         }
-                        window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
-                    }
-                })
+                    })
         }
     }
 

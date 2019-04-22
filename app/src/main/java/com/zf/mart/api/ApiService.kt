@@ -5,6 +5,7 @@ import com.zf.mart.base.BaseBean
 import com.zf.mart.mvp.bean.*
 import io.reactivex.Observable
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 
@@ -254,6 +255,18 @@ interface ApiService {
     ): Observable<BaseBean<AuctionPriceBean>>
 
     /**
+     *  竞拍
+     *  出价
+     */
+    @FormUrlEncoded
+    @POST("api/auction/offerPrice")
+    fun requestBid(
+            @Field("auction_id") auction_id: String,
+            @Field("price") price: String
+    ): Observable<BaseBean<Unit>>
+
+
+    /**
      * 优惠券列表
      */
     @FormUrlEncoded
@@ -269,8 +282,8 @@ interface ApiService {
     @POST("api/User/collect_list")
     fun getMyfollow(): Observable<BaseBean<Unit>>
 
-     /**
-      *  获取商品评论
+    /**
+     *  获取商品评论
      */
     @FormUrlEncoded
     @POST("api/goods/getGoodsComment")
@@ -280,5 +293,14 @@ interface ApiService {
             @Field("page") page: Int,
             @Field("num") num: Int
     ): Observable<BaseBean<GoodEvaBean>>
+
+    /**
+     * 购物车选中状态
+     */
+    @Headers("Content-type:application/json")
+    @POST("api/Cart/AsyncUpdateCart")
+    fun requestCartSelect(
+            @Body cart: RequestBody
+    ): Observable<BaseBean<CartSelectBean>>
 
 }

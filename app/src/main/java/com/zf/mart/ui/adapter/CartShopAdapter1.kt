@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.item_cart_shop.view.*
  * 店铺和商品
  */
 class CartShopAdapter1(val context: Context?, val data: List<ShopList>) :
-    RecyclerView.Adapter<CartShopAdapter1.ViewHolder>() {
+        RecyclerView.Adapter<CartShopAdapter1.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_cart_shop, parent, false)
@@ -26,13 +26,16 @@ class CartShopAdapter1(val context: Context?, val data: List<ShopList>) :
 
     override fun getItemCount(): Int = data.size
 
-    var checkGoodsListener: ((List<ShopList>) -> Unit)? = null
+    //规格
     var onShopSpecListener: ((spec: String) -> Unit)? = null
+    //数量
     var onShopNumListener: ((CartCountBean) -> Unit)? = null
+    //数量
     var onGoodsCount: ((CartCountBean) -> Unit)? = null
+    //选中商品
+    var onGoodsCheckListener: (() -> Unit)? = null
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         holder.itemView.apply {
             shopName.text = data[position].seller_name
             //初始化
@@ -40,55 +43,43 @@ class CartShopAdapter1(val context: Context?, val data: List<ShopList>) :
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = adapter
 
-            /** checkBox 逻辑 */
-            checkBox.isChecked = data[position].ifCheck
+            /** 商家checkBox */
+            var size = 0
+            data[position].data.forEach { if (it.selected == "1") size += 1 }
+            checkBox.isChecked = size == data[position].data.size
+            data[position].selected = if (size == data[position].data.size) "1" else "0"
 
-            /** checkBox 逻辑   商品适配器的选中监听回调 */
-            adapter.checkGoodsListener = {
-                /** 重组数据 */
-                data[position].data = it
-                var size = 0
-                data[position].data.forEach { goods ->
-                    if (goods.ifCheck) {
-                        size += 1
-                    }
-                }
-                //该商家全部商品被选中或者反选  赋值商家的选中标记
-                data[position].ifCheck = size == data[position].data.size
-                checkBox.isChecked = data[position].ifCheck
-                //通知fragment刷新
-                checkGoodsListener?.invoke(data)
+            checkBox.setOnClickListener {
+                //商家改变
+                data[position].data.forEach { it.selected = if (checkBox.isChecked) "1" else "0" }
+                data[position].selected = if (checkBox.isChecked) "1" else "0"
+                notifyDataSetChanged()
+                //选中商家 请求网络
+                onGoodsCheckListener?.invoke()
             }
 
-
             adapter.apply {
+                /** 商品适配器选中回调 */
+                checkListener = {
+                    var sum = 0
+                    data[position].data.forEach { bean -> if (bean.selected == "1") sum += 1 }
+                    checkBox.isChecked = sum == data[position].data.size
+                    data[position].selected = if (sum == data[position].data.size) "1" else "0"
+                    onGoodsCheckListener?.invoke()
+                }
+                //输入数量
                 onInputListener = {
                     onShopNumListener?.invoke(it)
                 }
+                //规格
                 onSpecListener = {
                     onShopSpecListener?.invoke(it)
                 }
+                //数量
                 onCountListener = {
                     onGoodsCount?.invoke(it)
                 }
-
             }
-
-            checkBox.setOnClickListener {
-
-                //重新给商品赋值是否选中
-                data[position].data.forEach { goodsList ->
-                    goodsList.ifCheck = checkBox.isChecked
-                }
-                adapter.notifyDataSetChanged()
-
-
-                //点击后改商家boolean值
-                data[position].ifCheck = checkBox.isChecked
-                //通知fragment刷新
-                checkGoodsListener?.invoke(data)
-            }
-
         }
 
     }

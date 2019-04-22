@@ -57,7 +57,6 @@ class SecKillPagerFragment : NotLazyBaseFragment(), SecKillListContract.View {
     }
 
     override fun dismissLoading() {
-        refreshLayout.finishRefresh()
         refreshLayout.finishLoadMore()
     }
 

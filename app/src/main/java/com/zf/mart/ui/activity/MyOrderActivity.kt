@@ -14,9 +14,9 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 class MyOrderActivity : BaseActivity() {
     override fun initToolBar() {
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
 
         titleName.text = "我的订单"
@@ -68,11 +68,11 @@ class MyOrderActivity : BaseActivity() {
 
         val titles = arrayListOf("全部", "待付款", "待发货", "待收货", "待评价")
         val fragments = arrayListOf(
-            MyOrderFragment.newInstance(all),
-            MyOrderFragment.newInstance(waitPay),
-            MyOrderFragment.newInstance(waiSend),
-            MyOrderFragment.newInstance(waitTake),
-            MyOrderFragment.newInstance(waitEva)
+                MyOrderFragment.newInstance(all),
+                MyOrderFragment.newInstance(waitPay),
+                MyOrderFragment.newInstance(waiSend),
+                MyOrderFragment.newInstance(waitTake),
+                MyOrderFragment.newInstance(waitEva)
         )
 
         val adapter = BaseFragmentAdapter(supportFragmentManager, fragments, titles)

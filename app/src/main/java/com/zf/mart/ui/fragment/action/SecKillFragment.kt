@@ -18,6 +18,13 @@ import kotlinx.android.synthetic.main.fragment_seckill.*
  */
 class SecKillFragment : BaseFragment(), SecKillTimeContract.View {
 
+    companion object {
+        fun newInstance(): SecKillFragment {
+            val fragment = SecKillFragment()
+            return fragment
+        }
+    }
+
     override fun showError(msg: String, errorCode: Int) {
     }
 
@@ -83,8 +90,8 @@ class SecKillFragment : BaseFragment(), SecKillTimeContract.View {
         presenter.requestSecKillTime()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         presenter.detachView()
     }
 

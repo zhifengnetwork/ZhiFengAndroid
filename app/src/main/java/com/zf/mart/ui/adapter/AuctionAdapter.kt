@@ -61,7 +61,7 @@ class AuctionAdapter(val context: Context?, val data: List<AuctionList>) :
                 startTime.text = "活动已结束"
             }
 
-            goodsName.text = data[position].goods_name
+            goodsName.text = data[position].activity_name
             price.text = "¥${data[position].start_price}"
             GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + data[position].original_img, goodsIcon)
 
