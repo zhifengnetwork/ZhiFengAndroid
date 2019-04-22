@@ -51,7 +51,6 @@ class CartGoodsAdapter1(val context: Context?, val data: ArrayList<CartGoodsList
             checkBox.isChecked = data[position].ifCheck
 
 
-
             //商品名字
             goodsName.text = data[position].goods.goods_name
             //商品图片
