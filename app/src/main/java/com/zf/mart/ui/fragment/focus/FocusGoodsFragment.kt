@@ -1,6 +1,7 @@
 package com.zf.mart.ui.fragment.focus
 
 import android.app.Activity
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
+import com.zf.mart.mvp.bean.MyFollowBean
+import com.zf.mart.mvp.contract.MyFollowContract
+import com.zf.mart.mvp.presenter.MyFollowPresenter
 import com.zf.mart.ui.adapter.FocusGoodsAdapter
 import com.zf.mart.ui.adapter.FocusLoveGoodsAdapter
 import com.zf.mart.utils.LogUtils
@@ -24,7 +28,25 @@ import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import com.zf.mart.view.recyclerview.SwipeItemLayout
 import kotlinx.android.synthetic.main.fragment_focus_goods.*
 
-class FocusGoodsFragment : BaseFragment() {
+class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
+
+    override fun showError(msg: String, errorCode: Int) {
+
+    }
+
+    override fun getMyFollowSuccess(bean: List<MyFollowBean>) {
+        mData .addAll(bean)
+        goods_sum.text=mData.size.toString()
+        goodsAdapter.notifyDataSetChanged()
+    }
+
+    override fun showLoading() {
+
+    }
+
+    override fun dismissLoading() {
+
+    }
 
     companion object {
         fun newInstance(): FocusGoodsFragment {
@@ -35,13 +57,17 @@ class FocusGoodsFragment : BaseFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_focus_goods
 
     //已关注的商品列表
-    private val goodsAdapter by lazy { FocusGoodsAdapter(context) }
+    private val goodsAdapter by lazy { FocusGoodsAdapter(context, mData) }
 
     //猜你喜欢的商品列表
     private val loveAdapter by lazy { FocusLoveGoodsAdapter(context) }
 
-    override fun initView() {
+    private val presenter by lazy { MyFollowPresenter() }
+    //接收网络数据值
+    private var mData=ArrayList<MyFollowBean>()
 
+    override fun initView() {
+        presenter.attachView(this)
         //已关注商品的列表
         goodsRecyclerView.layoutManager = LinearLayoutManager(context)
         goodsRecyclerView.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(context))
@@ -71,6 +97,7 @@ class FocusGoodsFragment : BaseFragment() {
     }
 
     override fun lazyLoad() {
+        presenter.requestMyFollow()
     }
 
     override fun initEvent() {
@@ -90,5 +117,10 @@ class FocusGoodsFragment : BaseFragment() {
             val radioBtn = group.findViewById<RadioButton>(checkedId)
             LogUtils.e("tag:" + radioBtn.tag)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
     }
 }

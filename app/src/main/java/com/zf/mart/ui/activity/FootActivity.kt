@@ -11,9 +11,10 @@ import com.zf.mart.base.BaseActivity
 import com.zf.mart.mvp.bean.DateHeadEntity
 import com.zf.mart.mvp.bean.GoodsList
 import com.zf.mart.mvp.bean.MonthList
+import com.zf.mart.mvp.contract.MyFootContract
+import com.zf.mart.mvp.presenter.MyFootPresenter
 import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.FootAdapter
-import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.recyclerview.FloatingItemDecoration
 import kotlinx.android.synthetic.main.activity_foot.*
@@ -22,7 +23,30 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 /**
  * 我的足迹
  */
-class FootActivity : BaseActivity() {
+class FootActivity : BaseActivity(),MyFootContract.View {
+    override fun showError(msg: String, errorCode: Int) {
+
+    }
+    //获得足迹列表
+    override fun getMyFoot() {
+
+    }
+    //编辑足迹
+    override fun setMyFoot() {
+
+    }
+    //清空足迹
+    override fun clearMyFoot() {
+
+    }
+
+    override fun showLoading() {
+
+    }
+
+    override fun dismissLoading() {
+
+    }
 
     companion object {
         fun actionStart(context: Context?) {
@@ -92,11 +116,26 @@ class FootActivity : BaseActivity() {
                 allChoose.isChecked = true
             }
         })
+        //删除按钮
+        delete.setOnClickListener {
+            //清空足迹
+            if (allChoose.isChecked){
+                presenter.requestclearMyFoot()
+            }
+            //删除个别足迹
+            else{
+                presenter.requesetMyFoot()
+            }
+        }
     }
 
     override fun layoutId(): Int = R.layout.activity_foot
 
+    //网络请求
+    private val presenter by lazy { MyFootPresenter() }
+
     private val adapter by lazy { FootAdapter(this, days) }
+
     private val decoration by lazy {
         FloatingItemDecoration(
             this, ContextCompat.getColor(this, R.color.colorBackground),
@@ -111,6 +150,7 @@ class FootActivity : BaseActivity() {
     private val monthData = ArrayList<MonthList>()
 
     override fun initView() {
+        presenter.attachView(this)
 
         recyclerView.addItemDecoration(decoration)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -162,6 +202,11 @@ class FootActivity : BaseActivity() {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
+    }
     override fun start() {
+        presenter.requesetMyFoot()
     }
 }
