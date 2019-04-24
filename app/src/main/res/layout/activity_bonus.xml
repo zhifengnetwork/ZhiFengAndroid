@@ -28,6 +28,7 @@
                         android:background="@drawable/shape_bonus_ly"
                         android:layout_height="70dp" >
                     <TextView
+                            android:id="@+id/balance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -58,25 +59,23 @@
                     android:background="@drawable/shape_bonus_ly">
 
                 <TextView
+                        android:id="@+id/profit"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_marginLeft="35dp"
                         android:gravity="center_vertical"
                         android:textSize="16sp"
-                        android:textColor="@color/colorBlackText"
-                        android:text="44444444"
-                />
+                        android:textColor="@color/colorBlackText"/>
                 <TextView
+                        android:id="@+id/property"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_marginRight="35dp"
                         android:gravity="right|center_vertical"
                         android:textSize="16sp"
-                        android:textColor="@color/colorBlackText"
-                        android:text="23122222222222222222222222"
-                />
+                        android:textColor="@color/colorBlackText"/>
             </LinearLayout>
 
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:background="@drawable/shape_round_whit_big"
+                xmlns:tools="http://schemas.android.com/tools" android:background="@drawable/shape_round_whit_big"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -45,7 +45,10 @@
               android:textColor="#e51c23"
               android:text="￥"/>
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+    <TextView
+            android:id="@+id/shop_price"
+            android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:layout_above="@+id/hasPay"
               android:layout_toRightOf="@+id/rmb"
               android:textSize="18sp"

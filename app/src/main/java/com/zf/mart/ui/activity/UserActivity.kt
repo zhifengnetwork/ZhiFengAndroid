@@ -105,9 +105,7 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
     }
 
     /**
-     *    头像裁剪回调
-     *
-     *    修改名称回调
+     * 头像裁剪回调   修改名称回调
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 

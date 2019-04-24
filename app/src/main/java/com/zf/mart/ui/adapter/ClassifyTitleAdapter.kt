@@ -70,9 +70,6 @@ class ClassifyTitleAdapter(val context: Context?, val data: ArrayList<ClassifyBe
             //点击选中时显示样式
             mListener?.onItemClick(position)
             selectedPos = position
-
-            Toast.makeText(context,"p="+position+"S="+selectedPos, Toast.LENGTH_SHORT).show()
-
             notifyDataSetChanged()
 
         }
