@@ -12,9 +12,11 @@ object UriConstant {
 
     const val TOKEN = "token"
 
-    const val PER_PAGE = 15
+    const val PER_PAGE = 20
 
     const val UPDATE_USER_INFO = "updateUserInfo"
+
+    const val WX_APP_ID= "wx5647ea6845751495"
 
     //http://www.dchqzg1688.com/api/upload/add
 

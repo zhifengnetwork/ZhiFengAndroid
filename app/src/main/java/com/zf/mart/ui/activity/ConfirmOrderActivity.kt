@@ -10,19 +10,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
-import com.zf.mart.mvp.bean.CartGoodsList
-import com.zf.mart.mvp.bean.Goods
-import com.zf.mart.mvp.bean.ShopList
+import com.zf.mart.mvp.bean.AddressBean
+import com.zf.mart.mvp.bean.CartBean
 import com.zf.mart.ui.adapter.EnShopAdapter
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.popwindow.OrderPayPopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.activity_confirm_order.*
+import kotlinx.android.synthetic.main.layout_en_order_address.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class ConfirmOrderActivity : BaseActivity() {
 
     companion object {
+
+        const val mRequestCode = 10
+
         fun actionStart(context: Context?) {
             context?.startActivity(Intent(context, ConfirmOrderActivity::class.java))
         }
@@ -42,35 +45,46 @@ class ConfirmOrderActivity : BaseActivity() {
     }
 
     //购物车适配器
-    private var cartData = ArrayList<ShopList>()
+    private var cartData = ArrayList<CartBean>()
     private val adapter by lazy { EnShopAdapter(this, cartData) }
 
     private val rvDivider by lazy {
         RecyclerViewDivider(
-            this,
-            LinearLayoutManager.VERTICAL,
-            DensityUtil.dp2px(12f),
-            ContextCompat.getColor(this, R.color.colorBackground)
+                this,
+                LinearLayoutManager.VERTICAL,
+                DensityUtil.dp2px(12f),
+                ContextCompat.getColor(this, R.color.colorBackground)
         )
     }
 
     override fun initView() {
-        cartData = getCartData()
+//        cartData = getCartData()
         goodsRecyclerView.layoutManager = LinearLayoutManager(this)
         goodsRecyclerView.adapter = adapter
         goodsRecyclerView.addItemDecoration(rvDivider)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (mRequestCode == requestCode && AddressActivity.mResultCode == resultCode) {
+            val addressBean = data?.getSerializableExtra(AddressActivity.ADDRESS_FLAG) as AddressBean
+            userName.text = addressBean.consignee
+            userPhone.text = addressBean.mobile
+            userAddress.text = "${addressBean.province_name}${addressBean.city_name}${addressBean.district_name}${addressBean.address}"
+        }
+    }
+
     override fun initEvent() {
 
         addressLayout.setOnClickListener {
-            AddressActivity.actionStart(this)
+            val intent = Intent(this, AddressActivity::class.java)
+            startActivityForResult(intent, mRequestCode)
         }
 
         settle.setOnClickListener {
             val window = object : OrderPayPopupWindow(
-                this, R.layout.pop_order_pay,
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                    this, R.layout.pop_order_pay,
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
             ) {}
 
             window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
@@ -80,8 +94,8 @@ class ConfirmOrderActivity : BaseActivity() {
     override fun start() {
     }
 
-    private fun getCartData(): ArrayList<ShopList> {
-        val list = ArrayList<ShopList>()
+//    private fun getCartData(): ArrayList<ShopList> {
+//        val list = ArrayList<ShopList>()
 //        list.addAll(
 //            arrayListOf(
 //                ShopList(
@@ -98,6 +112,6 @@ class ConfirmOrderActivity : BaseActivity() {
 //                )
 //            )
 //        )
-        return list
-    }
+//        return list
+//    }
 }

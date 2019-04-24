@@ -79,7 +79,7 @@
             android:layout_alignBottom="@+id/goodsIcon"
             android:layout_marginLeft="13dp"
             android:layout_toRightOf="@+id/goodsIcon"
-            android:text="97.2%好评"
+            android:text="0条好评"
             android:textColor="@color/colorBlackText"
             android:textSize="12sp" />
 

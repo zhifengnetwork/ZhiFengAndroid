@@ -115,8 +115,8 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
         if (requestCode == CHANGE_NAME_CODE) {
             val newName: String? = data?.getStringExtra("newName")
             updateUserInfoPresenter.changeUserInfo(
-                newName ?: "", "", "", "",
-                "", ""
+                    newName ?: "", "", "", "",
+                    "", ""
             )
         }
 
@@ -129,14 +129,14 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
                     val file = File(uri.path)
                     val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
                     val imgBody = RequestBody.create(
-                        MediaType.parse("multipart/form-data"),
-                        file
+                            MediaType.parse("multipart/form-data"),
+                            file
                     )
                     builder.addFormDataPart("image_file", file.name, imgBody)
                     val imageBodyPart = MultipartBody.Part.createFormData(
-                        "image" //约定key
-                        , System.currentTimeMillis().toString() + ".png" //后台接收的文件名
-                        , imgBody
+                            "image" //约定key
+                            , System.currentTimeMillis().toString() + ".png" //后台接收的文件名
+                            , imgBody
                     )
                     updateUserInfoPresenter.upLoadHead(imageBodyPart)
                 }
@@ -149,38 +149,40 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
     private fun initCrop(it: String) {
         val cropDirectory = DurbanUtils.getAppRootPath(this).absolutePath
         Durban.with(this)
-            .inputImagePaths(it)
-            .outputDirectory(cropDirectory)
-            .maxWidthHeight(400, 400)
-            .aspectRatio(1f, 1f)
-            .compressFormat(Durban.COMPRESS_PNG)
-            .compressQuality(70)
-            .gesture(Durban.GESTURE_ALL)
-            .controller(
-                Controller.newBuilder()
-                    .enable(false)
-                    .build()
-            )
-            .requestCode(REQUEST_CODE)
-            .start()
+                .inputImagePaths(it)
+                .outputDirectory(cropDirectory)
+                .maxWidthHeight(400, 400)
+                .aspectRatio(1f, 1f)
+                .compressFormat(Durban.COMPRESS_PNG)
+                .compressQuality(70)
+                .gesture(Durban.GESTURE_ALL)
+                .controller(
+                        Controller.newBuilder()
+                                .enable(false)
+                                .build()
+                )
+                .requestCode(REQUEST_CODE)
+                .start()
     }
 
     override fun initEvent() {
 
         //修改性别
-        sex.setOnClickListener { _ ->
+        sexLayout.setOnClickListener { _ ->
             val popWindow = object : SexChangeWindow(
-                this,
-                R.layout.pop_sex_change,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    this,
+                    R.layout.pop_sex_change,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             ) {}
             popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
 
+            popWindow.onSecrete = {
+                updateUserInfoPresenter.changeUserInfo("", "", "0", "", "", "")
+            }
+
             popWindow.onMan = {
-                updateUserInfoPresenter.changeUserInfo(
-                    "", "", "1", "", "", ""
-                )
+                updateUserInfoPresenter.changeUserInfo("", "", "1", "", "", "")
             }
 
             popWindow.onWomen = {
@@ -190,10 +192,10 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
 
         headLayout.setOnClickListener { _ ->
             val popWindow = object : AvatarPopupWindow(
-                this,
-                R.layout.pop_avatar,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    this,
+                    R.layout.pop_avatar,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             ) {}
             popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
 
@@ -210,12 +212,30 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
 
         birthLayout.setOnClickListener {
             val di = DatePickerDialog(
-                this,
-                DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                    LogUtils.e(">>>>:$year $month $dayOfMonth")
-                    updateUserInfoPresenter.changeUserInfo("", "", "", "year", "month", "dayOfMonth")
-                },
-                2019, 2, 2
+                    this,
+                    DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                        LogUtils.e(">>>>:$year $month $dayOfMonth")
+                        updateUserInfoPresenter.changeUserInfo("", "", "",
+                                year.toString(),
+                                (month + 1).toString(),
+                                dayOfMonth.toString())
+                    },
+                    try {
+                        UserInfoLiveData.value?.birthyear?.toInt() ?: 2019
+                    } catch (e: Exception) {
+                        2019
+                    },
+                    try {
+                        (UserInfoLiveData.value?.birthmonth?.toInt() ?: 1) - 1
+
+                    } catch (e: Exception) {
+                        0
+                    },
+                    try {
+                        UserInfoLiveData.value?.birthday?.toInt() ?: 1
+                    } catch (e: Exception) {
+                        1
+                    }
             )
             di.datePicker.maxDate = Date().time
             di.show()
@@ -239,6 +259,12 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
                 GlideUtils.loadUrlImage(this@UserActivity, UriConstant.BASE_URL + head_pic, avatar)
                 userName.text = realname
                 nickName.text = nickname
+                sexTxt.text = when (sex) {
+                    1 -> "男"
+                    2 -> "女"
+                    else -> "保密"
+                }
+                birth.text = "$birthyear-$birthmonth-$birthday"
             }
         })
     }

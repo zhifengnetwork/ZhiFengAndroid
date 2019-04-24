@@ -5,12 +5,64 @@ import com.zf.mart.mvp.contract.CartOperateContract
 import com.zf.mart.mvp.model.CartOperateModel
 import com.zf.mart.net.exception.ExceptionHandle
 import okhttp3.RequestBody
-import org.json.JSONArray
 
 class CartOperatePresenter : BasePresenter<CartOperateContract.View>(), CartOperateContract.Presenter {
 
     private val model: CartOperateModel by lazy { CartOperateModel() }
 
+    //删除购物车
+    override fun requestDeleteCart(id: RequestBody) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.setDeleteCart(id)
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> {
+                            if (it.data != null) {
+                                setDeleteCart(it.data.cart_price_info)
+                            }
+                        }
+                        else -> cartOperateError(it.msg, it.status)
+                    }
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    cartOperateError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
+        addSubscription(disposable)
+    }
+
+    //选中全部
+    override fun requestCheckAll(flag: Int) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.setCheckAll(flag)
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> {
+                            if (it.data != null) {
+                                setCheckAll(it.data.cart_price_info)
+                            }
+                        }
+                        else -> cartOperateError(it.msg, it.status)
+                    }
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    cartOperateError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
+        addSubscription(disposable)
+    }
+
+    //选中多个
     override fun requestSelect(cart: RequestBody) {
         checkViewAttached()
         mRootView?.showLoading()
@@ -36,6 +88,7 @@ class CartOperatePresenter : BasePresenter<CartOperateContract.View>(), CartOper
         addSubscription(disposable)
     }
 
+    //修改数量
     override fun requestCount(id: String, num: String) {
         checkViewAttached()
         mRootView?.showLoading()
@@ -46,7 +99,7 @@ class CartOperatePresenter : BasePresenter<CartOperateContract.View>(), CartOper
                     when (it.status) {
                         0 -> {
                             if (it.data != null) {
-                                setCount()
+                                setCount(it.data.cart_price_info)
                             }
                         }
                         else -> cartOperateError(it.msg, it.status)

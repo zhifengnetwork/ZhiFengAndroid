@@ -37,7 +37,7 @@ class DeleteCartDialog : DialogFragment() {
 
     }
 
-    var onNumListener: ((String) -> Unit)? = null
+    var onConfirmListener: (() -> Unit)? = null
 
 
     override fun onStart() {
@@ -62,6 +62,7 @@ class DeleteCartDialog : DialogFragment() {
 
             confirm.setOnClickListener {
                 dismiss()
+                onConfirmListener?.invoke()
             }
         }
 

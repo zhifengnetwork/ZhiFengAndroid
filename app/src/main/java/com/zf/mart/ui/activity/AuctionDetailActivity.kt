@@ -84,7 +84,8 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
                 }
             }.start()
         } else {
-            startTime.text = "活动已结束"
+            startTime.text = "已经结束"
+            operationLayout.visibility = View.GONE
         }
 
         //other

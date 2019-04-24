@@ -75,9 +75,9 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(
-                this,
-                ContextCompat.getColor(this, R.color.colorSecondText),
-                0.3f
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
         )
 
         shareLayout.visibility = View.INVISIBLE
@@ -160,7 +160,7 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
             operation.text = "即将开始"
             operation.isEnabled = false
         } else if ((bean.info.start_time * 1000 < System.currentTimeMillis())
-                && (bean.info.end_time * 1000 > System.currentTimeMillis())
+            && (bean.info.end_time * 1000 > System.currentTimeMillis())
         ) {
             timeTxt.text = "距离秒杀结束"
             timer?.cancel()
@@ -180,7 +180,7 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
             timeTxt.text = "秒杀已结束"
             downTime.visibility = View.INVISIBLE
 
-            operation.text = "活动已结束"
+            operation.text = "已抢光"
             operation.isEnabled = false
         }
     }
@@ -192,10 +192,10 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
                 alpha = 1.0f
             }
             orderDetailHead.setBackgroundColor(
-                    changeAlpha(
-                            ContextCompat.getColor(this, R.color.whit)
-                            , alpha
-                    )
+                changeAlpha(
+                    ContextCompat.getColor(this, R.color.whit)
+                    , alpha
+                )
             )
         }
     }

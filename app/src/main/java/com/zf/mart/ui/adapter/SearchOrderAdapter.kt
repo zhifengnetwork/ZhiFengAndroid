@@ -48,6 +48,7 @@ class SearchOrderAdapter(val context: Context, val data: List<SearchList>) :
                 }
                 price.text = data[position].shop_price
                 sellNum.text = "销量:${data[position].sales_sum}"
+                evaluate.text = data[position].comment_count + "条好评"
 
             } else {
                 goodsName2.text = data[position].goods_name
@@ -56,7 +57,7 @@ class SearchOrderAdapter(val context: Context, val data: List<SearchList>) :
                 }
                 home_recommend_price.text = data[position].shop_price
                 sellNum2.text = "销量:${data[position].sales_sum}"
-
+                evaluate2.text = data[position].comment_count + "条好评"
 
             }
 

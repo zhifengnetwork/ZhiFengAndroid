@@ -17,8 +17,8 @@ import kotlinx.android.synthetic.main.item_cart_goods.view.*
 /**
  * 购物车商品
  */
-class CartGoodsAdapter1(val context: Context?, private val goodData: ArrayList<CartGoodsList>) :
-        RecyclerView.Adapter<CartGoodsAdapter1.ViewHolder>() {
+class CartGoodsAdapter1(val context: Context?, private val goodData: List<CartGoodsList>) :
+    RecyclerView.Adapter<CartGoodsAdapter1.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_cart_goods, parent, false)
@@ -49,7 +49,11 @@ class CartGoodsAdapter1(val context: Context?, private val goodData: ArrayList<C
             //商品名字
             goodsName.text = goodData[position].goods.goods_name
             //商品图片
-            GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + goodData[position].goods.original_img, goodsIcon)
+            GlideUtils.loadUrlImage(
+                context,
+                UriConstant.BASE_URL + goodData[position].goods.original_img,
+                goodsIcon
+            )
             //商品价格
             goodsPrice.text = "¥${goodData[position].goods_price}"
             //数量
@@ -82,27 +86,38 @@ class CartGoodsAdapter1(val context: Context?, private val goodData: ArrayList<C
                 if (numberInput.text.toString().toInt() > 1) {
                     reduce.isSelected = false
                     onCountListener?.invoke(
-                            CartCountBean(
-                                    goodData[position].id, (numberInput.text.toString().toInt() - 1).toString()
-                            )
+                        CartCountBean(
+                            goodData[position].id, (numberInput.text.toString().toInt() - 1).toString()
+                        )
                     )
+                    numberInput.text = (numberInput.text.toString().toInt() - 1).toString()
+                    goodData[position].goods_num = numberInput.text.toString()
                 }
             }
 
             //增加
             increase.setOnClickListener {
                 onCountListener?.invoke(
-                        CartCountBean(
-                                goodData[position].id,
-                                (numberInput.text.toString().toInt() + 1).toString()
-                        )
+                    CartCountBean(
+                        goodData[position].id,
+                        (numberInput.text.toString().toInt() + 1).toString()
+                    )
                 )
+                numberInput.text = (numberInput.text.toString().toInt() + 1).toString()
+                goodData[position].goods_num = numberInput.text.toString()
             }
 
             //输入数量
             numberInput.setOnClickListener {
-                onInputListener?.invoke(CartCountBean(goodData[position].id, numberInput.text.toString()))
+                onInputListener?.invoke(
+                    CartCountBean(
+                        goodData[position].id,
+                        numberInput.text.toString(),
+                        goodsPosition = position
+                    )
+                )
             }
+
 
         }
     }
