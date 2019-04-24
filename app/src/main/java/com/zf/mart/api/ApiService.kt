@@ -353,7 +353,7 @@ interface ApiService {
      */
     @GET("api/User/team_list")
     fun getMyVip(): Observable<BaseBean<List<MyVipBean>>>
-//=======
+
     /**
      * 购物车选中状态
      */
@@ -362,6 +362,6 @@ interface ApiService {
     fun requestCartSelect(
             @Body cart: RequestBody
     ): Observable<BaseBean<CartSelectBean>>
-//>>>>>>> c3f6ca869c4164fa9194d9190710e9676d362a7b
+
 
 }

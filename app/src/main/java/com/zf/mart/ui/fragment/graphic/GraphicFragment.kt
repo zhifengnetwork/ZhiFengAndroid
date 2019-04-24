@@ -25,8 +25,11 @@ class GraphicFragment : BaseFragment(), GoodsAttrContract.View {
     }
 
     override fun getGoodsAttr(bean: GoodsAttrBean) {
+
+
         mData = bean
-        recyclerView.adapter = adapter
+
+        adapter.notifyDataSetChanged()
         Log.e("检测","接收到数据"+mData)
     }
 
@@ -71,6 +74,7 @@ class GraphicFragment : BaseFragment(), GoodsAttrContract.View {
 
         RichText.fromHtml(UnicodeUtil.translation(htmlText)).into(h5Decode)
 
+        recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.addItemDecoration(
             RecyclerViewDivider(
