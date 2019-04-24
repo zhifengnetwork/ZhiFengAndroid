@@ -31,6 +31,7 @@ import com.zf.mart.view.dialog.ShareSuccessDialog
 import com.zf.mart.view.popwindow.RegionPopupWindow
 import com.zf.mart.view.popwindow.ServicePopupWindow
 import kotlinx.android.synthetic.main.activity_goods_detail2.*
+import kotlinx.android.synthetic.main.layout_buy.*
 import kotlinx.android.synthetic.main.layout_detail_brand.*
 import kotlinx.android.synthetic.main.layout_detail_eva.*
 import kotlinx.android.synthetic.main.layout_detail_goods.*
@@ -373,6 +374,10 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         shopName.text = mData?.seller_info?.store_name
         //店铺在售件数
         inSellNum.text = mData?.seller_info?.num
+        //是否已收藏
+        collect.isChecked = mData?.is_collect != "0"
+        //是否在购物车
+        cart.isChecked=mData?.is_cart !="0"
         //轮播图获取
         if (mData?.goods_images != null && mData != null) {
             for (i in 0 until mData?.goods_images?.size!!) {

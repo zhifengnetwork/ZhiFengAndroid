@@ -52,6 +52,8 @@ data class GoodsInfo(
     val sign_free_receive:String,
     val buy_super_nsign:String,
     val seller_info:Shop,
+    val is_collect:String,
+    val is_cart:String,
     val comment_fr:Comment,
     val goods_images:List<String>
 )
