@@ -11,22 +11,22 @@ class CartOperateModel {
 
     fun setCount(id: String, num: String): Observable<BaseBean<CartSelectBean>> {
         return RetrofitManager.service.cartCount(id, num)
-            .compose(SchedulerUtils.ioToMain())
+                .compose(SchedulerUtils.ioToMain())
     }
 
     fun setCartSelect(cart: RequestBody): Observable<BaseBean<CartSelectBean>> {
         return RetrofitManager.service.requestCartSelect(cart)
-            .compose(SchedulerUtils.ioToMain())
+                .compose(SchedulerUtils.ioToMain())
     }
 
     fun setCheckAll(type: Int): Observable<BaseBean<CartSelectBean>> {
         return RetrofitManager.service.requestCartCheckAll(type)
-            .compose(SchedulerUtils.ioToMain())
+                .compose(SchedulerUtils.ioToMain())
     }
 
     fun setDeleteCart(id: RequestBody): Observable<BaseBean<CartSelectBean>> {
         return RetrofitManager.service.requestDeleteCart(id)
-            .compose(SchedulerUtils.ioToMain())
+                .compose(SchedulerUtils.ioToMain())
     }
 
 }

@@ -194,10 +194,9 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/Cart/changeNum")
     fun cartCount(
-
             @Field("cart[id]") id: String,
             @Field("cart[goods_num]") goods_num: String
-    ): Observable<BaseBean<Unit>>
+    ): Observable<BaseBean<CartSelectBean>>
 
     /**
      * 竞拍列表
