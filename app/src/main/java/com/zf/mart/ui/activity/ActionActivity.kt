@@ -2,11 +2,14 @@ package com.zf.mart.ui.activity
 
 import android.content.Context
 import android.content.Intent
-import android.view.KeyEvent
 import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
+import androidx.fragment.app.Fragment
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.base.BaseFragmentAdapter
+import com.zf.mart.ui.fragment.action.AuctionFragment
+import com.zf.mart.ui.fragment.action.GroupFragment
+import com.zf.mart.ui.fragment.action.SecKillFragment
 import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_action.*
 
@@ -14,9 +17,9 @@ class ActionActivity : BaseActivity() {
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
     }
 
@@ -41,46 +44,28 @@ class ActionActivity : BaseActivity() {
     }
 
     override fun initView() {
-    }
 
+        val titles = arrayListOf("竞拍", "拼团", "秒杀")
+        val fragments = arrayListOf<Fragment>(AuctionFragment.newInstance(), GroupFragment.newInstance(), SecKillFragment.newInstance())
+        val adapter = BaseFragmentAdapter(supportFragmentManager, fragments, titles)
+        viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = 3
+        tabLayout.setupWithViewPager(viewPager)
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            finish()
+        viewPager.currentItem = when (mType) {
+            AUCTION -> 0
+            GROUP -> 1
+            SEC_KILL -> 2
+            else -> 0
         }
-        return super.onKeyDown(keyCode, event)
+
     }
+
 
     override fun initEvent() {
 
         close.setOnClickListener { finish() }
 
-        radioGroup.check(
-            when (mType) {
-                AUCTION -> {
-                    findNavController(R.id.fragment).navigate(R.id.auctionFragment)
-                    auction.id
-                }
-                GROUP -> {
-                    findNavController(R.id.fragment).navigate(R.id.groupFragment)
-                    group.id
-                }
-                SEC_KILL -> {
-                    findNavController(R.id.fragment).navigate(R.id.secKillFragment)
-                    secKill.id
-                }
-                else -> auction.id
-            }
-        )
-
-        radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                auction.id -> findNavController(R.id.fragment).navigate(R.id.auctionFragment)
-                group.id -> findNavController(R.id.fragment).navigate(R.id.groupFragment)
-                secKill.id -> findNavController(R.id.fragment).navigate(R.id.secKillFragment)
-                else -> findNavController(R.id.fragment).navigate(R.id.auctionFragment)
-            }
-        }
     }
 
     override fun start() {

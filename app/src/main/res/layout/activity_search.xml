@@ -1,118 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:background="@color/whit"
-              android:fitsSystemWindows="true"
-              android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whit"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal">
 
         <LinearLayout
-                android:layout_width="50dp"
-                android:id="@+id/backLayout"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_height="match_parent">
+            android:id="@+id/backLayout"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <ImageView android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:src="@drawable/fanhui"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/fanhui" />
 
         </LinearLayout>
 
         <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_search_input"
-                android:layout_gravity="center_vertical"
-                android:layout_height="35dp">
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/shape_search_input">
 
-            <ImageView android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginLeft="15dp"
-                       android:id="@+id/searchIcon"
-                       android:layout_centerVertical="true"
-                       android:src="@drawable/search"/>
+            <ImageView
+                android:id="@+id/searchIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/search" />
 
             <EditText
-                    android:id="@+id/inputText"
-                    android:layout_width="match_parent"
-                    android:layout_toRightOf="@+id/searchIcon"
-                    android:layout_marginLeft="12dp"
-                    android:textColor="@color/colorPrimaryText"
-                    android:textSize="12sp"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:hint="商品 店铺"/>
+                android:id="@+id/inputText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@+id/searchIcon"
+                android:background="@null"
+                android:hint="商品 店铺"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="12sp" />
 
         </RelativeLayout>
 
         <LinearLayout
-                android:id="@+id/searchLayout"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:gravity="center">
+            android:id="@+id/searchLayout"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
 
             <TextView
-                    android:id="@+id/operate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@color/colorBlackText"
-                    android:text="搜索"/>
+                android:id="@+id/operate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="搜索"
+                android:textColor="@color/colorBlackText"
+                android:textSize="15sp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:overScrollMode="never"
-            android:layout_height="match_parent"/>
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:visibility="gone" />
 
     <LinearLayout
-            android:id="@+id/historyLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        android:id="@+id/historyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textSize="16sp"
-                  android:layout_marginTop="34dp"
-                  android:layout_marginLeft="10dp"
-                  android:textColor="#111111"
-                  android:text="热门搜索"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="34dp"
+            android:text="热门搜索"
+            android:textColor="#111111"
+            android:textSize="16sp" />
 
         <!-- 流式布局做历史搜索 -->
         <com.zhy.view.flowlayout.TagFlowLayout
-                android:id="@+id/hotLayout"
-                android:layout_width="match_parent"
-                app:max_select="1"
-                android:layout_margin="10dp"
-                android:layout_height="wrap_content"/>
+            android:id="@+id/hotLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:max_select="1" />
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textSize="16sp"
-                  android:layout_marginTop="20dp"
-                  android:layout_marginLeft="10dp"
-                  android:textColor="#111111"
-                  android:text="搜索发现"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:text="搜索发现"
+            android:textColor="#111111"
+            android:textSize="16sp" />
 
         <com.zhy.view.flowlayout.TagFlowLayout
-                android:id="@+id/discoveryLayout"
-                android:layout_width="match_parent"
-                app:max_select="1"
-                android:layout_margin="10dp"
-                android:layout_height="wrap_content"/>
+            android:id="@+id/discoveryLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:max_select="1" />
 
     </LinearLayout>
 

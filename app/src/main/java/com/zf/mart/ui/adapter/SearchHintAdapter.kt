@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 
-class SearchHintAdapter(val context: Context): RecyclerView.Adapter<SearchHintAdapter.ViewHolder>() {
+class SearchHintAdapter(val context: Context) : RecyclerView.Adapter<SearchHintAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_search_hint,parent,false)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_search_hint, parent, false)
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int =10
+    override fun getItemCount(): Int = 2
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     }

@@ -4,12 +4,14 @@ import android.app.Activity
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
+import com.zf.mart.mvp.bean.CartCheckBean
+import com.zf.mart.mvp.bean.CartPrice
 import com.zf.mart.mvp.bean.ShopList
 import com.zf.mart.mvp.contract.CartListContract
 import com.zf.mart.mvp.contract.CartOperateContract
@@ -19,25 +21,29 @@ import com.zf.mart.net.exception.ErrorStatus
 import com.zf.mart.showToast
 import com.zf.mart.ui.activity.ConfirmOrderActivity
 import com.zf.mart.ui.adapter.CartShopAdapter1
-import com.zf.mart.utils.LogUtils
 import com.zf.mart.view.dialog.DeleteCartDialog
 import com.zf.mart.view.dialog.InputNumDialog
 import com.zf.mart.view.popwindow.GroupStylePopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.fragment_shoping_cart.*
+import okhttp3.RequestBody
 
 /**
  * 购物车页面
  */
 class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperateContract.View {
 
-    //加减成功
-    override fun setCount() {
-        //刷新列表
-        lazyLoad()
+    /** 勾选状态 */
+    override fun setSelect(bean: CartPrice) {
+        price.text = "¥${bean.total_fee}"
     }
 
-    //加减失败
+    /** 修改商品数量 */
+    override fun setCount() {
+
+    }
+
+    //购物车操作失败
     override fun cartOperateError(msg: String, errorCode: Int) {
         showToast(msg)
     }
@@ -109,12 +115,12 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         cartRecyclerView.layoutManager = LinearLayoutManager(context)
         cartRecyclerView.adapter = cartAdapter
         cartRecyclerView.addItemDecoration(
-            RecyclerViewDivider(
-                context,
-                LinearLayoutManager.VERTICAL,
-                DensityUtil.dp2px(12f),
-                ContextCompat.getColor(context!!, R.color.colorBackground)
-            )
+                RecyclerViewDivider(
+                        context,
+                        LinearLayoutManager.VERTICAL,
+                        DensityUtil.dp2px(12f),
+                        ContextCompat.getColor(context!!, R.color.colorBackground)
+                )
         )
     }
 
@@ -134,23 +140,36 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         initCart()
     }
 
+    override fun initEvent() {
 
-    /** 选中的id列表 */
-    private var mChooseIdList = ArrayList<String>()
-
-    private fun initCheckId(list: List<ShopList>) {
-        val chooseGoodsListId = ArrayList<String>()
-        list.forEach { shop ->
-            shop.data.forEach { goodsList ->
-                if (goodsList.ifCheck) {
-                    chooseGoodsListId.add(goodsList.id)
+        /** 全选反选按钮 */
+        allChoose.setOnClickListener {
+            cartData.forEach { shopList ->
+                shopList.data.forEach { goodsList ->
+                    goodsList.selected = if (allChoose.isChecked) "1" else "0"
                 }
             }
+            cartAdapter.notifyDataSetChanged()
         }
-        mChooseIdList = chooseGoodsListId
-    }
 
-    override fun initEvent() {
+        /** 选中商品回调 */
+        cartAdapter.onGoodsCheckListener = {
+            val json = ArrayList<CartCheckBean>()
+            var sum = 0
+            cartData.forEach { shop ->
+                shop.data.forEach {
+                    val cartBean = CartCheckBean()
+                    cartBean.id = it.id
+                    cartBean.selected = it.selected
+                    json.add(cartBean)
+                }
+                if (shop.selected == "1") sum += 1
+            }
+            allChoose.isChecked = sum == cartData.size
+            val body =
+                    RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(json))
+            cartOperatePresenter.requestSelect(body)
+        }
 
         refreshLayout.setOnRefreshListener {
             lazyLoad()
@@ -165,11 +184,10 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
             cartOperatePresenter.requestCount(it.cartId, it.sum)
         }
 
-
         /** 商品数量*/
         cartAdapter.onShopNumListener = { bean ->
             InputNumDialog.showDialog(childFragmentManager, bean.sum)
-                .onNumListener = { num ->
+                    .onNumListener = { num ->
                 cartOperatePresenter.requestCount(bean.cartId, num)
             }
         }
@@ -177,45 +195,16 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         /** 商品规格 */
         cartAdapter.onShopSpecListener = {
             val popWindow = object : GroupStylePopupWindow(
-                activity as Activity,
-                R.layout.pop_order_style,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    activity as Activity,
+                    R.layout.pop_order_style,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             ) {}
             popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
         }
 
-        /** 全选反选按钮 */
-        allChoose.setOnClickListener {
-            //循环赋值
-            cartData.forEach { shopList ->
-                shopList.ifCheck = allChoose.isChecked
-                shopList.data.forEach { goodsList ->
-                    goodsList.ifCheck = allChoose.isChecked
-                }
-            }
-            //赋值之后刷新列表 是否全选
-            cartAdapter.notifyDataSetChanged()
-
-            /** 选中或者反选需要获取结果 */
-            initCheckId(cartData)
-        }
-
-        cartAdapter.checkGoodsListener = { shopList ->
-            /** 返回来全部的列表，通过遍历判断是否选中 */
-            /** 得到选择的id */
-            var size = 0
-            shopList.forEach { shop ->
-                if (shop.ifCheck) size += 1
-            }
-            allChoose.isChecked = size == cartData.size
-
-            initCheckId(shopList)
-        }
-
         settle.setOnClickListener {
             //获取选中的id
-            Toast.makeText(context, "选中id:$mChooseIdList", Toast.LENGTH_LONG).show()
             if (management.isSelected) {
                 //删除
                 DeleteCartDialog.showDialog(childFragmentManager, 1)
@@ -239,7 +228,6 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                 price.visibility = View.VISIBLE
                 totalTxt.visibility = View.VISIBLE
             }
-
         }
 
     }
@@ -296,4 +284,56 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
 //        window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
 //
 //    }
+
+
+    /** 手动添加多条数据 */
+    //        cartData.addAll(
+//
+//            arrayListOf(
+//                ShopList(
+//                    "小米",
+//                    arrayListOf(
+//                        CartGoodsList(
+//                            "1", "12", "5",
+//                            Goods("mi2", "1", "34", "12"),
+//                            "231", "0"
+//                        )
+//                    ),
+//                    ""
+//                ),
+//                ShopList(
+//                    "hua wei",
+//                    arrayListOf(
+//                        CartGoodsList(
+//                            "1", "12", "5",
+//                            Goods("hw 3", "1", "34", "12"),
+//                            "232", "1"
+//                        ),
+//                        CartGoodsList(
+//                            "1", "12", "5",
+//                            Goods("hw4", "1", "34", "12"),
+//                            "232", "1"
+//                        )
+//                    ),
+//                    ""
+//                ),
+//                ShopList(
+//                    "vi vo",
+//                    arrayListOf(
+//                        CartGoodsList(
+//                            "1", "12", "5",
+//                            Goods("vivo 19", "1", "34", "12"),
+//                            "232", "0"
+//                        ),
+//                        CartGoodsList(
+//                            "1", "12", "5",
+//                            Goods("vivo 20", "1", "34", "12"),
+//                            "232", "1"
+//                        )
+//                    ),
+//                    ""
+//                )
+//            )
+//        )
+
 }

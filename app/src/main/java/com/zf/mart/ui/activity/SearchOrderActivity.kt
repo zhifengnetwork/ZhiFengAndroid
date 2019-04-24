@@ -80,9 +80,9 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
         }
 
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
     }
 
@@ -123,10 +123,10 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
 
     private val oneDivider by lazy {
         RecyclerViewDivider(
-            this,
-            LinearLayoutManager.VERTICAL,
-            1,
-            ContextCompat.getColor(this, R.color.colorLine)
+                this,
+                LinearLayoutManager.VERTICAL,
+                1,
+                ContextCompat.getColor(this, R.color.colorLine)
         )
     }
 
@@ -135,6 +135,7 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
     //mSort:排序 mPriceSort：价格升降排序 page:null为加载更多
     private var mSort: String = ""
     private var mPriceSort: String = ""
+    private var mSel: String = ""
     /** 请求数据 */
     private fun initRequest(page: Int?) {
         if (page == 1) {
@@ -142,8 +143,8 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
         }
         //判断是选中的哪个？
         searchPresenter.requestSearch(
-            searchInput.text.toString(), "", "", mSort, "",
-            "", "", "", mPriceSort, page
+                searchInput.text.toString(), "", "", mSort, mSel,
+                "", "", "", mPriceSort, page
         )
     }
 
@@ -218,13 +219,21 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
 //            popWindow.showBashOfAnchor(rankLayout, layoutGravity, 0, 0)
         }
 
-        //筛选
+        //筛选 如果有
         filterBtn.setOnClickListener {
+
             val popWindow = object : SearchFilterPopupWindow(
-                this, R.layout.pop_search_filter, DensityUtil.dp2px(280f),
-                LinearLayout.LayoutParams.MATCH_PARENT
+                    this, R.layout.pop_search_filter, DensityUtil.dp2px(280f),
+                    LinearLayout.LayoutParams.MATCH_PARENT, mSel
             ) {}
             popWindow.showAtLocation(parentLayout, Gravity.RIGHT, 0, 0)
+            popWindow.onConfirmListener = {
+                //判断it是否为空，否则选中状态
+                filterBtn.isSelected = it.isNotEmpty()
+
+                mSel = it
+                initRequest(1)
+            }
         }
 
         /** 切换排版，改变layoutManager后找到第一个可见的item 定位到 */
@@ -241,7 +250,6 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
                 recyclerView.removeItemDecoration(oneDivider)
                 recyclerView.addItemDecoration(twoDivider)
                 mAdapter.changeType(2)
-
             } else {
                 //一列排版
                 recyclerView.layoutManager = LinearLayoutManager(this)
@@ -250,7 +258,6 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
                 recyclerView.addItemDecoration(oneDivider)
                 mAdapter.changeType(1)
             }
-
             recyclerView.scrollToPosition(position)
         }
 

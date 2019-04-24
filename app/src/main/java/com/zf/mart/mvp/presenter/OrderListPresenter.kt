@@ -17,45 +17,45 @@ class OrderListPresenter : BasePresenter<OrderListContract.View>(), OrderListCon
 
         //加载图在activity中写,showLoading只做结束refreshLayout的finish事件
         val disposable = model.requestOrderList(type, mPage)
-            .subscribe({
-                mRootView?.apply {
-                    dismissLoading()
-                    when (it.status) {
-                        0 -> {
-                            if (mPage == 1) {
-                                if (it.data != null && it.data.isNotEmpty()) {
-                                    setFinishRefresh(it.data)
+                .subscribe({
+                    mRootView?.apply {
+                        when (it.status) {
+                            0 -> {
+                                if (mPage == 1) {
+                                    if (it.data != null && it.data.isNotEmpty()) {
+                                        setFinishRefresh(it.data)
+                                    } else {
+                                        setEmptyOrder()
+                                    }
                                 } else {
-                                    setEmptyOrder()
+                                    if (it.data != null && it.data.isNotEmpty()) {
+                                        setFinishLoadMore(it.data)
+                                    } else {
+                                        setLoadComplete()
+                                    }
                                 }
-                            } else {
                                 if (it.data != null && it.data.isNotEmpty()) {
-                                    setFinishLoadMore(it.data)
-                                } else {
-                                    setLoadComplete()
+                                    if (it.data.size < UriConstant.PER_PAGE) {
+                                        setLoadComplete()
+                                    }
                                 }
+                                mPage += 1
                             }
-                            if (it.data != null && it.data.isNotEmpty()) {
-                                if (it.data.size < UriConstant.PER_PAGE) {
-                                    setLoadComplete()
-                                }
+                            else -> {
+                                if (mPage == 1) showError(it.msg, it.status) else loadMoreError(it.msg, it.status)
                             }
-                            mPage += 1
                         }
-                        else -> {
-                            if (mPage == 1) showError(it.msg, it.status) else loadMoreError(it.msg, it.status)
-                        }
+                        dismissLoading()
                     }
-                }
-            }, {
-                mRootView?.apply {
-                    dismissLoading()
-                    if (mPage == 1) showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
-                    else loadMoreError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }, {
+                    mRootView?.apply {
+                        dismissLoading()
+                        if (mPage == 1) showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                        else loadMoreError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
 
-                }
+                    }
 
-            })
+                })
         addSubscription(disposable)
     }
 

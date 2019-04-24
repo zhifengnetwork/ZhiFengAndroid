@@ -28,9 +28,9 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
     }
 
@@ -38,7 +38,6 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     override fun initData() {
     }
-
 
     private var token by Preference(UriConstant.TOKEN, "")
 
@@ -95,14 +94,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         codeInput.setText(CodeUtils.getInstance().code)
     }
 
-
     override fun initEvent() {
-        /**
-         * 要把这行删除。。。。。
-         */
-        goMain.setOnClickListener {
-            MainActivity.actionStart(this)
-        }
 
         login.setOnClickListener {
             if (TextUtils.isEmpty(phone.text)) {
