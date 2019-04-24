@@ -22,7 +22,8 @@ class HomeFragmentRecommendAdapter(val context: Context?, val data: List<String>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
             setOnClickListener {
-                GoodsDetailActivity.actionStart(context)
+                //传递商品ID
+                GoodsDetailActivity.actionStart(context,"272")
             }
         }
     }

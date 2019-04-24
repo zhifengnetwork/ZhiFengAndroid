@@ -43,7 +43,7 @@ class BonusActivity : BaseActivity(), BonusContract.View {
     override fun initToolBar() {
         titleName.text = "微分销会员"
         back.setOnClickListener {
-
+            finish()
         }
         rightLayout.visibility = View.INVISIBLE
     }

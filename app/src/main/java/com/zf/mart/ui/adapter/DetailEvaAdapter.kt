@@ -6,17 +6,30 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.mvp.bean.GoodEvaList
+import com.zf.mart.utils.GlideUtils
+import kotlinx.android.synthetic.main.item_detail_eva.view.*
 
-class DetailEvaAdapter(val context: Context) : RecyclerView.Adapter<DetailEvaAdapter.ViewHolder>() {
+class DetailEvaAdapter(val context: Context,val data :List<GoodEvaList>) : RecyclerView.Adapter<DetailEvaAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_detail_eva, parent, false)
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = 10
+    override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.itemView.apply {
+            //用户头像
+            GlideUtils.loadUrlImage(context,data[position].head_pic,userIcon)
+            //用户名
+            userNum.text=data[position].username
+            //评论信息
+            reply.text=data[position].content
+            //晒单图片
+            //是否为匿名评价
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

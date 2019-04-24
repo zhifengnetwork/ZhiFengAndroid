@@ -24,7 +24,6 @@ class AddressActivity : BaseActivity(), AddressContract.View {
     override fun getAddress(bean: List<AddressBean>) {
         addressData.clear()
         addressData.addAll(bean)
-        Log.e("检测","地址列表为："+bean)
         adapter.notifyDataSetChanged()
     }
 

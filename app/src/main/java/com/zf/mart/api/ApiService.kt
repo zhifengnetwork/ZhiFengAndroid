@@ -281,28 +281,57 @@ interface ApiService {
     ): Observable<BaseBean<GoodEvaBean>>
 
     /**
+     *  获取商品详情
+     */
+    @FormUrlEncoded
+    @POST("api/goods/goodsInfo")
+    fun getGoodsDetail(
+        @Field("goods_id") goods_id: String
+    ): Observable<BaseBean<GoodsDetailBean>>
+
+    /**
+     *  获取商品运费
+     */
+    @FormUrlEncoded
+    @POST("api/goods/dispatching")
+    fun getGoodsFreight(
+        @Field("goods_id") goods_id: String,
+        @Field("region_id") region_id: String,
+        @Field("buy_num") buy_num: String
+    ): Observable<BaseBean<GoodsFreightBean>>
+
+    /**
+     *  获取商品属性
+     */
+    @FormUrlEncoded
+    @POST("api/goods/goodsAttr")
+    fun getGoodsAttr(
+        @Field("goods_id") goods_id: String
+    ): Observable<BaseBean<GoodsAttrBean>>
+
+    /**
      * 我的---足迹
      */
     @GET("api/User/visit_log")
-    fun getMyFoot(): Observable<BaseBean<Unit>>
+    fun getMyFoot(): Observable<BaseBean<List<MyFootBean>>>
 
     /**
      * 我的---足迹编辑
      */
     @FormUrlEncoded
     @POST("api/User/del_visit_log")
-    fun setMyFoot(@Field("visit_ids") visit_ids: List<String>):Observable<BaseBean<Unit>>
+    fun setMyFoot(@Field("visit_ids") visit_ids: String): Observable<BaseBean<Unit>>
 
     /**
      * 我的---清空足迹
      */
-    @GET("User/clear_visit_log")
-    fun clearMyFoot():Observable<BaseBean<Unit>>
+    @GET("api/User/clear_visit_log")
+    fun clearMyFoot(): Observable<BaseBean<Unit>>
 
     /**
      * 我的--分销会员页
      */
-    @GET("api/User/distribut_index")
+    @POST("api/User/distribut_index")
     fun getBonus(): Observable<BaseBean<BonusBean>>
 
     /**

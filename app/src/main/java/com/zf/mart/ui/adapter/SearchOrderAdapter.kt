@@ -56,7 +56,8 @@ class SearchOrderAdapter(val context: Context, val data: List<SearchList>) :
             }
 
             setOnClickListener {
-                GoodsDetailActivity.actionStart(context)
+
+                GoodsDetailActivity.actionStart(context,data[position].goods_id)
             }
 
         }

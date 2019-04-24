@@ -17,7 +17,7 @@ class MyFootPresenter : BasePresenter<MyFootContract.View>(), MyFootContract.Pre
                     when (it.status) {
                         0 -> {
                             if (it.data != null) {
-                                getMyFoot()
+                                getMyFoot(it.data)
                             }
                         }
                         else -> showError(it.msg, it.status)
@@ -32,7 +32,7 @@ class MyFootPresenter : BasePresenter<MyFootContract.View>(), MyFootContract.Pre
         addSubscription(disposable)
     }
 
-    override fun requestsetMyFoot(visit_ids: List<String>) {
+    override fun requestsetMyFoot(visit_ids: String) {
         checkViewAttached()
         mRootView?.showLoading()
         val disposable = model.setMyFoot(visit_ids)

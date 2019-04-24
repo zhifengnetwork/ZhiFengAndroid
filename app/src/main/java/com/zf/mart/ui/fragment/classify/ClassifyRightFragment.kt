@@ -43,8 +43,8 @@ class ClassifyRightFragment:BaseFragment(), ClassifyProductContract.View {
     companion object {
         @JvmStatic
         fun buildFragment(id: String,name:String): ClassifyRightFragment {
-            var fragment = ClassifyRightFragment()
-            var bundle = Bundle()
+            val fragment = ClassifyRightFragment()
+            val bundle = Bundle()
             bundle.putString("name",name)
             bundle.putString("id", id)
             fragment.arguments = bundle
