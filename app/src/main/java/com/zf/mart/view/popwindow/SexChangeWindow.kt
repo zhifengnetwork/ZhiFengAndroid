@@ -27,9 +27,15 @@ abstract class SexChangeWindow(var context: Activity, layoutRes: Int, w: Int, h:
 
     var onWomen: (() -> Unit)? = null
     var onMan: (() -> Unit)? = null
+    var onSecrete: (() -> Unit)? = null
 
     private fun initView() {
         contentView.apply {
+
+            secrete.setOnClickListener {
+                onDismiss()
+                onSecrete?.invoke()
+            }
 
             man.setOnClickListener { _ ->
                 onDismiss()

@@ -2,16 +2,16 @@ package com.zf.mart.mvp.contract
 
 import com.zf.mart.base.IBaseView
 import com.zf.mart.base.IPresenter
-import com.zf.mart.mvp.bean.ShopList
+import com.zf.mart.mvp.bean.CartBean
 
 interface CartListContract {
 
     interface View : IBaseView {
 
 
-        fun setRefreshCart(bean: List<ShopList>)
+        fun setRefreshCart(bean: CartBean)
 
-        fun setLoadMoreCart(bean: List<ShopList>)
+        fun setLoadMoreCart(bean: CartBean)
 
         fun setEmpty()
 

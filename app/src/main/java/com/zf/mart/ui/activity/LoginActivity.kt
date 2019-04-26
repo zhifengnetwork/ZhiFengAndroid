@@ -6,6 +6,8 @@ import android.text.TextUtils
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import com.tencent.mm.opensdk.modelmsg.SendAuth
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.zf.mart.R
 import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseActivity
@@ -28,9 +30,9 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(
-                this,
-                ContextCompat.getColor(this, R.color.colorSecondText),
-                0.3f
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
         )
     }
 
@@ -140,6 +142,23 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         code.setOnClickListener {
             val bmp = CodeUtils.getInstance().createBitmap()
             code.setImageBitmap(bmp)
+        }
+
+
+        //微信登录
+        wxLogin.setOnClickListener {
+            val api = WXAPIFactory.createWXAPI(this, UriConstant.WX_APP_ID, true)
+            // 将应用的appId注册到微信
+            api.registerApp(UriConstant.WX_APP_ID)
+            if (!api.isWXAppInstalled) {
+                showToast("未安装微信")
+            } else {
+                val req = SendAuth.Req()
+                req.scope = "snsapi_userinfo"
+                req.state = "wechat_sdk_zf"
+                api.sendReq(req)
+            }
+
         }
     }
 

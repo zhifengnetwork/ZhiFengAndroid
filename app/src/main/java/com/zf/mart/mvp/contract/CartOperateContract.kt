@@ -4,8 +4,6 @@ import com.zf.mart.base.IBaseView
 import com.zf.mart.base.IPresenter
 import com.zf.mart.mvp.bean.CartPrice
 import okhttp3.RequestBody
-import org.json.JSONArray
-import org.json.JSONObject
 
 interface CartOperateContract {
 
@@ -14,10 +12,16 @@ interface CartOperateContract {
         fun cartOperateError(msg: String, errorCode: Int)
 
         //修改数量
-        fun setCount()
+        fun setCount(bean: CartPrice)
 
         //修改选中状态
         fun setSelect(bean: CartPrice)
+
+        //全选
+        fun setCheckAll(bean: CartPrice)
+
+        //删除
+        fun setDeleteCart(bean: CartPrice)
     }
 
     interface Presenter : IPresenter<View> {
@@ -26,6 +30,9 @@ interface CartOperateContract {
 
         fun requestSelect(cart: RequestBody)
 
+        fun requestCheckAll(flag: Int)
+
+        fun requestDeleteCart(id: RequestBody)
     }
 
 }

@@ -2,7 +2,6 @@ package com.zf.mart.ui.activity
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_address.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class AddressActivity : BaseActivity(), AddressContract.View {
+
     override fun showError(msg: String, errorCode: Int) {
 
     }
@@ -36,6 +36,10 @@ class AddressActivity : BaseActivity(), AddressContract.View {
     }
 
     companion object {
+
+        const val mResultCode = 11
+        const val ADDRESS_FLAG = "address"
+
         fun actionStart(context: Context?) {
             context?.startActivity(Intent(context, AddressActivity::class.java))
         }
@@ -70,11 +74,14 @@ class AddressActivity : BaseActivity(), AddressContract.View {
 
     override fun initEvent() {
         newAddress.setOnClickListener {
-
-            AddressEditActivity.actionStart(this,null)
-
+            AddressEditActivity.actionStart(this, null)
         }
 
+        adapter.onItemClickListener = {
+            intent.putExtra(ADDRESS_FLAG, it)
+            setResult(mResultCode, intent)
+            finish()
+        }
 
     }
 

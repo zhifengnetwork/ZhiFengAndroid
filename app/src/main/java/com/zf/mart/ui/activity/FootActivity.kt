@@ -157,12 +157,14 @@ class FootActivity : BaseActivity(), MyFootContract.View {
     }
 
     override fun initEvent() {
+
         adapter.setOnClickListener(object : FootAdapter.OnItemClickListener {
             override fun unCheckAll() {
+                //全选
                 allChoose.isChecked = false
             }
-
             override fun checkAll() {
+                //不全选
                 allChoose.isChecked = true
             }
         })
@@ -171,6 +173,7 @@ class FootActivity : BaseActivity(), MyFootContract.View {
 
         allChoose.setOnClickListener {
             adapter.setIfAllChoose(allChoose.isChecked)
+            Log.e("检测","zas="+adapter.checkList)
         }
 
 //        //删除按钮

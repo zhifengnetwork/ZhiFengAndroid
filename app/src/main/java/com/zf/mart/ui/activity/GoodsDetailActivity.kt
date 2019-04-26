@@ -25,11 +25,13 @@ import com.zf.mart.ui.adapter.*
 import com.zf.mart.ui.fragment.graphic.GraphicFragment
 import com.zf.mart.ui.fragment.graphic.OrderAnswerFragment
 import com.zf.mart.ui.fragment.same.DetailSameFragment
+import com.zf.mart.utils.GlideUtils
 import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.dialog.ShareSuccessDialog
 import com.zf.mart.view.popwindow.RegionPopupWindow
 import com.zf.mart.view.popwindow.ServicePopupWindow
+import com.zzhoujay.richtext.RichText
 import kotlinx.android.synthetic.main.activity_goods_detail2.*
 import kotlinx.android.synthetic.main.layout_buy.*
 import kotlinx.android.synthetic.main.layout_detail_brand.*
@@ -50,7 +52,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     }
 
     //获得商品详情
-    override fun getGoodsDetail(bean: GoodsInfo) {
+    override fun getGoodsDetail(bean: GoodsDetailBean) {
         mData = bean
         loadData()
         //图文详情
@@ -73,7 +75,17 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
     //获得商品运费
     override fun getGoodsFreight(bean: GoodsFreightBean) {
-        if (bean.freight != "0.00") fare.text = bean.freight else fare.text="免邮费"
+        if (bean.freight != "0.00") fare.text = bean.freight else fare.text = "免邮费"
+    }
+
+    //点击关注商品
+    override fun setCollectGoods(msg: String) {
+
+    }
+
+    //点击取消关注商品
+    override fun delCollectGoods(msg: String) {
+
     }
 
     override fun showLoading() {
@@ -137,7 +149,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     //网络请求
     private val presenter by lazy { GoodsDetailPresenter() }
     //商品详情
-    private var mData: GoodsInfo? = null
+    private var mData: GoodsDetailBean? = null
     //商品评论
     private var mEva = ArrayList<GoodEvaList>()
     //pop弹窗
@@ -164,7 +176,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
         //全部评价
         allEvaluation.setOnClickListener {
-            EvaluationActivity.actionStart(this, "")
+            EvaluationActivity.actionStart(this, mData?.goods?.goods_id)
         }
 
         //banner
@@ -185,7 +197,6 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         //图文详情
 //        initGraphic()
 
-
     }
 
 
@@ -200,7 +211,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     private fun initGraphic() {
         val titles = arrayOf("图文详情", "答疑")
         val fgms = arrayListOf(
-            GraphicFragment.newInstance(mData?.goods_content, mData?.goods_id) as Fragment,
+            GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
             OrderAnswerFragment.newInstance() as Fragment
         )
         segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
@@ -345,43 +356,46 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
     override fun start() {
         presenter.requestGoodsDetail(goodsID)
-//        presenter.requestGoodEva(goodsID, 1, 1)
+        //请求评论
+        presenter.requestGoodEva(goodsID, 1, 1, 6)
     }
 
     /**将网络请求到的数据赋值到页面上*/
     private fun loadData() {
         //商品名字
-        goods_name.text = mData?.goods_name
+        goods_name.text = mData?.goods?.goods_name
         //商品价格
-        shop_price.text = mData?.shop_price
+        shop_price.text = mData?.goods?.shop_price
         //市场价格
-        market_price.text = "￥" + mData?.market_price
+        market_price.text = "￥" + mData?.goods?.market_price
         //销量
-        virtual_sales_sum.text = mData?.virtual_collect_sum
+        virtual_sales_sum.text = mData?.goods?.virtual_collect_sum
         //库存
-        store_count.text = mData?.store_count + "件"
+        store_count.text = mData?.goods?.store_count + "件"
         //运费
-        if (mData?.is_free_shipping == "1") fare.text = "免运费" else fare.text = "按实际地区收费"
+        if (mData?.goods?.is_free_shipping == "1") fare.text = "免运费" else fare.text = "按实际地区收费"
         //说明
-        goods_remark.text = mData?.goods_remark
+        goods_remark.text = mData?.goods?.goods_remark
         //商品评论数
-        comments.text = "(${mData?.comment_count})"
+        comments.text = "(${mData?.goods?.comment_count})"
         //好评率
-        high_rate.text = mData?.comment_fr?.high_rate
+        high_rate.text = mData?.goods?.comment_fr?.high_rate
         //问大家数
 
         //店铺名字
-        shopName.text = mData?.seller_info?.store_name
+        shopName.text = mData?.goods?.seller_info?.store_name
         //店铺在售件数
-        inSellNum.text = mData?.seller_info?.num
+        inSellNum.text = mData?.goods?.seller_info?.num
+        //店铺图片avatar
+//         GlideUtils.loadUrlImage(this,mData?.goods,shopIcon)
         //是否已收藏
-        collect.isChecked = mData?.is_collect != "0"
+        collect.isChecked = mData?.goods?.is_collect != "0"
         //是否在购物车
-        cart.isChecked=mData?.is_cart !="0"
+        cart.isChecked = mData?.goods?.is_cart != "0"
         //轮播图获取
-        if (mData?.goods_images != null && mData != null) {
-            for (i in 0 until mData?.goods_images?.size!!) {
-                images.add("https://mobile.zhifengwangluo.c3w.cc" + mData!!.goods_images[i])
+        if (mData?.goods?.goods_images != null && mData != null) {
+            for (i in 0 until mData?.goods?.goods_images?.size!!) {
+                images.add("https://mobile.zhifengwangluo.c3w.cc" + mData?.goods?.goods_images!![i])
             }
         }
         //banner

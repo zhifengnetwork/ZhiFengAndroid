@@ -79,10 +79,10 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/evaluate"
+                android:id="@+id/evaluate2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="97.2%好评"
+                android:text="0条好评"
                 android:textColor="@color/colorBlackText"
                 android:textSize="8sp" />
 

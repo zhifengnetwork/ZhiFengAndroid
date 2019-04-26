@@ -119,7 +119,7 @@ interface ApiService {
      * 购物车列表
      */
     @GET("api/cart/cartlist")
-    fun getCartList(): Observable<BaseBean<List<ShopList>>>
+    fun getCartList(@Query("page") page: Int, @Query("num") num: Int): Observable<BaseBean<CartBean>>
 
     /**
      * 分类左边标题
@@ -196,7 +196,7 @@ interface ApiService {
     fun cartCount(
         @Field("cart[id]") id: String,
         @Field("cart[goods_num]") goods_num: String
-    ): Observable<BaseBean<Unit>>
+    ): Observable<BaseBean<CartSelectBean>>
 
     /**
      * 竞拍列表
@@ -261,8 +261,8 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/auction/offerPrice")
     fun requestBid(
-            @Field("auction_id") auction_id: String,
-            @Field("price") price: String
+        @Field("auction_id") auction_id: String,
+        @Field("price") price: String
     ): Observable<BaseBean<Unit>>
 
 
@@ -282,6 +282,19 @@ interface ApiService {
     fun getMyFollow(): Observable<BaseBean<List<MyFollowBean>>>
 
     /**
+     * 点击关注商品
+     */
+    @FormUrlEncoded
+    @POST("api/Goods/collect_goods")
+    fun setCollectGoods(@Field("goods_id") goods_id: String): Observable<BaseBean<Unit>>
+
+    /**
+    * 点击删除关注商品
+    */
+    @FormUrlEncoded
+    @POST("api/Goods/del_collect_goods")
+    fun delCollectGoods(@Field("goods_id") goods_id: String): Observable<BaseBean<Unit>>
+    /**
      *  获取商品评论
      */
     @FormUrlEncoded
@@ -294,7 +307,6 @@ interface ApiService {
     ): Observable<BaseBean<GoodEvaBean>>
 
     /**
-<<<<<<< HEAD
      *  获取商品详情
      */
     @FormUrlEncoded
@@ -360,8 +372,24 @@ interface ApiService {
     @Headers("Content-type:application/json")
     @POST("api/Cart/AsyncUpdateCart")
     fun requestCartSelect(
-            @Body cart: RequestBody
+        @Body cart: RequestBody
     ): Observable<BaseBean<CartSelectBean>>
 
+
+    /**
+     * 购物车全选或者反选
+     */
+    @FormUrlEncoded
+    @POST("api/Cart/selectedOrAll")
+    fun requestCartCheckAll(
+        @Field("all_flag") all_flag: Int
+    ): Observable<BaseBean<CartSelectBean>>
+
+    /**
+     * 删除购物车商品
+     */
+    @Headers("Content-type:application/json")
+    @POST("api/cart/delcart")
+    fun requestDeleteCart(@Body id: RequestBody): Observable<BaseBean<CartSelectBean>>
 
 }

@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 class EvaluationActivity : BaseActivity() {
 
     companion object {
-        fun actionStart(context: Context?, goodId: String) {
+        fun actionStart(context: Context?, goodId: String?) {
             val intent = Intent(context, EvaluationActivity::class.java)
             intent.putExtra("goodId", goodId)
             context?.startActivity(intent)

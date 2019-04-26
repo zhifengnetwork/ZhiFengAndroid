@@ -148,7 +148,6 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
         )
     }
 
-
     override fun start() {
         if (data.isEmpty()) {
             mLayoutStatusView?.showLoading()
@@ -177,7 +176,6 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
             mSort = "is_new"
             mPriceSort = ""
             initRequest(1)
-
         }
 
         //销量
@@ -201,7 +199,6 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
                 mPriceSort = "asc"
                 initRequest(1)
             }
-
         }
 
         //综合

@@ -18,30 +18,30 @@ class CartListPresenter : BasePresenter<CartListContract.View>(), CartListContra
 
         checkViewAttached()
         mRootView?.showLoading()
-        val disposable = model.getCartList()
+        val disposable = model.getCartList(mPage)
             .subscribe({
                 mRootView?.apply {
-                    dismissLoading()
                     when (it.status) {
                         0 -> {
                             if (mPage == 1) {
-                                if (it.data != null && it.data.isNotEmpty()) {
+                                if (it.data != null && it.data.list.isNotEmpty()) {
                                     setRefreshCart(it.data)
                                 } else {
                                     setEmpty()
                                 }
                             } else {
-                                if (it.data != null && it.data.isNotEmpty()) {
+                                if (it.data != null && it.data.list.isNotEmpty()) {
                                     setLoadMoreCart(it.data)
                                 } else {
                                     setLoadComplete()
                                 }
                             }
-                            if (it.data != null && it.data.isNotEmpty()) {
-                                if (it.data.size < UriConstant.PER_PAGE) {
+                            if (it.data != null && it.data.list.isNotEmpty()) {
+                                if (it.data.list.size < UriConstant.PER_PAGE) {
                                     setLoadComplete()
                                 }
                             }
+                            mPage += 1
                         }
                         else -> if (mPage == 1) {
                             showError(it.msg, it.status)
@@ -49,6 +49,7 @@ class CartListPresenter : BasePresenter<CartListContract.View>(), CartListContra
                             loadMoreError(it.msg, it.status)
                         }
                     }
+                    dismissLoading()
                 }
             }, {
                 mRootView?.apply {
