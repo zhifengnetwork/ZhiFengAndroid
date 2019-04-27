@@ -11,21 +11,17 @@ import com.zf.mart.mvp.contract.ClassifyProductContract
 import com.zf.mart.mvp.presenter.ClassifyPresenter
 import com.zf.mart.mvp.presenter.ClassifyProductPresenter
 import com.zf.mart.ui.adapter.ClassifyRightAdapter
+import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.frament_classify_recommend.*
 
 
-
-
-
-
-
-
-class ClassifyRightFragment:BaseFragment(), ClassifyProductContract.View {
+class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
     override fun showError(msg: String, errorCode: Int) {
 
     }
 
     override fun setProduct(bean: List<ClassifyProductBean>) {
+        LogUtils.e(">>>>:"+bean)
         classifyProductData.addAll(bean)
         rightAdapter.notifyDataSetChanged()
     }
@@ -42,35 +38,35 @@ class ClassifyRightFragment:BaseFragment(), ClassifyProductContract.View {
     //在真正的开发中，每个界面的ID可能是不同的，所以这里会接收一个ID
     companion object {
         @JvmStatic
-        fun buildFragment(id: String,name:String): ClassifyRightFragment {
+        fun buildFragment(id: String, name: String): ClassifyRightFragment {
             val fragment = ClassifyRightFragment()
             val bundle = Bundle()
-            bundle.putString("name",name)
+            bundle.putString("name", name)
             bundle.putString("id", id)
             fragment.arguments = bundle
             return fragment
         }
     }
 
-    private var list= ArrayList<Int>()
+    private var list = ArrayList<Int>()
     //接收分类ID
-    private var id:String="110"
+    private var id: String = "110"
     //接收分类名字
-    private var classifyname:String=""
-    private val rightAdapter by lazy { ClassifyRightAdapter(context,classifyProductData,classifyname) }
+    private var classifyname: String = ""
+    private val rightAdapter by lazy { ClassifyRightAdapter(context, classifyProductData, classifyname) }
 
     //接收数据
     private val classifyProductData = ArrayList<ClassifyProductBean>()
     private val classifyProductPrediction by lazy { ClassifyProductPresenter() }
 
-    override fun getLayoutId(): Int=R.layout.frament_classify_recommend
+    override fun getLayoutId(): Int = R.layout.frament_classify_recommend
 
     override fun initView() {
         classifyProductPrediction.attachView(this)
 
 
-        id= arguments!!.getString("id")
-        classifyname=arguments!!.getString("name")
+        id = arguments!!.getString("id")
+        classifyname = arguments!!.getString("name")
 //        if(id=="为您推荐"){
 //            list.clear()
 //            for(i in 1..4){
@@ -82,13 +78,14 @@ class ClassifyRightFragment:BaseFragment(), ClassifyProductContract.View {
 //                list.add(i)
 //            }
 //        }
-        for(i in 1..4){
-                 list.add(i)
-            }
-        rightRecyclerView.layoutManager=LinearLayoutManager(context)
-        rightRecyclerView.adapter=rightAdapter
+        for (i in 1..4) {
+            list.add(i)
+        }
+        rightRecyclerView.layoutManager = LinearLayoutManager(context)
+        rightRecyclerView.adapter = rightAdapter
     }
-       /**懒加载*/
+
+    /**懒加载*/
     override fun lazyLoad() {
 
         classifyProductPrediction.requestClassifyProduct(id)
@@ -110,7 +107,6 @@ class ClassifyRightFragment:BaseFragment(), ClassifyProductContract.View {
         super.onStart()
 
     }
-
 
 
 //    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

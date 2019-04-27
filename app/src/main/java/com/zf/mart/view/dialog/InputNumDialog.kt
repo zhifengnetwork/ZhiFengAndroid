@@ -22,12 +22,12 @@ import kotlinx.android.synthetic.main.dialog_input_num.view.*
  */
 class InputNumDialog : DialogFragment() {
 
-    var onNumListener: ((String) -> Unit)? = null
+    var onNumListener: ((Int) -> Unit)? = null
 
     companion object {
 
-        var mNum: String = ""
-        fun showDialog(fragmentManager: FragmentManager, num: String): InputNumDialog {
+        var mNum: Int = 0
+        fun showDialog(fragmentManager: FragmentManager, num: Int): InputNumDialog {
             val receiveDialog = InputNumDialog()
 
             mNum = num
@@ -58,7 +58,7 @@ class InputNumDialog : DialogFragment() {
         view.apply {
 
 
-            numberInput.setText(mNum)
+            numberInput.setText(mNum.toString())
 
             /** 让光标移到后面 */
             numberInput.setSelection(numberInput.length())
@@ -103,7 +103,7 @@ class InputNumDialog : DialogFragment() {
 
             confirm.setOnClickListener {
                 if (numberInput.text.isNotEmpty() && numberInput.text.toString().toInt() > 0) {
-                    onNumListener?.invoke(numberInput.text.toString())
+                    onNumListener?.invoke(numberInput.text.toString().toInt())
                     dismiss()
                 }
             }

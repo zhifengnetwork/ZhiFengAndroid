@@ -1,121 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:background="@color/transparent"
-                android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="vertical">
 
-    <View android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_alignBottom="@+id/confirm"
-          android:layout_marginTop="15dp"
-          android:background="@color/whit"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/confirm"
+        android:layout_marginTop="15dp"
+        android:background="@color/whit" />
 
     <ImageView
-            android:layout_width="60dp"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/goodsIcon"
-            android:layout_height="60dp"
-            android:src="@drawable/pi_picture"/>
+        android:id="@+id/goodsIcon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/pi_picture" />
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_alignBottom="@+id/goodsIcon"
-            android:layout_toRightOf="@+id/goodsIcon"
-            android:layout_marginLeft="5dp"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@color/colorBlackText"
-            android:id="@+id/styleTxt"
-            android:text="请选择:款式"/>
+        android:id="@+id/styleTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/goodsIcon"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/goodsIcon"
+        android:text="请选择:款式"
+        android:textColor="@color/colorBlackText"
+        android:textSize="14sp" />
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:layout_below="@+id/styleTxt"
-              android:layout_marginTop="20dp"
-              android:id="@+id/styleTxt2"
-              android:layout_marginLeft="20dp"
-              android:textSize="12sp"
-              android:textColor="@color/colorBlackText"
-              android:text="款式"/>
+    <TextView
+        android:id="@+id/styleTxt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/styleTxt"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="款式"
+        android:textColor="@color/colorBlackText"
+        android:textSize="12sp" />
 
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_below="@+id/styleTxt2"
-                  android:layout_marginTop="10dp"
-                  android:layout_marginRight="20dp"
-                  android:layout_marginLeft="20dp"
-                  android:id="@+id/styleLayout"
-                  android:orientation="horizontal">
+    <LinearLayout
+        android:id="@+id/styleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/styleTxt2"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
 
         <com.zhy.view.flowlayout.TagFlowLayout
-                android:id="@+id/hotLayout"
-                android:layout_width="match_parent"
-                app:max_select="1"
-                android:layout_margin="10dp"
-                android:layout_height="wrap_content"/>
+            android:id="@+id/hotLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:max_select="1" />
 
     </LinearLayout>
 
-    <View android:layout_width="match_parent" android:layout_height="1px"
-          android:layout_marginTop="20dp"
-          android:id="@+id/view"
-          android:layout_below="@+id/styleLayout"
-          android:background="@color/colorLine"/>
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/styleLayout"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorLine" />
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="44dp"
-                  android:layout_below="@+id/view"
-                  android:paddingRight="20dp"
-                  android:paddingLeft="20dp"
-                  android:id="@+id/numLayout"
-                  android:gravity="center_vertical"
-                  android:orientation="horizontal">
-
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textSize="14sp"
-                  android:textColor="@color/colorBlackText"
-                  android:text="数量"/>
-
-        <Space android:layout_width="0dp" android:layout_height="1dp"
-               android:layout_weight="1"/>
-
-        <ImageView
-                android:id="@+id/reduce"
-                android:layout_width="wrap_content"
-                android:padding="10dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/selector_reduce"/>
+    <LinearLayout
+        android:id="@+id/numLayout"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_below="@+id/view"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
 
         <TextView
-                android:id="@+id/number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:textSize="12sp"
-                android:textColor="@color/colorBlackText"
-                android:paddingRight="10dp"
-                android:text="1"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="数量"
+            android:textColor="@color/colorBlackText"
+            android:textSize="14sp" />
 
-        <ImageView android:layout_width="wrap_content"
-                   android:id="@+id/increase"
-                   android:padding="10dp"
-                   android:layout_height="wrap_content"
-                   android:src="@drawable/increase"/>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/reduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@drawable/selector_reduce" />
+
+        <TextView
+            android:id="@+id/number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="1"
+            android:textColor="@color/colorBlackText"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/increase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@drawable/increase" />
 
     </LinearLayout>
 
     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@drawable/submit"
-            android:textColor="@color/whit"
-            android:textSize="15sp"
-            android:id="@+id/confirm"
-            android:gravity="center"
-            android:layout_below="@+id/numLayout"
-            android:text="确认"/>
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/numLayout"
+        android:background="@drawable/submit"
+        android:gravity="center"
+        android:text="确认"
+        android:textColor="@color/whit"
+        android:textSize="15sp" />
 
 </RelativeLayout>

@@ -10,7 +10,9 @@ data class SearchList(
         val sales_sum: String,
         val comment_count: String,
         val goods_images: List<GoodsImagesList>?,
-        val shop_price: String
+        val shop_price: String,
+        val sale_total: String,
+        val seller_name: String
 )
 
 data class GoodsImagesList(

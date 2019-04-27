@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/userAddress"
-        android:text="张三"
+        android:text=""
         android:textColor="#333333"
         android:textSize="15sp" />
 
@@ -25,7 +25,7 @@
         android:layout_alignTop="@+id/userName"
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/userName"
-        android:text="170000000"
+        android:text=""
         android:textColor="#333333"
         android:textSize="15sp" />
 
@@ -45,7 +45,7 @@
         android:layout_alignTop="@+id/locationImg"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/locationImg"
-        android:text="广东省广州市白云区"
+        android:text=""
         android:textColor="#333333"
         android:textSize="13sp" />
 

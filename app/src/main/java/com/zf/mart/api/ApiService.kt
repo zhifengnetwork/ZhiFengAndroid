@@ -195,7 +195,7 @@ interface ApiService {
     @POST("api/Cart/changeNum")
     fun cartCount(
             @Field("cart[id]") id: String,
-            @Field("cart[goods_num]") goods_num: String
+            @Field("cart[goods_num]") goods_num: Int
     ): Observable<BaseBean<CartSelectBean>>
 
     /**
@@ -379,5 +379,49 @@ interface ApiService {
     @Headers("Content-type:application/json")
     @POST("api/cart/delcart")
     fun requestDeleteCart(@Body id: RequestBody): Observable<BaseBean<CartSelectBean>>
+
+    /**
+     * 结算
+     * 提交订单通用api
+     * act-> 1:提交订单 0:结算
+     */
+    @FormUrlEncoded
+    @POST("api/order/post_order")
+    fun requestPostOrder(
+            @Field("act") act: Int,
+            @Field("address_id") address_id: String,
+            @Field("invoice_title") invoice_title: String,
+            @Field("taxpayer") taxpayer: String,
+            @Field("invoice_desc") invoice_desc: String,
+            @Field("coupon_id") coupon_id: String,
+            @Field("pay_points") pay_points: String,
+            @Field("user_money") user_money: String,
+            @Field("user_note") user_note: String,
+            @Field("pay_pwd") pay_pwd: String,
+            @Field("goods_id") goods_id: String,
+            @Field("goods_num") goods_num: String,
+            @Field("item_id") item_id: String,
+            @Field("action") action: String,
+            @Field("shop_id") shop_id: String,
+            @Field("take_time") take_time: String,
+            @Field("consignee") consignee: String,
+            @Field("mobile") mobile: String
+    ): Observable<BaseBean<PostOrderBean>>
+
+    /**
+     * 获取商品规格
+     */
+    @FormUrlEncoded
+    @POST("api/goods/goodsSpec")
+    fun requestGoodsSpec(@Field("goods_id") goods_id: String): Observable<BaseBean<SpecBean>>
+
+    /**
+     * 购物车
+     * 修改商品规格
+     */
+    @FormUrlEncoded
+    @POST("api/Cart/update_cart_spec")
+    fun requestChangeSpec(@Field("cart_id") cart_id: String,
+                          @Field("item_id") item_id: String): Observable<BaseBean<CartSelectBean>>
 
 }

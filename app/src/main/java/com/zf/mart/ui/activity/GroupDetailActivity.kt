@@ -170,13 +170,13 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View {
     override fun initEvent() {
 
         buySelfLayout.setOnClickListener {
-            val popWindow = object : GroupStylePopupWindow(
-                    this,
-                    R.layout.pop_order_style,
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            ) {}
-            popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+//            val popWindow = object : GroupStylePopupWindow(
+//                    this,
+//                    R.layout.pop_order_style,
+//                    LinearLayout.LayoutParams.MATCH_PARENT,
+//                    LinearLayout.LayoutParams.WRAP_CONTENT,
+//            ) {}
+//            popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
         }
 
 
