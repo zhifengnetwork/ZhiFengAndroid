@@ -9,10 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
-import com.zf.mart.ui.activity.ActionActivity
-import com.zf.mart.ui.activity.ChoiceActivity
-import com.zf.mart.ui.activity.MessageActivity
-import com.zf.mart.ui.activity.SearchActivity
+import com.zf.mart.ui.activity.*
 import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
 import com.zf.mart.ui.adapter.HomeSecKillAdapter
 import com.zf.mart.utils.GlideImageLoader
@@ -182,6 +179,7 @@ class HomeFragment : BaseFragment() {
         choice.setOnClickListener {
             ChoiceActivity.actionStart(context)
         }
+
     }
 
 

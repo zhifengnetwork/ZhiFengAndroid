@@ -240,6 +240,7 @@
                   android:taskAffinity="net.sourceforge.simcpux"
                   android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
+
     </application>
 
 </manifest>

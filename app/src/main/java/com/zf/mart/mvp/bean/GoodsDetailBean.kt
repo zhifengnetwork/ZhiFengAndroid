@@ -1,11 +1,11 @@
 package com.zf.mart.mvp.bean
 
 data class GoodsDetailBean(
-    val goods:GoodsInfo
+    val goods:GoodsInfo,
+    val goods_content:String
 )
 data class GoodsInfo(
     val goods_id:String,
-    val seller_id:String,
     val cat_id:String,
     val extend_cat_id:String,
     val goods_sn:String,
@@ -21,8 +21,6 @@ data class GoodsInfo(
     val price_ladder:String,
     val keywords:String,
     val goods_remark:String,
-    val goods_content:String,
-    val mobile_content:String,
     val original_img:String,
     val is_virtual:String,
     val is_distribut:String,
@@ -52,13 +50,15 @@ data class GoodsInfo(
     val sign_free_receive:String,
     val buy_super_nsign:String,
     val seller_info:Shop,
+    val is_collect:String,
+    val is_cart:String,
     val comment_fr:Comment,
     val goods_images:List<String>
+
+
 )
 data class Shop(
-    val store_id:String,
     val store_name:String,
-    val avatar:String,
     val num:String
 )
 data class Comment(

@@ -16,8 +16,8 @@ class GoodsDetailModel {
             .compose(SchedulerUtils.ioToMain())
     }
 
-    fun getGoodEva(goodId: String, type: Int, page: Int): Observable<BaseBean<GoodEvaBean>> {
-        return RetrofitManager.service.getGoodEva(goodId, type, page, UriConstant.PER_PAGE)
+    fun getGoodEva(goodId: String, type: Int, page: Int , num:Int): Observable<BaseBean<GoodEvaBean>> {
+        return RetrofitManager.service.getGoodEva(goodId, type, page, num)
             .compose(SchedulerUtils.ioToMain())
     }
 
@@ -28,6 +28,16 @@ class GoodsDetailModel {
 
     fun getGoodsFreight(goods_id: String, region_id: String, buy_num: String): Observable<BaseBean<GoodsFreightBean>> {
         return RetrofitManager.service.getGoodsFreight(goods_id, region_id, buy_num)
+            .compose(SchedulerUtils.ioToMain())
+    }
+
+    fun setCollectGoods(goods_id: String): Observable<BaseBean<Unit>>{
+        return RetrofitManager.service.setCollectGoods(goods_id)
+            .compose(SchedulerUtils.ioToMain())
+    }
+
+    fun delCollectGoods(goods_id: String): Observable<BaseBean<Unit>>{
+        return RetrofitManager.service.delCollectGoods(goods_id)
             .compose(SchedulerUtils.ioToMain())
     }
 }

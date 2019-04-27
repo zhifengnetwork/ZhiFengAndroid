@@ -8,23 +8,36 @@ interface GoodsDetailContract {
     interface View : IBaseView {
         fun showError(msg: String, errorCode: Int)
         //商品详情
-        fun getGoodsDetail(bean: GoodsInfo)
+        fun getGoodsDetail(bean: GoodsDetailBean)
+
         //商品评论
         fun setGoodEva(bean: List<GoodEvaList>)
+
         //获取地址列表
         fun getAddress(bean: List<AddressBean>)
-        //获得商品运费
-        fun getGoodsFreight(bean:GoodsFreightBean)
 
+        //获得商品运费
+        fun getGoodsFreight(bean: GoodsFreightBean)
+
+        //关注商品
+        fun setCollectGoods(msg: String)
+
+        //删除关注商品
+        fun delCollectGoods(msg: String)
+        //加入购物车
     }
 
     interface Presenter : IPresenter<View> {
-        fun requestGoodsDetail(goods_id:String)
+        fun requestGoodsDetail(goods_id: String)
 
-        fun requestGoodEva(goodId:String,type:Int,page: Int?)
+        fun requestGoodEva(goodId: String, type: Int, page: Int, num: Int)
 
         fun requestAddress()
 
-        fun requestGoodsFreight(goods_id:String,region_id:String,buy_num:String)
+        fun requestGoodsFreight(goods_id: String, region_id: String, buy_num: String)
+
+        fun requestCollectGoods(goods_id: String)
+
+        fun requestDelCollectGoods(goods_id: String)
     }
 }

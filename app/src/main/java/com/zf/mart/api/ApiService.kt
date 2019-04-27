@@ -28,8 +28,8 @@ interface ApiService {
     @POST("/api/user/login")
     @FormUrlEncoded
     fun login(
-            @Field("mobile") mobile: String,
-            @Field("password") password: String
+        @Field("mobile") mobile: String,
+        @Field("password") password: String
     ): Observable<BaseBean<LoginBean>>
 
     /**
@@ -50,9 +50,9 @@ interface ApiService {
      */
     @GET("api/order/order_list")
     fun getOrderList(
-            @Query("type") type: String,
-            @Query("page") page: Int,
-            @Query("perPage") perPage: Int
+        @Query("type") type: String,
+        @Query("page") page: Int,
+        @Query("perPage") perPage: Int
     ): Observable<BaseBean<List<OrderListBean>>>
 
     /**
@@ -68,14 +68,14 @@ interface ApiService {
     @POST("api/User/add_address")
     @FormUrlEncoded
     fun setAddressList(
-            @Field("consignee") consignee: String,
-            @Field("mobile") mobile: String,
-            @Field("province") province: String,
-            @Field("city") city: String,
-            @Field("district") district: String,
-            @Field("address") address: String,
-            @Field("label") label: String,
-            @Field("is_default") is_default: String
+        @Field("consignee") consignee: String,
+        @Field("mobile") mobile: String,
+        @Field("province") province: String,
+        @Field("city") city: String,
+        @Field("district") district: String,
+        @Field("address") address: String,
+        @Field("label") label: String,
+        @Field("is_default") is_default: String
     ): Observable<BaseBean<AddAddressBean>>
 
     /**
@@ -90,15 +90,15 @@ interface ApiService {
     @POST("api/User/edit_address")
     @FormUrlEncoded
     fun editAddress(
-            @Field("id") id: String,
-            @Field("consignee") consignee: String,
-            @Field("mobile") mobile: String,
-            @Field("province") province: String,
-            @Field("city") city: String,
-            @Field("district") district: String,
-            @Field("address") address: String,
-            @Field("label") label: String,
-            @Field("is_default") is_default: String
+        @Field("id") id: String,
+        @Field("consignee") consignee: String,
+        @Field("mobile") mobile: String,
+        @Field("province") province: String,
+        @Field("city") city: String,
+        @Field("district") district: String,
+        @Field("address") address: String,
+        @Field("label") label: String,
+        @Field("is_default") is_default: String
     ): Observable<BaseBean<EditAddressBean>>
 
     /**
@@ -132,17 +132,17 @@ interface ApiService {
      */
     @GET("api/Search/search")
     fun getSearchList(
-            @Query("q") q: String,
-            @Query("id") id: String,
-            @Query("brand_id") brand_id: String,
-            @Query("sort") sort: String,
-            @Query("sel") sel: String,
-            @Query("price") price: String,
-            @Query("start_price") start_price: String,
-            @Query("end_price") end_price: String,
-            @Query("sort_asc") sort_asc: String,
-            @Query("page") page: Int, //第几页
-            @Query("per_page") per_page: Int //每页多少条
+        @Query("q") q: String,
+        @Query("id") id: String,
+        @Query("brand_id") brand_id: String,
+        @Query("sort") sort: String,
+        @Query("sel") sel: String,
+        @Query("price") price: String,
+        @Query("start_price") start_price: String,
+        @Query("end_price") end_price: String,
+        @Query("sort_asc") sort_asc: String,
+        @Query("page") page: Int, //第几页
+        @Query("per_page") per_page: Int //每页多少条
     ): Observable<BaseBean<SearchBean>>
 
     /**
@@ -171,7 +171,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/groupbuy/getTeamFive")
     fun getGroupMember(
-            @Field("team_id") team_id: String
+        @Field("team_id") team_id: String
     ): Observable<BaseBean<GroupDetailBean>>
 
     /**
@@ -180,12 +180,12 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/User/update_username")
     fun updateUserInfo(
-            @Field("nickname") nickname: String,
-            @Field("mobile") mobile: String,
-            @Field("sex") sex: String,
-            @Field("birthyear") birthyear: String,
-            @Field("birthmonth") birthmonth: String,
-            @Field("birthday") birthday: String
+        @Field("nickname") nickname: String,
+        @Field("mobile") mobile: String,
+        @Field("sex") sex: String,
+        @Field("birthyear") birthyear: String,
+        @Field("birthmonth") birthmonth: String,
+        @Field("birthday") birthday: String
     ): Observable<BaseBean<ChangeUserBean>>
 
     /**
@@ -204,8 +204,8 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/activity/auction_list")
     fun getAuctionList(
-            @Field("page") page: Int,
-            @Field("num") num: Int
+        @Field("page") page: Int,
+        @Field("num") num: Int
     ): Observable<BaseBean<AuctionBean>>
 
     /**
@@ -214,7 +214,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/auction/auction_detail")
     fun getAuctionDetail(
-            @Field("id") id: String
+        @Field("id") id: String
     ): Observable<BaseBean<AuctionDetailBean>>
 
     /**
@@ -229,10 +229,10 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/activity/flash_sale_list")
     fun getSecKillList(
-            @Field("start_time") start_time: String,
-            @Field("end_time") end_time: String,
-            @Field("page") page: Int,
-            @Field("num") num: Int
+        @Field("start_time") start_time: String,
+        @Field("end_time") end_time: String,
+        @Field("page") page: Int,
+        @Field("num") num: Int
     ): Observable<BaseBean<SecKillListBean>>
 
     /**
@@ -241,7 +241,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/activity/flash_sale_info")
     fun getSecKillDetail(
-            @Field("id") id: String
+        @Field("id") id: String
     ): Observable<BaseBean<SecKillDetailBean>>
 
     /**
@@ -251,7 +251,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/auction/GetAucMaxPrice")
     fun getAuctionPrice(
-            @Field("aid") aid: String
+        @Field("aid") aid: String
     ): Observable<BaseBean<AuctionPriceBean>>
 
     /**
@@ -261,8 +261,8 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/auction/offerPrice")
     fun requestBid(
-            @Field("auction_id") auction_id: String,
-            @Field("price") price: String
+        @Field("auction_id") auction_id: String,
+        @Field("price") price: String
     ): Observable<BaseBean<Unit>>
 
 
@@ -272,7 +272,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/Activity/coupon_list")
     fun getDiscount(
-            @Field("status") status: String
+        @Field("status") status: String
     ): Observable<BaseBean<List<DiscountBean>>>
 
     /**
@@ -282,25 +282,37 @@ interface ApiService {
     fun getMyFollow(): Observable<BaseBean<List<MyFollowBean>>>
 
     /**
+     * 点击关注商品
+     */
+    @FormUrlEncoded
+    @POST("api/Goods/collect_goods")
+    fun setCollectGoods(@Field("goods_id") goods_id: String): Observable<BaseBean<Unit>>
+
+    /**
+    * 点击删除关注商品
+    */
+    @FormUrlEncoded
+    @POST("api/Goods/del_collect_goods")
+    fun delCollectGoods(@Field("goods_id") goods_id: String): Observable<BaseBean<Unit>>
+    /**
      *  获取商品评论
      */
     @FormUrlEncoded
     @POST("api/goods/getGoodsComment")
     fun getGoodEva(
-            @Field("goods_id") goods_id: String,
-            @Field("commentType") commentType: Int,
-            @Field("page") page: Int,
-            @Field("num") num: Int
+        @Field("goods_id") goods_id: String,
+        @Field("commentType") commentType: Int,
+        @Field("page") page: Int,
+        @Field("num") num: Int
     ): Observable<BaseBean<GoodEvaBean>>
 
     /**
-    <<<<<<< HEAD
      *  获取商品详情
      */
     @FormUrlEncoded
     @POST("api/goods/goodsInfo")
     fun getGoodsDetail(
-            @Field("goods_id") goods_id: String
+        @Field("goods_id") goods_id: String
     ): Observable<BaseBean<GoodsDetailBean>>
 
     /**
@@ -309,9 +321,9 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/goods/dispatching")
     fun getGoodsFreight(
-            @Field("goods_id") goods_id: String,
-            @Field("region_id") region_id: String,
-            @Field("buy_num") buy_num: String
+        @Field("goods_id") goods_id: String,
+        @Field("region_id") region_id: String,
+        @Field("buy_num") buy_num: String
     ): Observable<BaseBean<GoodsFreightBean>>
 
     /**
@@ -320,7 +332,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/goods/goodsAttr")
     fun getGoodsAttr(
-            @Field("goods_id") goods_id: String
+        @Field("goods_id") goods_id: String
     ): Observable<BaseBean<GoodsAttrBean>>
 
     /**
@@ -360,7 +372,7 @@ interface ApiService {
     @Headers("Content-type:application/json")
     @POST("api/Cart/AsyncUpdateCart")
     fun requestCartSelect(
-            @Body cart: RequestBody
+        @Body cart: RequestBody
     ): Observable<BaseBean<CartSelectBean>>
 
 
@@ -370,7 +382,7 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/Cart/selectedOrAll")
     fun requestCartCheckAll(
-            @Field("all_flag") all_flag: Int
+        @Field("all_flag") all_flag: Int
     ): Observable<BaseBean<CartSelectBean>>
 
     /**

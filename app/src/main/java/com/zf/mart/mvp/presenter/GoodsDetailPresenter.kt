@@ -7,7 +7,6 @@ import com.zf.mart.mvp.model.GoodsDetailModel
 import com.zf.mart.net.exception.ExceptionHandle
 
 class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDetailContract.Presenter {
-
     private val model by lazy { GoodsDetailModel() }
     override fun requestGoodsDetail(goods_id: String) {
         checkViewAttached()
@@ -19,13 +18,13 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
                     when (it.status) {
                         0 -> {
                             if (it.data != null) {
-                                getGoodsDetail(it.data.goods)
+                                getGoodsDetail(it.data)
                             }
                         }
-                        else -> showError(it.msg,it.status)
+                        else -> showError(it.msg, it.status)
                     }
                 }
-            },{
+            }, {
                 mRootView?.apply {
                     dismissLoading()
                     showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
@@ -34,22 +33,20 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
         addSubscription(disposable)
     }
 
-    private var mPage = 1
-    override fun requestGoodEva(goodId: String, type: Int, page: Int?) {
-        mPage = page ?: mPage
 
+    override fun requestGoodEva(goodId: String, type: Int, page: Int, num: Int) {
         checkViewAttached()
         mRootView?.showLoading()
-        val disposable = model.getGoodEva(goodId, type, mPage)
+        val disposable = model.getGoodEva(goodId, type, page, num)
             .subscribe({
                 mRootView?.apply {
                     when (it.status) {
-                        0 ->{
-                            if (it.data!=null){
+                        0 -> {
+                            if (it.data != null) {
                                 setGoodEva(it.data.commentlist)
                             }
                         }
-                        else -> showError(it.msg,it.status)
+                        else -> showError(it.msg, it.status)
                     }
                     dismissLoading()
                 }
@@ -71,7 +68,7 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
                     dismissLoading()
                     when (it.status) {
                         0 -> {
-                            if (it.data!=null){
+                            if (it.data != null) {
                                 getAddress(it.data)
                             }
                         }
@@ -90,17 +87,38 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
     override fun requestGoodsFreight(goods_id: String, region_id: String, buy_num: String) {
         checkViewAttached()
         mRootView?.showLoading()
-        val disposable = model.getGoodsFreight(goods_id,region_id,buy_num)
+        val disposable = model.getGoodsFreight(goods_id, region_id, buy_num)
             .subscribe({
                 mRootView?.apply {
                     dismissLoading()
-                    when(it.status){
-                        0 ->{
-                            if (it.data!=null){
+                    when (it.status) {
+                        0 -> {
+                            if (it.data != null) {
                                 getGoodsFreight(it.data)
                             }
                         }
-                        else ->showError(it.msg,it.status)
+                        else -> showError(it.msg, it.status)
+                    }
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
+        addSubscription(disposable)
+    }
+
+    override fun requestCollectGoods(goods_id: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.setCollectGoods(goods_id)
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> setCollectGoods(it.msg)
+                        else -> showError(it.msg, it.status)
                     }
                 }
             },{
@@ -112,5 +130,25 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
         addSubscription(disposable)
     }
 
+    override fun requestDelCollectGoods(goods_id: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.delCollectGoods(goods_id)
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> delCollectGoods(it.msg)
+                        else -> showError(it.msg, it.status)
+                    }
+                }
+            },{
+                mRootView?.apply {
+                    dismissLoading()
+                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
+        addSubscription(disposable)
+    }
 
 }

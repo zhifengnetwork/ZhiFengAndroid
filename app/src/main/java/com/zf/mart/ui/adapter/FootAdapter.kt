@@ -33,18 +33,29 @@ class FootAdapter(val context: Context, val data: ArrayList<MyFootBean>) :
         return ViewHolder(view)
     }
 
+    //记录选中的ID
     val checkList = ArrayList<String>()
 
-    private var mIfAllChoose = false
     //是否全部选中
     fun setIfAllChoose(ifAllChoose: Boolean) {
-        mIfAllChoose = ifAllChoose
-        notifyDataSetChanged()
+        // 如果 全选，则全部添加到checkList
+        //修改select值为1
+        if (ifAllChoose) {
+            for (i in 0 until data.size) {
+                data[i].select = 1
+                checkList.add(data[i].visit_id)
+            }
+        }
         // 如果取消全选，则清空 checkList
-        //可以用tag保存商品的id来保存
-        if (!ifAllChoose) {
+        //修改select值为0
+        else {
+            for (i in 0 until data.size) {
+                data[i].select = 0
+            }
             checkList.clear()
         }
+        notifyDataSetChanged()
+
     }
 
     private var mIfEdit = false
@@ -66,6 +77,7 @@ class FootAdapter(val context: Context, val data: ArrayList<MyFootBean>) :
 
         //取消全选
         fun unCheckAll()
+
     }
 
 
@@ -75,30 +87,33 @@ class FootAdapter(val context: Context, val data: ArrayList<MyFootBean>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
 
-            GlideUtils.loadUrlImage(context,data[position].original_img,goodsIcon)
+            GlideUtils.loadUrlImage(context, "https://mobile.zhifengwangluo.c3w.cc"+data[position].original_img, goodsIcon)
 
             goodsName.text = data[position].goods_name
 
-            shop_price.text=data[position].shop_price
+            shop_price.text = data[position].shop_price
 
-            hasPay.text="已付款"+data[position].sales_sum
+            hasPay.text = "已付款" + data[position].sales_sum
 
-            hasEva.text="已评价"+data[position].comment_count
+            hasEva.text = "已评价" + data[position].comment_count
 
             //是否显示选择框
             checkBox.visibility = if (mIfEdit) View.VISIBLE else View.GONE
+            //该项是否选中
+            checkBox.isChecked = data[position].select != 0
 
-            //是否全部选中
-            checkBox.isChecked = mIfAllChoose
 
+            checkBox.setOnClickListener {
 
-            checkBox.setOnCheckedChangeListener { _, isChecked ->
-                //遍历所有item的选择框，更改FootActivity的全选按钮的选中状态
-                if (isChecked) {
+                if (checkBox.isChecked) {
+                    //修改实体类的判断选中值
                     checkList.add(data[position].visit_id)
+                    data[position].select = 1
                 } else {
-                     checkList.remove(data[position].visit_id)
+                    checkList.remove(data[position].visit_id)
+                    data[position].select = 0
                 }
+
                 if (checkList.size == data.size) {
                     mListener?.checkAll()
                 } else {

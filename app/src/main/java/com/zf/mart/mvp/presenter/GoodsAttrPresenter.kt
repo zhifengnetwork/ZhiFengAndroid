@@ -18,7 +18,7 @@ class GoodsAttrPresenter : BasePresenter<GoodsAttrContract.View>(), GoodsAttrCon
                     when (it.status) {
                         0 -> {
                             if (it.data != null) {
-                                getGoodsAttr(it.data)
+                                getGoodsAttr(it.data.goods_attribute)
                             }
                         }
                         else -> showError(it.msg, it.status)
