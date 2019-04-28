@@ -43,7 +43,7 @@ class ClassifyRightAdapter(val context: Context?, val mData:ArrayList<ClassifyPr
 //            }
 //        }
 
-        return oneViewHolder(view)
+        return ViewHolder(view)
     }
 
     override fun getItemCount(): Int = 1
@@ -93,6 +93,6 @@ class ClassifyRightAdapter(val context: Context?, val mData:ArrayList<ClassifyPr
 //        return type
 //    }
 
-    class oneViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
 }

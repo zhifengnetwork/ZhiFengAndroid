@@ -6,13 +6,34 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.mvp.bean.MyWalletBean
+import com.zf.mart.mvp.contract.MyWalletContract
+import com.zf.mart.mvp.presenter.MyWalletPresenter
 import com.zf.mart.utils.StatusBarUtils
+import kotlinx.android.synthetic.main.activity_wallet.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 /**
  * 我的钱包
  */
-class WalletActivity : BaseActivity() {
+class WalletActivity : BaseActivity(), MyWalletContract.View {
+    override fun showError(msg: String, errorCode: Int) {
+
+    }
+
+    override fun getMyWallet(bean: MyWalletBean) {
+        mData = bean
+
+        setLayout()
+    }
+
+    override fun showLoading() {
+
+    }
+
+    override fun dismissLoading() {
+
+    }
 
     companion object {
         fun actionStart(context: Context?) {
@@ -36,6 +57,11 @@ class WalletActivity : BaseActivity() {
         }
     }
 
+    //网络接收数据
+    private var mData: MyWalletBean? = null
+
+    private val presenter by lazy { MyWalletPresenter() }
+
     override fun layoutId(): Int = R.layout.activity_wallet
 
     override fun initData() {
@@ -43,12 +69,33 @@ class WalletActivity : BaseActivity() {
 
 
     override fun initView() {
+        presenter.attachView(this)
 
     }
 
     override fun initEvent() {
+        //账单明细
+        accountState.setOnClickListener {
+            AccountDetailsActivity.actionStart(this)
+        }
     }
 
     override fun start() {
+        presenter.requestMyWallet()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
+    }
+
+    //界面赋值
+    private fun setLayout() {
+        //账户余额
+        user_money.text = mData?.user_money
+        //用户积分
+        pay_points.text = mData?.pay_points
+        //优惠卷数
+        coupon_num.text = mData?.coupon_num
     }
 }
