@@ -41,11 +41,11 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
     implementation 'androidx.core:core-ktx:1.1.0-alpha05'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha5'
     implementation 'com.android.support:design:28.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
+    androidTestImplementation 'androidx.test:runner:1.2.0-alpha04'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha04'
 
     implementation 'com.google.android.material:material:1.1.0-alpha05'
     //recyclerView
@@ -70,7 +70,7 @@ dependencies {
     //SmartRefreshLayout
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-4'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-4'
-    /** ktx是kotlin扩展程序 */
+    // ktx是kotlin扩展程序
     implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0'
     implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0'
     //上拉滑动上滑拖出 类似百度地图抽屉拖拽效果
@@ -101,8 +101,8 @@ dependencies {
     // 首页的秒杀 无需混淆
     implementation 'com.github.paradoxie:AutoVerticalTextview:0.1'
     //选择器
-    implementation 'cn.carbswang.android:NumberPickerView:1.1.1'
-    implementation 'com.contrarywind:Android-PickerView:4.1.7'
+//    implementation 'cn.carbswang.android:NumberPickerView:1.1.1'
+    implementation 'com.contrarywind:Android-PickerView:4.1.8'
     //精选底部图片轮播
     implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
 
