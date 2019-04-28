@@ -48,9 +48,9 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
         }
     }
 
-    private var list = ArrayList<Int>()
     //接收分类ID
     private var id: String = "110"
+
     //接收分类名字
     private var classifyname: String = ""
     private val rightAdapter by lazy { ClassifyRightAdapter(context, classifyProductData, classifyname) }
@@ -64,23 +64,10 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
     override fun initView() {
         classifyProductPrediction.attachView(this)
 
+        id = arguments?.getString("id").toString()
 
-        id = arguments!!.getString("id")
-        classifyname = arguments!!.getString("name")
-//        if(id=="为您推荐"){
-//            list.clear()
-//            for(i in 1..4){
-//                list.add(i)
-//            }
-//        }else if(id=="美容彩妆"){
-//            list.clear()
-//            for(i in 1..2){
-//                list.add(i)
-//            }
-//        }
-        for (i in 1..4) {
-            list.add(i)
-        }
+        classifyname = arguments?.getString("name").toString()
+
         rightRecyclerView.layoutManager = LinearLayoutManager(context)
         rightRecyclerView.adapter = rightAdapter
     }
@@ -103,19 +90,5 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
         classifyProductPrediction.detachView()
     }
 
-    override fun onStart() {
-        super.onStart()
 
-    }
-
-
-//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        return super.onCreateView(inflater, container, savedInstanceState)
-//        return inflater.inflate(R.layout.frament_classify_recommend,container, false)
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        //        test_tv.text = "我是分类界面" + arguments?.getString("id")
-//    }
 }

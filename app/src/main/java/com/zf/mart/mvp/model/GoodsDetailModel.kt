@@ -40,4 +40,9 @@ class GoodsDetailModel {
         return RetrofitManager.service.delCollectGoods(goods_id)
             .compose(SchedulerUtils.ioToMain())
     }
+
+    fun setRegister(goods_id: String,goods_num:String,item_id:String):Observable<BaseBean<Unit>>{
+        return RetrofitManager.service.requestRegister(goods_id,goods_num, item_id)
+            .compose(SchedulerUtils.ioToMain())
+    }
 }

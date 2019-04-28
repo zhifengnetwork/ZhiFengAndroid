@@ -21,6 +21,7 @@ import com.zf.mart.base.BaseActivity
 import com.zf.mart.mvp.bean.*
 import com.zf.mart.mvp.contract.GoodsDetailContract
 import com.zf.mart.mvp.presenter.GoodsDetailPresenter
+import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.*
 import com.zf.mart.ui.fragment.graphic.GraphicFragment
 import com.zf.mart.ui.fragment.graphic.OrderAnswerFragment
@@ -48,7 +49,7 @@ import kotlinx.android.synthetic.main.pop_goodsdetail.view.*
 class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
     override fun showError(msg: String, errorCode: Int) {
-
+        showToast(msg)
     }
 
     //获得商品详情
@@ -80,12 +81,18 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
     //点击关注商品
     override fun setCollectGoods(msg: String) {
-
+        showToast(msg)
     }
 
     //点击取消关注商品
     override fun delCollectGoods(msg: String) {
+        showToast(msg)
+    }
 
+    //加入购物车
+    override fun setRegister(msg: String) {
+        showToast(msg)
+        cart.isChecked = true
     }
 
     override fun showLoading() {
@@ -345,6 +352,29 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
             }
             regionPopWindow.updata()
             regionPopWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+        }
+
+        //收藏按钮
+        collect.setOnClickListener {
+            if (collect.isChecked) {
+                presenter.requestCollectGoods(mData?.goods?.goods_id.toString())
+
+            } else {
+                presenter.requestDelCollectGoods(mData?.goods?.goods_id.toString())
+            }
+        }
+
+        //加入购物车
+        shop_cat.setOnClickListener {
+            //商品ID 数量（默认1） 规格ID
+            presenter.requestRegister(mData?.goods?.goods_id.toString(), "1", "")
+        }
+        //购物车复选框
+        cart.setOnCheckedChangeListener { _, isChecked ->
+            //选中亮图标 未选中在购物车删除该商品
+            if (isChecked) {
+
+            }
         }
 
     }

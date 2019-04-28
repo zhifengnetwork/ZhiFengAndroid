@@ -82,6 +82,18 @@ class BonusActivity : BaseActivity(), BonusContract.View {
     }
 
     override fun initEvent() {
+        //升级会员
+        buy_member.setOnClickListener {
+            BuyMemberActivity.actionStart(this)
+        }
+        //分润商品
+        share_goods.setOnClickListener {
+            ShareGoodsActivity.actionStart(this)
+        }
+        //我的会员
+        my_member.setOnClickListener {
+            MyMemberActivity.actionStart(this)
+        }
 
     }
 

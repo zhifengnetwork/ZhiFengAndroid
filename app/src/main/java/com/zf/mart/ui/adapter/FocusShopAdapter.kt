@@ -7,17 +7,26 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.mvp.bean.FollowShopList
+import com.zf.mart.utils.GlideUtils
+import kotlinx.android.synthetic.main.item_focus_shop.view.*
 import kotlinx.android.synthetic.main.item_focus_shop_main.view.*
 
-class FocusShopAdapter(val context: Context?) : RecyclerView.Adapter<FocusShopAdapter.ViewHolder>() {
+class FocusShopAdapter(val context: Context?,val data:List<FollowShopList>) : RecyclerView.Adapter<FocusShopAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_focus_shop_main, parent, false)
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = 5
+    override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.itemView.apply {
+            //店铺头像
+             GlideUtils.loadUrlImage(context,data[position].avatar,shopImg)
+            //店铺名字
+            shopName.text=data[position].seller_name
+        }
         holder.itemView.delete.setOnClickListener {
             Toast.makeText(context, "删除:$position", Toast.LENGTH_SHORT).show()
         }

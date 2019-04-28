@@ -104,8 +104,9 @@ class ClassifyFragment : BaseFragment(),EasyPermissions.PermissionCallbacks,Clas
 
         /** 右边分类商品列表 */
         //给右边的viewpager设置adapter
-//        mPagerAdapter=ClassifyPagerAdapter(childFragmentManager,classifyData)
+        //上下翻页动画
         rightViewPager.setPageTransformer(true, DefaultTransformer())
+        //禁止左右滑动
         rightViewPager.setNoScroll(true)
         rightViewPager.adapter=mPagerAdapter
 

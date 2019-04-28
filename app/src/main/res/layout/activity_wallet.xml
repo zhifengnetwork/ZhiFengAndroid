@@ -37,6 +37,7 @@
                 android:text="金库总额"/>
 
         <TextView
+                android:id="@+id/user_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
@@ -56,6 +57,7 @@
                    android:layout_weight="1"/>
 
             <TextView
+                    android:id="@+id/pay_points"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/integration"
@@ -66,6 +68,7 @@
                     android:text="32000分"/>
 
             <TextView
+                    android:id="@+id/coupon_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/preferential"

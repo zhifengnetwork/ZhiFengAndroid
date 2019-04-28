@@ -283,6 +283,12 @@ interface ApiService {
     fun getMyFollow(): Observable<BaseBean<List<MyFollowBean>>>
 
     /**
+     * 我关注的店铺
+     */
+    @GET("api/user/register")
+    fun getMyFollowShop(): Observable<BaseBean<MyFollowShop>>
+
+    /**
      * 点击关注商品
      */
     @FormUrlEncoded
@@ -338,6 +344,13 @@ interface ApiService {
     ): Observable<BaseBean<GoodsAttrBean>>
 
     /**
+     *  获取商品规格
+     */
+    @FormUrlEncoded
+    @POST("api/goods/goodsSpec")
+    fun getGoodsSpec()
+
+    /**
      * 我的---足迹
      */
     @GET("api/User/visit_log")
@@ -365,8 +378,14 @@ interface ApiService {
     /**
      * 我的--会员
      */
-    @GET("api/User/team_list")
-    fun getMyVip(): Observable<BaseBean<List<MyVipBean>>>
+    @POST("api/User/team_list")
+    fun getMyMember(): Observable<BaseBean<List<MyMemberBean>>>
+
+    /**
+     * 我的--钱包
+     */
+    @GET("api/User/my_wallet")
+    fun getMyWallet(): Observable<BaseBean<MyWalletBean>>
 
     /**
      * 购物车选中状态
@@ -393,6 +412,17 @@ interface ApiService {
     @Headers("Content-type:application/json")
     @POST("api/cart/delcart")
     fun requestDeleteCart(@Body id: RequestBody): Observable<BaseBean<CartSelectBean>>
+
+    /**
+     * 添加购物车
+     */
+    @FormUrlEncoded
+    @POST("api/user/register")
+    fun requestRegister(
+        @Field("goods_id") goods_id: String,
+        @Field("goods_num") goods_num: String,
+        @Field("item_id") item_id: String
+    ): Observable<BaseBean<Unit>>
 
     /**
      * 结算

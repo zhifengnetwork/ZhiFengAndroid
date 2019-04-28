@@ -7,7 +7,9 @@ import com.zf.mart.mvp.model.GoodsDetailModel
 import com.zf.mart.net.exception.ExceptionHandle
 
 class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDetailContract.Presenter {
+
     private val model by lazy { GoodsDetailModel() }
+
     override fun requestGoodsDetail(goods_id: String) {
         checkViewAttached()
         mRootView?.showLoading()
@@ -121,7 +123,7 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
                         else -> showError(it.msg, it.status)
                     }
                 }
-            },{
+            }, {
                 mRootView?.apply {
                     dismissLoading()
                     showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
@@ -142,7 +144,7 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
                         else -> showError(it.msg, it.status)
                     }
                 }
-            },{
+            }, {
                 mRootView?.apply {
                     dismissLoading()
                     showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
@@ -151,4 +153,24 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
         addSubscription(disposable)
     }
 
+    override fun requestRegister(goods_id: String, goods_num: String, item_id: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.setRegister(goods_id, goods_num, item_id)
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> setRegister(it.msg)
+                        else -> showError(it.msg, it.status)
+                    }
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
+        addSubscription(disposable)
+    }
 }

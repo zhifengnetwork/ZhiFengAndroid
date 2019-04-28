@@ -34,7 +34,7 @@ class FocusGoodsAdapter(val context: Context?, val data: List<MyFollowBean>) :
             //商品的名字
             goodsName.text=mData[position].goods_name
             //商品的图片
-            GlideUtils.loadUrlImage(context,mData[position].original_img,goodsIcon)
+            GlideUtils.loadUrlImage(context,"https://mobile.zhifengwangluo.c3w.cc"+mData[position].original_img,goodsIcon)
             //商品的规格
 
             same.setOnClickListener {

@@ -24,7 +24,9 @@ interface GoodsDetailContract {
 
         //删除关注商品
         fun delCollectGoods(msg: String)
+
         //加入购物车
+        fun setRegister(msg: String)
     }
 
     interface Presenter : IPresenter<View> {
@@ -39,5 +41,7 @@ interface GoodsDetailContract {
         fun requestCollectGoods(goods_id: String)
 
         fun requestDelCollectGoods(goods_id: String)
+
+        fun requestRegister(goods_id: String, goods_num: String, item_id: String)
     }
 }
