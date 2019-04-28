@@ -22,14 +22,16 @@
             android:layout_gravity="center_vertical"
             android:button="@null"
             android:drawableLeft="@drawable/selector_all_choose"
-            android:padding="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="10dp"
             android:textColor="@color/colorPrimaryText"
             android:textSize="12sp"
             android:visibility="visible" />
 
         <ImageView
             android:id="@+id/goodsIcon"
-            android:layout_width="105dp"
+            android:layout_width="95dp"
             android:layout_height="85dp"
             android:background="@color/colorBackground"
             android:scaleType="centerCrop" />
@@ -105,14 +107,17 @@
                     android:layout_height="wrap_content"
                     android:background="#f9f9f9"
                     android:drawableRight="@drawable/down"
-                    android:drawablePadding="5dp"
-                    android:paddingLeft="12dp"
+                    android:drawablePadding="3dp"
+                    android:ellipsize="end"
+                    android:maxWidth="120dp"
+                    android:maxLines="2"
+                    android:paddingLeft="5dp"
                     android:paddingTop="5dp"
-                    android:paddingRight="12dp"
+                    android:paddingRight="5dp"
                     android:paddingBottom="5dp"
                     android:text="官方标配"
                     android:textColor="#666666"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
             </LinearLayout>
 

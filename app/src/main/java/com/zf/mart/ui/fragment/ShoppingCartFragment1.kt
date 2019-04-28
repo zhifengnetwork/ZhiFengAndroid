@@ -156,8 +156,9 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
             if (key == it.seller_name) it.seller_name else it.seller_name
         }
         val shopList = ArrayList<CartBean>()
+
         result.forEach {
-            shopList.add(CartBean(it.value as ArrayList<CartGoodsList>, it.key))
+            shopList.add(CartBean(it.value as ArrayList<CartGoodsList>, it.key ?: ""))
         }
 
         /**
@@ -180,7 +181,6 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
 
     //加载下一页成功
     override fun setLoadMoreCart(bean: CartBean) {
-
         /** 重组数据 */
         val result = bean.list.groupBy {
             val key = it.seller_name
@@ -188,7 +188,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         }
         val shopList = ArrayList<CartBean>()
         result.forEach {
-            shopList.add(CartBean(it.value as ArrayList<CartGoodsList>, it.key))
+            shopList.add(CartBean(it.value as ArrayList<CartGoodsList>, it.key ?: ""))
         }
 
         /**
@@ -340,11 +340,20 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         settle.setOnClickListener { _ ->
             //获取选中的id
             if (management.isSelected) {
+                /**
+                 *  删除
+                 *  如果未勾选到商品，不能结算
+                 */
+                var sum = 0
+                cartData.forEach {
+                    if (it.selected == "1") sum += 1
+                }
+                if (sum < 1) {
+                    showToast("请先选择商品")
+                    return@setOnClickListener
+                }
                 DeleteCartDialog.showDialog(childFragmentManager, 1)
                         .onConfirmListener = {
-                    /**
-                     *  删除
-                     */
                     val deleteList = ArrayList<HashMap<String, String>>()
                     cartData.forEach { shop ->
                         shop.list.forEach { goods ->
@@ -363,8 +372,17 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
             } else {
                 /**
                  * 结算
+                 * 如果未勾选到商品，不能结算
                  */
-                ConfirmOrderActivity.actionStart(context)
+                var sum = 0
+                cartData.forEach {
+                    if (it.selected == "1") sum += 1
+                }
+                if (sum > 0) {
+                    ConfirmOrderActivity.actionStart(context)
+                } else {
+                    showToast("请先选择商品")
+                }
             }
         }
 
@@ -439,55 +457,5 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
 //
 //    }
 
-
-    /** 手动添加多条数据 */
-    //        cartData.addAll(
-//
-//            arrayListOf(
-//                ShopList(
-//                    "小米",
-//                    arrayListOf(
-//                        CartGoodsList(
-//                            "1", "12", "5",
-//                            Goods("mi2", "1", "34", "12"),
-//                            "231", "0"
-//                        )
-//                    ),
-//                    ""
-//                ),
-//                ShopList(
-//                    "hua wei",
-//                    arrayListOf(
-//                        CartGoodsList(
-//                            "1", "12", "5",
-//                            Goods("hw 3", "1", "34", "12"),
-//                            "232", "1"
-//                        ),
-//                        CartGoodsList(
-//                            "1", "12", "5",
-//                            Goods("hw4", "1", "34", "12"),
-//                            "232", "1"
-//                        )
-//                    ),
-//                    ""
-//                ),
-//                ShopList(
-//                    "vi vo",
-//                    arrayListOf(
-//                        CartGoodsList(
-//                            "1", "12", "5",
-//                            Goods("vivo 19", "1", "34", "12"),
-//                            "232", "0"
-//                        ),
-//                        CartGoodsList(
-//                            "1", "12", "5",
-//                            Goods("vivo 20", "1", "34", "12"),
-//                            "232", "1"
-//                        )
-//                    ),
-//                    ""
-//                )
-//            )
-//        )
 
 }

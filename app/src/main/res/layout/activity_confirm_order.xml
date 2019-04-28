@@ -29,9 +29,9 @@
                 android:id="@+id/goodsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/shape_round_whit_big"
                 android:nestedScrollingEnabled="false"
                 android:overScrollMode="never" />
@@ -39,6 +39,9 @@
 
             <!-- 使用余额，快递等 -->
             <!--<include layout="@layout/layout_order_option" />-->
+
+            <include layout="@layout/layout_order_other" />
+
 
             <include layout="@layout/layout_order_price" />
 

@@ -22,15 +22,29 @@ import com.zf.mart.view.popwindow.OrderPayPopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.activity_confirm_order.*
 import kotlinx.android.synthetic.main.layout_en_order_address.*
+import kotlinx.android.synthetic.main.layout_order_other.*
 import kotlinx.android.synthetic.main.layout_order_price.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
 
-    override fun showError(msg: String, errorCode: Int) {
-        showToast(msg)
+    /** 提交订单成功*/
+    override fun setConfirmOrder(bean: PostOrderBean) {
+        val window = object : OrderPayPopupWindow(
+                this, R.layout.pop_order_pay,
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,mTotalPrice
+        ) {}
+        window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+        window.onConfirmPayListener = {
+
+        }
     }
 
+
+    private var mAddressId = ""
+    private var mTotalPrice = ""
+
+    /** 结算 */
     override fun setPostOrder(bean: PostOrderBean) {
         goodsData.clear()
         goodsData.addAll(bean.goodsinfo)
@@ -44,21 +58,28 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
             marginPrice.text = "¥ ${it.deposit}"
             userMoney.text = "¥ ${it.user_money}"
             totalPrice.text = "¥ ${it.total_amount}"
+            mTotalPrice = it.total_amount
         }
 
         bean.address.let {
             userName.text = it.consignee
             userPhone.text = it.mobile
             userAddress.text = "${it.province_name}${it.city_name}${it.district_name}${it.address}"
+            mAddressId = it.address_id
         }
 
+    }
 
+    override fun showError(msg: String, errorCode: Int) {
+        showToast(msg)
     }
 
     override fun showLoading() {
+        showLoadingDialog()
     }
 
     override fun dismissLoading() {
+        dismissLoadingDialog()
     }
 
     companion object {
@@ -107,6 +128,7 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
         goodsRecyclerView.addItemDecoration(rvDivider)
     }
 
+    //选择地址回调
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (mRequestCode == requestCode && AddressActivity.mResultCode == resultCode) {
@@ -115,10 +137,12 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
             userPhone.text = addressBean.mobile
             userAddress.text =
                     "${addressBean.province_name}${addressBean.city_name}${addressBean.district_name}${addressBean.address}"
+            mAddressId = addressBean.address_id
         }
     }
 
     override fun initEvent() {
+
 
         addressLayout.setOnClickListener {
             val intent = Intent(this, AddressActivity::class.java)
@@ -126,12 +150,17 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
             startActivityForResult(intent, mRequestCode)
         }
 
+        //提交订单
         settle.setOnClickListener {
-            val window = object : OrderPayPopupWindow(
-                    this, R.layout.pop_order_pay,
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
-            ) {}
-            window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+
+            presenter.requestPostOrder(
+                    1, mAddressId, "",
+                    "", "", "", "",
+                    "", remark.text.toString(), "",
+                    "", "", "", "", "",
+                    "", "", ""
+            )
+
         }
     }
 
@@ -141,31 +170,13 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
     }
 
     override fun start() {
-        presenter.requestPostOrder(0, "", "", "",
+        presenter.requestPostOrder(
+                0, "", "", "",
                 "", "", "", "",
                 "", "", "", "",
                 "", "", "",
-                "", "", "")
+                "", "", ""
+        )
     }
 
-//    private fun getCartData(): ArrayList<ShopList> {
-//        val list = ArrayList<ShopList>()
-//        list.addAll(
-//            arrayListOf(
-//                ShopList(
-//                    "小米旗舰店", arrayListOf(
-//                        CartGoodsList(4, false, Goods("小米8se", ""))
-//                    )
-//                ),
-//                ShopList(
-//                    "索尼", arrayListOf(
-//                        CartGoodsList(16, false, Goods("索尼8se", "")),
-//                        CartGoodsList(17, false, Goods("索尼8se", "")),
-//                        CartGoodsList(18, false, Goods("索尼8se", ""))
-//                    )
-//                )
-//            )
-//        )
-//        return list
-//    }
 }

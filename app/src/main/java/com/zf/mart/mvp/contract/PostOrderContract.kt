@@ -11,6 +11,8 @@ interface PostOrderContract {
         fun showError(msg: String, errorCode: Int)
 
         fun setPostOrder(bean: PostOrderBean)
+
+        fun setConfirmOrder(bean: PostOrderBean)
     }
 
     interface Presenter : IPresenter<View> {
