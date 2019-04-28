@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import com.yanzhenjie.durban.Controller
 import com.yanzhenjie.durban.Durban
 import com.zf.mart.R
-import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.base.BaseBean
 import com.zf.mart.livedata.UserInfoLiveData
@@ -54,7 +53,7 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
     //头像上传成功
     override fun setHead(bean: BaseBean<String>) {
         showToast(resources.getString(R.string.img_success))
-        GlideUtils.loadUrlImage(this, bean.data, avatar)
+        userInfoPresenter.requestUserInfo()
     }
 
     override fun showError(msg: String, errorCode: Int) {
@@ -212,7 +211,6 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
             val di = DatePickerDialog(
                     this,
                     DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                        LogUtils.e(">>>>:$year $month $dayOfMonth")
                         updateUserInfoPresenter.changeUserInfo("", "", "",
                                 year.toString(),
                                 (month + 1).toString(),
@@ -254,7 +252,7 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
 
         UserInfoLiveData.observe(this, androidx.lifecycle.Observer { userInfo ->
             userInfo?.apply {
-                GlideUtils.loadUrlImage(this@UserActivity, UriConstant.BASE_URL + head_pic, avatar)
+                GlideUtils.loadUrlImage(this@UserActivity, head_pic, avatar)
                 userName.text = realname
                 nickName.text = nickname
                 sexTxt.text = when (sex) {

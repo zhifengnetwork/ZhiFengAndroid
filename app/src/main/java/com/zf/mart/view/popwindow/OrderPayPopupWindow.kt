@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.pop_order_pay.view.*
 /**
  * 支付方式
  */
-abstract class OrderPayPopupWindow(var context: Activity, layoutRes: Int, w: Int, h: Int) {
+abstract class OrderPayPopupWindow(var context: Activity, layoutRes: Int, w: Int, h: Int, private val totalPrice: String) {
     val contentView: View
     val popupWindow: PopupWindow
     private var isShowing = false
@@ -25,18 +25,17 @@ abstract class OrderPayPopupWindow(var context: Activity, layoutRes: Int, w: Int
         initWindow()
     }
 
-    private var mListener: OnItemClickListener? = null
-
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        mListener = listener
-    }
-
-    interface OnItemClickListener {
-//        fun onBack(address: String)
-    }
+    var onConfirmPayListener: (() -> Unit)? = null
 
     private fun initView() {
         contentView.apply {
+
+            price.text = "¥${totalPrice}元"
+
+            confirmPay.setOnClickListener {
+                onConfirmPayListener?.invoke()
+            }
+
             close.setOnClickListener {
                 onDismiss()
             }

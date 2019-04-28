@@ -12,13 +12,6 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class ChangeNameActivity : BaseActivity() {
 
-//    companion object {
-//        fun actionStart(context: Context?, nickName: String) {
-//            val intent = Intent(context, ChangeNameActivity::class.java)
-//            intent.putExtra("nickName", nickName)
-//            context?.startActivity(intent)
-//        }
-//    }
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(this, ContextCompat.getColor(this, R.color.colorSecondText), 0.3f)
@@ -41,8 +34,8 @@ class ChangeNameActivity : BaseActivity() {
 
     override fun initEvent() {
         confirm.setOnClickListener {
-            if (nickName.text.isEmpty()) {
-                showToast("名称不能为空")
+            if (nickName.text.length < 4) {
+                showToast("名称不能少于4个字符")
             } else {
                 val intent = Intent()
                 intent.putExtra("newName", nickName.text.toString())

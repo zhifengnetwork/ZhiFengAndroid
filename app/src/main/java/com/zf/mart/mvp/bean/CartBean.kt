@@ -15,12 +15,13 @@ data class CheckAllFlag(
 //商品列表，但是也要有商家的名字
 data class CartGoodsList(
     val seller_id: String,
-    val seller_name: String, //商家名字
+    val seller_name: String? = "", //商家名字
     val id: String,          //商品id
-    val goods_price: String,
-    var goods_num: String,
+    var goods_price: String,
+    var goods_num: Int,
     val goods: Goods,
     val cat_id: String,
+    var spec_key_name: String,
     var selected: String //商品是否选中
 )
 
@@ -28,6 +29,8 @@ data class Goods(
     val goods_name: String, //商品名字
     val original_img: String, //商品图片
     val cat_id: String,
+    val shop_price: String,
+    val goods_num: String,
     val goods_id: String
 )
 

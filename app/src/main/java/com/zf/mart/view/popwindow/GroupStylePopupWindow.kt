@@ -10,9 +10,9 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.TextView
-import android.widget.Toast
 import com.zf.mart.R
-import com.zf.mart.utils.LogUtils
+import com.zf.mart.mvp.bean.CartGoodsList
+import com.zf.mart.mvp.bean.SpecList
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.pop_order_style.view.*
@@ -20,7 +20,14 @@ import kotlinx.android.synthetic.main.pop_order_style.view.*
 /**
  * 拼团的选择款式
  */
-abstract class GroupStylePopupWindow(var context: Activity, layoutRes: Int, w: Int, h: Int) {
+abstract class GroupStylePopupWindow(
+        var context: Activity,
+        layoutRes: Int,
+        w: Int,
+        h: Int,
+        private val bean: CartGoodsList,
+        private val specBean: List<SpecList>
+) {
     val contentView: View
     val popupWindow: PopupWindow
     private var isShowing = false
@@ -32,48 +39,59 @@ abstract class GroupStylePopupWindow(var context: Activity, layoutRes: Int, w: I
         initWindow()
     }
 
-    private var mListener: OnItemClickListener? = null
 
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        mListener = listener
-    }
-
-    interface OnItemClickListener {
-        fun onBack(address: String)
-    }
+    var onNumberListener: ((num: Int) -> Unit)? = null
+    var onSpecListener: ((SpecList) -> Unit)? = null
 
     private fun initView() {
         contentView.apply {
 
-            val history = arrayOf("红色", "黑色", "黑色", "黑色", "黑色", "黑色", "黑色", "黑色", "黑色")
+            number.text = bean.goods_num.toString()
+
+
+            val history = ArrayList<String>()
+
+            var choosePos: Int? = null
+
+            repeat(specBean.size) {
+                history.add(specBean[it].item ?: "")
+                if (bean.spec_key_name == specBean[it].item) {
+                    choosePos = it
+                }
+            }
+
             hotLayout.adapter = object : TagAdapter<String>(history) {
                 override fun getView(parent: FlowLayout?, position: Int, t: String?): View {
                     val tv: TextView = LayoutInflater.from(context).inflate(
-                        R.layout.layout_textview_style, hotLayout, false
+                            R.layout.layout_textview_style, hotLayout, false
                     ) as TextView
                     tv.text = t
                     return tv
                 }
             }
 
-            hotLayout.setOnSelectListener {
-                LogUtils.e(">>>>:" + it.size + "  " + it)
+            //默认选中规格
+            if (choosePos != null) {
+                hotLayout.adapter.setSelectedList(setOf(choosePos))
             }
 
             hotLayout.setOnTagClickListener { _, position, _ ->
-                Toast.makeText(context, history[position], Toast.LENGTH_LONG).show()
+                onSpecListener?.invoke(specBean[position])
                 return@setOnTagClickListener true
             }
 
             reduce.isSelected = number.text.toString().toInt() < 2
             reduce.setOnClickListener {
                 if (number.text.toString().toInt() > 1) {
+                    onNumberListener?.invoke(number.text.toString().toInt() - 1)
                     number.text = (number.text.toString().toInt() - 1).toString()
                 }
             }
 
             increase.setOnClickListener {
+                onNumberListener?.invoke(number.text.toString().toInt() + 1)
                 number.text = (number.text.toString().toInt() + 1).toString()
+
             }
 
             number.addTextChangedListener(object : TextWatcher {
@@ -87,6 +105,10 @@ abstract class GroupStylePopupWindow(var context: Activity, layoutRes: Int, w: I
                     reduce.isSelected = s.toString().toInt() < 2
                 }
             })
+
+            confirm.setOnClickListener {
+                onDismiss()
+            }
 
         }
     }

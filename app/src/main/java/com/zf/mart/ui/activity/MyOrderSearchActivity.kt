@@ -15,9 +15,9 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 class MyOrderSearchActivity : BaseActivity() {
     override fun initToolBar() {
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
 
         titleName.text = "我的订单"
@@ -44,7 +44,7 @@ class MyOrderSearchActivity : BaseActivity() {
         operation.setOnClickListener {
             if (operation.isSelected) {
                 //搜索
-                SearchMyOrderActivity.actionStart(this)
+                SearchMyOrderActivity.actionStart(this, inputText.text.toString())
             } else {
                 finish()
             }

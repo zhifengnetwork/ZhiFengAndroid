@@ -1,198 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:fitsSystemWindows="true"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <include layout="@layout/layout_toolbar"/>
+    <include layout="@layout/layout_toolbar" />
 
-    <RelativeLayout
+    <!--<RelativeLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="80dp"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:text="交易成功" />-->
+
+    <!--</RelativeLayout>-->
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_centerInParent="true"
-                  android:text="交易成功"/>
+            <include layout="@layout/layout_en_order_address" />
 
-    </RelativeLayout>
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:orientation="horizontal">-->
 
-    <include layout="@layout/layout_en_order_address"/>
+            <!--<TextView-->
+            <!--android:id="@+id/sellerName"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="店铺名称" />-->
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            <!--<ImageView-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:src="@drawable/i" />-->
 
-        <TextView
-                android:id="@+id/sellerName"
-                android:layout_width="wrap_content"
+            <!--</LinearLayout>-->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colorLine" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="店铺名称"/>
-
-        <ImageView android:layout_width="30dp"
-                   android:layout_height="30dp"
-                   android:src="@drawable/i"/>
-
-    </LinearLayout>
-
-    <View android:layout_width="match_parent"
-          android:layout_height="1px"
-          android:background="@color/colorLine"/>
-
-    <RelativeLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <ImageView
-                android:id="@+id/goodsIcon"
-                android:layout_width="80dp"
                 android:layout_marginLeft="10dp"
-                android:layout_height="80dp"
-                android:src="@drawable/pi_picture"/>
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shape_round_whit_big"
+                android:orientation="vertical">
 
-        <TextView
-                android:id="@+id/goodsName"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="13dp"
-                android:textSize="12sp"
-                android:textColor="@color/colorBlackText"
-                android:layout_toRightOf="@+id/goodsIcon"
-                android:layout_height="wrap_content"
-                android:paddingRight="10dp"
-                android:maxLines="2"
-                android:text="HAODUOYI2018时尚卫衣秋季新品女装 欧美时尚字母印花宽松休闲套头卫衣"/>
+                <TextView
+                    android:id="@+id/shopName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="商家"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="15sp" />
 
-        <TextView
-                android:id="@+id/goodsSize"
-                android:layout_width="wrap_content"
-                android:layout_toRightOf="@+id/goodsIcon"
-                android:layout_marginLeft="13dp"
-                android:layout_below="@+id/goodsName"
-                android:textSize="12sp"
-                android:layout_marginTop="7dp"
-                android:textColor="@color/colorBlackText"
-                android:layout_height="wrap_content"
-                android:text="颜色:蓝色 尺寸:M码"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorLine" />
 
-        <!-- 非实体商品显示截止使用时间 -->
-        <TextView
-                android:id="@+id/goodsCutTime"
-                android:layout_toRightOf="@+id/goodsIcon"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="13dp"
-                android:layout_below="@+id/goodsName"
-                android:layout_marginTop="7dp"
-                android:textSize="12sp"
-                android:visibility="invisible"
-                android:textColor="#f11010"
-                android:layout_height="wrap_content"
-                android:text="截止时间2019年02月31日"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:overScrollMode="never" />
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_toRightOf="@+id/goodsIcon"
-                  android:layout_height="wrap_content"
-                  android:layout_below="@+id/goodsName"
-                  android:layout_marginTop="30dp"
-                  android:textSize="12sp"
-                  android:textColor="@color/colorBlackText"
-                  android:layout_marginLeft="13dp"
-                  android:id="@+id/goodsPrice"
-                  android:text="￥256×2"/>
+            </LinearLayout>
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:layout_alignParentRight="true"
-                  android:layout_alignBottom="@+id/goodsIcon"
-                  android:textSize="12sp"
-                  android:textColor="#6f6f6f"
-                  android:layout_marginRight="10dp"
-                  android:text="查看产品使用说明"/>
 
-    </RelativeLayout>
+            <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:background="@drawable/shape_round_whit_big"-->
+            <!--android:padding="10dp">-->
 
-    <include layout="@layout/layout_order_operation"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"/>
+            <!--<ImageView-->
+            <!--android:id="@+id/goodsIcon"-->
+            <!--android:layout_width="80dp"-->
+            <!--android:layout_height="80dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:src="@drawable/pi_picture" />-->
 
-    <include layout="@layout/layout_detail_price"/>
+            <!--<TextView-->
+            <!--android:id="@+id/goodsName"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="13dp"-->
+            <!--android:layout_toRightOf="@+id/goodsIcon"-->
+            <!--android:maxLines="2"-->
+            <!--android:paddingRight="10dp"-->
+            <!--android:text="HAODUOYI2018时尚卫衣秋季新品女装 欧美时尚字母印花宽松休闲套头卫衣"-->
+            <!--android:textColor="@color/colorBlackText"-->
+            <!--android:textSize="12sp" />-->
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+            <!--<TextView-->
+            <!--android:id="@+id/goodsSize"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/goodsName"-->
+            <!--android:layout_marginLeft="13dp"-->
+            <!--android:layout_marginTop="7dp"-->
+            <!--android:layout_toRightOf="@+id/goodsIcon"-->
+            <!--android:text="颜色:蓝色 尺寸:M码"-->
+            <!--android:textColor="@color/colorBlackText"-->
+            <!--android:textSize="12sp" />-->
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="实付款"/>
+            <!--&lt;!&ndash; 非实体商品显示截止使用时间 &ndash;&gt;-->
+            <!--<TextView-->
+            <!--android:id="@+id/goodsCutTime"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/goodsName"-->
+            <!--android:layout_marginLeft="13dp"-->
+            <!--android:layout_marginTop="7dp"-->
+            <!--android:layout_toRightOf="@+id/goodsIcon"-->
+            <!--android:text="截止时间2019年02月31日"-->
+            <!--android:textColor="#f11010"-->
+            <!--android:textSize="12sp"-->
+            <!--android:visibility="invisible" />-->
 
-        <Space android:layout_width="0dp"
-               android:layout_height="1dp"
-               android:layout_weight="1"/>
+            <!--<TextView-->
+            <!--android:id="@+id/goodsPrice"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/goodsName"-->
+            <!--android:layout_marginLeft="13dp"-->
+            <!--android:layout_marginTop="30dp"-->
+            <!--android:layout_toRightOf="@+id/goodsIcon"-->
+            <!--android:text="￥256×2"-->
+            <!--android:textColor="@color/colorBlackText"-->
+            <!--android:textSize="12sp" />-->
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="￥333"/>
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBottom="@+id/goodsIcon"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:text="查看产品使用说明"-->
+            <!--android:textColor="#6f6f6f"-->
+            <!--android:textSize="12sp" />-->
 
-    </LinearLayout>
+            <!--</RelativeLayout>-->
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical">
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="订单信息:"/>
+            <include layout="@layout/layout_detail_price" />
 
-        <LinearLayout
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/shape_round_whit_big"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="订单号:"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="订单信息"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="16sp" />
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:text="54545454545"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorLine" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="订单号"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/orderNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="下单时间"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/createTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="支付方式"
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/payType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/colorPrimaryText"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="付款时间:"/>
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:text="54545454545"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="支付方式:"/>
-
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:text="54545454545"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

@@ -78,9 +78,13 @@ class AddressActivity : BaseActivity(), AddressContract.View {
         }
 
         adapter.onItemClickListener = {
-            intent.putExtra(ADDRESS_FLAG, it)
-            setResult(mResultCode, intent)
-            finish()
+
+            //回到提交订单页面
+            if (intent.getStringExtra(ConfirmOrderActivity.FROM_ORDER) == ConfirmOrderActivity.FROM_ORDER) {
+                intent.putExtra(ADDRESS_FLAG, it)
+                setResult(mResultCode, intent)
+                finish()
+            }
         }
 
     }

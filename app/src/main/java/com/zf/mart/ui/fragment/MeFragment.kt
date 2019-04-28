@@ -56,7 +56,7 @@ class MeFragment : BaseFragment() {
         UserInfoLiveData.observe(viewLifecycleOwner, Observer { userInfo ->
             userInfo?.apply {
                 userName.text = nickname
-                GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + head_pic, avatar)
+                GlideUtils.loadUrlImage(context, head_pic, avatar)
             }
         })
     }
@@ -67,8 +67,8 @@ class MeFragment : BaseFragment() {
         //签到
         sign.setOnClickListener {
             val window = object : SignSuccessPopupWindow(
-                activity as Activity, R.layout.pop_sign_success,
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                    activity as Activity, R.layout.pop_sign_success,
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
 

@@ -11,6 +11,7 @@ import com.zf.mart.mvp.contract.ClassifyProductContract
 import com.zf.mart.mvp.presenter.ClassifyPresenter
 import com.zf.mart.mvp.presenter.ClassifyProductPresenter
 import com.zf.mart.ui.adapter.ClassifyRightAdapter
+import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.frament_classify_recommend.*
 
 
@@ -20,6 +21,7 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
     }
 
     override fun setProduct(bean: List<ClassifyProductBean>) {
+        LogUtils.e(">>>>:"+bean)
         classifyProductData.addAll(bean)
         rightAdapter.notifyDataSetChanged()
     }
@@ -47,7 +49,8 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
     }
 
     //接收分类ID
-    private var id = "110"
+    private var id: String = "110"
+
     //接收分类名字
     private var classifyname: String = ""
     private val rightAdapter by lazy { ClassifyRightAdapter(context, classifyProductData, classifyname) }
@@ -60,7 +63,6 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
 
     override fun initView() {
         classifyProductPrediction.attachView(this)
-
 
         id = arguments?.getString("id").toString()
 
@@ -87,5 +89,6 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
         super.onDestroy()
         classifyProductPrediction.detachView()
     }
+
 
 }

@@ -24,7 +24,7 @@ interface OrderListContract {
 
     interface Presenter : IPresenter<View> {
 
-        fun requestOrderList(type: String, page: Int?)
+        fun requestOrderList(type: String, page: Int?, keyWord: String)
 
     }
 

@@ -27,9 +27,9 @@ class EnShopAdapter(val context: Context?, val data: List<CartBean>) :
         holder.itemView.apply {
             shopName.text = data[position].seller_name
             //初始化
-            val adapter = EnGoodsAdapter(context, data[position].list)
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = adapter
+//            val adapter = EnGoodsAdapter(context, data[position].list)
+//            recyclerView.layoutManager = LinearLayoutManager(context)
+//            recyclerView.adapter = adapter
 
         }
 

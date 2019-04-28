@@ -8,8 +8,8 @@ import com.zf.mart.scheduler.SchedulerUtils
 import io.reactivex.Observable
 
 class OrderListModel {
-    fun requestOrderList(type: String, page: Int): Observable<BaseBean<List<OrderListBean>>> {
-        return RetrofitManager.service.getOrderList(type, page, UriConstant.PER_PAGE)
+    fun requestOrderList(type: String, page: Int,keyWord:String): Observable<BaseBean<List<OrderListBean>>> {
+        return RetrofitManager.service.getOrderList(type, page, UriConstant.PER_PAGE,keyWord)
             .compose(SchedulerUtils.ioToMain())
     }
 }

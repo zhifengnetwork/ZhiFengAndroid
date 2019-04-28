@@ -1,43 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:paddingLeft="10dp"
-              android:paddingTop="8dp"
-              android:paddingBottom="8dp"
-              android:background="@color/whit"
-              android:paddingRight="10dp"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/whit"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp"
+    android:paddingTop="8dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="8dp">
 
     <ImageView
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/home_quality_g3"/>
+        android:id="@+id/goodsIcon"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:background="@color/colorBackground"
+        android:scaleType="centerCrop" />
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:paddingLeft="10dp"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/goodsName"
-                android:textSize="12sp"
-                android:textColor="#4d4d4d"
-                android:maxLines="2"
-                android:text="Apple iphone xs 128G 金色 移动联通4G手机"/>
+            android:id="@+id/goodsName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:text=""
+            android:textColor="#4d4d4d"
+            android:textSize="12sp" />
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_alignParentRight="true"
-                  android:layout_alignParentBottom="true"
-                  android:layout_below="@+id/sizeLayout"
-                  android:textSize="13sp"
-                  android:textColor="@color/colorBlackText"
-                  android:layout_marginTop="10dp"
-                  android:text="￥1476.00"/>
+        <TextView
+            android:id="@+id/goodsPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sizeLayout"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:text="￥0.00"
+            android:textColor="@color/colorBlackText"
+            android:textSize="13sp" />
 
     </RelativeLayout>
 

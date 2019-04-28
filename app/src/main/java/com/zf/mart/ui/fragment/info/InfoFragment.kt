@@ -28,7 +28,7 @@ class InfoFragment : NotLazyBaseFragment() {
             userInfo?.apply {
                 nickName.text = nickname
                 userName.text = "用户名:$realname"
-                GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + head_pic, userIcon)
+                GlideUtils.loadUrlImage(context, head_pic, userIcon)
             }
         })
     }

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import com.zf.mart.mvp.bean.CartBean
 import com.zf.mart.mvp.bean.CartCountBean
-import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.item_cart_shop.view.*
 
 
@@ -28,7 +27,7 @@ class CartShopAdapter1(val context: Context?, val data: List<CartBean>) :
     override fun getItemCount(): Int = data.size
 
     //规格
-    var onShopSpecListener: ((spec: String) -> Unit)? = null
+    var onShopSpecListener: ((shopPosition: Int, goodsPosition: Int) -> Unit)? = null
     //数量
     var onShopNumListener: ((CartCountBean) -> Unit)? = null
     //数量
@@ -66,11 +65,11 @@ class CartShopAdapter1(val context: Context?, val data: List<CartBean>) :
                 }
                 //输入数量
                 onInputListener = {
-                    onShopNumListener?.invoke(CartCountBean(it.cartId, it.sum, position, it.goodsPosition))
+                    onShopNumListener?.invoke(CartCountBean(it.id, it.sum, position, it.goodsPosition))
                 }
                 //规格
                 onSpecListener = {
-                    onShopSpecListener?.invoke(it)
+                    onShopSpecListener?.invoke(position, it)
                 }
                 //数量
                 onCountListener = {

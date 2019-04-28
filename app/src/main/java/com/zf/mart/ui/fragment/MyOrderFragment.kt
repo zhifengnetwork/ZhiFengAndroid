@@ -1,20 +1,34 @@
 package com.zf.mart.ui.fragment
 
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.mvp.bean.OrderListBean
 import com.zf.mart.mvp.contract.OrderListContract
+import com.zf.mart.mvp.contract.OrderOperateContract
 import com.zf.mart.mvp.presenter.OrderListPresenter
+import com.zf.mart.mvp.presenter.OrderOperatePresenter
 import com.zf.mart.net.exception.ErrorStatus
 import com.zf.mart.showToast
 import com.zf.mart.ui.activity.MyOrderActivity
+import com.zf.mart.ui.activity.ShippingActivity
 import com.zf.mart.ui.adapter.MyOrderAdapter
-import com.zf.mart.view.dialog.DeleteMyOrderDialog
+import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.fragment_myorder.*
 
-class MyOrderFragment : BaseFragment(), OrderListContract.View {
+class MyOrderFragment : BaseFragment(), OrderListContract.View, OrderOperateContract.View {
 
+    override fun setConfirmReceipt() {
+        showToast("成功确认收货")
+        LogUtils.e(">>>>>>成功确认收货")
+    }
+
+    //取消订单成功
+    override fun setCancelOrder() {
+        LogUtils.e(">>>>取消订单成功")
+        showToast("成功取消订单")
+    }
 
     //加载下一页失败
     override fun loadMoreError(msg: String, errorCode: Int) {
@@ -66,11 +80,13 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View {
     }
 
     private var mType = ""
+    private var mKeyWord = ""
 
     companion object {
-        fun newInstance(type: String): MyOrderFragment {
+        fun newInstance(type: String, keyWord: String): MyOrderFragment {
             val fragment = MyOrderFragment()
             fragment.mType = type
+            fragment.mKeyWord = keyWord
             return fragment
         }
     }
@@ -83,9 +99,12 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View {
 
     private val orderListPresenter by lazy { OrderListPresenter() }
 
+    private val orderOperatePresenter by lazy { OrderOperatePresenter() }
+
     override fun initView() {
         mLayoutStatusView = multipleStatusView
         orderListPresenter.attachView(this)
+        orderOperatePresenter.attachView(this)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
@@ -101,8 +120,51 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View {
 
     override fun initEvent() {
 
-        adapter.deleteListener = {
-            DeleteMyOrderDialog.showDialog(childFragmentManager, it)
+        adapter.apply {
+            //删除
+            deleteListener = {
+                //                DeleteMyOrderDialog.showDialog(childFragmentManager, it)
+                AlertDialog.Builder(context!!)
+                        .setTitle("提示")
+                        .setMessage("删除该订单")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定") { _, _ ->
+
+                        }
+                        .show()
+            }
+
+            //取消订单
+            onCancelOrderListener = { orderId ->
+                AlertDialog.Builder(context!!)
+                        .setTitle("提示")
+                        .setMessage("取消该订单")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定") { _, _ ->
+
+                            orderOperatePresenter.requestCancelOrder(orderId)
+                        }
+                        .show()
+
+            }
+
+            //确认收货
+            onConfirmReceiveListener = { orderId ->
+                AlertDialog.Builder(context!!)
+                        .setTitle("提示")
+                        .setMessage("确认收货")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定") { _, _ ->
+                            orderOperatePresenter.requestConfirmReceipt(orderId)
+                        }
+                        .show()
+            }
+
+            //查看物流
+            onShippingListener = { orderId ->
+                ShippingActivity.actionStart(context, orderId)
+            }
+
         }
 
         refreshLayout.setOnRefreshListener {
@@ -118,23 +180,23 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View {
     private fun requestOrderList(page: Int?) {
         when (mType) {
             MyOrderActivity.all -> {
-                orderListPresenter.requestOrderList("", page)
+                orderListPresenter.requestOrderList("0", page, "")
             }
             MyOrderActivity.waitPay -> {
-                orderListPresenter.requestOrderList("WAITPAY", page)
+                orderListPresenter.requestOrderList("2", page, "")
             }
             MyOrderActivity.waiSend -> {
-                orderListPresenter.requestOrderList("WAITSEND", page)
+                orderListPresenter.requestOrderList("1", page, "")
             }
             MyOrderActivity.waitTake -> {
-                orderListPresenter.requestOrderList("WAITRECEIVE", page)
+                orderListPresenter.requestOrderList("3", page, "")
             }
             MyOrderActivity.waitEva -> {
-                orderListPresenter.requestOrderList("WAITCCOMMENT", page)
+                orderListPresenter.requestOrderList("4", page, "")
             }
             else -> {
                 //搜索订单
-                orderListPresenter.requestOrderList("", page)
+                orderListPresenter.requestOrderList("", page, mKeyWord)
             }
         }
     }
@@ -142,6 +204,7 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View {
     override fun onDestroy() {
         super.onDestroy()
         orderListPresenter.detachView()
+        orderOperatePresenter.detachView()
     }
 
 }

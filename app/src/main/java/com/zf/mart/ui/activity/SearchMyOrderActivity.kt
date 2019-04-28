@@ -16,9 +16,13 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
  */
 class SearchMyOrderActivity : BaseActivity() {
 
+    private var mKeyWord = ""
+
     companion object {
-        fun actionStart(context: Context?) {
-            context?.startActivity(Intent(context, SearchMyOrderActivity::class.java))
+        fun actionStart(context: Context?, keyWord: String) {
+            val intent = Intent(context, SearchMyOrderActivity::class.java)
+            intent.putExtra("key", keyWord)
+            context?.startActivity(intent)
         }
     }
 
@@ -32,6 +36,7 @@ class SearchMyOrderActivity : BaseActivity() {
     override fun layoutId(): Int = R.layout.activity_search_my_order
 
     override fun initData() {
+        mKeyWord = intent.getStringExtra("key")
     }
 
     private var searchOrderFragment: MyOrderFragment? = null
@@ -42,10 +47,10 @@ class SearchMyOrderActivity : BaseActivity() {
         searchOrderFragment?.let {
             transaction.show(it)
         }
-            ?: MyOrderFragment.newInstance("search").let {
-                searchOrderFragment = it
-                transaction.add(R.id.searchFragment, it)
-            }
+                ?: MyOrderFragment.newInstance("search", mKeyWord).let {
+                    searchOrderFragment = it
+                    transaction.add(R.id.searchFragment, it)
+                }
         transaction.commit()
     }
 

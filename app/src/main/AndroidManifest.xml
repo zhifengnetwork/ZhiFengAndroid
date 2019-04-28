@@ -233,6 +233,11 @@
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity android:name=".ui.activity.ShippingActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity android:name=".wxapi.WXEntryActivity"
                   android:exported="true"
                   android:label="@string/app_name"
