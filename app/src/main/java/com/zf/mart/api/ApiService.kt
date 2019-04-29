@@ -344,13 +344,6 @@ interface ApiService {
     ): Observable<BaseBean<GoodsAttrBean>>
 
     /**
-     *  获取商品规格
-     */
-    @FormUrlEncoded
-    @POST("api/goods/goodsSpec")
-    fun getGoodsSpec()
-
-    /**
      * 我的---足迹
      */
     @GET("api/User/visit_log")
@@ -419,9 +412,9 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/user/register")
     fun requestRegister(
-        @Field("goods_id") goods_id: String,
-        @Field("goods_num") goods_num: String,
-        @Field("item_id") item_id: String
+            @Field("goods_id") goods_id: String,
+            @Field("goods_num") goods_num: String,
+            @Field("item_id") item_id: String
     ): Observable<BaseBean<Unit>>
 
     /**
@@ -457,7 +450,7 @@ interface ApiService {
      */
     @FormUrlEncoded
     @POST("api/goods/goodsSpec")
-    fun requestGoodsSpec(@Field("goods_id") goods_id: String): Observable<BaseBean<SpecBean>>
+    fun requestGoodsSpec(@Field("goods_id") goods_id: String): Observable<BaseBean<List<List<SpecBean>>>>
 
     /**
      * 购物车
@@ -479,7 +472,7 @@ interface ApiService {
      * 确认收货
      */
     @FormUrlEncoded
-    @POST("api/order/CancelOrder")
+    @POST("api/order/order_confirm")
     fun requestConfirmReceipt(@Field("order_id") order_id: String): Observable<BaseBean<Unit>>
 
     /**
@@ -488,6 +481,30 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/order/express_detail")
     fun requestShipping(@Field("order_id") order_id: String): Observable<BaseBean<ShippingBean>>
+
+    /**
+     * 首页轮播图 文章 秒杀
+     */
+    @GET("api/index/index")
+    fun requestHome(): Observable<BaseBean<HomeBean>>
+
+    /**
+     * 为你推荐 商品
+     */
+    @GET("api/Goods/goodsList")
+    fun requestCommend(
+            @Query("type") type: String,
+            @Query("page") page: Int,
+            @Query("num") num: Int): Observable<BaseBean<CommendBean>>
+
+    /**
+     * 购物车
+     * 根据规格获取商品信息
+     */
+    @POST("api/goods/getPricePic")
+    @FormUrlEncoded
+    fun requestSpecInfo(@Field("key") key: String,
+                         @Field("goods_id") goods_id: String): Observable<BaseBean<GoodsSpecBean>>
 
 
 }

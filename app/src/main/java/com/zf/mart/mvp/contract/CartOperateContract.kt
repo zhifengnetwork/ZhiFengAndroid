@@ -3,6 +3,7 @@ package com.zf.mart.mvp.contract
 import com.zf.mart.base.IBaseView
 import com.zf.mart.base.IPresenter
 import com.zf.mart.mvp.bean.CartPrice
+import com.zf.mart.mvp.bean.GoodsSpecInfo
 import com.zf.mart.mvp.bean.SpecBean
 import okhttp3.RequestBody
 
@@ -25,10 +26,13 @@ interface CartOperateContract {
         fun setDeleteCart(bean: CartPrice)
 
         //获取商品规格
-        fun setGoodsSpec(specBean: SpecBean)
+        fun setGoodsSpec(specBean: List<List<SpecBean>>)
 
         //修改商品规格
         fun setChangeSpec(bean: CartPrice)
+
+        //根据规格获取商品信息
+        fun setSpecInfo(bean: GoodsSpecInfo)
     }
 
     interface Presenter : IPresenter<View> {
@@ -44,6 +48,8 @@ interface CartOperateContract {
         fun requestGoodsSpec(id: String)
 
         fun requestChangeSpec(cartId: String, specId: String)
+
+        fun requestSpecInfo(key: String, goodsId: String)
     }
 
 }

@@ -8,9 +8,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseFragment
-import com.zf.mart.ui.activity.*
-import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
+import com.zf.mart.mvp.bean.*
+import com.zf.mart.mvp.contract.CommendContract
+import com.zf.mart.mvp.contract.HomeContract
+import com.zf.mart.mvp.presenter.CommendPresenter
+import com.zf.mart.mvp.presenter.HomePresenter
+import com.zf.mart.showToast
+import com.zf.mart.ui.activity.ActionActivity
+import com.zf.mart.ui.activity.ChoiceActivity
+import com.zf.mart.ui.activity.MessageActivity
+import com.zf.mart.ui.activity.SearchActivity
+import com.zf.mart.ui.adapter.CommendAdapter
 import com.zf.mart.ui.adapter.HomeSecKillAdapter
 import com.zf.mart.utils.GlideImageLoader
 import com.zf.mart.utils.TimeUtils
@@ -22,7 +32,75 @@ import kotlinx.android.synthetic.main.layout_prefecture.*
 import kotlinx.android.synthetic.main.layout_search.*
 import kotlinx.android.synthetic.main.layout_seckill.*
 
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
+
+
+    override fun setRefreshCommend(bean: CommendBean) {
+        refreshLayout.setEnableLoadMore(true)
+        commendData.clear()
+        commendData.addAll(bean.goods_list)
+        commendAdapter.notifyDataSetChanged()
+    }
+
+    override fun setLoadMoreCommend(bean: CommendBean) {
+        commendData.addAll(bean.goods_list)
+        commendAdapter.notifyDataSetChanged()
+    }
+
+    override fun setEmpty() {
+        refreshLayout.setEnableLoadMore(false)
+    }
+
+    override fun setLoadComplete() {
+        refreshLayout.finishLoadMoreWithNoMoreData()
+    }
+
+    override fun loadMoreError(msg: String, errorCode: Int) {
+        showToast(msg)
+    }
+
+    override fun showError(msg: String, errorCode: Int) {
+        showToast(msg)
+    }
+
+    override fun showLoading() {
+    }
+
+    override fun dismissLoading() {
+        refreshLayout.finishRefresh()
+        refreshLayout.finishLoadMore()
+    }
+
+    override fun setHome(bean: HomeBean) {
+        initBanner(bean.adlist)
+        initArticle(bean.articlelist)
+        initSecKill(bean.flash_sale_goods)
+        //倒计时
+        initCountDown(bean.end_time)
+    }
+
+    private fun initCountDown(time: Long) {
+        countDownTime = object : CountDownTimer(time * 1000, 1000) {
+            override fun onFinish() {
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+                countDown.text = TimeUtils.getCountTime2(millisUntilFinished)
+            }
+        }
+        countDownTime?.start()
+    }
+
+    private fun initSecKill(secKill: List<SecKillList>) {
+        val layoutManager = LinearLayoutManager(context)
+        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        secKillRecyclerView.layoutManager = layoutManager
+        secKillRecyclerView.adapter = secKillAdapter
+        secKillData.clear()
+        secKillData.addAll(secKill)
+        secKillAdapter.notifyDataSetChanged()
+    }
+
 
     companion object {
         fun getInstance(): HomeFragment {
@@ -32,103 +110,95 @@ class HomeFragment : BaseFragment() {
 
     override fun getLayoutId(): Int = R.layout.fragment_home
 
-    private val recommendData = ArrayList<String>()
+    private val commendData = ArrayList<CommendList>()
 
     //推荐商品列表
-    private val adapter by lazy { HomeFragmentRecommendAdapter(context, recommendData) }
+    private val commendAdapter by lazy { CommendAdapter(context, commendData) }
 
     private var countDownTime: CountDownTimer? = null
 
-    private fun initCountDown() {
+    private val homePresenter by lazy { HomePresenter() }
 
-        countDownTime = object : CountDownTimer(3700 * 1000, 1000) {
-            override fun onFinish() {
-            }
-
-            override fun onTick(millisUntilFinished: Long) {
-                countDown.text = TimeUtils.getCountTime(millisUntilFinished)
-            }
-        }
-        countDownTime?.start()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        countDownTime?.cancel()
     }
 
     override fun onDestroy() {
-        countDownTime?.cancel()
-        home_head_line_tvs?.stopAutoScroll()
+        homePresenter.detachView()
+        commendPresenter.detachView()
+        try {
+            homeArticle?.stopAutoScroll()
+        } catch (e: Exception) {
+        }
         super.onDestroy()
-
     }
 
     override fun onResume() {
         super.onResume()
-        home_head_line_tvs?.startAutoScroll()
+        try {
+            homeArticle?.startAutoScroll()
+        } catch (e: Exception) {
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        home_head_line_tvs?.stopAutoScroll()
+        try {
+            homeArticle?.stopAutoScroll()
+        } catch (e: Exception) {
+        }
     }
+
+    //头条数据
+    private fun initArticle(article: List<ArticleList>) {
+        val headList = ArrayList<String>()
+        for (title in article) {
+            headList.add(title.title)
+        }
+        homeArticle.setTextList(headList)
+
+    }
+
 
     override fun initView() {
+        homePresenter.attachView(this)
+        commendPresenter.attachView(this)
 
-        //倒计时
-        initCountDown()
+        homeArticle.setText(14f, 5, Color.RED)
+        homeArticle.setTextStillTime(4000) //停留时长
+        homeArticle.setAnimTime(400) //进出间隔时间
+        homeArticle.setOnItemClickListener { }
+        homeArticle.startAutoScroll()
 
-        //推荐
-        recommendData.addAll(arrayListOf("1", "2", "3"))
-        val gridManager = GridLayoutManager(context, 2)
-        home_recommend_recyclerview.layoutManager = gridManager
-        home_recommend_recyclerview.addItemDecoration(RecDecoration(DensityUtil.dp2px(12f)))
-        home_recommend_recyclerview.adapter = adapter
-
-        //头条数据
-        val headList = ArrayList<String>()
-        headList.add("好看的连衣裙")
-        headList.add("今日爆款男装")
-        headList.add("春季瘦身衣")
-        home_head_line_tvs.setTextList(headList)
-        home_head_line_tvs.setText(14f, 5, Color.RED)
-        home_head_line_tvs.setTextStillTime(4000) //停留时长
-        home_head_line_tvs.setAnimTime(400) //进出间隔时间
-        home_head_line_tvs.setOnItemClickListener { }
-        home_head_line_tvs.startAutoScroll()
-
-
-        /** 滑动指示器 banner */
-        initBanner()
-
+//        initBanner()
         //品质生活pager
 //        initLife()
-
         //秒杀列表
-        initSecKill()
+
+        commendRecyclerView.layoutManager = GridLayoutManager(context, 2)
+        commendRecyclerView.addItemDecoration(RecDecoration(DensityUtil.dp2px(15f)))
+        commendRecyclerView.adapter = commendAdapter
 
 
     }
 
-    private fun initBanner() {
-        /** 在最后需要start()  start()在点击事件之后 */
+
+    private fun initBanner(banner: List<AdList>) {
+        // 在最后需要start, start()在点击事件之后
+        val imgs = ArrayList<String>()
+        for (img in banner) {
+            imgs.add(UriConstant.BASE_URL + img.ad_code)
+        }
         topBanner.setImageLoader(GlideImageLoader())
-        topBanner.setImages(images)
+        topBanner.setImages(imgs)
+        topBanner.start()
     }
 
-    private val secKillAdapter by lazy { HomeSecKillAdapter(context) }
+    private val secKillData = ArrayList<SecKillList>()
+    private val secKillAdapter by lazy { HomeSecKillAdapter(context, secKillData) }
 
-    private fun initSecKill() {
-        val layoutManager = LinearLayoutManager(context)
-        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        secKillRecyclerView.layoutManager = layoutManager
-        secKillRecyclerView.adapter = secKillAdapter
-    }
-
-//    private fun initLife() {
-//        qualityBanner.setBannerStyle(BannerConfig.NOT_INDICATOR)
-//        qualityBanner.setImageLoader(GlideImageLoader())
-//        qualityBanner.setImages(images)
-//
-//    }
-
-    private val images = arrayListOf(R.mipmap.v1, R.mipmap.v2, R.mipmap.v3, R.mipmap.v4)
+    private val commendPresenter by lazy { CommendPresenter() }
 
     private fun changeAlpha(color: Int, fraction: Float): Int {
         val red = Color.red(color)
@@ -138,8 +208,22 @@ class HomeFragment : BaseFragment() {
         return Color.argb(alpha, red, green, blue)
     }
 
+
+    override fun lazyLoad() {
+        homePresenter.requestHome()
+        refreshLayout.setEnableLoadMore(false)
+        commendPresenter.requestCommend("is_recommend", 1)
+    }
+
     override fun initEvent() {
 
+        refreshLayout.setOnRefreshListener {
+            lazyLoad()
+        }
+
+        refreshLayout.setOnLoadMoreListener {
+            commendPresenter.requestCommend("is_recommend", null)
+        }
 
         home_nestedscroll.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             var alpha = scrollY / 100 * 0.7f
@@ -169,21 +253,14 @@ class HomeFragment : BaseFragment() {
             ActionActivity.actionStart(context, ActionActivity.SEC_KILL)
         }
 
-        //顶部banner开始轮播
-        topBanner.start()
         //品质生活banner
 //        qualityBanner.start()
-
 
         //精选
         choice.setOnClickListener {
             ChoiceActivity.actionStart(context)
         }
 
-    }
-
-
-    override fun lazyLoad() {
     }
 
 

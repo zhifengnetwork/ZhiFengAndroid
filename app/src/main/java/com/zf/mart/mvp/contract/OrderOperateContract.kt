@@ -7,7 +7,7 @@ interface OrderOperateContract {
 
     interface View : IBaseView {
 
-        fun showError(msg: String, errorCode: Int)
+        fun showOperateError(msg: String, errorCode: Int)
 
         fun setCancelOrder()
 

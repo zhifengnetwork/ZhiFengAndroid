@@ -10,9 +10,14 @@ import com.zf.mart.R
 import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.livedata.UserInfoLiveData
+import com.zf.mart.mvp.bean.CommendBean
+import com.zf.mart.mvp.bean.CommendList
+import com.zf.mart.mvp.contract.CommendContract
+import com.zf.mart.mvp.presenter.CommendPresenter
+import com.zf.mart.showToast
 import com.zf.mart.ui.activity.*
 import com.zf.mart.ui.adapter.ColumnAdapter
-import com.zf.mart.ui.adapter.HomeFragmentRecommendAdapter
+import com.zf.mart.ui.adapter.CommendAdapter
 import com.zf.mart.utils.GlideUtils
 import com.zf.mart.utils.Preference
 import com.zf.mart.view.RecDecoration
@@ -24,7 +29,44 @@ import kotlinx.android.synthetic.main.layout_order.*
 import kotlinx.android.synthetic.main.layout_wallet.*
 import kotlinx.android.synthetic.main.layout_zhuanlan.*
 
-class MeFragment : BaseFragment() {
+class MeFragment : BaseFragment(), CommendContract.View {
+
+    override fun setRefreshCommend(bean: CommendBean) {
+        refreshLayout.setEnableLoadMore(true)
+        commendData.clear()
+        commendData.addAll(bean.goods_list)
+        commendAdapter.notifyDataSetChanged()
+    }
+
+    override fun setLoadMoreCommend(bean: CommendBean) {
+        commendData.addAll(bean.goods_list)
+        commendAdapter.notifyDataSetChanged()
+    }
+
+    override fun setEmpty() {
+        refreshLayout.setEnableLoadMore(false)
+    }
+
+    override fun setLoadComplete() {
+        refreshLayout.finishLoadMoreWithNoMoreData()
+    }
+
+    override fun loadMoreError(msg: String, errorCode: Int) {
+        showToast(msg)
+    }
+
+    override fun showError(msg: String, errorCode: Int) {
+        showToast(msg)
+    }
+
+
+    override fun showLoading() {
+    }
+
+    override fun dismissLoading() {
+        refreshLayout.finishRefresh()
+        refreshLayout.finishLoadMore()
+    }
 
     companion object {
         fun getInstance(): MeFragment {
@@ -36,34 +78,52 @@ class MeFragment : BaseFragment() {
 
     private val columnAdapter by lazy { ColumnAdapter(context) }
 
-    private val recommendData = ArrayList<String>()
-    private val recommendAdapter by lazy { HomeFragmentRecommendAdapter(context, recommendData) }
+    private val commendData = ArrayList<CommendList>()
+    private val commendAdapter by lazy { CommendAdapter(context, commendData) }
 
     override fun initView() {
+
+        commendPresenter.attachView(this)
+
         //我的专栏
         columnRecyclerView.layoutManager = GridLayoutManager(context, 4)
         columnRecyclerView.adapter = columnAdapter
         columnRecyclerView.addItemDecoration(RecDecoration(12))
 
         //推荐
-        recommendData.addAll(arrayListOf("1", "2", "3"))
         recommendRecyclerView.layoutManager = GridLayoutManager(context, 2)
-        recommendRecyclerView.adapter = recommendAdapter
-        recommendRecyclerView.addItemDecoration(RecDecoration(DensityUtil.dp2px(12f)))
+        recommendRecyclerView.adapter = commendAdapter
+        recommendRecyclerView.addItemDecoration(RecDecoration(DensityUtil.dp2px(15f)))
     }
 
     override fun lazyLoad() {
+
+        refreshLayout.setEnableLoadMore(false)
+        refreshLayout.setNoMoreData(false)
+        commendPresenter.requestCommend("is_recommend", 1)
+
+    }
+
+    private val token by Preference(UriConstant.TOKEN, "")
+    private val commendPresenter by lazy { CommendPresenter() }
+
+    override fun initEvent() {
+
         UserInfoLiveData.observe(viewLifecycleOwner, Observer { userInfo ->
             userInfo?.apply {
                 userName.text = nickname
                 GlideUtils.loadUrlImage(context, head_pic, avatar)
             }
         })
-    }
 
-    private val token by Preference(UriConstant.TOKEN, "")
+        refreshLayout.setOnRefreshListener {
+            lazyLoad()
+        }
 
-    override fun initEvent() {
+        refreshLayout.setOnLoadMoreListener {
+            commendPresenter.requestCommend("is_recommend", null)
+        }
+
         //签到
         sign.setOnClickListener {
             val window = object : SignSuccessPopupWindow(
@@ -149,5 +209,10 @@ class MeFragment : BaseFragment() {
         footPrint.setOnClickListener {
             FootActivity.actionStart(context)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        commendPresenter.detachView()
     }
 }

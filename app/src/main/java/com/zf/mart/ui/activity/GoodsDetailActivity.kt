@@ -3,7 +3,6 @@ package com.zf.mart.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.util.Log
 import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -26,13 +25,11 @@ import com.zf.mart.ui.adapter.*
 import com.zf.mart.ui.fragment.graphic.GraphicFragment
 import com.zf.mart.ui.fragment.graphic.OrderAnswerFragment
 import com.zf.mart.ui.fragment.same.DetailSameFragment
-import com.zf.mart.utils.GlideUtils
 import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.dialog.ShareSuccessDialog
 import com.zf.mart.view.popwindow.RegionPopupWindow
 import com.zf.mart.view.popwindow.ServicePopupWindow
-import com.zzhoujay.richtext.RichText
 import kotlinx.android.synthetic.main.activity_goods_detail2.*
 import kotlinx.android.synthetic.main.layout_buy.*
 import kotlinx.android.synthetic.main.layout_detail_brand.*
@@ -115,18 +112,18 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     override fun initToolBar() {
 
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
 
 
         //分享
         shareLayout.setOnClickListener {
             val popUpWindow = object : ServicePopupWindow(
-                this, R.layout.pop_detail_share,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    this, R.layout.pop_detail_share,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
                     contentView.apply {
@@ -218,8 +215,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     private fun initGraphic() {
         val titles = arrayOf("图文详情", "答疑")
         val fgms = arrayListOf(
-            GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
-            OrderAnswerFragment.newInstance() as Fragment
+                GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
+                OrderAnswerFragment.newInstance() as Fragment
         )
         segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
 
@@ -256,8 +253,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     private fun initSame() {
 
         val fgms = arrayListOf(
-            DetailSameFragment.newInstance() as Fragment
-            , DetailSameFragment.newInstance() as Fragment
+                DetailSameFragment.newInstance() as Fragment
+                , DetailSameFragment.newInstance() as Fragment
         )
         val entitys = ArrayList<CustomTabEntity>()
         entitys.add(TabEntity("相似推荐", 0, 0))
@@ -306,10 +303,10 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                 alpha = 1.0f
             }
             orderDetailHead.setBackgroundColor(
-                changeAlpha(
-                    ContextCompat.getColor(this, R.color.whit)
-                    , alpha
-                )
+                    changeAlpha(
+                            ContextCompat.getColor(this, R.color.whit)
+                            , alpha
+                    )
             )
             //回到顶部按钮
             if (scrollY - oldScrollY > 0) {
@@ -330,9 +327,9 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
             presenter.requestAddress()
 
             regionPopWindow = object : RegionPopupWindow(
-                this, R.layout.pop_goodsdetail,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    this, R.layout.pop_goodsdetail,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
                     contentView?.apply {

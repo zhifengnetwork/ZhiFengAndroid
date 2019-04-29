@@ -1,6 +1,9 @@
 package com.zf.mart.ui.fragment.action
 
+import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.mvp.bean.GoodEvaList
@@ -9,6 +12,7 @@ import com.zf.mart.mvp.presenter.GoodEvaPresenter
 import com.zf.mart.net.exception.ErrorStatus
 import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.EvaluationAdapter
+import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.fragment_evaluation.*
 
 /**
@@ -85,6 +89,16 @@ class GroupEvaluationFragment : BaseFragment(), GoodEvaContract.View {
         evaPresenter.attachView(this)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
+        recyclerView.addItemDecoration(divider)
+    }
+
+    private val divider by lazy {
+        RecyclerViewDivider(
+                context,
+                LinearLayout.VERTICAL,
+                DensityUtil.dp2px(1f),
+                ContextCompat.getColor(context!!, R.color.colorBackground)
+        )
     }
 
     override fun onDestroy() {

@@ -21,13 +21,13 @@ class OrderOperatePresenter : BasePresenter<OrderOperateContract.View>(), OrderO
                         0 -> if (it.data != null) {
                             setConfirmReceipt()
                         }
-                        else -> showError(it.msg, it.status)
+                        else -> showOperateError(it.msg, it.status)
                     }
                 }
             }, {
                 mRootView?.apply {
                     dismissLoading()
-                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                    showOperateError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
                 }
             })
         addSubscription(disposable)
@@ -44,13 +44,13 @@ class OrderOperatePresenter : BasePresenter<OrderOperateContract.View>(), OrderO
                         0 -> if (it.data != null) {
                             setCancelOrder()
                         }
-                        else -> showError(it.msg, it.status)
+                        else -> showOperateError(it.msg, it.status)
                     }
                 }
             }, {
                 mRootView?.apply {
                     dismissLoading()
-                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                    showOperateError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
                 }
             })
         addSubscription(disposable)

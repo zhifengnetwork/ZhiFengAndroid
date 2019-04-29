@@ -10,6 +10,32 @@ class CartOperatePresenter : BasePresenter<CartOperateContract.View>(), CartOper
 
     private val model: CartOperateModel by lazy { CartOperateModel() }
 
+    //根据规格获取商品信息
+    override fun requestSpecInfo(key: String, goodsId: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.requestSpecInfo(key, goodsId)
+                .subscribe({
+                    mRootView?.apply {
+                        dismissLoading()
+                        when (it.status) {
+                            0 -> {
+                                if (it.data != null) {
+                                    setSpecInfo(it.data.info)
+                                }
+                            }
+                            else -> cartOperateError(it.msg, it.status)
+                        }
+                    }
+                }, {
+                    mRootView?.apply {
+                        dismissLoading()
+                        cartOperateError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                    }
+                })
+        addSubscription(disposable)
+    }
+
     //修改商品规格
     override fun requestChangeSpec(cartId: String, specId: String) {
         checkViewAttached()
@@ -140,6 +166,7 @@ class CartOperatePresenter : BasePresenter<CartOperateContract.View>(), CartOper
         addSubscription(disposable)
     }
 
+    //获取商品规格
     override fun requestGoodsSpec(id: String) {
         checkViewAttached()
         mRootView?.showLoading()

@@ -1,6 +1,8 @@
 package com.zf.mart.api
 
 import com.zf.mart.mvp.bean.DateHeadEntity
+import com.zf.mart.utils.TimeUtils
+import kotlin.random.Random
 
 
 fun main(args: Array<String>) {
@@ -11,20 +13,26 @@ fun main(args: Array<String>) {
 //   print( "aaa"+TestJava.htmlReplace(urlTxt))
 
 
-    val bean = ArrayList<DateHeadEntity>()
-    bean.add(DateHeadEntity("小米", "7"))
-    bean.add(DateHeadEntity("小米", "8"))
-    bean.add(DateHeadEntity("华为", "荣耀1"))
-    bean.add(DateHeadEntity("小米", "9"))
-    bean.add(DateHeadEntity("华为", "荣耀2"))
-    bean.add(DateHeadEntity("华为", "荣耀3"))
+//    val bean = ArrayList<DateHeadEntity>()
+//    bean.add(DateHeadEntity("小米", "7"))
+//    bean.add(DateHeadEntity("小米", "8"))
+//    bean.add(DateHeadEntity("华为", "荣耀1"))
+//    bean.add(DateHeadEntity("小米", "9"))
+//    bean.add(DateHeadEntity("华为", "荣耀2"))
+//    bean.add(DateHeadEntity("华为", "荣耀3"))
+//
+//    val result = bean.groupBy {
+//        val key = it.time
+//        if (key == it.time) it.time else it.time
+//    }
 
-    val result = bean.groupBy {
-        val key = it.time
-        if (key == it.time) it.time else it.time
-    }
+//  val ti  = TimeUtils.getCountTime(355*1000)
+//    print(ti)
 
-    print(result)
+
+//  val a =   Random.nextInt().toString()
+//    val b = Random.nextInt().toString()
+//    print(a+"   "+b)
 
 
 //    var sum = 0
