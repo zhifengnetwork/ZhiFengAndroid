@@ -34,13 +34,11 @@ import kotlinx.android.synthetic.main.layout_search.*
 import kotlinx.android.synthetic.main.layout_seckill.*
 
 class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
+
     override fun appSignSuccess(bean: AppSignBean) {
 
-//<<<<<<< HEAD
     }
 
-//=======
-//>>>>>>> bf123cdba96dbffaeac5e6c56bb5391163bef64c
     override fun setRefreshCommend(bean: CommendBean) {
         refreshLayout.setEnableLoadMore(true)
         commendData.clear()
