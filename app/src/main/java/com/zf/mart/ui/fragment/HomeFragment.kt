@@ -34,7 +34,6 @@ import kotlinx.android.synthetic.main.layout_seckill.*
 
 class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
 
-
     override fun setRefreshCommend(bean: CommendBean) {
         refreshLayout.setEnableLoadMore(true)
         commendData.clear()
@@ -120,8 +119,8 @@ class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
     private val homePresenter by lazy { HomePresenter() }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         countDownTime?.cancel()
+        super.onDestroyView()
     }
 
     override fun onDestroy() {
