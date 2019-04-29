@@ -19,6 +19,8 @@ class ShippingPresenter : BasePresenter<ShippingContract.View>(), ShippingContra
                         when (it.status) {
                             0 -> if (it.data != null) {
                                 setShipping(it.data)
+                            }else{
+                                setEmpty()
                             }
                             else -> showError(it.msg, it.status)
                         }

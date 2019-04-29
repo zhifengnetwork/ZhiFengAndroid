@@ -39,7 +39,7 @@ class ChangeNameActivity : BaseActivity() {
             } else {
                 val intent = Intent()
                 intent.putExtra("newName", nickName.text.toString())
-                setResult(UserActivity.CHANGE_NAME_CODE, intent)
+                setResult(UserActivity.CHANGE_NAME_RESULT, intent)
                 finish()
             }
         }

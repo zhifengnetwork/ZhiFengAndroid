@@ -8,6 +8,7 @@ import io.reactivex.Observable
 
 class PostOrderModel {
     fun requestPostOrder(act: Int,
+                         prom_type: Int,
                          address_id: String,
                          invoice_title: String,
                          taxpayer: String,
@@ -24,8 +25,9 @@ class PostOrderModel {
                          shop_id: String,
                          take_time: String,
                          consignee: String,
-                         mobile: String): Observable<BaseBean<PostOrderBean>> {
-        return RetrofitManager.service.requestPostOrder(act, address_id, invoice_title, taxpayer, invoice_desc, coupon_id, pay_points, user_money, user_note, pay_pwd, goods_id, goods_num, item_id, action, shop_id, take_time, consignee, mobile)
+                         mobile: String,
+                         prom_id:String): Observable<BaseBean<PostOrderBean>> {
+        return RetrofitManager.service.requestPostOrder(act, prom_type, address_id, invoice_title, taxpayer, invoice_desc, coupon_id, pay_points, user_money, user_note, pay_pwd, goods_id, goods_num, item_id, action, shop_id, take_time, consignee, mobile,prom_id)
                 .compose(SchedulerUtils.ioToMain())
     }
 }

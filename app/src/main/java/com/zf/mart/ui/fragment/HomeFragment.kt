@@ -23,6 +23,7 @@ import com.zf.mart.ui.activity.SearchActivity
 import com.zf.mart.ui.adapter.CommendAdapter
 import com.zf.mart.ui.adapter.HomeSecKillAdapter
 import com.zf.mart.utils.GlideImageLoader
+import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.TimeUtils
 import com.zf.mart.view.RecDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -79,6 +80,7 @@ class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
     }
 
     private fun initCountDown(time: Long) {
+        countDownTime?.cancel()
         countDownTime = object : CountDownTimer(time * 1000, 1000) {
             override fun onFinish() {
             }
@@ -99,7 +101,6 @@ class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
         secKillData.addAll(secKill)
         secKillAdapter.notifyDataSetChanged()
     }
-
 
     companion object {
         fun getInstance(): HomeFragment {
@@ -215,6 +216,10 @@ class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
     }
 
     override fun initEvent() {
+
+        topBanner.setOnBannerListener {
+            LogUtils.e(">>>>:" + it)
+        }
 
         refreshLayout.setOnRefreshListener {
             lazyLoad()

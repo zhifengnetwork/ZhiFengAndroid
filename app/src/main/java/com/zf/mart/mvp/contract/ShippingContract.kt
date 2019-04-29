@@ -11,6 +11,8 @@ interface ShippingContract {
         fun showError(msg: String, errorCode: Int)
 
         fun setShipping(bean: ShippingBean)
+
+        fun setEmpty()
     }
 
     interface Presenter : IPresenter<View> {

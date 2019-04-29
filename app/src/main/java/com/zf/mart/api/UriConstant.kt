@@ -18,6 +18,8 @@ object UriConstant {
 
     const val WX_APP_ID= "wx5647ea6845751495"
 
+    const val CODE_TIME = 60 //验证码时间
+
     //http://www.dchqzg1688.com/api/upload/add
 
 //    const  val BASE_URL = "http://api.zhifeng.c3w.cc"

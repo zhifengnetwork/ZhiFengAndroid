@@ -19,7 +19,6 @@ import com.zf.mart.net.exception.ErrorStatus
 import com.zf.mart.showToast
 import com.zf.mart.ui.activity.ConfirmOrderActivity
 import com.zf.mart.ui.adapter.CartShopAdapter1
-import com.zf.mart.utils.LogUtils
 import com.zf.mart.view.dialog.DeleteCartDialog
 import com.zf.mart.view.dialog.InputNumDialog
 import com.zf.mart.view.popwindow.GroupStylePopupWindow
@@ -37,17 +36,15 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
     //根据规格获取商品信息
     override fun setSpecInfo(bean: GoodsSpecInfo) {
         cartData[mShopPos].list[mGoodsPos].goods_price = bean.price
-        cartData[mShopPos].list[mGoodsPos].goods.original_img = bean.spec_img
+        bean.spec_img?.let {
+            cartData[mShopPos].list[mGoodsPos].goods.original_img = bean.spec_img
+        }
+        cartData[mShopPos].list[mGoodsPos].spec_key_name = bean.key_name
         cartAdapter.notifyDataSetChanged()
     }
 
     /** 获取商品规格 */
     override fun setGoodsSpec(specBean: List<List<SpecBean>>) {
-        /**
-         * 把规格的对象扔出来
-         * 请求网络更新规格
-         * 刷新适配器，单品价格，规格，总体价格
-         */
         val specList = ArrayList<SpecCorrect>()
         specBean.forEach {
             if (it.isNotEmpty()) {
@@ -55,12 +52,12 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
             }
         }
         val popWindow = object : GroupStylePopupWindow(
-            activity as Activity,
-            R.layout.pop_order_style,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            cartData[mShopPos].list[mGoodsPos],
-            specList
+                activity as Activity,
+                R.layout.pop_order_style,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                cartData[mShopPos].list[mGoodsPos],
+                specList
         ) {}
         popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
         popWindow.onNumberListener = {
@@ -70,20 +67,19 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         }
         popWindow.onSpecListener = { specId ->
             //规格回调
-            LogUtils.e(">>>:$specId")
-            //回调后 请求网络1更改规格 请求网络2获取这个规格的商品详情 更改实体类，刷新列表
-            //要有商家index和商品index
-            /** 价格和图片已经在上面的网络回调修改了，剩下总价和规格中文没修改 */
-//            cartData[mShopPos].list[mGoodsPos].spec_key_name = it.item ?: ""
-//            cartData[mShopPos].list[mGoodsPos].goods_price = it.price ?: "0.00"
-//            cartAdapter.notifyDataSetChanged()
+            mSpecId = specId
+            cartData[mShopPos].list[mGoodsPos].spec_key = specId
             cartOperatePresenter.requestChangeSpec(cartData[mShopPos].list[mGoodsPos].id, specId)
         }
     }
 
+    //修改的规格id
+    private var mSpecId = ""
+
     /** 修改商品规格 */
     override fun setChangeSpec(bean: CartPrice) {
         price.text = "¥${bean.total_fee}"
+        cartOperatePresenter.requestSpecInfo(mSpecId, cartData[mShopPos].list[mGoodsPos].goods.goods_id)
     }
 
     /** 删除购物车 */
@@ -234,6 +230,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         refreshLayout.finishLoadMore()
     }
 
+
     companion object {
         fun getInstance(): ShoppingCartFragment1 {
             return ShoppingCartFragment1()
@@ -258,12 +255,12 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         cartRecyclerView.layoutManager = LinearLayoutManager(context)
         cartRecyclerView.adapter = cartAdapter
         cartRecyclerView.addItemDecoration(
-            RecyclerViewDivider(
-                context,
-                LinearLayoutManager.VERTICAL,
-                DensityUtil.dp2px(12f),
-                ContextCompat.getColor(context!!, R.color.colorBackground)
-            )
+                RecyclerViewDivider(
+                        context,
+                        LinearLayoutManager.VERTICAL,
+                        DensityUtil.dp2px(12f),
+                        ContextCompat.getColor(context!!, R.color.colorBackground)
+                )
         )
     }
 
@@ -312,7 +309,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
             }
             allChoose.isChecked = sum == cartData.size
             val body =
-                RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(json))
+                    RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(json))
             cartOperatePresenter.requestSelect(body)
         }
 
@@ -332,7 +329,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         /** 商品数量*/
         cartAdapter.onShopNumListener = { bean ->
             InputNumDialog.showDialog(childFragmentManager, bean.sum)
-                .onNumListener = { num ->
+                    .onNumListener = { num ->
                 cartOperatePresenter.requestCount(bean.id, num)
                 bean.shopPosition?.let { shopPos ->
                     bean.goodsPosition?.let { goodsPos ->
@@ -369,7 +366,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                     return@setOnClickListener
                 }
                 DeleteCartDialog.showDialog(childFragmentManager, 1)
-                    .onConfirmListener = {
+                        .onConfirmListener = {
                     val deleteList = ArrayList<HashMap<String, String>>()
                     cartData.forEach { shop ->
                         shop.list.forEach { goods ->
@@ -381,7 +378,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                         }
                     }
                     val body =
-                        RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(deleteList))
+                            RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(deleteList))
                     cartOperatePresenter.requestDeleteCart(body)
                 }
 
@@ -395,7 +392,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                     if (it.selected == "1") sum += 1
                 }
                 if (sum > 0) {
-                    ConfirmOrderActivity.actionStart(context)
+                    ConfirmOrderActivity.actionStart(context, 0, "", "", "", "", "")
                 } else {
                     showToast("请先选择商品")
                 }

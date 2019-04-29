@@ -13,21 +13,23 @@ import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
 import com.zf.mart.mvp.bean.CartGoodsList
 import com.zf.mart.mvp.bean.SpecCorrect
 import com.zf.mart.ui.adapter.CartSpecAdapter
+import com.zf.mart.utils.GlideUtils
 import kotlinx.android.synthetic.main.pop_order_style.view.*
 
 /**
  * 拼团的选择款式
  */
 abstract class GroupStylePopupWindow(
-        var context: Activity,
-        layoutRes: Int,
-        w: Int,
-        h: Int,
-        private val bean: CartGoodsList,
-        private val specBean: List<SpecCorrect>
+    var context: Activity,
+    layoutRes: Int,
+    w: Int,
+    h: Int,
+    private val bean: CartGoodsList,
+    private val specBean: List<SpecCorrect>
 ) {
     val contentView: View
     val popupWindow: PopupWindow
@@ -47,7 +49,9 @@ abstract class GroupStylePopupWindow(
     private fun initView() {
         contentView.apply {
 
-            val adapter = CartSpecAdapter(context, specBean, bean)
+            GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + bean.goods.original_img, goodsIcon)
+
+            val adapter = CartSpecAdapter(context, specBean, bean.spec_key)
             //设置规格
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = adapter
@@ -80,7 +84,6 @@ abstract class GroupStylePopupWindow(
             increase.setOnClickListener {
                 onNumberListener?.invoke(number.text.toString().toInt() + 1)
                 number.text = (number.text.toString().toInt() + 1).toString()
-
             }
 
             number.addTextChangedListener(object : TextWatcher {

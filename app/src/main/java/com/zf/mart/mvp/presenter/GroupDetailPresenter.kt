@@ -9,6 +9,48 @@ class GroupDetailPresenter : BasePresenter<GroupDetailContract.View>(), GroupDet
 
     private val model: GroupDetailModel by lazy { GroupDetailModel() }
 
+    override fun requestDelCollect(goods_id: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.requestDelCollect(goods_id)
+                .subscribe({
+                    mRootView?.apply {
+                        dismissLoading()
+                        when (it.status) {
+                            0 -> setDelCollect()
+                            else -> showError(it.msg, it.status)
+                        }
+                    }
+                }, {
+                    mRootView?.apply {
+                        dismissLoading()
+                        showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                    }
+                })
+        addSubscription(disposable)
+    }
+
+    override fun requestAddCollect(goods_id: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.requestAddCollect(goods_id)
+                .subscribe({
+                    mRootView?.apply {
+                        dismissLoading()
+                        when (it.status) {
+                            0 -> setAddCollect()
+                            else -> showError(it.msg, it.status)
+                        }
+                    }
+                }, {
+                    mRootView?.apply {
+                        dismissLoading()
+                        showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                    }
+                })
+        addSubscription(disposable)
+    }
+
     //正在拼团的前5人
     override fun requestGroupMember(teamId: String) {
         checkViewAttached()

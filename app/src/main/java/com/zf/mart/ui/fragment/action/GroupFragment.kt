@@ -108,7 +108,7 @@ class GroupFragment : BaseFragment(), GroupContract.View {
         }
 
         adapter.itemClickListener = { bean ->
-            GroupDetailActivity.actionStart(context, bean)
+            GroupDetailActivity.actionStart(context, bean.team_id)
         }
 
     }

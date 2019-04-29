@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.classic.common.MultipleStatusView
-import com.zf.mart.utils.LogUtils
 
 /**
  * 不设置懒加载。只要切换到当前fragment,就执行lazyLoad()。
@@ -42,7 +41,6 @@ abstract class NotLazyBaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         isViewPrepare = true
         initView()
-        LogUtils.e(">>>>:onViewCreated")
         lazyLoadDataIfPrepared()
         //多种状态切换的view 重试点击事件
         mLayoutStatusView?.setOnClickListener(mRetryClickListener)

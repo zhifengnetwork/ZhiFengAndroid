@@ -9,25 +9,49 @@ class RegisterPresenter : BasePresenter<RegisterContract.View>(), RegisterContra
 
     private val model by lazy { RegisterModel() }
 
-    override fun requestRegister(phone: String, password: String) {
+
+    override fun requestCode(scene: Int, mobile: String) {
         checkViewAttached()
         mRootView?.showLoading()
-        val disposable = model.requestRegister(phone, password)
-            .subscribe({
-                mRootView?.apply {
-                    dismissLoading()
-                    when (it.status) {
-                        0 -> registerSuccess()
-                        else -> registerError(it.msg, it.status)
+        val disposable = model.requestCode(scene, mobile)
+                .subscribe({
+                    mRootView?.apply {
+                        dismissLoading()
+                        when (it.status) {
+                            0 -> setCode(it.msg)
+                            else -> showError(it.msg, it.status)
+                        }
                     }
-                }
 
-            }, {
-                mRootView?.apply {
-                    dismissLoading()
-                    registerError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
-                }
-            })
+                }, {
+                    mRootView?.apply {
+                        dismissLoading()
+                        showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                    }
+                })
+
+        addSubscription(disposable)
+    }
+
+    override fun requestRegister(nickname: String, username: String, password: String, password2: String, code: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.requestRegister(nickname, username, password, password2, code)
+                .subscribe({
+                    mRootView?.apply {
+                        dismissLoading()
+                        when (it.status) {
+                            0 -> setRegister()
+                            else -> showError(it.msg, it.status)
+                        }
+                    }
+
+                }, {
+                    mRootView?.apply {
+                        dismissLoading()
+                        showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                    }
+                })
 
         addSubscription(disposable)
     }

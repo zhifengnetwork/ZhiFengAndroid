@@ -24,7 +24,6 @@ import com.zf.mart.mvp.presenter.UserInfoPresenter
 import com.zf.mart.showToast
 import com.zf.mart.utils.DurbanUtils
 import com.zf.mart.utils.GlideUtils
-import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.popwindow.AvatarPopupWindow
 import com.zf.mart.view.popwindow.SexChangeWindow
@@ -72,6 +71,7 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
     companion object {
         const val REQUEST_CODE = 11
         const val CHANGE_NAME_CODE = 13
+        const val CHANGE_NAME_RESULT = 14
         fun actionStart(context: Context?) {
             context?.startActivity(Intent(context, UserActivity::class.java))
         }
@@ -107,14 +107,15 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
      * 头像裁剪回调   修改名称回调
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
         //修改名称回调
-        if (requestCode == CHANGE_NAME_CODE) {
-            val newName: String? = data?.getStringExtra("newName")
-            updateUserInfoPresenter.changeUserInfo(
-                    newName ?: "", "", "", "",
-                    "", ""
-            )
+        if (resultCode == CHANGE_NAME_RESULT) {
+            if (requestCode == CHANGE_NAME_CODE) {
+                val newName: String? = data?.getStringExtra("newName")
+                updateUserInfoPresenter.changeUserInfo(
+                        newName ?: "", "", "", "",
+                        "", ""
+                )
+            }
         }
 
         if (resultCode == Activity.RESULT_OK) {
@@ -238,7 +239,6 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
         }
 
         nickNameLayout.setOnClickListener {
-
             val intent = Intent(this, ChangeNameActivity::class.java)
             intent.putExtra("nickName", nickName.text.toString())
             startActivityForResult(intent, CHANGE_NAME_CODE)

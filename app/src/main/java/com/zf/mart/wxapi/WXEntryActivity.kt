@@ -18,7 +18,7 @@ class WXEntryActivity : Activity(), IWXAPIEventHandler {
 
 
     /**
-     *    获取第一步的code后，请求以下链接获取access_token:
+     *    拿code请求以下链接获取access_token:
      *    "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code"
      *    获取用户个人信息:
      *    "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID"

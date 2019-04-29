@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
-import com.zf.mart.mvp.bean.CartGoodsList
 import com.zf.mart.mvp.bean.SpecCorrect
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.item_cart_spec.view.*
 
-class CartSpecAdapter(val context: Context, val data: List<SpecCorrect>, private val cartGoods: CartGoodsList) : RecyclerView.Adapter<CartSpecAdapter.ViewHolder>() {
+class CartSpecAdapter(val context: Context, val data: List<SpecCorrect>, private val specId: String) : RecyclerView.Adapter<CartSpecAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_cart_spec, parent, false)
@@ -39,7 +38,7 @@ class CartSpecAdapter(val context: Context, val data: List<SpecCorrect>, private
             }
 
             var choosePos: Int? = null
-            val oldSpec = cartGoods.spec_key.split("_")
+            val oldSpec = specId.split("_")
             repeat(data[position].list.size) {
                 if (oldSpec.contains(data[position].list[it].id)) {
                     choosePos = it

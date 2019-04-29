@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:text="0条好评"
                 android:textColor="@color/colorBlackText"
-                android:textSize="8sp" />
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/sellNum2"
@@ -93,16 +93,25 @@
                 android:layout_marginLeft="8dp"
                 android:text="销量:10万"
                 android:textColor="@color/colorBlackText"
-                android:textSize="8sp" />
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/payTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="已付款:"
+                android:textColor="@color/colorBlackText"
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/havePay2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="已付款:4200+"
+                android:layout_marginLeft="2dp"
+                android:text="0.00+"
                 android:textColor="@color/colorBlackText"
-                android:textSize="8sp" />
+                android:textSize="10sp" />
         </LinearLayout>
 
     </LinearLayout>

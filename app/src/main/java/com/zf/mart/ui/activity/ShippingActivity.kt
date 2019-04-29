@@ -20,11 +20,21 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
  */
 class ShippingActivity : BaseActivity(), ShippingContract.View {
 
+
     override fun showError(msg: String, errorCode: Int) {
         showToast(msg)
     }
 
+    //无物流信息
+    override fun setEmpty() {
+        hintTxt.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+    }
+
     override fun setShipping(bean: ShippingBean) {
+        hintTxt.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
+
         data.clear()
         data.addAll(bean.result)
         adapter.notifyDataSetChanged()
