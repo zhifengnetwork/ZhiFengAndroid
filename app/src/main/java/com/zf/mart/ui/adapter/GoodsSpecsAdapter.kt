@@ -86,8 +86,6 @@ class GoodsSpecsAdapter(val context: Context, val mData: List<List<GoodsSpecBean
                 specs_group.setOnCheckedChangeListener { _, checkedId ->
                     //保存当前选中项
                     selectID[position] = checkedId
-
-                    Log.e("检测", "signID===" + signID)
                     //获得所选ID
                     for (i in 0 until mData.size) {
                         if (position == i) {

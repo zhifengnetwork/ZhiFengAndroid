@@ -198,7 +198,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     private var images = ArrayList<String>()
     //接收传递过来的id
     private var goodsID = ""
-
+    //传递过来的规格ID
+    private var item_id = ""
     override fun initData() {
         goodsID = intent.getStringExtra("id")
     }
@@ -399,7 +400,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
-                    var item_id = ""
+
                     var sum = contentView?.card_number?.text.toString().toInt()
                     //第一次打开默认请求第一个
                     if (no_off) {
@@ -417,7 +418,6 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                         } else {
                             true
                         }
-
                     }
 
                     contentView?.apply {
@@ -478,7 +478,6 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                         }
                         //点击加入购物车
                         specs_btn.setOnClickListener {
-
                             //商品ID 数量（默认1） 规格ID
                             presenter.requestAddCart(mData?.goods?.goods_id.toString(), sum.toString(), item_id)
                         }

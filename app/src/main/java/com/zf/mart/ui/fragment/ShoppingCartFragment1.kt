@@ -55,12 +55,12 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
             }
         }
         val popWindow = object : GroupStylePopupWindow(
-                activity as Activity,
-                R.layout.pop_order_style,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                cartData[mShopPos].list[mGoodsPos],
-                specList
+            activity as Activity,
+            R.layout.pop_order_style,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            cartData[mShopPos].list[mGoodsPos],
+            specList
         ) {}
         popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
         popWindow.onNumberListener = {
@@ -77,7 +77,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
 //            cartData[mShopPos].list[mGoodsPos].spec_key_name = it.item ?: ""
 //            cartData[mShopPos].list[mGoodsPos].goods_price = it.price ?: "0.00"
 //            cartAdapter.notifyDataSetChanged()
-            cartOperatePresenter.requestChangeSpec(cartData[mShopPos].list[mGoodsPos].cat_id, specId)
+            cartOperatePresenter.requestChangeSpec(cartData[mShopPos].list[mGoodsPos].id, specId)
         }
     }
 
@@ -258,12 +258,12 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         cartRecyclerView.layoutManager = LinearLayoutManager(context)
         cartRecyclerView.adapter = cartAdapter
         cartRecyclerView.addItemDecoration(
-                RecyclerViewDivider(
-                        context,
-                        LinearLayoutManager.VERTICAL,
-                        DensityUtil.dp2px(12f),
-                        ContextCompat.getColor(context!!, R.color.colorBackground)
-                )
+            RecyclerViewDivider(
+                context,
+                LinearLayoutManager.VERTICAL,
+                DensityUtil.dp2px(12f),
+                ContextCompat.getColor(context!!, R.color.colorBackground)
+            )
         )
     }
 
@@ -312,7 +312,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
             }
             allChoose.isChecked = sum == cartData.size
             val body =
-                    RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(json))
+                RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(json))
             cartOperatePresenter.requestSelect(body)
         }
 
@@ -332,7 +332,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         /** 商品数量*/
         cartAdapter.onShopNumListener = { bean ->
             InputNumDialog.showDialog(childFragmentManager, bean.sum)
-                    .onNumListener = { num ->
+                .onNumListener = { num ->
                 cartOperatePresenter.requestCount(bean.id, num)
                 bean.shopPosition?.let { shopPos ->
                     bean.goodsPosition?.let { goodsPos ->
@@ -369,7 +369,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                     return@setOnClickListener
                 }
                 DeleteCartDialog.showDialog(childFragmentManager, 1)
-                        .onConfirmListener = {
+                    .onConfirmListener = {
                     val deleteList = ArrayList<HashMap<String, String>>()
                     cartData.forEach { shop ->
                         shop.list.forEach { goods ->
@@ -381,7 +381,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                         }
                     }
                     val body =
-                            RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(deleteList))
+                        RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(deleteList))
                     cartOperatePresenter.requestDeleteCart(body)
                 }
 
