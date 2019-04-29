@@ -19,18 +19,21 @@ import kotlinx.android.synthetic.main.fragment_myorder.*
 
 class MyOrderFragment : BaseFragment(), OrderListContract.View, OrderOperateContract.View {
 
+    //订单操作失败
+    override fun showOperateError(msg: String, errorCode: Int) {
+        showToast(msg)
+    }
+
     override fun setConfirmReceipt() {
         showToast("成功确认收货")
-        LogUtils.e(">>>>>>成功确认收货")
+        lazyLoad()
     }
 
-    //取消订单成功
     override fun setCancelOrder() {
-        LogUtils.e(">>>>取消订单成功")
         showToast("成功取消订单")
+        lazyLoad()
     }
 
-    //加载下一页失败
     override fun loadMoreError(msg: String, errorCode: Int) {
         showToast(msg)
     }
@@ -53,11 +56,12 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View, OrderOperateCont
 
     //结束刷新，渲染数据
     override fun setFinishRefresh(bean: List<OrderListBean>) {
+        refreshLayout.setEnableLoadMore(true)
+        LogUtils.e(">>>>true")
         mLayoutStatusView?.showContent()
         orderListData.clear()
         orderListData.addAll(bean)
         adapter.notifyDataSetChanged()
-        refreshLayout.setEnableLoadMore(true)
     }
 
     //加载下一页数据完成，渲染数据
@@ -69,6 +73,7 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View, OrderOperateCont
     //加载完全部
     override fun setLoadComplete() {
         refreshLayout.finishLoadMoreWithNoMoreData()
+
     }
 
     override fun showLoading() {
@@ -108,6 +113,8 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View, OrderOperateCont
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
+
+
     }
 
     override fun lazyLoad() {

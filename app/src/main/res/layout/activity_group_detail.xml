@@ -293,13 +293,17 @@
                 </LinearLayout>
 
                 <!-- 评价列表 -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/evaRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never" />
+                <!--<androidx.recyclerview.widget.RecyclerView-->
+                <!--android:id="@+id/evaRecyclerView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:nestedScrollingEnabled="false"-->
+                <!--android:overScrollMode="never"/>-->
+
+                <include
+                    android:id="@+id/commentLayout"
+                    layout="@layout/layout_group_eva" />
 
             </LinearLayout>
 
@@ -308,6 +312,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@color/whit"
                 android:orientation="vertical"
                 android:paddingLeft="25dp"

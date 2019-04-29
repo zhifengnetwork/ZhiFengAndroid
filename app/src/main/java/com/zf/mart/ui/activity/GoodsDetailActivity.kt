@@ -127,18 +127,18 @@ var a=""
     override fun initToolBar() {
 
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
 
 
         //分享
         shareLayout.setOnClickListener {
             val popUpWindow = object : ServicePopupWindow(
-                this, R.layout.pop_detail_share,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    this, R.layout.pop_detail_share,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
                     contentView.apply {
@@ -236,8 +236,8 @@ var a=""
     private fun initGraphic() {
         val titles = arrayOf("图文详情", "答疑")
         val fgms = arrayListOf(
-            GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
-            OrderAnswerFragment.newInstance() as Fragment
+                GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
+                OrderAnswerFragment.newInstance() as Fragment
         )
         segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
 
@@ -274,8 +274,8 @@ var a=""
     private fun initSame() {
 
         val fgms = arrayListOf(
-            DetailSameFragment.newInstance() as Fragment
-            , DetailSameFragment.newInstance() as Fragment
+                DetailSameFragment.newInstance() as Fragment
+                , DetailSameFragment.newInstance() as Fragment
         )
         val entitys = ArrayList<CustomTabEntity>()
         entitys.add(TabEntity("相似推荐", 0, 0))
@@ -324,10 +324,10 @@ var a=""
                 alpha = 1.0f
             }
             orderDetailHead.setBackgroundColor(
-                changeAlpha(
-                    ContextCompat.getColor(this, R.color.whit)
-                    , alpha
-                )
+                    changeAlpha(
+                            ContextCompat.getColor(this, R.color.whit)
+                            , alpha
+                    )
             )
             //回到顶部按钮
             if (scrollY - oldScrollY > 0) {

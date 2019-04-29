@@ -19,6 +19,7 @@ import com.zf.mart.net.exception.ErrorStatus
 import com.zf.mart.showToast
 import com.zf.mart.ui.activity.ConfirmOrderActivity
 import com.zf.mart.ui.adapter.CartShopAdapter1
+import com.zf.mart.utils.LogUtils
 import com.zf.mart.view.dialog.DeleteCartDialog
 import com.zf.mart.view.dialog.InputNumDialog
 import com.zf.mart.view.popwindow.GroupStylePopupWindow
@@ -33,22 +34,33 @@ import okhttp3.RequestBody
  */
 class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperateContract.View {
 
+    //根据规格获取商品信息
+    override fun setSpecInfo(bean: GoodsSpecInfo) {
+        cartData[mShopPos].list[mGoodsPos].goods_price = bean.price
+        cartData[mShopPos].list[mGoodsPos].goods.original_img = bean.spec_img
+        cartAdapter.notifyDataSetChanged()
+    }
 
     /** 获取商品规格 */
-    override fun setGoodsSpec(specBean: SpecBean) {
+    override fun setGoodsSpec(specBean: List<List<SpecBean>>) {
         /**
          * 把规格的对象扔出来
          * 请求网络更新规格
          * 刷新适配器，单品价格，规格，总体价格
          */
+        val specList = ArrayList<SpecCorrect>()
+        specBean.forEach {
+            if (it.isNotEmpty()) {
+                specList.add(SpecCorrect(it[0].name, it, ""))
+            }
+        }
         val popWindow = object : GroupStylePopupWindow(
                 activity as Activity,
                 R.layout.pop_order_style,
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 cartData[mShopPos].list[mGoodsPos],
-                specBean.list
-
+                specList
         ) {}
         popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
         popWindow.onNumberListener = {
@@ -56,12 +68,16 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
             cartAdapter.notifyDataSetChanged()
             cartOperatePresenter.requestCount(cartData[mShopPos].list[mGoodsPos].id, it)
         }
-        popWindow.onSpecListener = {
+        popWindow.onSpecListener = { specId ->
             //规格回调
-            cartData[mShopPos].list[mGoodsPos].spec_key_name = it.item ?: ""
-            cartData[mShopPos].list[mGoodsPos].goods_price = it.price ?: "0.00"
-            cartAdapter.notifyDataSetChanged()
-            cartOperatePresenter.requestChangeSpec(cartData[mShopPos].list[mGoodsPos].cat_id, it.item_id)
+            LogUtils.e(">>>:$specId")
+            //回调后 请求网络1更改规格 请求网络2获取这个规格的商品详情 更改实体类，刷新列表
+            //要有商家index和商品index
+            /** 价格和图片已经在上面的网络回调修改了，剩下总价和规格中文没修改 */
+//            cartData[mShopPos].list[mGoodsPos].spec_key_name = it.item ?: ""
+//            cartData[mShopPos].list[mGoodsPos].goods_price = it.price ?: "0.00"
+//            cartAdapter.notifyDataSetChanged()
+            cartOperatePresenter.requestChangeSpec(cartData[mShopPos].list[mGoodsPos].cat_id, specId)
         }
     }
 
@@ -224,7 +240,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         }
     }
 
-    override fun getLayoutId(): Int = com.zf.mart.R.layout.fragment_shoping_cart
+    override fun getLayoutId(): Int = R.layout.fragment_shoping_cart
 
 
     private var mShopPos = 0

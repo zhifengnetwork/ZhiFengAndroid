@@ -9,26 +9,27 @@ class OrderOperatePresenter : BasePresenter<OrderOperateContract.View>(), OrderO
 
     private val model: OrderOperateModel by lazy { OrderOperateModel() }
 
+    //确认收货
     override fun requestConfirmReceipt(orderId: String) {
         checkViewAttached()
         mRootView?.showLoading()
-        val disposable = model.requestCancelOrder(orderId)
-                .subscribe({
-                    mRootView?.apply {
-                        dismissLoading()
-                        when (it.status) {
-                            0 -> if (it.data != null) {
-                                setConfirmReceipt()
-                            }
-                            else -> showError(it.msg, it.status)
+        val disposable = model.requestConfirmReceipt(orderId)
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> if (it.data != null) {
+                            setConfirmReceipt()
                         }
+                        else -> showOperateError(it.msg, it.status)
                     }
-                }, {
-                    mRootView?.apply {
-                        dismissLoading()
-                        showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
-                    }
-                })
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    showOperateError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
         addSubscription(disposable)
     }
 
@@ -36,22 +37,22 @@ class OrderOperatePresenter : BasePresenter<OrderOperateContract.View>(), OrderO
         checkViewAttached()
         mRootView?.showLoading()
         val disposable = model.requestCancelOrder(orderId)
-                .subscribe({
-                    mRootView?.apply {
-                        dismissLoading()
-                        when (it.status) {
-                            0 -> if (it.data != null) {
-                                setCancelOrder()
-                            }
-                            else -> showError(it.msg, it.status)
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> if (it.data != null) {
+                            setCancelOrder()
                         }
+                        else -> showOperateError(it.msg, it.status)
                     }
-                }, {
-                    mRootView?.apply {
-                        dismissLoading()
-                        showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
-                    }
-                })
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    showOperateError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
         addSubscription(disposable)
     }
 

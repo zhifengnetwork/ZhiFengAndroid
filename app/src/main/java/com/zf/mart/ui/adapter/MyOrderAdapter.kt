@@ -75,6 +75,7 @@ class MyOrderAdapter(val context: Context?, val data: List<OrderListBean>) :
                             //已发货
                             status.text = "待收货"
                             shipping.visibility = View.VISIBLE
+                            confirmReceive.visibility = View.VISIBLE
                         }
                     }
                 }

@@ -31,42 +31,49 @@
         android:textColor="@color/colorBlackText"
         android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/styleTxt2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/styleTxt"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:text="款式"
-        android:textColor="@color/colorBlackText"
-        android:textSize="12sp" />
-
-
-    <LinearLayout
-        android:id="@+id/styleLayout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/styleTxt2"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:orientation="horizontal">
+        android:layout_below="@+id/styleTxt"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content" />
 
-        <com.zhy.view.flowlayout.TagFlowLayout
-            android:id="@+id/hotLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:max_select="1" />
+    <!--<TextView-->
+        <!--android:id="@+id/styleTxt2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/styleTxt"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:text="款式"-->
+        <!--android:textColor="@color/colorBlackText"-->
+        <!--android:textSize="12sp" />-->
 
-    </LinearLayout>
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/styleLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/styleTxt2"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<com.zhy.view.flowlayout.TagFlowLayout-->
+            <!--android:id="@+id/hotLayout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--app:max_select="1" />-->
+
+    <!--</LinearLayout>-->
 
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_below="@+id/styleLayout"
+        android:layout_below="@+id/recyclerView"
         android:layout_marginTop="20dp"
         android:background="@color/colorLine" />
 

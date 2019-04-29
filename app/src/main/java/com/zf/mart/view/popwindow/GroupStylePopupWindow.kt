@@ -1,5 +1,6 @@
 package com.zf.mart.view.popwindow
 
+//import com.zf.mart.mvp.bean.SpecList
 import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -9,12 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
-import android.widget.TextView
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
 import com.zf.mart.mvp.bean.CartGoodsList
-import com.zf.mart.mvp.bean.SpecList
-import com.zhy.view.flowlayout.FlowLayout
-import com.zhy.view.flowlayout.TagAdapter
+import com.zf.mart.mvp.bean.SpecCorrect
+import com.zf.mart.ui.adapter.CartSpecAdapter
 import kotlinx.android.synthetic.main.pop_order_style.view.*
 
 /**
@@ -26,7 +27,7 @@ abstract class GroupStylePopupWindow(
         w: Int,
         h: Int,
         private val bean: CartGoodsList,
-        private val specBean: List<SpecList>
+        private val specBean: List<SpecCorrect>
 ) {
     val contentView: View
     val popupWindow: PopupWindow
@@ -41,44 +42,32 @@ abstract class GroupStylePopupWindow(
 
 
     var onNumberListener: ((num: Int) -> Unit)? = null
-    var onSpecListener: ((SpecList) -> Unit)? = null
+    var onSpecListener: ((String) -> Unit)? = null
 
     private fun initView() {
         contentView.apply {
 
+            val adapter = CartSpecAdapter(context, specBean, bean)
+            //设置规格
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            recyclerView.adapter = adapter
+
+            confirm.setOnClickListener {
+                var chooseSpec = ""
+                repeat(adapter.data.size) {
+                    chooseSpec = (chooseSpec + "_" + adapter.data[it].chooseId)
+                    if (adapter.data[it].chooseId.isEmpty()) {
+                        Toast.makeText(context, "请选择规格", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+                }
+                chooseSpec = chooseSpec.replaceFirst("_", "")
+                onSpecListener?.invoke(chooseSpec)
+                onDismiss()
+            }
+
+            /** 数量 */
             number.text = bean.goods_num.toString()
-
-
-            val history = ArrayList<String>()
-
-            var choosePos: Int? = null
-
-            repeat(specBean.size) {
-                history.add(specBean[it].item ?: "")
-                if (bean.spec_key_name == specBean[it].item) {
-                    choosePos = it
-                }
-            }
-
-            hotLayout.adapter = object : TagAdapter<String>(history) {
-                override fun getView(parent: FlowLayout?, position: Int, t: String?): View {
-                    val tv: TextView = LayoutInflater.from(context).inflate(
-                            R.layout.layout_textview_style, hotLayout, false
-                    ) as TextView
-                    tv.text = t
-                    return tv
-                }
-            }
-
-            //默认选中规格
-            if (choosePos != null) {
-                hotLayout.adapter.setSelectedList(setOf(choosePos))
-            }
-
-            hotLayout.setOnTagClickListener { _, position, _ ->
-                onSpecListener?.invoke(specBean[position])
-                return@setOnTagClickListener true
-            }
 
             reduce.isSelected = number.text.toString().toInt() < 2
             reduce.setOnClickListener {
@@ -105,10 +94,6 @@ abstract class GroupStylePopupWindow(
                     reduce.isSelected = s.toString().toInt() < 2
                 }
             })
-
-            confirm.setOnClickListener {
-                onDismiss()
-            }
 
         }
     }

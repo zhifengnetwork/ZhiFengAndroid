@@ -5,9 +5,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.CountDownTimer
-import android.view.Gravity
+import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,25 +14,22 @@ import androidx.viewpager.widget.ViewPager
 import com.zf.mart.R
 import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseActivity
-import com.zf.mart.mvp.bean.GroupBean
-import com.zf.mart.mvp.bean.GroupDetailBean
-import com.zf.mart.mvp.bean.GroupDetailImg
-import com.zf.mart.mvp.bean.GroupMemberList
+import com.zf.mart.mvp.bean.*
 import com.zf.mart.mvp.contract.GroupDetailContract
 import com.zf.mart.mvp.presenter.GroupDetailPresenter
 import com.zf.mart.showToast
-import com.zf.mart.ui.adapter.GroupEvaAdapter
+import com.zf.mart.ui.adapter.EvaImageAdapter
 import com.zf.mart.ui.adapter.GroupUserAdapter
 import com.zf.mart.ui.adapter.GuideAdapter
 import com.zf.mart.utils.GlideUtils
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.utils.TimeUtils
 import com.zf.mart.view.dialog.GroupUserDialog
-import com.zf.mart.view.popwindow.GroupStylePopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.activity_group_detail.*
 import kotlinx.android.synthetic.main.layout_detail_head.*
 import kotlinx.android.synthetic.main.layout_group_bottom.*
+import kotlinx.android.synthetic.main.layout_group_eva.*
 
 /**
  * 拼团 详情
@@ -86,18 +82,41 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View {
                 && (bean.info.end_time * 1000 > System.currentTimeMillis())
         ) {
             val time: Long = (bean.info.end_time * 1000) - System.currentTimeMillis()
-            object : CountDownTimer((time), 1000) {
+            countTime = object : CountDownTimer((time), 1000) {
                 override fun onFinish() {
                 }
 
                 override fun onTick(millisUntilFinished: Long) {
                     countDownTime.text = "距离结束还有 ${TimeUtils.getCountTime2(millisUntilFinished)}"
                 }
-            }.start()
+            }
+            countTime?.start()
         } else {
             countDownTime.text = "活动已结束"
         }
 
+        //评价
+        initEva(bean.info.commentinfo)
+
+    }
+
+    private var countTime: CountDownTimer? = null
+
+    //评价
+    private fun initEva(comment: CommentInfo?) {
+        if (comment != null) {
+            userName.text = comment.username
+            addTime.text = TimeUtils.myOrderTime(comment.add_time)
+            starView.setRate((comment.deliver_rank + comment.goods_rank + comment.service_rank) / 3 * 2)
+            content.text = comment.content
+            val adapter = EvaImageAdapter(this, comment.img)
+            val manager = LinearLayoutManager(this)
+            manager.orientation = LinearLayoutManager.HORIZONTAL
+            recyclerView.layoutManager = manager
+            recyclerView.adapter = adapter
+        } else {
+            commentLayout.visibility = View.GONE
+        }
     }
 
     override fun showLoading() {
@@ -135,9 +154,6 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View {
 
     private val groupDetailPresenter by lazy { GroupDetailPresenter() }
 
-    //评价
-    private val evaAdapter by lazy { GroupEvaAdapter(this) }
-
     private val memberList = ArrayList<GroupMemberList>()
     //正在拼单的团
     private val userAdapter by lazy { GroupUserAdapter(this, memberList) }
@@ -155,9 +171,6 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View {
         //标题栏
         initScrollHead()
 
-        //评价
-        initEva()
-
         //全部评价
         evaluation.setOnClickListener {
             EvaluationActivity.actionStart(this, mBean?.goods_id ?: "")
@@ -170,7 +183,10 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View {
     override fun initEvent() {
 
         buySelfLayout.setOnClickListener {
-//            val popWindow = object : GroupStylePopupWindow(
+            //单独购买
+
+
+            //            val popWindow = object : GroupStylePopupWindow(
 //                    this,
 //                    R.layout.pop_order_style,
 //                    LinearLayout.LayoutParams.MATCH_PARENT,
@@ -178,7 +194,6 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View {
 //            ) {}
 //            popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
         }
-
 
         //更多拼单的人
         moreUserLayout.setOnClickListener {
@@ -204,10 +219,6 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View {
         )
     }
 
-    private fun initEva() {
-        evaRecyclerView.layoutManager = LinearLayoutManager(this)
-        evaRecyclerView.adapter = evaAdapter
-    }
 
     private fun initBanner(imgList: List<GroupDetailImg>) {
         val imageViews = ArrayList<ImageView>()
@@ -264,6 +275,7 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View {
         super.onDestroy()
         groupDetailPresenter.detachView()
         userAdapter.finishCountDown()
+        countTime?.cancel()
     }
 
 

@@ -39,7 +39,7 @@
         android:drawableLeft="@drawable/ic_alarmclock"
         android:drawablePadding="3dp"
         android:gravity="center"
-        android:text="1:25:30"
+        android:text="0:00:00"
         android:textColor="@color/colorPrice"
         android:textSize="15sp" />
 
@@ -70,7 +70,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/home_ms_line"
-        android:layout_marginTop="5dp"
         android:nestedScrollingEnabled="false"
         android:overScrollMode="never" />
 
