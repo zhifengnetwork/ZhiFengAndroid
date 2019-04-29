@@ -14,6 +14,11 @@ interface GroupDetailContract {
         fun setGroupDetail(bean: GroupDetailBean)
 
         fun setGroupMember(bean: List<GroupMemberList>)
+
+        fun setAddCollect()
+
+        fun setDelCollect()
+
     }
 
     interface Presenter : IPresenter<View> {
@@ -21,6 +26,9 @@ interface GroupDetailContract {
 
         fun requestGroupMember(teamId: String)
 
+        fun requestAddCollect(goods_id: String)
+
+        fun requestDelCollect(goods_id: String)
     }
 
 }

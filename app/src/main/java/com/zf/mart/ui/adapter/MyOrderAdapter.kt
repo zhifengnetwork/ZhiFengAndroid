@@ -28,6 +28,7 @@ class MyOrderAdapter(val context: Context?, val data: List<OrderListBean>) :
     var onCancelOrderListener: ((String) -> Unit)? = null
     var onConfirmReceiveListener: ((String) -> Unit)? = null
     var onShippingListener: ((String) -> Unit)? = null
+    var onEvaluateListener: ((String) -> Unit)? = null
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -109,8 +110,14 @@ class MyOrderAdapter(val context: Context?, val data: List<OrderListBean>) :
                 onConfirmReceiveListener?.invoke(data[position].order_id)
             }
 
+            //物流
             shipping.setOnClickListener {
                 onShippingListener?.invoke(data[position].order_id)
+            }
+
+            //去评价
+            evaluate.setOnClickListener {
+                onEvaluateListener?.invoke(data[position].order_id)
             }
 
         }

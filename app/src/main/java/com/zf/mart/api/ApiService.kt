@@ -35,11 +35,14 @@ interface ApiService {
     /**
      * 注册
      */
-    @POST("user/reg")
+    @POST("api/user/reg")
     @FormUrlEncoded
     fun register(
-        @Field("mobile") mobile: String,
-        @Field("password") password: String
+        @Field("nickname") nickname: String,
+        @Field("username") username: String,
+        @Field("password") password: String,
+        @Field("password2") password2: String,
+        @Field("code") code: String
     ): Observable<BaseBean<Unit>>
 
     /**
@@ -68,7 +71,6 @@ interface ApiService {
     /**
      * 添加地址
      */
-
     @POST("api/User/add_address")
     @FormUrlEncoded
     fun setAddressList(
@@ -355,18 +357,6 @@ interface ApiService {
         @Field("goods_id") goods_id: String
     ): Observable<BaseBean<List<List<GoodsSpecBean>>>>
 
-//<<<<<<< HEAD
-//=======
-//    /**
-//     *  根据规格key获取图片，库存
-//     */
-//    @FormUrlEncoded
-//    @POST("api/goods/getPricePic")
-//    fun getPricePic(
-//        @Field("key") key: String,
-//        @Field("goods_id") goods_id: String
-//    ): Observable<BaseBean<PricePicBean>>
-//>>>>>>> bf123cdba96dbffaeac5e6c56bb5391163bef64c
 
     /**
      * 我的---足迹
@@ -451,6 +441,7 @@ interface ApiService {
     @POST("api/order/post_order")
     fun requestPostOrder(
         @Field("act") act: Int,
+        @Field("prom_type") prom_type: Int,
         @Field("address_id") address_id: String,
         @Field("invoice_title") invoice_title: String,
         @Field("taxpayer") taxpayer: String,
@@ -467,7 +458,8 @@ interface ApiService {
         @Field("shop_id") shop_id: String,
         @Field("take_time") take_time: String,
         @Field("consignee") consignee: String,
-        @Field("mobile") mobile: String
+        @Field("mobile") mobile: String,
+        @Field("prom_id") prom_id: String
     ): Observable<BaseBean<PostOrderBean>>
 
     /**
@@ -564,5 +556,41 @@ interface ApiService {
      * 签到日期列表
      */
     @POST("api/sign/AppGetSignDay")
-    fun getSignDay():Observable<BaseBean<AppSignDayBean>>
+    fun getSignDay(): Observable<BaseBean<AppSignDayBean>>
+
+
+    /**
+     *购物车
+     * 根据规格获取商品信息
+     */
+    @GET("api/search/getHotKeywords")
+    fun requestHotSearch(): Observable<BaseBean<String>>
+
+    /**
+     * 发送短信
+     */
+    @POST("home/Api/app_send_validate_code")
+    @FormUrlEncoded
+    fun requestCode(@Field("scene") scene: Int, @Field("mobile") mobile: String): Observable<BaseBean<Unit>>
+
+    /**
+     * 找回密码
+     * 对比验证码
+     */
+    @POST("api/user/FindPwdCheckSms")
+    @FormUrlEncoded
+    fun requestContrast(@Field("mobile") mobile: String, @Field("code") code: String): Observable<BaseBean<Unit>>
+
+    /**
+     * 找回密码
+     * 修改密码
+     */
+    @POST("api/user/FindPwd")
+    @FormUrlEncoded
+    fun requestChangePwd(
+        @Field("mobile") mobile: String,
+        @Field("password") password: String,
+        @Field("password2") password2: String
+    ): Observable<BaseBean<Unit>>
+
 }

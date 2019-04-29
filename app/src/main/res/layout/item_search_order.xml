@@ -19,6 +19,7 @@
             android:layout_height="100dp"
             android:layout_marginLeft="10dp"
             android:background="@color/colorBackground"
+            android:scaleType="centerCrop"
             app:riv_corner_radius="5dp" />
 
         <TextView
@@ -96,16 +97,29 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/havePay"
+            android:id="@+id/payTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/goodsIcon"
             android:layout_marginLeft="13dp"
             android:layout_marginTop="30dp"
             android:layout_toRightOf="@+id/sellNum"
-            android:text="已付款:4200+"
+            android:text="已付款:"
             android:textColor="@color/colorBlackText"
             android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/havePay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/goodsIcon"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@+id/payTxt"
+            android:text="0.00+"
+            android:textColor="@color/colorBlackText"
+            android:textSize="12sp" />
+
         <!--<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"-->
         <!--android:layout_alignParentRight="true"-->
         <!--android:layout_alignBottom="@+id/goodsIcon"-->

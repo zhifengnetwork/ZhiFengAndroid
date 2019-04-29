@@ -18,6 +18,7 @@ interface PostOrderContract {
     interface Presenter : IPresenter<View> {
 
         fun requestPostOrder(act: Int,
+                             prom_type: Int,
                              address_id: String,
                              invoice_title: String,
                              taxpayer: String,
@@ -34,7 +35,8 @@ interface PostOrderContract {
                              shop_id: String,
                              take_time: String,
                              consignee: String,
-                             mobile: String)
+                             mobile: String,
+                             prom_id: String)
 
     }
 

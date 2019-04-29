@@ -7,9 +7,14 @@ import io.reactivex.Observable
 
 class RegisterModel {
 
-    fun requestRegister(phone: String, password: String): Observable<BaseBean<Unit>> {
-        return RetrofitManager.service.register(phone, password)
-            .compose(SchedulerUtils.ioToMain())
+    fun requestRegister(nickname: String, username: String, password: String, password2: String, code: String): Observable<BaseBean<Unit>> {
+        return RetrofitManager.service.register(nickname, username, password, password2, code)
+                .compose(SchedulerUtils.ioToMain())
+    }
+
+    fun requestCode(scene: Int, mobile: String): Observable<BaseBean<Unit>> {
+        return RetrofitManager.service.requestCode(scene, mobile)
+                .compose(SchedulerUtils.ioToMain())
     }
 
 }

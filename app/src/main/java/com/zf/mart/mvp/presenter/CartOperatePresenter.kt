@@ -10,6 +10,32 @@ class CartOperatePresenter : BasePresenter<CartOperateContract.View>(), CartOper
 
     private val model: CartOperateModel by lazy { CartOperateModel() }
 
+    //获取商品规格
+    override fun requestGoodsSpec(id: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.requestSpec(id)
+                .subscribe({
+                    mRootView?.apply {
+                        dismissLoading()
+                        when (it.status) {
+                            0 -> {
+                                if (it.data != null) {
+                                    setGoodsSpec(it.data)
+                                }
+                            }
+                            else -> cartOperateError(it.msg, it.status)
+                        }
+                    }
+                }, {
+                    mRootView?.apply {
+                        dismissLoading()
+                        cartOperateError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                    }
+                })
+        addSubscription(disposable)
+    }
+
     //根据规格获取商品信息
     override fun requestSpecInfo(key: String, goodsId: String) {
         checkViewAttached()
@@ -166,30 +192,5 @@ class CartOperatePresenter : BasePresenter<CartOperateContract.View>(), CartOper
         addSubscription(disposable)
     }
 
-    //获取商品规格
-    override fun requestGoodsSpec(id: String) {
-        checkViewAttached()
-        mRootView?.showLoading()
-        val disposable = model.requestSpec(id)
-                .subscribe({
-                    mRootView?.apply {
-                        dismissLoading()
-                        when (it.status) {
-                            0 -> {
-                                if (it.data != null) {
-                                    setGoodsSpec(it.data)
-                                }
-                            }
-                            else -> cartOperateError(it.msg, it.status)
-                        }
-                    }
-                }, {
-                    mRootView?.apply {
-                        dismissLoading()
-                        cartOperateError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
-                    }
-                })
-        addSubscription(disposable)
-    }
 
 }

@@ -75,9 +75,9 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
 
         shareLayout.visibility = View.INVISIBLE
@@ -150,17 +150,21 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
             val time: Long = (bean.info.start_time * 1000) - System.currentTimeMillis()
             timer = object : CountDownTimer((time), 1000) {
                 override fun onFinish() {
+                    //秒杀结束
+                    timeTxt.text = "秒杀已结束"
+                    downTime.visibility = View.INVISIBLE
+                    operation.text = "已抢光"
+                    operation.isEnabled = false
                 }
 
                 override fun onTick(millisUntilFinished: Long) {
                     downTime.text = TimeUtils.getCountTime2(millisUntilFinished)
                 }
             }.start()
-
             operation.text = "即将开始"
             operation.isEnabled = false
         } else if ((bean.info.start_time * 1000 < System.currentTimeMillis())
-            && (bean.info.end_time * 1000 > System.currentTimeMillis())
+                && (bean.info.end_time * 1000 > System.currentTimeMillis())
         ) {
             timeTxt.text = "距离秒杀结束"
             timer?.cancel()
@@ -173,13 +177,11 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
                     downTime.text = TimeUtils.getCountTime2(millisUntilFinished)
                 }
             }.start()
-
             operation.text = "立即购买"
             operation.isEnabled = true
         } else {
             timeTxt.text = "秒杀已结束"
             downTime.visibility = View.INVISIBLE
-
             operation.text = "已抢光"
             operation.isEnabled = false
         }
@@ -192,10 +194,10 @@ class SecKillDetailActivity : BaseActivity(), SecKillDetailContract.View {
                 alpha = 1.0f
             }
             orderDetailHead.setBackgroundColor(
-                changeAlpha(
-                    ContextCompat.getColor(this, R.color.whit)
-                    , alpha
-                )
+                    changeAlpha(
+                            ContextCompat.getColor(this, R.color.whit)
+                            , alpha
+                    )
             )
         }
     }

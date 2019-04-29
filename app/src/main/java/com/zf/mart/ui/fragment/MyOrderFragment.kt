@@ -11,6 +11,7 @@ import com.zf.mart.mvp.presenter.OrderListPresenter
 import com.zf.mart.mvp.presenter.OrderOperatePresenter
 import com.zf.mart.net.exception.ErrorStatus
 import com.zf.mart.showToast
+import com.zf.mart.ui.activity.EvaluateActivity
 import com.zf.mart.ui.activity.MyOrderActivity
 import com.zf.mart.ui.activity.ShippingActivity
 import com.zf.mart.ui.adapter.MyOrderAdapter
@@ -26,12 +27,10 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View, OrderOperateCont
 
     override fun setConfirmReceipt() {
         showToast("成功确认收货")
-        LogUtils.e(">>>>>成功确认收货")
         lazyLoad()
     }
 
     override fun setCancelOrder() {
-        LogUtils.e(">>>>成功取消订单")
         showToast("成功取消订单")
         lazyLoad()
     }
@@ -134,44 +133,49 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View, OrderOperateCont
             deleteListener = {
                 //                DeleteMyOrderDialog.showDialog(childFragmentManager, it)
                 AlertDialog.Builder(context!!)
-                    .setTitle("提示")
-                    .setMessage("删除该订单")
-                    .setNegativeButton("取消", null)
-                    .setPositiveButton("确定") { _, _ ->
+                        .setTitle("提示")
+                        .setMessage("删除该订单")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定") { _, _ ->
 
-                    }
-                    .show()
+                        }
+                        .show()
             }
 
             //取消订单
             onCancelOrderListener = { orderId ->
                 AlertDialog.Builder(context!!)
-                    .setTitle("提示")
-                    .setMessage("取消该订单")
-                    .setNegativeButton("取消", null)
-                    .setPositiveButton("确定") { _, _ ->
+                        .setTitle("提示")
+                        .setMessage("取消该订单")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定") { _, _ ->
 
-                        orderOperatePresenter.requestCancelOrder(orderId)
-                    }
-                    .show()
+                            orderOperatePresenter.requestCancelOrder(orderId)
+                        }
+                        .show()
 
             }
 
             //确认收货
             onConfirmReceiveListener = { orderId ->
                 AlertDialog.Builder(context!!)
-                    .setTitle("提示")
-                    .setMessage("确认收货")
-                    .setNegativeButton("取消", null)
-                    .setPositiveButton("确定") { _, _ ->
-                        orderOperatePresenter.requestConfirmReceipt(orderId)
-                    }
-                    .show()
+                        .setTitle("提示")
+                        .setMessage("确认收货")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定") { _, _ ->
+                            orderOperatePresenter.requestConfirmReceipt(orderId)
+                        }
+                        .show()
             }
 
             //查看物流
             onShippingListener = { orderId ->
                 ShippingActivity.actionStart(context, orderId)
+            }
+
+            //去评价
+            onEvaluateListener = { orderId ->
+                EvaluateActivity.actionStart(context,orderId)
             }
 
         }

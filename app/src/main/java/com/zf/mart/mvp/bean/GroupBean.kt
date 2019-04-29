@@ -13,5 +13,6 @@ data class GroupBean(
     val purchase_qty: String,
     val shop_price: String,
     val market_price: String,
+    val goods_item_id:String,
     val original_img: String
 ):Serializable

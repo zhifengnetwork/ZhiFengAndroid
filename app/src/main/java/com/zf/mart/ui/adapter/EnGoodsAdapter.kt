@@ -29,6 +29,7 @@ class EnGoodsAdapter(val context: Context?, val data: List<Goods>) :
             GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + data[position].original_img, goodsIcon)
             goodsName.text = data[position].goods_name
             goodsPrice.text = "¥${data[position].shop_price}"
+            goodsNum.text = "×" + data[position].goods_num
         }
     }
 

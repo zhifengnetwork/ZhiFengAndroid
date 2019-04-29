@@ -19,10 +19,10 @@ data class CartGoodsList(
         val id: String,          //商品id
         var goods_price: String,
         var goods_num: Int,
-        val spec_key: String,
+        var spec_key: String, //5-12-17
+        var spec_key_name: String, //颜色，规格，套餐
         val goods: Goods,
         val cat_id: String,
-        var spec_key_name: String,
         var selected: String //商品是否选中
 )
 

@@ -12,6 +12,15 @@
         android:layout_height="1px"
         android:background="@color/colorBackground" />
 
+    <TextView
+        android:id="@+id/hintTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="赞无物流信息"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="14sp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

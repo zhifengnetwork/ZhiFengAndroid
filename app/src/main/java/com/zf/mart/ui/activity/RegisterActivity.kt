@@ -13,10 +13,12 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.mvp.contract.RegisterContract
 import com.zf.mart.mvp.presenter.RegisterPresenter
 import com.zf.mart.showToast
+import com.zf.mart.utils.FormUtil
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.dialog.RegisterDialog
 import kotlinx.android.synthetic.main.activity_register.*
@@ -26,16 +28,35 @@ import kotlinx.android.synthetic.main.activity_register.*
  */
 class RegisterActivity : BaseActivity(), RegisterContract.View {
 
-    override fun registerSuccess() {
+    override fun setRegister() {
         RegisterDialog.showDialog(supportFragmentManager)
-            .setOnItemClickListener(object : RegisterDialog.OnItemClickListener {
-                override fun onItemClick() {
-                    finish()
-                }
-            })
+                .setOnItemClickListener(object : RegisterDialog.OnItemClickListener {
+                    override fun onItemClick() {
+                        finish()
+                    }
+                })
     }
 
-    override fun registerError(message: String, errorCode: Int) {
+    override fun setCode(msg: String) {
+        showToast(msg)
+        sendCode.isSelected = !sendCode.isSelected
+        countDownTimer?.cancel()
+        countDownTimer = object : CountDownTimer((UriConstant.CODE_TIME * 1000).toLong(), 1000) {
+            override fun onFinish() {
+                isRun = false
+                sendCode.text = "点击再次获取"
+                sendCode.isSelected = !sendCode.isSelected
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+                isRun = true
+                sendCode.text = (millisUntilFinished / 1000).toString() + "秒后重新获取"
+            }
+        }
+        countDownTimer?.start()
+    }
+
+    override fun showError(message: String, errorCode: Int) {
         showToast(message)
     }
 
@@ -55,9 +76,9 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
     }
 
@@ -70,11 +91,11 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
 
     override fun onDestroy() {
         registerPresenter.detachView()
+        countDownTimer?.cancel()
         super.onDestroy()
     }
 
     override fun initView() {
-
         registerPresenter.attachView(this)
 
         /** 阅读并同意协议 */
@@ -109,8 +130,8 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
         register.setOnClickListener {
             if (checkBox.isChecked) {
                 when {
-                    TextUtils.isEmpty(account.text) -> accountError.visibility = View.VISIBLE
-                    TextUtils.isEmpty(phone.text) -> phoneError.visibility = View.VISIBLE
+                    account.text.toString().length < 5 || account.text.toString().length > 12 -> accountError.visibility = View.VISIBLE
+                    !FormUtil.isMobile(phone.text.toString()) -> phoneError.visibility = View.VISIBLE
                     TextUtils.isEmpty(code.text) -> codeError.visibility = View.VISIBLE
                     pwd.text.length < 6 -> pwdError.visibility = View.VISIBLE
                     pwd.text.toString() != pwdEn.text.toString() -> pwdEnError.visibility = View.VISIBLE
@@ -120,7 +141,8 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
                         codeError.visibility = View.GONE
                         pwdError.visibility = View.GONE
                         pwdEnError.visibility = View.GONE
-                        registerPresenter.requestRegister(phone.text.toString(), pwd.text.toString())
+                        registerPresenter.requestRegister(account.text.toString(),
+                                phone.text.toString(), pwd.text.toString(), pwdEn.text.toString(), code.text.toString())
                     }
                 }
             }
@@ -128,20 +150,11 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
 
         sendCode.setOnClickListener {
             if (!isRun) {
-                sendCode.isSelected = !sendCode.isSelected
-                val countDownTimer = object : CountDownTimer((10 * 1000).toLong(), 1000) {
-                    override fun onFinish() {
-                        isRun = false
-                        sendCode.text = "点击再次获取"
-                        sendCode.isSelected = !sendCode.isSelected
-                    }
-
-                    override fun onTick(millisUntilFinished: Long) {
-                        isRun = true
-                        sendCode.text = (millisUntilFinished / 1000).toString() + "秒后重新获取"
-                    }
+                if (FormUtil.isMobile(phone.text.toString())) {
+                    registerPresenter.requestCode(1, phone.text.toString())
+                } else {
+                    showToast("请输入正确手机号")
                 }
-                countDownTimer.start()
             }
         }
 
@@ -149,6 +162,9 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
             LoginActivity.actionStart(this)
         }
     }
+
+    private var countDownTimer: CountDownTimer? = null
+
 
     private fun checkInput() {
 
@@ -179,4 +195,6 @@ class RegisterActivity : BaseActivity(), RegisterContract.View {
 
     override fun start() {
     }
+
+
 }

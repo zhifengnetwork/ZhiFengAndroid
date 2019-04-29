@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent"
@@ -18,7 +17,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginLeft="20dp"
-        android:src="@drawable/pi_picture" />
+        android:src="@color/colorBackground" />
 
     <TextView
         android:id="@+id/styleTxt"
@@ -27,45 +26,45 @@
         android:layout_alignBottom="@+id/goodsIcon"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/goodsIcon"
-        android:text="请选择:款式"
+        android:text=""
         android:textColor="@color/colorBlackText"
         android:textSize="14sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/styleTxt"
-        android:layout_marginTop="20dp"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="20dp" />
 
     <!--<TextView-->
-        <!--android:id="@+id/styleTxt2"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/styleTxt"-->
-        <!--android:layout_marginLeft="20dp"-->
-        <!--android:layout_marginTop="20dp"-->
-        <!--android:text="款式"-->
-        <!--android:textColor="@color/colorBlackText"-->
-        <!--android:textSize="12sp" />-->
+    <!--android:id="@+id/styleTxt2"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/styleTxt"-->
+    <!--android:layout_marginLeft="20dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:text="款式"-->
+    <!--android:textColor="@color/colorBlackText"-->
+    <!--android:textSize="12sp" />-->
 
 
     <!--<LinearLayout-->
-        <!--android:id="@+id/styleLayout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/styleTxt2"-->
-        <!--android:layout_marginLeft="20dp"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:layout_marginRight="20dp"-->
-        <!--android:orientation="horizontal">-->
+    <!--android:id="@+id/styleLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/styleTxt2"-->
+    <!--android:layout_marginLeft="20dp"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:layout_marginRight="20dp"-->
+    <!--android:orientation="horizontal">-->
 
-        <!--<com.zhy.view.flowlayout.TagFlowLayout-->
-            <!--android:id="@+id/hotLayout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_margin="10dp"-->
-            <!--app:max_select="1" />-->
+    <!--<com.zhy.view.flowlayout.TagFlowLayout-->
+    <!--android:id="@+id/hotLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_margin="10dp"-->
+    <!--app:max_select="1" />-->
 
     <!--</LinearLayout>-->
 
@@ -80,7 +79,7 @@
     <LinearLayout
         android:id="@+id/numLayout"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="55dp"
         android:layout_below="@+id/view"
         android:gravity="center_vertical"
         android:orientation="horizontal"

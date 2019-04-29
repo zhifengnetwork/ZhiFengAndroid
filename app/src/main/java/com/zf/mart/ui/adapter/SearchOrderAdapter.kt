@@ -47,9 +47,9 @@ class SearchOrderAdapter(val context: Context, val data: List<SearchList>) :
                     GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + it[0].image_url, goodsIcon)
                 }
                 price.text = data[position].shop_price
-                sellNum.text = "销量:${data[position].sales_sum}"
+                sellNum.text = "销量: ${data[position].sales_sum}"
                 evaluate.text = "${data[position].comment_count}条好评"
-                havePay.text = "已付款:${data[position].sale_total}+"
+                havePay.text = data[position].sale_total ?: "0.00"
                 shopName.text = data[position].seller_name
 
             } else {
@@ -58,9 +58,9 @@ class SearchOrderAdapter(val context: Context, val data: List<SearchList>) :
                     GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + it[0].image_url, home_recommend_iv)
                 }
                 home_recommend_price.text = data[position].shop_price
-                sellNum2.text = "销量:${data[position].sales_sum}"
+                sellNum2.text = "销量: ${data[position].sales_sum}"
                 evaluate2.text = "${data[position].comment_count}条好评"
-                havePay2.text = "已付款:${data[position].sale_total}+"
+                havePay2.text = data[position].sale_total ?: "0.00"
                 shopName2.text = data[position].seller_name
             }
 

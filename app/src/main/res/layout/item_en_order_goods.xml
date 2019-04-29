@@ -35,10 +35,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/sizeLayout"
-            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/goodsNum"
             android:text="￥0.00"
+            android:textColor="@color/colorBlackText"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/goodsNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sizeLayout"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="10dp"
+            android:text="×1"
             android:textColor="@color/colorBlackText"
             android:textSize="13sp" />
 
