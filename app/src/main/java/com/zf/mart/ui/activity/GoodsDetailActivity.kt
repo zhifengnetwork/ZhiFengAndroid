@@ -3,9 +3,11 @@ package com.zf.mart.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RadioButton
 import android.widget.ScrollView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
@@ -38,7 +40,8 @@ import kotlinx.android.synthetic.main.layout_detail_goods.*
 import kotlinx.android.synthetic.main.layout_detail_head.*
 import kotlinx.android.synthetic.main.layout_detail_same.*
 import kotlinx.android.synthetic.main.pop_detail_share.view.*
-import kotlinx.android.synthetic.main.pop_goodsdetail.view.*
+import kotlinx.android.synthetic.main.pop_detail_address.view.*
+import kotlinx.android.synthetic.main.pop_detail_specs.view.*
 
 /**
  * 商品详情
@@ -76,6 +79,14 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         if (bean.freight != "0.00") fare.text = bean.freight else fare.text = "免邮费"
     }
 
+    //获得商品规格
+    override fun getGoodsSpce(bean: List<List<GoodsSpecBean>>) {
+        mSpec.clear()
+        mSpec.addAll(bean)
+        specsAdapter.notifyDataSetChanged()
+
+    }
+
     //点击关注商品
     override fun setCollectGoods(msg: String) {
         showToast(msg)
@@ -87,7 +98,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     }
 
     //加入购物车
-    override fun setRegister(msg: String) {
+    override fun addCartSuccess(msg: String) {
         showToast(msg)
         cart.isChecked = true
     }
@@ -99,13 +110,17 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     override fun dismissLoading() {
 
     }
-
+var a=""
     /**要传一个商品ID过来*/
     companion object {
+
         fun actionStart(context: Context?, goods_id: String) {
             val intent = Intent(context, GoodsDetailActivity::class.java)
             intent.putExtra("id", goods_id)
             context?.startActivity(intent)
+        }
+        fun request(){
+
         }
     }
 
@@ -156,10 +171,16 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     private var mData: GoodsDetailBean? = null
     //商品评论
     private var mEva = ArrayList<GoodEvaList>()
-    //pop弹窗
-    private lateinit var regionPopWindow: RegionPopupWindow
+    //商品规格
+    private var mSpec = ArrayList<List<GoodsSpecBean>>()
+    //地址pop弹窗
+    private lateinit var addressPopWindow: RegionPopupWindow
+    //商品规格pop弹窗
+    lateinit var specsPopWindow: RegionPopupWindow
     //pop地址适配器
     private val popAdapter by lazy { GoodsDetailAdapter(context, mAddress) }
+    //pop商品规格适配器
+    private val specsAdapter by lazy { GoodsSpecsAdapter(context, mSpec) }
     //接收地址列表
     private var mAddress = ArrayList<AddressBean>()
     //商品评价adapter
@@ -326,10 +347,10 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
             //请求地址列表
             presenter.requestAddress()
 
-            regionPopWindow = object : RegionPopupWindow(
-                    this, R.layout.pop_goodsdetail,
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+            addressPopWindow = object : RegionPopupWindow(
+                this, R.layout.pop_detail_address,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
                     contentView?.apply {
@@ -340,15 +361,14 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                             goods_address.text = it.province_name + it.city_name + it.district_name
                             //邮费请求
                             presenter.requestGoodsFreight(goodsID, it.city, "1")
-                            regionPopWindow.onDismiss()
+                            addressPopWindow.onDismiss()
                         }
                     }
-
-
                 }
             }
-            regionPopWindow.updata()
-            regionPopWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+            //更新视图
+            addressPopWindow.updata()
+            addressPopWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
         }
 
         //收藏按钮
@@ -363,8 +383,39 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
         //加入购物车
         shop_cat.setOnClickListener {
+            specsPopWindow = object : RegionPopupWindow(
+                this, R.layout.pop_detail_specs,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ) {
+                override fun initView() {
+                    contentView?.apply {
+                        specs_rl.layoutManager = LinearLayoutManager(context)
+                        specs_rl.adapter = specsAdapter
+                        specs_btn.setOnClickListener {
+
+                            //商品ID 数量（默认1） 规格ID
+//                            presenter.requestAddCart(mData?.goods?.goods_id.toString(), "1", "")
+                        }
+
+                    }
+                    specsAdapter.setOnCheckedChangeListener(object :GoodsSpecsAdapter.OnCheckedChangeListener{
+                        override fun onItemClick(itemId: String) {
+
+                            Log.e("检测","点击事件"+itemId)
+                        }
+
+
+
+                    })
+
+                }
+
+            }
+            specsPopWindow.updata()
+            specsPopWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
             //商品ID 数量（默认1） 规格ID
-            presenter.requestRegister(mData?.goods?.goods_id.toString(), "1", "")
+//            presenter.requestAddCart(mData?.goods?.goods_id.toString(), "1", "")
         }
         //购物车复选框
         cart.setOnCheckedChangeListener { _, isChecked ->
@@ -382,9 +433,12 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     }
 
     override fun start() {
+        //请求商品详情
         presenter.requestGoodsDetail(goodsID)
         //请求评论
         presenter.requestGoodEva(goodsID, 1, 1, 6)
+        //请求规格
+        presenter.requestGoodsSpec(goodsID)
     }
 
     /**将网络请求到的数据赋值到页面上*/

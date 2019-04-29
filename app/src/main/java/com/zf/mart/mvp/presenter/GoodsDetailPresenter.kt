@@ -1,6 +1,5 @@
 package com.zf.mart.mvp.presenter
 
-import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BasePresenter
 import com.zf.mart.mvp.contract.GoodsDetailContract
 import com.zf.mart.mvp.model.GoodsDetailModel
@@ -153,15 +152,15 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
         addSubscription(disposable)
     }
 
-    override fun requestRegister(goods_id: String, goods_num: String, item_id: String) {
+    override fun requestAddCart(goods_id: String, goods_num: String, item_id: String) {
         checkViewAttached()
         mRootView?.showLoading()
-        val disposable = model.setRegister(goods_id, goods_num, item_id)
+        val disposable = model.addCart(goods_id, goods_num, item_id)
             .subscribe({
                 mRootView?.apply {
                     dismissLoading()
                     when (it.status) {
-                        0 -> setRegister(it.msg)
+                        0 -> addCartSuccess(it.msg)
                         else -> showError(it.msg, it.status)
                     }
                 }
@@ -173,4 +172,31 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
             })
         addSubscription(disposable)
     }
+
+    override fun requestGoodsSpec(goods_id: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.getGoodsSpec(goods_id)
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> {
+                            if (it.data != null) {
+                                getGoodsSpce(it.data )
+                            }
+                        }
+                        else -> showError(it.msg, it.status)
+                    }
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
+        addSubscription(disposable)
+    }
+
+
 }

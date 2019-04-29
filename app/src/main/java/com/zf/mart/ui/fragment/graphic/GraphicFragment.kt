@@ -71,7 +71,7 @@ class GraphicFragment : BaseFragment(), GoodsAttrContract.View {
 
         RichText.initCacheDir(context)
 
-        RichText.from(aaa).into(h5Decode)
+        RichText.from(aaa).into(textR)
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -91,16 +91,16 @@ class GraphicFragment : BaseFragment(), GoodsAttrContract.View {
     }
 
     override fun initEvent() {
-        show.setOnClickListener {
-            show.isSelected = !show.isSelected
-            if (show.isSelected) {
-                show.text = "收起"
-                h5Decode.visibility = View.VISIBLE
-            } else {
-                show.text = "展开"
-                h5Decode.visibility = View.GONE
-            }
-        }
+//        show.setOnClickListener {
+//            show.isSelected = !show.isSelected
+//            if (show.isSelected) {
+//                show.text = "收起"
+//                h5Decode.visibility = View.VISIBLE
+//            } else {
+//                show.text = "展开"
+//                h5Decode.visibility = View.GONE
+//            }
+//        }
     }
 
     override fun onDestroy() {

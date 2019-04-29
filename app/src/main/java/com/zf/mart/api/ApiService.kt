@@ -37,7 +37,10 @@ interface ApiService {
      */
     @POST("user/reg")
     @FormUrlEncoded
-    fun register(@Field("mobile") mobile: String, @Field("password") password: String): Observable<BaseBean<Unit>>
+    fun register(
+        @Field("mobile") mobile: String,
+        @Field("password") password: String
+    ): Observable<BaseBean<Unit>>
 
     /**
      * 用户信息
@@ -344,6 +347,25 @@ interface ApiService {
     ): Observable<BaseBean<GoodsAttrBean>>
 
     /**
+     *  获取商品规格
+     */
+    @FormUrlEncoded
+    @POST("api/goods/goodsSpec")
+    fun getGoodsSpec(
+        @Field("goods_id") goods_id: String
+    ): Observable<BaseBean<List<List<GoodsSpecBean>>>>
+
+    /**
+     *  根据规格key获取图片，库存
+     */
+    @FormUrlEncoded
+    @POST("api/goods/getPricePic")
+    fun getPricePic(
+        @Field("key") key: String,
+        @Field("goods_id") goods_id: String
+    ): Observable<BaseBean<PricePicBean>>
+
+    /**
      * 我的---足迹
      */
     @GET("api/User/visit_log")
@@ -410,8 +432,8 @@ interface ApiService {
      * 添加购物车
      */
     @FormUrlEncoded
-    @POST("api/user/register")
-    fun requestRegister(
+    @POST("api/cart/add_cart")
+    fun addCart(
         @Field("goods_id") goods_id: String,
         @Field("goods_num") goods_num: String,
         @Field("item_id") item_id: String

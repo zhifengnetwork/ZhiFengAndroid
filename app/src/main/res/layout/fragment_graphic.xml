@@ -68,9 +68,8 @@
 
     <TextView android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:id="@+id/h5Decode"
-              android:textIsSelectable="false"
-              android:visibility="gone"/>
+              android:id="@+id/textR"
+               />
 
 
     <!--<androidx.recyclerview.widget.RecyclerView android:layout_width="match_parent"-->

@@ -19,6 +19,9 @@ interface GoodsDetailContract {
         //获得商品运费
         fun getGoodsFreight(bean: GoodsFreightBean)
 
+        //获得商品规格
+        fun getGoodsSpce(bean: List<List<GoodsSpecBean>>)
+
         //关注商品
         fun setCollectGoods(msg: String)
 
@@ -26,7 +29,7 @@ interface GoodsDetailContract {
         fun delCollectGoods(msg: String)
 
         //加入购物车
-        fun setRegister(msg: String)
+        fun addCartSuccess(msg: String)
     }
 
     interface Presenter : IPresenter<View> {
@@ -42,6 +45,8 @@ interface GoodsDetailContract {
 
         fun requestDelCollectGoods(goods_id: String)
 
-        fun requestRegister(goods_id: String, goods_num: String, item_id: String)
+        fun requestAddCart(goods_id: String, goods_num: String, item_id: String)
+
+        fun requestGoodsSpec(goods_id: String)
     }
 }

@@ -1,7 +1,10 @@
 package com.zf.mart.mvp.bean
 
 data class GoodsSpecBean(
-        val info: GoodsSpecInfo
+    val name:String,
+    val id:String,
+    val item:String,
+    val info: GoodsSpecInfo
 )
 
 data class GoodsSpecInfo(
@@ -9,3 +12,4 @@ data class GoodsSpecInfo(
         val store_count: String,
         val spec_img: String
 )
+

@@ -1,11 +1,7 @@
 package com.zf.mart.mvp.model
 
-import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseBean
-import com.zf.mart.mvp.bean.AddressBean
-import com.zf.mart.mvp.bean.GoodEvaBean
-import com.zf.mart.mvp.bean.GoodsDetailBean
-import com.zf.mart.mvp.bean.GoodsFreightBean
+import com.zf.mart.mvp.bean.*
 import com.zf.mart.net.RetrofitManager
 import com.zf.mart.scheduler.SchedulerUtils
 import io.reactivex.Observable
@@ -41,8 +37,13 @@ class GoodsDetailModel {
             .compose(SchedulerUtils.ioToMain())
     }
 
-    fun setRegister(goods_id: String,goods_num:String,item_id:String):Observable<BaseBean<Unit>>{
-        return RetrofitManager.service.requestRegister(goods_id,goods_num, item_id)
+    fun addCart(goods_id: String, goods_num:String, item_id:String):Observable<BaseBean<Unit>>{
+        return RetrofitManager.service.addCart(goods_id,goods_num, item_id)
+            .compose(SchedulerUtils.ioToMain())
+    }
+
+    fun getGoodsSpec(goods_id: String):Observable<BaseBean<List<List<GoodsSpecBean>>>>{
+        return RetrofitManager.service.getGoodsSpec(goods_id)
             .compose(SchedulerUtils.ioToMain())
     }
 }
