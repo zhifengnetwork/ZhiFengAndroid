@@ -7,6 +7,7 @@
               android:layout_height="match_parent">
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             app:srlEnableAutoLoadMore="true"
             app:srlEnableFooterFollowWhenLoadFinished="true"
@@ -25,11 +26,16 @@
                 app:srlEnableLastTime="false"
                 app:srlDrawableProgress="@drawable/ic_progress_puzzle"
                 android:layout_height="wrap_content"/>
-
-        <androidx.recyclerview.widget.RecyclerView
+        <com.classic.common.MultipleStatusView
+                android:id="@+id/multipleStatusView"
                 android:layout_width="match_parent"
-                android:id="@+id/recyclerView"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/recyclerView"
+                    android:layout_height="match_parent"/>
+        </com.classic.common.MultipleStatusView>
 
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
                 android:layout_width="match_parent"

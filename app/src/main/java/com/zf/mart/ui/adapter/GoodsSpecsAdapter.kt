@@ -18,9 +18,12 @@ import kotlinx.android.synthetic.main.item_pop_goodsspecs.view.*
 class GoodsSpecsAdapter(val context: Context, val mData: List<List<GoodsSpecBean>>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     //记录用户选中规格ID
-    val signID = Array(mData.size) { "" }
+    private val signID = Array(mData.size) { "" }
+    //记录用户选中项
+    private val selectID = Array(mData.size) { 0 }
     var itemId = ""
-    var switch = false
+
+
     private var mListener: OnCheckedChangeListener? = null
 
     fun setOnCheckedChangeListener(listener: OnCheckedChangeListener) {
@@ -47,6 +50,8 @@ class GoodsSpecsAdapter(val context: Context, val mData: List<List<GoodsSpecBean
 
                 for (i in 0 until mData[position].size) {
                     val tempButton = RadioButton(context)
+                    //设置id
+                    tempButton.id = i
                     val lp = RadioGroup.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT
@@ -60,42 +65,60 @@ class GoodsSpecsAdapter(val context: Context, val mData: List<List<GoodsSpecBean
                     tempButton.text = mData[position][i].item
                     specs_group.addView(tempButton, lp)
                 }
+
+                //设置默认值
+                for (i in 0 until mData.size) {
+                    if (position == i) {
+                        signID[position] = mData[position][selectID[position]].id
+                    }
+                }
+//                if (position == 0) {
+//                    signID[position] = mData[position][selectID[position]].id
+//                }
+                //设置默认选中
+                for ((i, index) in selectID.withIndex()) {
+                    if (position == i) {
+                        specs_group.check(index)
+                    }
+                }
+
                 //点击事件
-                specs_group.setOnCheckedChangeListener { group, _ ->
-                    val radioButton = group.findViewById<RadioButton>(group.checkedRadioButtonId)
-                    for (i in 0 until mData[position].size) {
-                        if (mData[position][i].item == radioButton.text.toString()) {
-                            //当前选中的ID
-                            signID[position] = mData[position][i].id
+                specs_group.setOnCheckedChangeListener { _, checkedId ->
+                    //保存当前选中项
+                    selectID[position] = checkedId
+
+                    Log.e("检测", "signID===" + signID)
+                    //获得所选ID
+                    for (i in 0 until mData.size) {
+                        if (position == i) {
+                            signID[position] = mData[position][checkedId].id
                         }
                     }
+                    //获得选中的id
+
                     //组ID
                     for ((i, index) in signID.withIndex()) {
-                        if (index == "") {
-                            itemId = ""
-                            switch = false
+
+                        if (i == 0) {
+                            itemId += index
                         } else {
-                            if (i == 0) {
-                                itemId += index
-                            } else {
-                                itemId = itemId + "_" + index
-                            }
-                            switch = true
+                            itemId = itemId + "_" + index
                         }
+
                     }
-                    if (switch) {
-                        Log.e("检测", "" + itemId)
-                        mListener?.onItemClick(itemId)
-                        itemId = ""
-                    }
+                    mListener?.onItemClick(itemId)
+
+                    itemId = ""
                 }
 
             }
 
         }
 
-
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+
+
+class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

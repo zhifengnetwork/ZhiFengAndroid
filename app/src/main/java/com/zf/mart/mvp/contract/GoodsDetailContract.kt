@@ -30,6 +30,9 @@ interface GoodsDetailContract {
 
         //加入购物车
         fun addCartSuccess(msg: String)
+
+        //根据规格key获取图片，库存
+        fun getPricePic(bean: GoodsSpecInfo)
     }
 
     interface Presenter : IPresenter<View> {
@@ -48,5 +51,7 @@ interface GoodsDetailContract {
         fun requestAddCart(goods_id: String, goods_num: String, item_id: String)
 
         fun requestGoodsSpec(goods_id: String)
+
+        fun requestPricePic(key: String, goods_id: String)
     }
 }

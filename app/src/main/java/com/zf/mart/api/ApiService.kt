@@ -352,15 +352,6 @@ interface ApiService {
         @Field("goods_id") goods_id: String
     ): Observable<BaseBean<List<List<GoodsSpecBean>>>>
 
-    /**
-     *  根据规格key获取图片，库存
-     */
-    @FormUrlEncoded
-    @POST("api/goods/getPricePic")
-    fun getPricePic(
-        @Field("key") key: String,
-        @Field("goods_id") goods_id: String
-    ):Observable<BaseBean<PricePicBean>>
 
     /**
      * 我的---足迹
@@ -515,9 +506,10 @@ interface ApiService {
      */
     @GET("api/Goods/goodsList")
     fun requestCommend(
-            @Query("type") type: String,
-            @Query("page") page: Int,
-            @Query("num") num: Int): Observable<BaseBean<CommendBean>>
+        @Query("type") type: String,
+        @Query("page") page: Int,
+        @Query("num") num: Int
+    ): Observable<BaseBean<CommendBean>>
 
     /**
      * 购物车
@@ -525,8 +517,38 @@ interface ApiService {
      */
     @POST("api/goods/getPricePic")
     @FormUrlEncoded
-    fun requestSpecInfo(@Field("key") key: String,
-                         @Field("goods_id") goods_id: String): Observable<BaseBean<GoodsSpecBean>>
+    fun requestSpecInfo(
+        @Field("key") key: String,
+        @Field("goods_id") goods_id: String
+    ): Observable<BaseBean<GoodsSpecBean>>
 
+    /**
+     * 获取消息/公告接口
+     */
+    @POST("api/user/message_notice")
+    @FormUrlEncoded
+    fun getMessage(
+        @Field("page") page: Int,
+        @Field("num") num: Int,
+        @Field("type") type: String
+    ): Observable<BaseBean<MessageBean>>
 
+    /**
+     * 获取消息/公告详情
+     */
+    @POST("api/user/message_notice_info")
+    @FormUrlEncoded
+    fun getMessageInfo(@Field("rec_id") rec_id: String): Observable<BaseBean<MessageInfoBean>>
+
+    /**
+     * 签到
+     */
+    @POST("api/sign/AppSign")
+    fun requestAppSign(): Observable<BaseBean<AppSignBean>>
+
+    /**
+     * 签到日期列表
+     */
+    @POST("api/sign/AppGetSignDay")
+    fun getSignDay():Observable<BaseBean<AppSignDayBean>>
 }

@@ -152,7 +152,7 @@
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".ui.activity.SigninGiftActivity"
+        <activity android:name=".ui.activity.SignInGiftActivity"
                   android:launchMode="singleTask"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
@@ -264,6 +264,12 @@
                   android:launchMode="singleTask"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.activity.MessageInfoActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
 
     </application>
 

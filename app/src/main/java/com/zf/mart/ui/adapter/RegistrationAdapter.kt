@@ -8,43 +8,49 @@ import android.widget.BaseAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.zf.mart.R
+import com.zf.mart.mvp.bean.AppSignDayBean
 import com.zf.mart.view.gridview.SquareRelativeLayout
 
-class RegistrationAdapter(private val context: Context, private val days: Int, private val week: Int, private val mday: Int,private val year:Int,private val month: Int) : BaseAdapter() {
-
+class RegistrationAdapter(
+    val context: Context,
+    private val days: Int,
+    private val week: Int,
+    private val mday: Int,
+    private val year: Int,
+    private val month: Int,
+    val data: AppSignDayBean?
+) : BaseAdapter() {
 
 
     private var dayNumber: IntArray? = null
 
     private var viewHolder: ViewHolder? = null
-    private var tab:Int=0//记录日期下标
-    private var Date_array:Array<String> = arrayOf("2019-02-01","2019-02-13","2019-03-20","2019-10-09","2019-10-18")
+    private var tab: Int = 0//记录日期下标
+
 
     //接收日期处理方法
-    fun Date(){
-
-       for((index, e) in Date_array.withIndex())
-       {
-
-           //截取年份
-         var yy:Int=e.split("-")[0].toInt()
-           //截取月份
-          var mm:Int= e.split("-")[1].toInt()
-           //截取日
-          var dd:Int= e.split("-")[2].toInt()
-           //判断截取数据并在日历设置签到样式
-          if (yy==year&&mm==(month+1)&&dd==dayNumber!![tab]){
-              viewHolder!!.day.setBackgroundResource(R.drawable.rili)
-              viewHolder!!.sqly.setPadding(20, 20, 20, 20)
-              viewHolder!!.day.text = ""
-              viewHolder!!.back.setBackgroundResource(R.drawable.shape_calendar_bg)
-          }
+    fun Date() {
+        if (data?.date != null) {
+            for (e in data.date) {
+                //截取年份
+                val yy: Int = e.split("/")[0].toInt()
+                //截取月份
+                val mm: Int = e.split("/")[1].toInt()
+                //截取日
+                val dd: Int = e.split("/")[2].toInt()
+                //判断截取数据并在日历设置签到样式
+                if (yy == year && mm == (month + 1) && dd == dayNumber!![tab]) {
+                    viewHolder?.day?.setBackgroundResource(R.drawable.rili)
+                    viewHolder?.sqly?.setPadding(20, 20, 20, 20)
+                    viewHolder?.day?.text = ""
+                    viewHolder?.back?.setBackgroundResource(R.drawable.shape_calendar_bg)
+                }
 
 
+            }
+        }
 
-           }
-       }
-
+    }
 
 
     init {
@@ -53,11 +59,11 @@ class RegistrationAdapter(private val context: Context, private val days: Int, p
 
 
     override fun getCount(): Int {
-       var i=0
-        if((week>4&&days>30)||(week>5&&days>29)){
-            i=42
-        }else{
-            i=35
+        var i = 0
+        i = if ((week > 4 && days > 30) || (week > 5 && days > 29)) {
+            42
+        } else {
+            35
         }
         return i
     }
@@ -80,10 +86,10 @@ class RegistrationAdapter(private val context: Context, private val days: Int, p
         } else {
             viewHolder = view.tag as ViewHolder
         }
-        viewHolder!!.day.text = if (dayNumber!![i] == 0) "" else dayNumber!![i].toString() + ""
+        viewHolder?.day?.text = if (dayNumber!![i] == 0) "1" else dayNumber!![i].toString() + ""
 
         //判断签到了的日子并显示样式
-        tab=i//记录日期下标
+        tab = i//记录日期下标
         Date()
 
         return view
@@ -96,7 +102,7 @@ class RegistrationAdapter(private val context: Context, private val days: Int, p
 
         init {
             this.day = view.findViewById(R.id.day) as TextView
-            this.sqly=view.findViewById(R.id.squarerly) as SquareRelativeLayout
+            this.sqly = view.findViewById(R.id.squarerly) as SquareRelativeLayout
             this.back = view.findViewById(R.id.calendar_bg) as LinearLayout
         }
     }

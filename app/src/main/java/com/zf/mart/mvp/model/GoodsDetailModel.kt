@@ -12,7 +12,7 @@ class GoodsDetailModel {
             .compose(SchedulerUtils.ioToMain())
     }
 
-    fun getGoodEva(goodId: String, type: Int, page: Int , num:Int): Observable<BaseBean<GoodEvaBean>> {
+    fun getGoodEva(goodId: String, type: Int, page: Int, num: Int): Observable<BaseBean<GoodEvaBean>> {
         return RetrofitManager.service.getGoodEva(goodId, type, page, num)
             .compose(SchedulerUtils.ioToMain())
     }
@@ -27,23 +27,28 @@ class GoodsDetailModel {
             .compose(SchedulerUtils.ioToMain())
     }
 
-    fun setCollectGoods(goods_id: String): Observable<BaseBean<Unit>>{
+    fun setCollectGoods(goods_id: String): Observable<BaseBean<Unit>> {
         return RetrofitManager.service.setCollectGoods(goods_id)
             .compose(SchedulerUtils.ioToMain())
     }
 
-    fun delCollectGoods(goods_id: String): Observable<BaseBean<Unit>>{
+    fun delCollectGoods(goods_id: String): Observable<BaseBean<Unit>> {
         return RetrofitManager.service.delCollectGoods(goods_id)
             .compose(SchedulerUtils.ioToMain())
     }
 
-    fun addCart(goods_id: String, goods_num:String, item_id:String):Observable<BaseBean<Unit>>{
-        return RetrofitManager.service.addCart(goods_id,goods_num, item_id)
+    fun addCart(goods_id: String, goods_num: String, item_id: String): Observable<BaseBean<Unit>> {
+        return RetrofitManager.service.addCart(goods_id, goods_num, item_id)
             .compose(SchedulerUtils.ioToMain())
     }
 
-    fun getGoodsSpec(goods_id: String):Observable<BaseBean<List<List<GoodsSpecBean>>>>{
+    fun getGoodsSpec(goods_id: String): Observable<BaseBean<List<List<GoodsSpecBean>>>> {
         return RetrofitManager.service.getGoodsSpec(goods_id)
+            .compose(SchedulerUtils.ioToMain())
+    }
+
+    fun getPricePic(key: String, goods_id: String): Observable<BaseBean<GoodsSpecBean>> {
+        return RetrofitManager.service.requestSpecInfo(key, goods_id)
             .compose(SchedulerUtils.ioToMain())
     }
 }

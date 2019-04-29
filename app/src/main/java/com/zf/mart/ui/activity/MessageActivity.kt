@@ -12,6 +12,9 @@ import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_message.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
+/**
+ * 站内消息
+ * */
 class MessageActivity : BaseActivity() {
 
 
@@ -36,7 +39,7 @@ class MessageActivity : BaseActivity() {
 
     override fun initView() {
         val titles = arrayListOf("站内", "消息")
-        val fmgs = listOf(MessageFragment.newInstance(), MessageFragment.newInstance())
+        val fmgs = listOf(MessageFragment.newInstance(MessageFragment.BUY), MessageFragment.newInstance(MessageFragment.SELL))
         val adapter = BaseFragmentAdapter(supportFragmentManager, fmgs, titles)
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)

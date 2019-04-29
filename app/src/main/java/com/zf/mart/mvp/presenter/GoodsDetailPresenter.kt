@@ -183,7 +183,7 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
                     when (it.status) {
                         0 -> {
                             if (it.data != null) {
-                                getGoodsSpce(it.data )
+                                getGoodsSpce(it.data)
                             }
                         }
                         else -> showError(it.msg, it.status)
@@ -198,5 +198,29 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
         addSubscription(disposable)
     }
 
+    override fun requestPricePic(key: String, goods_id: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.getPricePic(key, goods_id)
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 ->{
+                            if (it.data != null) {
+                                getPricePic(it.data.info)
+                            }
+                        }
+                        else -> showError(it.msg, it.status)
+                    }
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
+        addSubscription(disposable)
+    }
 
 }

@@ -7,10 +7,10 @@ import android.util.Log
 import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RadioButton
 import android.widget.ScrollView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
@@ -27,6 +27,7 @@ import com.zf.mart.ui.adapter.*
 import com.zf.mart.ui.fragment.graphic.GraphicFragment
 import com.zf.mart.ui.fragment.graphic.OrderAnswerFragment
 import com.zf.mart.ui.fragment.same.DetailSameFragment
+import com.zf.mart.utils.GlideUtils
 import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.dialog.ShareSuccessDialog
@@ -76,7 +77,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
     //获得商品运费
     override fun getGoodsFreight(bean: GoodsFreightBean) {
-        if (bean.freight != "0.00") fare.text = bean.freight else fare.text = "免邮费"
+        if (bean.freight == "0.00" || bean.freight == "0") fare.text = "免邮费" else fare.text = bean.freight
     }
 
     //获得商品规格
@@ -103,6 +104,12 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         cart.isChecked = true
     }
 
+    //根据规格key获取图片，库存
+    override fun getPricePic(bean: GoodsSpecInfo) {
+        mPrice = bean
+        specsPopWindow.updata()
+    }
+
     override fun showLoading() {
 
     }
@@ -110,7 +117,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     override fun dismissLoading() {
 
     }
-var a=""
+
     /**要传一个商品ID过来*/
     companion object {
 
@@ -119,26 +126,24 @@ var a=""
             intent.putExtra("id", goods_id)
             context?.startActivity(intent)
         }
-        fun request(){
 
-        }
     }
 
     override fun initToolBar() {
 
         StatusBarUtils.darkMode(
-                this,
-                ContextCompat.getColor(this, R.color.colorSecondText),
-                0.3f
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
         )
 
 
         //分享
         shareLayout.setOnClickListener {
             val popUpWindow = object : ServicePopupWindow(
-                    this, R.layout.pop_detail_share,
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                this, R.layout.pop_detail_share,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
                     contentView.apply {
@@ -173,14 +178,18 @@ var a=""
     private var mEva = ArrayList<GoodEvaList>()
     //商品规格
     private var mSpec = ArrayList<List<GoodsSpecBean>>()
+    //详细商品规格信息
+    private var mPrice: GoodsSpecInfo? = null
     //地址pop弹窗
     private lateinit var addressPopWindow: RegionPopupWindow
     //商品规格pop弹窗
-    lateinit var specsPopWindow: RegionPopupWindow
+    private lateinit var specsPopWindow: RegionPopupWindow
     //pop地址适配器
     private val popAdapter by lazy { GoodsDetailAdapter(context, mAddress) }
     //pop商品规格适配器
     private val specsAdapter by lazy { GoodsSpecsAdapter(context, mSpec) }
+    //第一次打开pop商品规格默认请求
+    private var no_off = true
     //接收地址列表
     private var mAddress = ArrayList<AddressBean>()
     //商品评价adapter
@@ -236,8 +245,8 @@ var a=""
     private fun initGraphic() {
         val titles = arrayOf("图文详情", "答疑")
         val fgms = arrayListOf(
-                GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
-                OrderAnswerFragment.newInstance() as Fragment
+            GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
+            OrderAnswerFragment.newInstance() as Fragment
         )
         segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
 
@@ -274,8 +283,8 @@ var a=""
     private fun initSame() {
 
         val fgms = arrayListOf(
-                DetailSameFragment.newInstance() as Fragment
-                , DetailSameFragment.newInstance() as Fragment
+            DetailSameFragment.newInstance() as Fragment
+            , DetailSameFragment.newInstance() as Fragment
         )
         val entitys = ArrayList<CustomTabEntity>()
         entitys.add(TabEntity("相似推荐", 0, 0))
@@ -324,10 +333,10 @@ var a=""
                 alpha = 1.0f
             }
             orderDetailHead.setBackgroundColor(
-                    changeAlpha(
-                            ContextCompat.getColor(this, R.color.whit)
-                            , alpha
-                    )
+                changeAlpha(
+                    ContextCompat.getColor(this, R.color.whit)
+                    , alpha
+                )
             )
             //回到顶部按钮
             if (scrollY - oldScrollY > 0) {
@@ -353,6 +362,7 @@ var a=""
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
+
                     contentView?.apply {
                         pop_recyclerView.layoutManager = LinearLayoutManager(context)
                         pop_recyclerView.adapter = popAdapter
@@ -367,7 +377,7 @@ var a=""
                 }
             }
             //更新视图
-            addressPopWindow.updata()
+//            addressPopWindow.updata()
             addressPopWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
         }
 
@@ -389,22 +399,97 @@ var a=""
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
-                    contentView?.apply {
-                        specs_rl.layoutManager = LinearLayoutManager(context)
-                        specs_rl.adapter = specsAdapter
-                        specs_btn.setOnClickListener {
-
-                            //商品ID 数量（默认1） 规格ID
-//                            presenter.requestAddCart(mData?.goods?.goods_id.toString(), "1", "")
+                    var item_id = ""
+                    var sum = contentView?.card_number?.text.toString().toInt()
+                    //第一次打开默认请求第一个
+                    if (no_off) {
+                        //重组ID
+                        for (i in 0 until mSpec.size) {
+                            item_id = if (i == 0) {
+                                mSpec[i][0].id
+                            } else {
+                                item_id + "_" + mSpec[i][0].id
+                            }
+                        }
+                        no_off = if (item_id != "") {
+                            presenter.requestPricePic(item_id, mData?.goods?.goods_id.toString())
+                            false
+                        } else {
+                            true
                         }
 
                     }
-                    specsAdapter.setOnCheckedChangeListener(object :GoodsSpecsAdapter.OnCheckedChangeListener{
-                        override fun onItemClick(itemId: String) {
 
-                            Log.e("检测","点击事件"+itemId)
+                    contentView?.apply {
+                        specs_rl.layoutManager = LinearLayoutManager(context)
+                        specs_rl.adapter = specsAdapter
+                        //没有规格的商品 根据no_off判断
+                        if (no_off) {
+                            //图片
+                            GlideUtils.loadUrlImage(context, "https://mobile.zhifengwangluo.c3w.cc"+mData?.goods?.original_img, goods_img)
+                            //名称
+                            goodsName.text = mData?.goods?.goods_name
+                            //价格
+                            goods_price.text = mData?.goods?.shop_price
+                            //库存
+                            goods_stock.text = "剩余库存:" + mData?.goods?.store_count
+                        } else {
+                            //图片
+                            GlideUtils.loadUrlImage(context,mPrice?.spec_img, goods_img)
+                            //名称
+                            goodsName.text = mData?.goods?.goods_name
+                            //价格
+                            goods_price.text = mPrice?.price
+                            //库存
+                            goods_stock.text = "剩余库存:" + mPrice?.store_count
+                        }
+                        //输入文本框
+                        card_number.addTextChangedListener {
+                            val text = it.toString()
+                            val len = it.toString().length
+                            if (len > 1 && text.startsWith("0")) {
+                                it?.replace(0, 1, "")
+                            }
+                            sum = if (text == "") {
+                                card_number.setText("1")
+                                1
+                            }else{
+                                text.toInt()
+                            }
+
+
+
+                        }
+                        //点击减少数量
+                        del_btn.setOnClickListener {
+
+                            sum -= 1
+                            if (sum <= 0) {
+                                sum = 1
+                            }
+                            card_number.setText(sum.toString())
+
+                        }
+                        //点击增加数量
+                        add_btn.setOnClickListener {
+                            sum += 1
+                            card_number.setText(sum.toString())
+
+                        }
+                        //点击加入购物车
+                        specs_btn.setOnClickListener {
+
+                            //商品ID 数量（默认1） 规格ID
+                            presenter.requestAddCart(mData?.goods?.goods_id.toString(), sum.toString(), item_id)
                         }
 
+                    }
+                    //适配器监听回调
+                    specsAdapter.setOnCheckedChangeListener(object : GoodsSpecsAdapter.OnCheckedChangeListener {
+                        override fun onItemClick(itemId: String) {
+                            item_id = itemId
+                            presenter.requestPricePic(item_id, mData?.goods?.goods_id.toString())
+                        }
 
 
                     })
@@ -414,8 +499,7 @@ var a=""
             }
             specsPopWindow.updata()
             specsPopWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
-            //商品ID 数量（默认1） 规格ID
-//            presenter.requestAddCart(mData?.goods?.goods_id.toString(), "1", "")
+
         }
         //购物车复选框
         cart.setOnCheckedChangeListener { _, isChecked ->

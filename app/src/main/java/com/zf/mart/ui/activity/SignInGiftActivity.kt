@@ -1,5 +1,6 @@
 package com.zf.mart.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.GestureDetector
@@ -7,54 +8,96 @@ import android.view.MotionEvent
 import android.view.View
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.mvp.bean.AppSignDayBean
+import com.zf.mart.mvp.contract.AppSignDayContract
+import com.zf.mart.mvp.presenter.AppSignDayPresenter
 import com.zf.mart.ui.adapter.RegistrationAdapter
 import com.zf.mart.view.gridview.SpecialCalendar
 import kotlinx.android.synthetic.main.activity_sign_in_gift.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
-import java.text.SimpleDateFormat
 import java.util.*
 
-class SigninGiftActivity : BaseActivity() {
-    private var mDetector: GestureDetector? = null
-    private var adapter: RegistrationAdapter? = null
-    private val sdf = SimpleDateFormat("yyyy-M-d")
-    internal var mYear = 0//年
-    internal var mMonth = 0//月
-    internal var mDay = 0//日
-    internal var mDays: Int = 0
-    internal var week: Int = 0
-    internal var month: Int = 0
-    internal var year: Int = 0
+class SignInGiftActivity : BaseActivity(), AppSignDayContract.View {
+    override fun showError(msg: String, errorCode: Int) {
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun getAppSignDay(bean: AppSignDayBean) {
+        mData = bean
+
+//        mAdapter.notifyDataSetChanged()
+
+        //签到按钮
+        if (bean.today_sign) {
+            sign_tv.text = "已签到"
+            sign_tv.isEnabled = false
+        } else {
+            sign_tv.text = "未签到"
+            sign_tv.isEnabled = true
+        }
+        //签到加积分
+        add_point.text = "+"+bean.add_point + "分"
+        //连续签到天数
+        continue_sign.text = bean.continue_sign + "天"
+        //累计签到天数
+        accumulate_day.text = bean.accumulate_day + "天"
+    }
+
+    override fun showLoading() {
+
+    }
+
+    override fun dismissLoading() {
+
+    }
 
 
     companion object {
         fun actionStart(context: Context?) {
-            context?.startActivity(Intent(context, SigninGiftActivity::class.java))
+            context?.startActivity(Intent(context, SignInGiftActivity::class.java))
         }
     }
 
     override fun initToolBar() {
         titleName.text = "累计积分"
         back.setOnClickListener {
-
+            finish()
         }
         rightLayout.visibility = View.INVISIBLE
     }
 
     override fun layoutId(): Int = R.layout.activity_sign_in_gift
 
+    private var mDetector: GestureDetector? = null
+    private var mYear = 0//年
+    private var mMonth = 0//月
+    private var mDay = 0//日
+    private var mDays: Int = 0
+    private var week: Int = 0
+    private var month: Int = 0
+    private var year: Int = 0
+
+    private val adapter by lazy { RegistrationAdapter(this, mDays, week, mDay, year, month, mData) }
+
+    private val presenter by lazy { AppSignDayPresenter() }
+
+    private var mData: AppSignDayBean? = null
     override fun initData() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initView() {
+        presenter.attachView(this)
+
         //已签到按钮图片
         val img = resources.getDrawable(R.drawable.rili)
         img.setBounds(0, 2, 60, 60)//第一0是距左边距离，第二0是距上边距离，70分别是长宽
-        signtv.setCompoundDrawables(img, null, null, null)
+        sign_tv.setCompoundDrawables(img, null, null, null)
 
         //签到日历
-        var calendar = Calendar.getInstance()
+        val calendar = Calendar.getInstance()
         mYear = calendar.get(Calendar.YEAR)//获取年
 
         year = mYear//记录当前年
@@ -70,34 +113,38 @@ class SigninGiftActivity : BaseActivity() {
         mDays = mCalendar.getDaysOfMonth(isLeapYear, mMonth + 1)//得到当月一共几天
         week = mCalendar.getWeekdayOfMonth(mYear, mMonth)//得到当月第一天星期几
 
-        calendar_gv.setClickable(false)
+        calendar_gv.isClickable = false
 //        calendar_gv.setPressed(false)
 //        calendar_gv.setEnabled(false)
-
-        adapter = RegistrationAdapter(this, mDays, week, mDay, year, month)//将当前日期传给适配器
+        val mAdapter=RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
         calendar_gv.adapter = adapter//绑定适配器
-        date.text = mYear.toString() + "." + (mMonth + 1)
 
+        adapter.notifyDataSetChanged()
+
+        date.text = mYear.toString() + "." + (mMonth + 1)
         //左右滑动
         mDetector = GestureDetector(this, MyGesture())
-        calendar_gv.setLongClickable(true)
-
+        calendar_gv.isLongClickable = true
 
 
     }
 
     override fun initEvent() {
+        //签到点击事件
+        sign_tv.setOnClickListener {
+
+        }
         //点击事件
         //上一个月
         upmonth.setOnClickListener {
 
-            upmonth()
+            upMonth()
         }
 
         //下一个月
         downmonth.setOnClickListener {
 
-            downmoth()
+            downMoth()
         }
 
         //左右滑动
@@ -109,8 +156,13 @@ class SigninGiftActivity : BaseActivity() {
 
     }
 
-    override fun start() {
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
+    }
 
+    override fun start() {
+        presenter.requestAppSignDay()
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -121,15 +173,17 @@ class SigninGiftActivity : BaseActivity() {
     }
 
     //下一个月方法
-    fun downmoth() {
+    @SuppressLint("SetTextI18n")
+    fun downMoth() {
         month++
         if (month < 12) {
             val mCalendar = SpecialCalendar()
             val isLeapYear = mCalendar.isLeapYear(year)
             mDays = mCalendar.getDaysOfMonth(isLeapYear, month + 1)//得到当月一共几天
             week = mCalendar.getWeekdayOfMonth(year, month)//得到当月第一天星期几
-            adapter = RegistrationAdapter(this, mDays, week, mDay, year, month)
-            calendar_gv.adapter = adapter
+            val mAdapter=RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
+            mAdapter.notifyDataSetChanged()
+            calendar_gv.adapter = mAdapter
             date.text = year.toString() + "." + (month + 1)
         } else {
             month = 0
@@ -138,15 +192,17 @@ class SigninGiftActivity : BaseActivity() {
             val isLeapYear = mCalendar.isLeapYear(year)
             mDays = mCalendar.getDaysOfMonth(isLeapYear, month + 1)//得到当月一共几天
             week = mCalendar.getWeekdayOfMonth(year, month)//得到当月第一天星期几
-            adapter = RegistrationAdapter(this, mDays, week, mDay, year, month)
-            calendar_gv.adapter = adapter
+            val mAdapter=RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
+            mAdapter.notifyDataSetChanged()
+            calendar_gv.adapter = mAdapter
             date.text = year.toString() + "." + (month + 1)
         }
 
     }
 
     //上一个月实现方法
-    fun upmonth() {
+    @SuppressLint("SetTextI18n")
+    fun upMonth() {
 
         month--
         if (month > 0) {
@@ -154,8 +210,9 @@ class SigninGiftActivity : BaseActivity() {
             val isLeapYear = mCalendar.isLeapYear(year)
             mDays = mCalendar.getDaysOfMonth(isLeapYear, month + 1)//得到当月一共几天
             week = mCalendar.getWeekdayOfMonth(year, month)//得到当月第一天星期几
-            adapter = RegistrationAdapter(this, mDays, week, mDay, year, month)
-            calendar_gv.adapter = adapter
+            val mAdapter=RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
+            mAdapter.notifyDataSetChanged()
+            calendar_gv.adapter = mAdapter
             date.text = year.toString() + "." + (month + 1)
         } else {
             month = 11
@@ -164,12 +221,14 @@ class SigninGiftActivity : BaseActivity() {
             val isLeapYear = mCalendar.isLeapYear(year)
             mDays = mCalendar.getDaysOfMonth(isLeapYear, month + 1)//得到当月一共几天
             week = mCalendar.getWeekdayOfMonth(year, month)//得到当月第一天星期几
-            adapter = RegistrationAdapter(this, mDays, week, mDay, year, month)
-            calendar_gv.adapter = adapter
+            val mAdapter=RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
+            calendar_gv.adapter = mAdapter
+            mAdapter.notifyDataSetChanged()
             date.text = year.toString() + "." + (month + 1)
         }
 
     }
+
 
     inner class MyGesture : GestureDetector.OnGestureListener {
 
@@ -195,11 +254,11 @@ class SigninGiftActivity : BaseActivity() {
 
         override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
             if (e1.x - e2.x > 80 && Math.abs(velocityX) > 200) {
-                downmoth()
+                downMoth()
 
                 return true
             } else if (e2.x - e1.x > 80 && Math.abs(velocityX) > 200) {
-                upmonth()
+                upMonth()
 
                 return true
             }
