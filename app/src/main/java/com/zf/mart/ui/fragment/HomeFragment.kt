@@ -16,10 +16,7 @@ import com.zf.mart.mvp.contract.HomeContract
 import com.zf.mart.mvp.presenter.CommendPresenter
 import com.zf.mart.mvp.presenter.HomePresenter
 import com.zf.mart.showToast
-import com.zf.mart.ui.activity.ActionActivity
-import com.zf.mart.ui.activity.ChoiceActivity
-import com.zf.mart.ui.activity.MessageActivity
-import com.zf.mart.ui.activity.SearchActivity
+import com.zf.mart.ui.activity.*
 import com.zf.mart.ui.adapter.CommendAdapter
 import com.zf.mart.ui.adapter.HomeSecKillAdapter
 import com.zf.mart.utils.GlideImageLoader
@@ -34,13 +31,11 @@ import kotlinx.android.synthetic.main.layout_search.*
 import kotlinx.android.synthetic.main.layout_seckill.*
 
 class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
+
     override fun appSignSuccess(bean: AppSignBean) {
 
-//<<<<<<< HEAD
     }
 
-//=======
-//>>>>>>> bf123cdba96dbffaeac5e6c56bb5391163bef64c
     override fun setRefreshCommend(bean: CommendBean) {
         refreshLayout.setEnableLoadMore(true)
         commendData.clear()
@@ -241,10 +236,10 @@ class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
                 alpha = 1.0f
             }
             home_title.setBackgroundColor(
-                    changeAlpha(
-                            ContextCompat.getColor(context!!, R.color.head_bg)
-                            , alpha
-                    )
+                changeAlpha(
+                    ContextCompat.getColor(context!!, R.color.head_bg)
+                    , alpha
+                )
             )
         }
 
@@ -269,6 +264,10 @@ class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
         //精选
         choice.setOnClickListener {
             ChoiceActivity.actionStart(context)
+        }
+        //签到
+        sign_btn.setOnClickListener {
+            SignInGiftActivity.actionStart(context)
         }
 
     }

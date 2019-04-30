@@ -317,7 +317,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
->>>>>>> d189a1d0dd141515fc3a43ca4429068c1f0efbf9
 
         <activity android:name=".ui.activity.MessageInfoActivity"
                   android:launchMode="singleTask"

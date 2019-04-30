@@ -200,6 +200,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     private var goodsID = ""
     //传递过来的规格ID
     private var item_id = ""
+
     override fun initData() {
         goodsID = intent.getStringExtra("id")
     }
@@ -426,7 +427,11 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                         //没有规格的商品 根据no_off判断
                         if (no_off) {
                             //图片
-                            GlideUtils.loadUrlImage(context, "https://mobile.zhifengwangluo.c3w.cc"+mData?.goods?.original_img, goods_img)
+                            GlideUtils.loadUrlImage(
+                                context,
+                                "https://mobile.zhifengwangluo.c3w.cc" + mData?.goods?.original_img,
+                                goods_img
+                            )
                             //名称
                             goodsName.text = mData?.goods?.goods_name
                             //价格
@@ -435,7 +440,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                             goods_stock.text = "剩余库存:" + mData?.goods?.store_count
                         } else {
                             //图片
-                            GlideUtils.loadUrlImage(context,mPrice?.spec_img, goods_img)
+                            GlideUtils.loadUrlImage(context, mPrice?.spec_img, goods_img)
                             //名称
                             goodsName.text = mData?.goods?.goods_name
                             //价格
@@ -453,10 +458,9 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                             sum = if (text == "") {
                                 card_number.setText("1")
                                 1
-                            }else{
+                            } else {
                                 text.toInt()
                             }
-
 
 
                         }
@@ -484,14 +488,18 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
                     }
                     //适配器监听回调
-                    specsAdapter.setOnCheckedChangeListener(object : GoodsSpecsAdapter.OnCheckedChangeListener {
-                        override fun onItemClick(itemId: String) {
-                            item_id = itemId
-                            presenter.requestPricePic(item_id, mData?.goods?.goods_id.toString())
-                        }
-
-
-                    })
+                    specsAdapter.mClickListener = {
+                        item_id = it
+                        presenter.requestPricePic(item_id, mData?.goods?.goods_id.toString())
+                    }
+//                    specsAdapter.setOnCheckedChangeListener(object : GoodsSpecsAdapter.OnCheckedChangeListener {
+//                        override fun onItemClick(itemId: String) {
+//                            item_id = itemId
+//                            presenter.requestPricePic(item_id, mData?.goods?.goods_id.toString())
+//                        }
+//
+//
+//                    })
 
                 }
 

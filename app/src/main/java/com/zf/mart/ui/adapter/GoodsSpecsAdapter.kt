@@ -21,18 +21,11 @@ class GoodsSpecsAdapter(val context: Context, val mData: List<List<GoodsSpecBean
     private val signID = Array(mData.size) { "" }
     //记录用户选中项
     private val selectID = Array(mData.size) { 0 }
+
     var itemId = ""
 
+    var mClickListener: ((String) -> Unit)? = null
 
-    private var mListener: OnCheckedChangeListener? = null
-
-    fun setOnCheckedChangeListener(listener: OnCheckedChangeListener) {
-        mListener = listener
-    }
-
-    interface OnCheckedChangeListener {
-        fun onItemClick(itemId: String)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_pop_goodsspecs, parent, false)
@@ -104,7 +97,8 @@ class GoodsSpecsAdapter(val context: Context, val mData: List<List<GoodsSpecBean
                         }
 
                     }
-                    mListener?.onItemClick(itemId)
+                    //监听回调
+                    mClickListener?.invoke(itemId)
 
                     itemId = ""
                 }
@@ -116,7 +110,5 @@ class GoodsSpecsAdapter(val context: Context, val mData: List<List<GoodsSpecBean
     }
 
 
-
-
-class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

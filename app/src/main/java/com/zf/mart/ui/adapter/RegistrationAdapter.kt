@@ -86,7 +86,7 @@ class RegistrationAdapter(
         } else {
             viewHolder = view.tag as ViewHolder
         }
-        viewHolder?.day?.text = if (dayNumber!![i] == 0) "1" else dayNumber!![i].toString() + ""
+        viewHolder?.day?.text = if (dayNumber!![i] == 0) "" else dayNumber!![i].toString() + ""
 
         //判断签到了的日子并显示样式
         tab = i//记录日期下标

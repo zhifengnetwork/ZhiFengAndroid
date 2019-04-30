@@ -1,6 +1,10 @@
 package com.zf.mart.mvp.bean
 
 data class MyFollowBean(
+    val list:List<MyFollowList>,
+    val count:String
+)
+data class MyFollowList(
     val collect_id:String,
     val add_time:String,
     val goods_id:String,

@@ -16,8 +16,11 @@ import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.mvp.bean.MyFollowBean
+import com.zf.mart.mvp.bean.MyFollowList
 import com.zf.mart.mvp.contract.MyFollowContract
 import com.zf.mart.mvp.presenter.MyFollowPresenter
+import com.zf.mart.net.exception.ErrorStatus
+import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.FocusGoodsAdapter
 import com.zf.mart.ui.adapter.FocusLoveGoodsAdapter
 import com.zf.mart.utils.LogUtils
@@ -30,14 +33,59 @@ import kotlinx.android.synthetic.main.fragment_focus_goods.*
 
 class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
 
+
     override fun showError(msg: String, errorCode: Int) {
+        refreshLayout.setEnableLoadMore(false)
+        showToast(msg)
+    }
+
+    //商品关注列表(第一页)
+    override fun getMyFollowSuccess(bean: MyFollowBean) {
+        mData.clear()
+        mData.addAll(bean.list)
+        goods_sum.text = bean.count
+        goodsAdapter.notifyDataSetChanged()
+        love_goods_ly.visibility = View.GONE
+    }
+
+    //获得之后页数据
+    override fun setLoadMore(bean: List<MyFollowList>) {
+        mData.addAll(bean)
+        goodsAdapter.notifyDataSetChanged()
+    }
+
+    //当第一页数据为空时
+    override fun freshEmpty() {
+//        mLayoutStatusView?.showEmpty()
+//        refreshLayout.setEnableLoadMore(false)
+        goods_sum.text = "0"
+        mData.clear()
+        goodsAdapter.notifyDataSetChanged()
+    }
+
+    //实际获得数据小于一页最大数据时 加载完成
+    override fun setLoadComplete() {
+        refreshLayout.finishLoadMoreWithNoMoreData()
+        //显示推荐商品布局
+        love_goods_ly.visibility = View.VISIBLE
+    }
+
+    //下拉加载错误
+    override fun loadMoreError(msg: String, errorCode: Int) {
+        showToast(msg)
+    }
+
+    override fun setBuyError(msg: String) {
 
     }
 
-    override fun getMyFollowSuccess(bean: List<MyFollowBean>) {
-        mData .addAll(bean)
-        goods_sum.text=mData.size.toString()
-        goodsAdapter.notifyDataSetChanged()
+    //删除关注商品
+    override fun delCollectGoods(msg: String) {
+        showToast(msg)
+        refreshLayout.setNoMoreData(false)
+        lazyLoad()
+        love_goods_ly.visibility = View.GONE
+
     }
 
     override fun showLoading() {
@@ -45,7 +93,8 @@ class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
     }
 
     override fun dismissLoading() {
-
+        refreshLayout.finishRefresh()
+        refreshLayout.finishLoadMore()
     }
 
     companion object {
@@ -64,7 +113,7 @@ class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
 
     private val presenter by lazy { MyFollowPresenter() }
     //接收网络数据值
-    private var mData=ArrayList<MyFollowBean>()
+    private var mData = ArrayList<MyFollowList>()
 
     override fun initView() {
         presenter.attachView(this)
@@ -97,7 +146,8 @@ class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
     }
 
     override fun lazyLoad() {
-        presenter.requestMyFollow()
+//        refreshLayout.setEnableLoadMore(false)
+        presenter.requestMyFollow(1, 6)
     }
 
     override fun initEvent() {
@@ -111,11 +161,23 @@ class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
             popWindow.showBashOfAnchor(classifyLayout, LayoutGravity(LayoutGravity.ALIGN_RIGHT), 0, 0)
 
         }
-
         /** 筛选按钮点击事件 */
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             val radioBtn = group.findViewById<RadioButton>(checkedId)
             LogUtils.e("tag:" + radioBtn.tag)
+        }
+        //删除商品点击事件
+        goodsAdapter.mClickListener = {
+            presenter.requestDelCollectGoods(it)
+        }
+        /**上拉加载*/
+        refreshLayout.setOnLoadMoreListener {
+
+            presenter.requestMyFollow(null, 6)
+        }
+        /**下拉刷新*/
+        refreshLayout.setOnRefreshListener {
+            lazyLoad()
         }
     }
 

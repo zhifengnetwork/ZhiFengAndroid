@@ -284,14 +284,34 @@ interface ApiService {
     /**
      * 我关注的商品
      */
-    @GET("api/User/collect_list")
-    fun getMyFollow(): Observable<BaseBean<List<MyFollowBean>>>
+    @FormUrlEncoded
+    @POST("api/User/collect_list")
+    fun getMyFollow(
+        @Field("page") page: Int,
+        @Field("num") num: Int
+    ): Observable<BaseBean<MyFollowBean>>
 
     /**
      * 我关注的店铺
      */
-    @GET("api/user/register")
-    fun getMyFollowShop(): Observable<BaseBean<MyFollowShop>>
+    @FormUrlEncoded
+    @POST("api/user/getSellerCollect")
+    fun getMyFollowShop(
+        @Field("page") page: Int,
+        @Field("num") num: Int
+    ): Observable<BaseBean<MyFollowShopBean>>
+
+    /**
+     * 添加关注店铺或删除店铺
+     */
+    @FormUrlEncoded
+    @POST("api/user/add_seller_collect")
+    fun delMyFollowShop(
+        @Field("seller_id") seller_id: String,
+        @Field("type") type: String,
+        @Field("collect_id") collect_id: String
+    ): Observable<BaseBean<Unit>>
+
 
     /**
      * 点击关注商品
@@ -394,6 +414,17 @@ interface ApiService {
      */
     @GET("api/User/my_wallet")
     fun getMyWallet(): Observable<BaseBean<MyWalletBean>>
+
+    /**
+     * 余额明细
+     */
+    @FormUrlEncoded
+    @POST("api/user/account_list")
+    fun getAccountInfo(
+        @Field("type") type: String,
+        @Field("page") page: Int,
+        @Field("num") num: Int
+    ): Observable<BaseBean<AccountDetailBean>>
 
     /**
      * 购物车选中状态

@@ -29,7 +29,7 @@ class AccountDetailsActivity : BaseActivity() {
             finish()
         }
         titleName.text = "账户明细"
-        rightLayout.visibility = View.VISIBLE
+        rightLayout.visibility = View.INVISIBLE
     }
 
     override fun layoutId(): Int = R.layout.activity_account_details
@@ -37,9 +37,9 @@ class AccountDetailsActivity : BaseActivity() {
     private val mTitles = arrayOf("全部", "赚取", "消费")
 
     private val mFragment = arrayListOf(
-        AccountDetailFragment.getInstance() as Fragment,
-        AccountDetailFragment.getInstance() as Fragment,
-        AccountDetailFragment.getInstance() as Fragment
+        AccountDetailFragment.newInstance(AccountDetailFragment.ALL) as Fragment,
+        AccountDetailFragment.newInstance(AccountDetailFragment.PLUS) as Fragment,
+        AccountDetailFragment.newInstance(AccountDetailFragment.MINUS) as Fragment
     )
     private val mAdapter by lazy { BaseFragmentAdapter(supportFragmentManager, mFragment) }
     override fun initData() {
@@ -50,7 +50,8 @@ class AccountDetailsActivity : BaseActivity() {
         account_tab.setTabData(mTitles )
         account_vp.adapter = mAdapter
         //禁止滑动
-        account_vp.setNoScroll(true)
+        account_vp.setScroll(false)
+//        account_vp.setNoScroll(true)
     }
 
     override fun initEvent() {

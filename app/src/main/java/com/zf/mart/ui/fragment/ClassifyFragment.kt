@@ -107,7 +107,8 @@ class ClassifyFragment : BaseFragment(),EasyPermissions.PermissionCallbacks,Clas
         //上下翻页动画
         rightViewPager.setPageTransformer(true, DefaultTransformer())
         //禁止左右滑动
-        rightViewPager.setNoScroll(true)
+        rightViewPager.setScroll(false)
+//        rightViewPager.setNoScroll(true)
         rightViewPager.adapter=mPagerAdapter
 
         /** 二维码 */

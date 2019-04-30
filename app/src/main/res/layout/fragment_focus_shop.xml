@@ -35,23 +35,28 @@
                   android:textColor="@color/colorPrimaryText"
                   android:text="个店铺"/>
 
-        <!--<Space android:layout_width="0dp" android:layout_height="1dp"-->
-        <!--android:layout_weight="1"/>-->
-
-        <!--<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"-->
-        <!--android:textSize="13sp"-->
-        <!--android:textColor="@color/colorPrimaryText"-->
-        <!--android:text="编辑"/>-->
 
     </LinearLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             app:srlEnableAutoLoadMore="true"
             app:srlEnableFooterFollowWhenLoadFinished="true"
             app:srlEnableFooterTranslationContent="true"
-            app:srlEnableRefresh="false"
             android:layout_height="match_parent">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                app:srlPrimaryColor="@color/colorBackground"
+                app:srlAccentColor="@color/colorSecondText"
+                app:srlTextPulling="@string/refresh_pulling"
+                app:srlTextRelease="@string/refresh_release"
+                app:srlTextRefreshing="@string/refresh_refreshing"
+                app:srlTextFinish="@string/refresh_finish"
+                app:srlTextFailed="@string/refresh_failed"
+                app:srlEnableLastTime="false"
+                app:srlDrawableProgress="@drawable/ic_progress_puzzle"
+                android:layout_height="wrap_content"/>
 
         <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -59,10 +64,11 @@
                 android:overScrollMode="never"
                 android:layout_height="match_parent">
 
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="match_parent"
-                          android:descendantFocusability="blocksDescendants"
-                          android:orientation="vertical">
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:descendantFocusability="blocksDescendants"
+                    android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/shopRecyclerView"
@@ -70,15 +76,21 @@
                         android:overScrollMode="never"
                         android:nestedScrollingEnabled="false"
                         android:layout_height="wrap_content"/>
-
-                <include layout="@layout/layout_shop_like"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/loveRecyclerView"
+                <LinearLayout
+                        android:id="@+id/love_shop_ly"
+                        android:orientation="vertical"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
-                        android:overScrollMode="never"
-                        android:nestedScrollingEnabled="false"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content">
+                    <include layout="@layout/layout_shop_like"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/loveRecyclerView"
+                            android:layout_width="match_parent"
+                            android:overScrollMode="never"
+                            android:nestedScrollingEnabled="false"
+                            android:layout_height="wrap_content"/>
+                </LinearLayout>
 
             </LinearLayout>
 
