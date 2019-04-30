@@ -11,10 +11,14 @@ interface LoginContract {
         fun showError(msg: String, errorCode: Int)
 
         fun loginSuccess(bean: LoginBean)
+
+        fun setWeChatLogin(bean: LoginBean)
     }
 
     interface Presenter : IPresenter<View> {
         fun requestLogin(phone: String, pwd: String)
+
+        fun requestWeChatLogin(code: String)
 
     }
 

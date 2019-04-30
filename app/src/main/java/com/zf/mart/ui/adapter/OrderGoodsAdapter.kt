@@ -11,7 +11,8 @@ import com.zf.mart.mvp.bean.OrderGoodsList
 import com.zf.mart.utils.GlideUtils
 import kotlinx.android.synthetic.main.item_order_goods.view.*
 
-class OrderGoodsAdapter(private val context: Context?, private val data: List<OrderGoodsList>) : RecyclerView.Adapter<OrderGoodsAdapter.ViewHolder>() {
+class OrderGoodsAdapter(private val context: Context?, private val data: List<OrderGoodsList>?) :
+    RecyclerView.Adapter<OrderGoodsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_order_goods, parent, false)
@@ -20,14 +21,18 @@ class OrderGoodsAdapter(private val context: Context?, private val data: List<Or
 
     var onItemClickListener: (() -> Unit)? = null
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = data?.size ?: 0
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
-            GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + data[position].original_img, goodsIcon)
-            goodsName.text = data[position].goods_name
-            goodsPrice.text = "¥${data[position].final_price}×${data[position].goods_num}"
-            goodsSize.text = data[position].spec_key_name
+            data?.let {
+                GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + data[position].original_img, goodsIcon)
+                goodsName.text = data[position].goods_name
+                goodsPrice.text = "¥${data[position].final_price}×${data[position].goods_num}"
+                goodsSize.text = data[position].spec_key_name
+
+            }
+
 
             setOnClickListener {
                 onItemClickListener?.invoke()

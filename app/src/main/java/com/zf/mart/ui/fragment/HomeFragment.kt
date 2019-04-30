@@ -16,14 +16,10 @@ import com.zf.mart.mvp.contract.HomeContract
 import com.zf.mart.mvp.presenter.CommendPresenter
 import com.zf.mart.mvp.presenter.HomePresenter
 import com.zf.mart.showToast
-import com.zf.mart.ui.activity.ActionActivity
-import com.zf.mart.ui.activity.ChoiceActivity
-import com.zf.mart.ui.activity.MessageActivity
-import com.zf.mart.ui.activity.SearchActivity
+import com.zf.mart.ui.activity.*
 import com.zf.mart.ui.adapter.CommendAdapter
 import com.zf.mart.ui.adapter.HomeSecKillAdapter
 import com.zf.mart.utils.GlideImageLoader
-import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.TimeUtils
 import com.zf.mart.view.RecDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -197,21 +193,18 @@ class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
         topBanner.setImageLoader(GlideImageLoader())
         topBanner.setImages(imgs)
         topBanner.start()
+
+        topBanner.setOnBannerListener {
+            if ((banner[it].goods_id ?: "").isNotEmpty()) {
+                GoodsDetailActivity.actionStart(context, banner[it].goods_id ?: "")
+            }
+        }
     }
 
     private val secKillData = ArrayList<SecKillList>()
     private val secKillAdapter by lazy { HomeSecKillAdapter(context, secKillData) }
 
     private val commendPresenter by lazy { CommendPresenter() }
-
-    private fun changeAlpha(color: Int, fraction: Float): Int {
-        val red = Color.red(color)
-        val green = Color.green(color)
-        val blue = Color.blue(color)
-        val alpha = (Color.alpha(color) * fraction).toInt()
-        return Color.argb(alpha, red, green, blue)
-    }
-
 
     override fun lazyLoad() {
         homePresenter.requestHome()
@@ -220,10 +213,6 @@ class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
     }
 
     override fun initEvent() {
-
-        topBanner.setOnBannerListener {
-            LogUtils.e(">>>>:" + it)
-        }
 
         refreshLayout.setOnRefreshListener {
             lazyLoad()
@@ -271,5 +260,12 @@ class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
 
     }
 
+    private fun changeAlpha(color: Int, fraction: Float): Int {
+        val red = Color.red(color)
+        val green = Color.green(color)
+        val blue = Color.blue(color)
+        val alpha = (Color.alpha(color) * fraction).toInt()
+        return Color.argb(alpha, red, green, blue)
+    }
 
 }

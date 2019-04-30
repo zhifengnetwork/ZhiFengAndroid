@@ -115,7 +115,6 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View, OrderOperateCont
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-
     }
 
     override fun lazyLoad() {
@@ -133,39 +132,39 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View, OrderOperateCont
             deleteListener = {
                 //                DeleteMyOrderDialog.showDialog(childFragmentManager, it)
                 AlertDialog.Builder(context!!)
-                        .setTitle("提示")
-                        .setMessage("删除该订单")
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("确定") { _, _ ->
+                    .setTitle("提示")
+                    .setMessage("删除该订单")
+                    .setNegativeButton("取消", null)
+                    .setPositiveButton("确定") { _, _ ->
 
-                        }
-                        .show()
+                    }
+                    .show()
             }
 
             //取消订单
             onCancelOrderListener = { orderId ->
                 AlertDialog.Builder(context!!)
-                        .setTitle("提示")
-                        .setMessage("取消该订单")
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("确定") { _, _ ->
+                    .setTitle("提示")
+                    .setMessage("取消该订单")
+                    .setNegativeButton("取消", null)
+                    .setPositiveButton("确定") { _, _ ->
 
-                            orderOperatePresenter.requestCancelOrder(orderId)
-                        }
-                        .show()
+                        orderOperatePresenter.requestCancelOrder(orderId)
+                    }
+                    .show()
 
             }
 
             //确认收货
             onConfirmReceiveListener = { orderId ->
                 AlertDialog.Builder(context!!)
-                        .setTitle("提示")
-                        .setMessage("确认收货")
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("确定") { _, _ ->
-                            orderOperatePresenter.requestConfirmReceipt(orderId)
-                        }
-                        .show()
+                    .setTitle("提示")
+                    .setMessage("确认收货")
+                    .setNegativeButton("取消", null)
+                    .setPositiveButton("确定") { _, _ ->
+                        orderOperatePresenter.requestConfirmReceipt(orderId)
+                    }
+                    .show()
             }
 
             //查看物流
@@ -174,8 +173,9 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View, OrderOperateCont
             }
 
             //去评价
-            onEvaluateListener = { orderId ->
-                EvaluateActivity.actionStart(context,orderId)
+            onEvaluateListener = {
+                //传递订单id和商品信息
+                EvaluateActivity.actionStart(context, it)
             }
 
         }

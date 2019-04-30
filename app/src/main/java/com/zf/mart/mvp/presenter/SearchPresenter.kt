@@ -13,16 +13,16 @@ class SearchPresenter : BasePresenter<SearchContract.View>(), SearchContract.Pre
     private var mPage = 1
 
     override fun requestSearch(
-        q: String,
-        id: String,
-        brand_id: String,
-        sort: String,
-        sel: String,
-        price: String,
-        start_price: String,
-        end_price: String,
-        price_sort: String,
-        page: Int?
+            q: String,
+            id: String,
+            brand_id: String,
+            sort: String,
+            sel: String,
+            price: String,
+            start_price: String,
+            end_price: String,
+            price_sort: String,
+            page: Int?
     ) {
 
         mPage = page ?: mPage
@@ -30,42 +30,43 @@ class SearchPresenter : BasePresenter<SearchContract.View>(), SearchContract.Pre
         checkViewAttached()
         mRootView?.showLoading()
         val disposable =
-            model.requestSearch(q, id, brand_id, sort, sel, price, start_price, end_price, price_sort, mPage)
-                .subscribe({
-                    mRootView?.apply {
-                        dismissLoading()
-                        when (it.status) {
-                            0 -> {
-                                if (mPage == 1) {
-                                    if (it.data?.goods_list != null && it.data.goods_list.isNotEmpty()) {
-                                        setSearchList(it.data.goods_list)
-                                    } else {
-                                        freshEmpty()
+                model.requestSearch(q, id, brand_id, sort, sel, price, start_price, end_price, price_sort, mPage)
+                        .subscribe({
+                            mRootView?.apply {
+                                when (it.status) {
+                                    0 -> {
+                                        if (mPage == 1) {
+                                            if (it.data?.goods_list != null && it.data.goods_list.isNotEmpty()) {
+                                                setSearchList(it.data.goods_list)
+                                            } else {
+                                                freshEmpty()
+                                            }
+                                        } else {
+                                            if (it.data?.goods_list != null && it.data.goods_list.isNotEmpty()) {
+                                                setLoadMore(it.data.goods_list)
+                                            } else {
+                                                loadComplete()
+                                            }
+                                        }
+                                        if (it.data?.goods_list != null && it.data.goods_list.isNotEmpty()) {
+                                            if (it.data.goods_list.size < UriConstant.PER_PAGE) {
+                                                loadComplete()
+                                            }
+                                        }
+                                        mPage += 1
                                     }
-                                } else {
-                                    if (it.data?.goods_list != null && it.data.goods_list.isNotEmpty()) {
-                                        setLoadMore(it.data.goods_list)
-                                    } else {
-                                        loadComplete()
-                                    }
-                                }
-                                if (it.data?.goods_list != null && it.data.goods_list.isNotEmpty()) {
-                                    if (it.data.goods_list.size < UriConstant.PER_PAGE) {
-                                        loadComplete()
-                                    }
-                                }
-                            }
-                            else -> if (mPage == 1) showError(it.msg, it.status) else loadMoreError(it.msg, it.status)
+                                    else -> if (mPage == 1) showError(it.msg, it.status) else loadMoreError(it.msg, it.status)
 
-                        }
-                    }
-                }, {
-                    mRootView?.apply {
-                        dismissLoading()
-                        if (mPage == 1) showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
-                        else loadMoreError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
-                    }
-                })
+                                }
+                                dismissLoading()
+                            }
+                        }, {
+                            mRootView?.apply {
+                                dismissLoading()
+                                if (mPage == 1) showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                                else loadMoreError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                            }
+                        })
         addSubscription(disposable)
     }
 

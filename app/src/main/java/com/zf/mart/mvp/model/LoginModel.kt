@@ -11,4 +11,9 @@ class LoginModel {
         return RetrofitManager.service.login(phone, pwd)
             .compose(SchedulerUtils.ioToMain())
     }
+
+    fun requestWeChatLogin(code: String): Observable<BaseBean<LoginBean>> {
+        return RetrofitManager.service.requestWeChatLogin(code)
+            .compose(SchedulerUtils.ioToMain())
+    }
 }

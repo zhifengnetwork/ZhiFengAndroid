@@ -1,0 +1,109 @@
+package com.zf.mart.ui.adapter
+
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.yanzhenjie.album.Album
+import com.zf.mart.R
+import com.zf.mart.api.UriConstant
+import com.zf.mart.mvp.bean.OrderGoodsList
+import com.zf.mart.utils.GlideUtils
+import com.zf.mart.utils.LogUtils
+import com.zf.mart.view.recyclerview.FullyGridLayoutManager
+import kotlinx.android.synthetic.main.item_evaluate.view.*
+
+/**
+ * 定义个对象，把评价的信息保存再上传。
+ */
+class EvaluateAdapter(private val context: Context?, val data: List<OrderGoodsList>?) :
+        RecyclerView.Adapter<EvaluateAdapter.ViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.item_evaluate, parent, false)
+        return ViewHolder(view)
+    }
+
+    var onItemClickListener: (() -> Unit)? = null
+
+    override fun getItemCount(): Int = data?.size ?: 0
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.itemView.apply {
+            data?.let {
+                GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + data[position].original_img, goodsIcon)
+                goodsName.text = data[position].goods_name
+                goodsPrice.text = "¥${data[position].final_price}×${data[position].goods_num}"
+                goodsSize.text = data[position].spec_key_name
+
+                data[position].imgList = ArrayList()
+
+                val imgAdapter = PictureSelectorAdapter(context, data[position].imgList)
+                imgRecyclerView.layoutManager = FullyGridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
+                imgRecyclerView.adapter = imgAdapter
+                imgAdapter.onAddClickListener(object : PictureSelectorAdapter.OnAddClickListener {
+                    override fun addClick() {
+                        if (data[position].imgList.size >= 5) {
+                            Toast.makeText(context, "最多选择5张图片", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Album.image(context)
+                                    .multipleChoice()
+                                    .camera(true)
+                                    .columnCount(3)
+                                    .selectCount(5 - (data[position].imgList.size))
+                                    .onResult {
+                                        for (i in 0 until it.size) {
+                                            data[position].imgList.add(it[i].path)
+                                        }
+                                        imgAdapter.notifyDataSetChanged()
+                                    }
+                                    .onCancel {
+                                        Toast.makeText(context, "已取消", Toast.LENGTH_SHORT).show()
+                                    }
+                                    .start()
+                        }
+                    }
+                })
+
+                imgAdapter.onDeleteClickListener(object : PictureSelectorAdapter.OnDeleteClickListener {
+                    override fun deleteClick(index: Int) {
+                        data[position].imgList.removeAt(index)
+                        imgAdapter.notifyItemRemoved(index)
+                        imgAdapter.notifyItemRangeChanged(index, data[position].imgList.size)
+                    }
+                })
+
+                //评论内容保存
+                content.addTextChangedListener {
+                    data[position].evaluateContent = content.text.toString()
+                }
+
+                //下面三个是评分保存
+                goodsStar.setOnRatingBarChangeListener { _, rating, _ ->
+                    LogUtils.e(">>>>:$rating")
+                    data[position].goodsRank = rating.toInt().toString()
+                }
+
+                severStar.setOnRatingBarChangeListener { _, rating, _ ->
+                    data[position].serviceRank = rating.toInt().toString()
+                }
+
+                shippingStar.setOnRatingBarChangeListener { _, rating, _ ->
+                    data[position].deliverRank = rating.toInt().toString()
+                }
+
+            }
+
+
+        }
+
+    }
+
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+}

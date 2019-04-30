@@ -9,6 +9,29 @@ class LoginPresenter : BasePresenter<LoginContract.View>(), LoginContract.Presen
 
     private val model: LoginModel by lazy { LoginModel() }
 
+    override fun requestWeChatLogin(code: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.requestWeChatLogin(code)
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> if (it.data != null) {
+                            setWeChatLogin(it.data)
+                        }
+                        else -> showError(it.msg, it.status)
+                    }
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
+        addSubscription(disposable)
+    }
+
     override fun requestLogin(phone: String, pwd: String) {
         checkViewAttached()
         mRootView?.showLoading()

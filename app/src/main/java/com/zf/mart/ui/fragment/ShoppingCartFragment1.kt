@@ -309,7 +309,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
             }
             allChoose.isChecked = sum == cartData.size
             val body =
-                    RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(json))
+                    RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(json))
             cartOperatePresenter.requestSelect(body)
         }
 

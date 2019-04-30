@@ -7,10 +7,12 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import com.zf.mart.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class StarRatingView extends LinearLayout {
 
@@ -91,9 +93,12 @@ public class StarRatingView extends LinearLayout {
             } else {
                 list.get(i).setImageDrawable(off);
             }
-            if (isOdd && i == count) {
-                list.get(i).setImageDrawable(half);
-            }
+            /**
+             * 去掉半颗星星
+             */
+//            if (isOdd && i == count) {
+//                list.get(i).setImageDrawable(half);
+//            }
             addView(list.get(i));
         }
         if (ratable && onRateChangeListener != null) {
