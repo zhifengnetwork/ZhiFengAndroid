@@ -69,7 +69,6 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
     }
 
     override fun dismissLoading() {
-        refreshLayout.finishRefresh()
         refreshLayout.finishLoadMore()
     }
 
@@ -140,6 +139,7 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
     private fun initRequest(page: Int?) {
         if (page == 1) {
             refreshLayout.setEnableLoadMore(false)
+            refreshLayout.setNoMoreData(false)
         }
         //判断是选中的哪个？
         searchPresenter.requestSearch(

@@ -10,7 +10,8 @@ data class HomeBean(
 data class AdList(
         val ad_code: String,
         val ad_link:String,
-        val ad_id: String
+        val ad_id: String,
+        val goods_id:String?
 )
 
 data class ArticleList(

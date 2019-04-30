@@ -12,7 +12,8 @@ data class UserInfoBean(
         val is_distribut: String,
         val is_agent: String,
         val sex: Int,
-        val birthyear: String,
-        val birthmonth: String,
-        val birthday: String
+//        val birthyear: String,
+//        val birthmonth: String,
+//        val birthday: String,
+        val date_birth:String
 )

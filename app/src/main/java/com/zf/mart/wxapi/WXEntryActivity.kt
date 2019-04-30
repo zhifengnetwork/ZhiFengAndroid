@@ -12,6 +12,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.zf.mart.api.UriConstant
 import com.zf.mart.showToast
+import com.zf.mart.ui.activity.LoginActivity
 import com.zf.mart.utils.LogUtils
 
 class WXEntryActivity : Activity(), IWXAPIEventHandler {
@@ -45,6 +46,12 @@ class WXEntryActivity : Activity(), IWXAPIEventHandler {
             BaseResp.ErrCode.ERR_OK -> {
                 val code = (resp as SendAuth.Resp).code
                 LogUtils.e(">>>>>code:$code")
+                //登录成功，清除全部活动，跳转到首页
+                val intent = Intent(this, LoginActivity::class.java)
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                intent.putExtra("code", code)
+                startActivity(intent)
                 finish()
             }
             BaseResp.ErrCode.ERR_USER_CANCEL -> {
@@ -53,6 +60,10 @@ class WXEntryActivity : Activity(), IWXAPIEventHandler {
             }
             BaseResp.ErrCode.ERR_AUTH_DENIED -> {
                 showToast("已拒绝")
+                finish()
+            }
+            else -> {
+                showToast("登录失败")
                 finish()
             }
         }

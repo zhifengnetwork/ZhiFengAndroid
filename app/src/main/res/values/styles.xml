@@ -91,4 +91,11 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+
+    <style name="evaRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/shape_ratingstars</item>
+        <item name="android:minHeight">0dip</item>
+        <item name="android:maxHeight">30dip</item>
+    </style>
+
 </resources>

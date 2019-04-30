@@ -16,11 +16,13 @@ import com.zf.mart.mvp.contract.LoginContract
 import com.zf.mart.mvp.presenter.LoginPresenter
 import com.zf.mart.showToast
 import com.zf.mart.utils.CodeUtils
+import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.Preference
 import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity(), LoginContract.View {
+
 
     companion object {
         fun actionStart(context: Context?) {
@@ -36,12 +38,29 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         )
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        LogUtils.e(">>>newIntent")
+        super.onNewIntent(intent)
+        val code = intent?.getStringExtra("code")
+        if (code != null) {
+            loginPresenter.requestWeChatLogin(code)
+        }
+    }
+
     override fun layoutId(): Int = R.layout.activity_login
 
     override fun initData() {
     }
 
     private var token by Preference(UriConstant.TOKEN, "")
+
+    //微信登录
+    override fun setWeChatLogin(bean: LoginBean) {
+        //保存下token,并且跳转到主页
+        token = bean.token
+        MainActivity.actionStart(this)
+        finish()
+    }
 
     override fun loginSuccess(bean: LoginBean) {
         //保存下token,并且跳转到主页
@@ -91,7 +110,6 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     private fun initCode() {
         val bmp = CodeUtils.getInstance().createBitmap()
         code.setImageBitmap(bmp)
-
         /**  下面的代码要删除 */
         codeInput.setText(CodeUtils.getInstance().code)
     }
@@ -143,7 +161,6 @@ class LoginActivity : BaseActivity(), LoginContract.View {
             val bmp = CodeUtils.getInstance().createBitmap()
             code.setImageBitmap(bmp)
         }
-
 
         //微信登录
         wxLogin.setOnClickListener {

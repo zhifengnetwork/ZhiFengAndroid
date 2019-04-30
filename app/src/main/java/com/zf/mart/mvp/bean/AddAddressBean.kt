@@ -5,7 +5,7 @@ data class AddAddressBean(
      val consignee:String,
      val mobile:String,
      val province:String,
-     val city:String,
+     val city:String ?,
      val district:String,
      val address:String,
      val is_default:String,

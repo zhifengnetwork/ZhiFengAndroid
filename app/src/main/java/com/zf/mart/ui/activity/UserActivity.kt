@@ -207,7 +207,6 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
 
         }
 
-
         birthLayout.setOnClickListener {
             val di = DatePickerDialog(
                     this,
@@ -218,20 +217,19 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
                                 dayOfMonth.toString())
                     },
                     try {
-                        UserInfoLiveData.value?.birthyear?.toInt() ?: 2019
+                        UserInfoLiveData.value?.date_birth!!.split("-")[0].toInt()
                     } catch (e: Exception) {
-                        2019
+                        calendar.get(Calendar.YEAR)
                     },
                     try {
-                        (UserInfoLiveData.value?.birthmonth?.toInt() ?: 1) - 1
-
+                        UserInfoLiveData.value?.date_birth!!.split("-")[1].toInt() - 1
                     } catch (e: Exception) {
-                        0
+                        calendar.get(Calendar.MONTH + 1)
                     },
                     try {
-                        UserInfoLiveData.value?.birthday?.toInt() ?: 1
+                        UserInfoLiveData.value?.date_birth!!.split("-")[2].toInt()
                     } catch (e: Exception) {
-                        1
+                        calendar.get(Calendar.DAY_OF_MONTH)
                     }
             )
             di.datePicker.maxDate = Date().time
@@ -245,6 +243,8 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
 
         }
     }
+
+    private val calendar by lazy { Calendar.getInstance() }
 
     override fun start() {
 
@@ -260,7 +260,7 @@ class UserActivity : BaseActivity(), UpdateUserInfoContract.View, UserInfoContra
                     2 -> "女"
                     else -> "保密"
                 }
-                birth.text = "$birthyear-$birthmonth-$birthday"
+                birth.text = date_birth
             }
         })
     }
