@@ -33,20 +33,24 @@ class FocusGoodsAdapter(val context: Context?, val data: List<MyFollowList>) :
             /** 给价格添加中划线 */
             oldPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
             //商品价格
-            goodsPrice.text= mData[position].shop_price
+            goodsPrice.text = mData[position].shop_price
             //商品的名字
-            goodsName.text=mData[position].goods_name
+            goodsName.text = mData[position].goods_name
             //商品的图片
-            GlideUtils.loadUrlImage(context,"https://mobile.zhifengwangluo.c3w.cc"+mData[position].original_img,goodsIcon)
-            //商品的规格
-
+            GlideUtils.loadUrlImage(
+                context,
+                "https://mobile.zhifengwangluo.c3w.cc" + mData[position].original_img,
+                goodsIcon
+            )
+            //商品的市场价格
+            oldPrice.text=mData[position].market_price
             same.setOnClickListener {
-                SameGoodsActivity.actionStart(context)
+                SameGoodsActivity.actionStart(context, mData[position])
             }
 
             delete.setOnClickListener {
                 //监听回调
-                mClickListener?.invoke(mData[position].goods_id )
+                mClickListener?.invoke(mData[position].goods_id)
             }
 
         }

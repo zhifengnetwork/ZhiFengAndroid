@@ -10,5 +10,6 @@ data class CommendList(
         val goods_name: String,
         val comment_count:String,
         val original_img: String,
-        val shop_price: String
+        val shop_price: String,
+        val commission_num:String
 )

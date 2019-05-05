@@ -33,6 +33,7 @@ import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.dialog.ShareSuccessDialog
 import com.zf.mart.view.popwindow.RegionPopupWindow
 import com.zf.mart.view.popwindow.ServicePopupWindow
+import com.zzhoujay.richtext.RichText
 import kotlinx.android.synthetic.main.activity_goods_detail2.*
 import kotlinx.android.synthetic.main.layout_buy.*
 import kotlinx.android.synthetic.main.layout_detail_brand.*
@@ -245,13 +246,12 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     }
 
     private fun initGraphic() {
+
         val titles = arrayOf("图文详情", "答疑")
         val fgms = arrayListOf(
             GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
-            OrderAnswerFragment.newInstance() as Fragment
-        )
+            OrderAnswerFragment.newInstance() as Fragment)
         segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
-
     }
 
 

@@ -10,7 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.mvp.bean.CommendList
+import com.zf.mart.mvp.bean.MyFollowList
+import com.zf.mart.mvp.contract.EquallyGoodsContract
+import com.zf.mart.mvp.presenter.EquallyGoodsPresenter
+import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.SameGoodsAdapter
+import com.zf.mart.utils.GlideUtils
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.RecDecoration
 import kotlinx.android.synthetic.main.activity_same_goods.*
@@ -20,11 +26,50 @@ import java.time.format.TextStyle
 /**
  * 关注->商品->同款商品
  */
-class SameGoodsActivity : BaseActivity() {
+class SameGoodsActivity : BaseActivity(), EquallyGoodsContract.View {
+    override fun showError(msg: String, errorCode: Int) {
+        refreshLayout.setEnableLoadMore(false)
+        showToast(msg)
+    }
+
+    override fun getEquallyGoods(bean: List<CommendList>) {
+        mData.clear()
+        mData.addAll(bean)
+        adapter.notifyDataSetChanged()
+
+    }
+
+    override fun freshEmpty() {
+        refreshLayout.setEnableLoadMore(false)
+    }
+
+    override fun setLoadMore(bean: List<CommendList>) {
+        mData.addAll(bean)
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun setLoadComplete() {
+        refreshLayout.finishLoadMoreWithNoMoreData()
+    }
+
+    override fun loadMoreError(msg: String, errorCode: Int) {
+        showToast(msg)
+    }
+
+    override fun showLoading() {
+
+    }
+
+    override fun dismissLoading() {
+        refreshLayout.finishRefresh()
+        refreshLayout.finishLoadMore()
+    }
 
     companion object {
-        fun actionStart(context: Context?) {
-            context?.startActivity(Intent(context, SameGoodsActivity::class.java))
+        fun actionStart(context: Context?, data: MyFollowList) {
+            val intent = Intent(context, SameGoodsActivity::class.java)
+            intent.putExtra("goods", data)
+            context?.startActivity(intent)
         }
     }
 
@@ -35,14 +80,34 @@ class SameGoodsActivity : BaseActivity() {
         rightLayout.visibility = View.INVISIBLE
     }
 
+    private var data: MyFollowList? = null
+
+    private val presenter by lazy { EquallyGoodsPresenter() }
+
+    private val adapter by lazy { SameGoodsAdapter(this, mData) }
+
+    private val mData = ArrayList<CommendList>()
+
     override fun layoutId(): Int = R.layout.activity_same_goods
 
     override fun initData() {
+        data = intent.getSerializableExtra("goods") as MyFollowList
     }
 
-    private val adapter by lazy { SameGoodsAdapter(this) }
 
     override fun initView() {
+        presenter.attachView(this)
+        //商品图片
+        GlideUtils.loadUrlImage(this, "https://mobile.zhifengwangluo.c3w.cc" + data?.original_img, goodsIcon)
+        //商品名字
+        goodsName.text = data?.goods_name
+        //商品价格
+        goodsPrice.text = data?.shop_price
+        //市场价格
+        oldPrice.text = data?.market_price
+        //商品尺寸
+        goodsSize
+
 
         oldPrice.paint.flags = Paint.STRIKE_THRU_TEXT_FLAG
 
@@ -52,8 +117,17 @@ class SameGoodsActivity : BaseActivity() {
     }
 
     override fun initEvent() {
+        /**上啦加载*/
+        refreshLayout.setOnLoadMoreListener {
+            presenter.requestEquallyGoods(data?.cat_id.toString(), null, 6)
+        }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
+    }
     override fun start() {
+        presenter.requestEquallyGoods(data?.cat_id.toString(), 1, 6)
     }
 }

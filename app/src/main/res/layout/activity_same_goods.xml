@@ -10,12 +10,12 @@
     <include layout="@layout/layout_toolbar"/>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
-            app:srlEnableAutoLoadMore="true"
-            app:srlEnableFooterFollowWhenLoadFinished="true"
-            app:srlEnableFooterTranslationContent="true"
+            android:layout_height="match_parent"
             app:srlEnableRefresh="false"
-            android:layout_height="match_parent">
+            app:srlEnableAutoLoadMore="true"
+            app:srlEnableFooterFollowWhenLoadFinished="true">
 
         <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -162,15 +162,15 @@
 
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:srlDrawableProgress="@drawable/ic_progress_puzzle"
                 app:srlFinishDuration="0"
-                app:srlTextFinish="@string/load_finish"
                 app:srlTextFailed="@string/load_failed"
-                app:srlTextPulling="@string/load_pulling"
-                app:srlTextRelease="@string/load_release"
+                app:srlTextFinish="@string/load_finish"
                 app:srlTextLoading="@string/load_loading"
                 app:srlTextNothing="@string/load_noting"
-                android:layout_height="wrap_content"/>
+                app:srlTextPulling="@string/load_pulling"
+                app:srlTextRelease="@string/load_release" />
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

@@ -73,6 +73,10 @@ class SignInGiftActivity : BaseActivity(), AppSignDayContract.View {
         continue_sign.text = bean.continue_sign + "天"
         //累计签到天数
         accumulate_day.text = bean.accumulate_day + "天"
+
+        val mAdapter = RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
+        mAdapter.notifyDataSetChanged()
+        calendar_gv.adapter = mAdapter
     }
 
     override fun showLoading() {
@@ -109,7 +113,7 @@ class SignInGiftActivity : BaseActivity(), AppSignDayContract.View {
     private var month: Int = 0
     private var year: Int = 0
 
-    private val adapter by lazy { RegistrationAdapter(this, mDays, week, mDay, year, month, mData) }
+//    private val adapter by lazy { RegistrationAdapter(this, mDays, week, mDay, year, month, mData) }
 
     private val presenter by lazy { AppSignDayPresenter() }
 
@@ -152,10 +156,10 @@ class SignInGiftActivity : BaseActivity(), AppSignDayContract.View {
         calendar_gv.isClickable = false
 //        calendar_gv.setPressed(false)
 //        calendar_gv.setEnabled(false)
-        val mAdapter = RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
-        calendar_gv.adapter = adapter//绑定适配器
-
-        adapter.notifyDataSetChanged()
+//        val mAdapter = RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
+//        calendar_gv.adapter = adapter//绑定适配器
+//
+//        adapter.notifyDataSetChanged()
 
         date.text = mYear.toString() + "." + (mMonth + 1)
         //左右滑动

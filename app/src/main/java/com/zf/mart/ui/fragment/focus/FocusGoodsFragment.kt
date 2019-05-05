@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
+import com.zf.mart.mvp.bean.CommendList
 import com.zf.mart.mvp.bean.MyFollowBean
 import com.zf.mart.mvp.bean.MyFollowList
 import com.zf.mart.mvp.contract.MyFollowContract
@@ -49,9 +50,22 @@ class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
     }
 
     //获得之后页数据
-    override fun setLoadMore(bean: List<MyFollowList>) {
+    override fun setFollowLoadMore(bean: List<MyFollowList>) {
         mData.addAll(bean)
         goodsAdapter.notifyDataSetChanged()
+    }
+
+    //获得第一页猜你喜欢商品
+    override fun getLoveGoods(bean: List<CommendList>) {
+        loveData.clear()
+        loveData.addAll(bean)
+        loveAdapter.notifyDataSetChanged()
+    }
+
+    //获得之后页猜你喜欢商品
+    override fun setGoodsLoadMore(bean: List<CommendList>) {
+        loveData.addAll(bean)
+        loveAdapter.notifyDataSetChanged()
     }
 
     //当第一页数据为空时
@@ -64,10 +78,15 @@ class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
     }
 
     //实际获得数据小于一页最大数据时 加载完成
-    override fun setLoadComplete() {
-        refreshLayout.finishLoadMoreWithNoMoreData()
+    override fun setLoadFollowComplete() {
+        switch = false
         //显示推荐商品布局
         love_goods_ly.visibility = View.VISIBLE
+        presenter.requsetLoveGoods("is_recommend", 1, 6)
+    }
+
+    override fun setLoadGoodsComplete() {
+        refreshLayout.finishLoadMoreWithNoMoreData()
     }
 
     //下拉加载错误
@@ -109,11 +128,15 @@ class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
     private val goodsAdapter by lazy { FocusGoodsAdapter(context, mData) }
 
     //猜你喜欢的商品列表
-    private val loveAdapter by lazy { FocusLoveGoodsAdapter(context) }
+    private val loveAdapter by lazy { FocusLoveGoodsAdapter(context, loveData) }
 
     private val presenter by lazy { MyFollowPresenter() }
     //接收网络数据值
     private var mData = ArrayList<MyFollowList>()
+
+    private var loveData = ArrayList<CommendList>()
+    //判断是否还需要请求关注列表
+    private var switch = true
 
     override fun initView() {
         presenter.attachView(this)
@@ -173,10 +196,14 @@ class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
         /**上拉加载*/
         refreshLayout.setOnLoadMoreListener {
 
-            presenter.requestMyFollow(null, 6)
+            if (switch) {
+                presenter.requestMyFollow(null, 6)
+            }
+            presenter.requsetLoveGoods("is_recommend", null, 6)
         }
         /**下拉刷新*/
         refreshLayout.setOnRefreshListener {
+            switch = true
             lazyLoad()
         }
     }

@@ -35,7 +35,7 @@ class RegistrationAdapter(
                 //截取年份
                 val yy: Int = e.split("/")[0].toInt()
                 //截取月份
-                val mm: Int = e.split("/")[1].toInt()
+                val mm: Int = e.split("/")[1].toInt() + 1
                 //截取日
                 val dd: Int = e.split("/")[2].toInt()
                 //判断截取数据并在日历设置签到样式
