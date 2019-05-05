@@ -20,7 +20,7 @@
             app:tl_indicator_color="#E91E63"
             app:tl_indicator_corner_radius="5dp"/>
     <!--app:tl_divider_width="1dp" 分割线-->
-      <com.zf.mart.view.verticalViewPager.VerticalViewPager
+      <com.zf.mart.view.verticalViewPager.NoScrollViewPager
             android:id="@+id/account_vp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

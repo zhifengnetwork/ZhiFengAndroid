@@ -1,18 +1,18 @@
 package com.zf.mart.mvp.presenter
 
 import com.zf.mart.base.BasePresenter
-import com.zf.mart.mvp.contract.MessageContract
-import com.zf.mart.mvp.model.MessageModel
+import com.zf.mart.mvp.contract.ShareGoodsContract
+import com.zf.mart.mvp.model.ShareGoodsModel
 import com.zf.mart.net.exception.ExceptionHandle
 
-class MessagePresenter : BasePresenter<MessageContract.View>(), MessageContract.Presenter {
-    private val model by lazy { MessageModel() }
+class ShareGoodsPresenter : BasePresenter<ShareGoodsContract.View>(), ShareGoodsContract.Presenter {
+    private val model by lazy { ShareGoodsModel() }
     private var mPage = 1
-    override fun requestMessage(page: Int?, num: Int, type: String) {
+    override fun requestShareGoods(is_distribut: Int, page: Int?, num: Int) {
         checkViewAttached()
         mPage = page ?: mPage
         mRootView?.showLoading()
-        val disposable = model.getMessage(mPage, num, type)
+        val disposable = model.getShareGoods(is_distribut, mPage, num)
             .subscribe({
                 mRootView?.apply {
                     dismissLoading()
@@ -20,15 +20,15 @@ class MessagePresenter : BasePresenter<MessageContract.View>(), MessageContract.
                         0 -> {
                             if (it.data != null) {
                                 if (mPage == 1) {
-                                    if (it.data.list.isNotEmpty()) {
-                                        getMessage(it.data.list)
+                                    if (it.data.goods_list.isNotEmpty()) {
+                                        getShareGoods(it.data.goods_list)
                                     } else {
                                         freshEmpty()
                                     }
                                 } else {
-                                    setLoadMore(it.data.list)
+                                    setLoadMore(it.data.goods_list)
                                 }
-                                if (it.data.list.size < num) {
+                                if (it.data.goods_list.size < num) {
                                     setLoadComplete()
                                 }
                                 mPage += 1

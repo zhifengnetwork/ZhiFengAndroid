@@ -110,7 +110,7 @@ class BonusActivity : BaseActivity(), BonusContract.View {
     @SuppressLint("SetTextI18n")
     fun setData() {
         balance.text = "账户余额￥" + mData?.user_money + "元"
-        profit.text = "累计收益￥" + mData?.distribut_money + "元"
+        if (mData?.distribut_money == null) profit.text = "累计收益￥0.00元" else profit.text = "累计收益￥" + mData?.distribut_money + "元"
         property.text = "资产总计￥" + mData?.total_property + "元"
     }
 }

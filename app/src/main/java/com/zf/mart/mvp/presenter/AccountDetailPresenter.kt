@@ -1,18 +1,21 @@
 package com.zf.mart.mvp.presenter
 
 import com.zf.mart.base.BasePresenter
-import com.zf.mart.mvp.contract.MessageContract
-import com.zf.mart.mvp.model.MessageModel
+import com.zf.mart.mvp.contract.AccountDetailContract
+import com.zf.mart.mvp.model.AccountDetailModel
 import com.zf.mart.net.exception.ExceptionHandle
 
-class MessagePresenter : BasePresenter<MessageContract.View>(), MessageContract.Presenter {
-    private val model by lazy { MessageModel() }
+class AccountDetailPresenter : BasePresenter<AccountDetailContract.View>(), AccountDetailContract.Presenter {
+
+    private val model by lazy { AccountDetailModel() }
+
     private var mPage = 1
-    override fun requestMessage(page: Int?, num: Int, type: String) {
+
+    override fun requestAccountDetail(type: String, page: Int?, num: Int) {
         checkViewAttached()
         mPage = page ?: mPage
         mRootView?.showLoading()
-        val disposable = model.getMessage(mPage, num, type)
+        val disposable = model.getAccountDetail(type, mPage, num)
             .subscribe({
                 mRootView?.apply {
                     dismissLoading()
@@ -21,7 +24,7 @@ class MessagePresenter : BasePresenter<MessageContract.View>(), MessageContract.
                             if (it.data != null) {
                                 if (mPage == 1) {
                                     if (it.data.list.isNotEmpty()) {
-                                        getMessage(it.data.list)
+                                        getAccountDetail(it.data.list)
                                     } else {
                                         freshEmpty()
                                     }
@@ -38,6 +41,7 @@ class MessagePresenter : BasePresenter<MessageContract.View>(), MessageContract.
 
                         }
                         else -> if (mPage == 1) showError(it.msg, it.status) else loadMoreError(it.msg, it.status)
+
                     }
                     dismissLoading()
                 }

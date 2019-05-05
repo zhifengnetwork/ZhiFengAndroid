@@ -1,18 +1,20 @@
 package com.zf.mart.mvp.presenter
 
 import com.zf.mart.base.BasePresenter
-import com.zf.mart.mvp.contract.MessageContract
-import com.zf.mart.mvp.model.MessageModel
+import com.zf.mart.mvp.contract.EquallyGoodsContract
+import com.zf.mart.mvp.model.EquallyGoodsModel
 import com.zf.mart.net.exception.ExceptionHandle
 
-class MessagePresenter : BasePresenter<MessageContract.View>(), MessageContract.Presenter {
-    private val model by lazy { MessageModel() }
+class EquallyGoodsPresenter : BasePresenter<EquallyGoodsContract.View>(), EquallyGoodsContract.Presenter {
+    private val model by lazy { EquallyGoodsModel() }
     private var mPage = 1
-    override fun requestMessage(page: Int?, num: Int, type: String) {
+    override fun requestEquallyGoods(id: String, page: Int?, num: Int) {
         checkViewAttached()
+
         mPage = page ?: mPage
+
         mRootView?.showLoading()
-        val disposable = model.getMessage(mPage, num, type)
+        val disposable = model.getEquallyGoods(id, mPage, num)
             .subscribe({
                 mRootView?.apply {
                     dismissLoading()
@@ -20,15 +22,15 @@ class MessagePresenter : BasePresenter<MessageContract.View>(), MessageContract.
                         0 -> {
                             if (it.data != null) {
                                 if (mPage == 1) {
-                                    if (it.data.list.isNotEmpty()) {
-                                        getMessage(it.data.list)
+                                    if (it.data.goods_list.isNotEmpty()) {
+                                        getEquallyGoods(it.data.goods_list)
                                     } else {
                                         freshEmpty()
                                     }
                                 } else {
-                                    setLoadMore(it.data.list)
+                                    setLoadMore(it.data.goods_list)
                                 }
-                                if (it.data.list.size < num) {
+                                if (it.data.goods_list.size < num) {
                                     setLoadComplete()
                                 }
                                 mPage += 1
@@ -38,6 +40,7 @@ class MessagePresenter : BasePresenter<MessageContract.View>(), MessageContract.
 
                         }
                         else -> if (mPage == 1) showError(it.msg, it.status) else loadMoreError(it.msg, it.status)
+
                     }
                     dismissLoading()
                 }

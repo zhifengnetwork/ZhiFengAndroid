@@ -50,7 +50,24 @@ class MeFragment : BaseFragment(), CommendContract.View {
     //签到
     override fun appSignSuccess(bean: AppSignBean) {
         signData = bean
+        window = object : RegionPopupWindow(
+                activity as Activity, R.layout.pop_sign_success,
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+        ) {
+            @SuppressLint("SetTextI18n")
+            override fun initView() {
+                contentView?.apply {
+                    //当前总积分
+                    points.text = signData?.points
+                    //连续签到天数
+                    continue_sign.text = "已经连续签到" + signData?.continue_sign + "天"
+                    //签到加积分
+                    add_point.text = "+" + signData?.add_point + "分"
+                }
+            }
+        }
         window.updata()
+        window.showAtLocation(parentLayout, Gravity.CENTER, 0, 0)
     }
 
     override fun setRefreshCommend(bean: CommendBean) {
@@ -153,24 +170,6 @@ class MeFragment : BaseFragment(), CommendContract.View {
         sign.setOnClickListener {
             //请求签到接口
             commendPresenter.requestAppSign()
-            window = object : RegionPopupWindow(
-                    activity as Activity, R.layout.pop_sign_success,
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
-            ) {
-                @SuppressLint("SetTextI18n")
-                override fun initView() {
-                    contentView?.apply {
-                        //当前总积分
-                        points.text = signData?.points
-                        //连续签到天数
-                        continue_sign.text = "已经连续签到" + signData?.continue_sign + "天"
-                        //签到加积分
-                        add_point.text = "+" + signData?.add_point + "分"
-                    }
-                }
-            }
-
-            window.showAtLocation(parentLayout, Gravity.CENTER, 0, 0)
         }
 
         //十天签到领礼品

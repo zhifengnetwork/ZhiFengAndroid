@@ -1,27 +1,58 @@
 package com.zf.mart.ui.activity
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.GestureDetector
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
+import android.widget.LinearLayout
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.mvp.bean.AppSignBean
 import com.zf.mart.mvp.bean.AppSignDayBean
 import com.zf.mart.mvp.contract.AppSignDayContract
 import com.zf.mart.mvp.presenter.AppSignDayPresenter
 import com.zf.mart.ui.adapter.RegistrationAdapter
 import com.zf.mart.view.gridview.SpecialCalendar
+import com.zf.mart.view.popwindow.RegionPopupWindow
 import kotlinx.android.synthetic.main.activity_sign_in_gift.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.pop_sign_success.view.*
 import java.util.*
 
 class SignInGiftActivity : BaseActivity(), AppSignDayContract.View {
+
     override fun showError(msg: String, errorCode: Int) {
 
     }
 
+    //签到成功
+    override fun appSignSuccess(bean: AppSignBean) {
+        signData = bean
+        window = object : RegionPopupWindow(
+            this, R.layout.pop_sign_success,
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+        ) {
+            @SuppressLint("SetTextI18n")
+            override fun initView() {
+                contentView?.apply {
+                    //当前总积分
+                    points.text = signData?.points
+                    //连续签到天数
+                    continue_sign.text = "已经连续签到" + signData?.continue_sign + "天"
+                    //签到加积分
+                    add_point.text = "+" + signData?.add_point + "分"
+                }
+            }
+        }
+        window.updata()
+        window.showAtLocation(parentLayout, Gravity.CENTER, 0, 0)
+    }
+
+    //签到列表
     @SuppressLint("SetTextI18n")
     override fun getAppSignDay(bean: AppSignDayBean) {
         mData = bean
@@ -33,15 +64,19 @@ class SignInGiftActivity : BaseActivity(), AppSignDayContract.View {
             sign_tv.text = "已签到"
             sign_tv.isEnabled = false
         } else {
-            sign_tv.text = "未签到"
+            sign_tv.text = "签到"
             sign_tv.isEnabled = true
         }
         //签到加积分
-        add_point.text = "+"+bean.add_point + "分"
+        add_point.text = "+" + bean.add_point + "分"
         //连续签到天数
         continue_sign.text = bean.continue_sign + "天"
         //累计签到天数
         accumulate_day.text = bean.accumulate_day + "天"
+
+        val mAdapter = RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
+        mAdapter.notifyDataSetChanged()
+        calendar_gv.adapter = mAdapter
     }
 
     override fun showLoading() {
@@ -78,11 +113,16 @@ class SignInGiftActivity : BaseActivity(), AppSignDayContract.View {
     private var month: Int = 0
     private var year: Int = 0
 
-    private val adapter by lazy { RegistrationAdapter(this, mDays, week, mDay, year, month, mData) }
+//    private val adapter by lazy { RegistrationAdapter(this, mDays, week, mDay, year, month, mData) }
 
     private val presenter by lazy { AppSignDayPresenter() }
 
     private var mData: AppSignDayBean? = null
+
+    private var signData: AppSignBean? = null
+    //pop弹窗
+    private lateinit var window: RegionPopupWindow
+
     override fun initData() {
 
     }
@@ -116,10 +156,10 @@ class SignInGiftActivity : BaseActivity(), AppSignDayContract.View {
         calendar_gv.isClickable = false
 //        calendar_gv.setPressed(false)
 //        calendar_gv.setEnabled(false)
-        val mAdapter=RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
-        calendar_gv.adapter = adapter//绑定适配器
-
-        adapter.notifyDataSetChanged()
+//        val mAdapter = RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
+//        calendar_gv.adapter = adapter//绑定适配器
+//
+//        adapter.notifyDataSetChanged()
 
         date.text = mYear.toString() + "." + (mMonth + 1)
         //左右滑动
@@ -132,6 +172,8 @@ class SignInGiftActivity : BaseActivity(), AppSignDayContract.View {
     override fun initEvent() {
         //签到点击事件
         sign_tv.setOnClickListener {
+            //请求签到接口
+            presenter.requestAppSign()
 
         }
         //点击事件
@@ -181,7 +223,7 @@ class SignInGiftActivity : BaseActivity(), AppSignDayContract.View {
             val isLeapYear = mCalendar.isLeapYear(year)
             mDays = mCalendar.getDaysOfMonth(isLeapYear, month + 1)//得到当月一共几天
             week = mCalendar.getWeekdayOfMonth(year, month)//得到当月第一天星期几
-            val mAdapter=RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
+            val mAdapter = RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
             mAdapter.notifyDataSetChanged()
             calendar_gv.adapter = mAdapter
             date.text = year.toString() + "." + (month + 1)
@@ -192,7 +234,7 @@ class SignInGiftActivity : BaseActivity(), AppSignDayContract.View {
             val isLeapYear = mCalendar.isLeapYear(year)
             mDays = mCalendar.getDaysOfMonth(isLeapYear, month + 1)//得到当月一共几天
             week = mCalendar.getWeekdayOfMonth(year, month)//得到当月第一天星期几
-            val mAdapter=RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
+            val mAdapter = RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
             mAdapter.notifyDataSetChanged()
             calendar_gv.adapter = mAdapter
             date.text = year.toString() + "." + (month + 1)
@@ -210,7 +252,7 @@ class SignInGiftActivity : BaseActivity(), AppSignDayContract.View {
             val isLeapYear = mCalendar.isLeapYear(year)
             mDays = mCalendar.getDaysOfMonth(isLeapYear, month + 1)//得到当月一共几天
             week = mCalendar.getWeekdayOfMonth(year, month)//得到当月第一天星期几
-            val mAdapter=RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
+            val mAdapter = RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
             mAdapter.notifyDataSetChanged()
             calendar_gv.adapter = mAdapter
             date.text = year.toString() + "." + (month + 1)
@@ -221,7 +263,7 @@ class SignInGiftActivity : BaseActivity(), AppSignDayContract.View {
             val isLeapYear = mCalendar.isLeapYear(year)
             mDays = mCalendar.getDaysOfMonth(isLeapYear, month + 1)//得到当月一共几天
             week = mCalendar.getWeekdayOfMonth(year, month)//得到当月第一天星期几
-            val mAdapter=RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
+            val mAdapter = RegistrationAdapter(this, mDays, week, mDay, year, month, mData)
             calendar_gv.adapter = mAdapter
             mAdapter.notifyDataSetChanged()
             date.text = year.toString() + "." + (month + 1)

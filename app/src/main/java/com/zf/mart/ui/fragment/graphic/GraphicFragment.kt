@@ -58,9 +58,7 @@ class GraphicFragment : BaseFragment(), GoodsAttrContract.View {
     private var id: String = ""
     //接收传递过来的H5
     private var htmlText: String = ""
-    //测试值
-    private val aaa ="<p>This text is normal</p>"+
-        "<p><img src='https://mobile.zhifengwangluo.c3w.cc/public/upload/goods/2019/03-16/6a293870038abbc58820f605d20e9e4b.jpg'/></p>"
+
 
     override fun initView() {
         presenter.attachView(this)
@@ -71,7 +69,7 @@ class GraphicFragment : BaseFragment(), GoodsAttrContract.View {
 
         RichText.initCacheDir(context)
 
-        RichText.from(aaa).into(textR)
+        RichText.from(htmlText).into(textR)
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -91,16 +89,16 @@ class GraphicFragment : BaseFragment(), GoodsAttrContract.View {
     }
 
     override fun initEvent() {
-//        show.setOnClickListener {
-//            show.isSelected = !show.isSelected
-//            if (show.isSelected) {
-//                show.text = "收起"
-//                h5Decode.visibility = View.VISIBLE
-//            } else {
-//                show.text = "展开"
-//                h5Decode.visibility = View.GONE
-//            }
-//        }
+        show.setOnClickListener {
+            show.isSelected = !show.isSelected
+            if (show.isSelected) {
+                show.text = "收起"
+                textR.visibility = View.VISIBLE
+            } else {
+                show.text = "展开"
+                textR.visibility = View.GONE
+            }
+        }
     }
 
     override fun onDestroy() {

@@ -1,7 +1,8 @@
 package com.zf.mart.mvp.bean
 
-data class MyFollowShop(
-    val list:List<FollowShopList>
+data class MyFollowShopBean(
+    val list:List<FollowShopList>,
+    val count:String
 )
 data class FollowShopList(
     val collect_id:String,

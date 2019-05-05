@@ -1,6 +1,12 @@
 package com.zf.mart.mvp.bean
 
+import java.io.Serializable
+
 data class MyFollowBean(
+    val list:List<MyFollowList>,
+    val count:String
+)
+data class MyFollowList(
     val collect_id:String,
     val add_time:String,
     val goods_id:String,
@@ -10,5 +16,6 @@ data class MyFollowBean(
     val store_count:String,
     val cat_id:String,
     val is_virtual:String,
-    val original_img:String
-)
+    val original_img:String,
+    val market_price:String
+): Serializable

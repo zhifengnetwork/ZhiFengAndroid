@@ -35,7 +35,7 @@ class RegistrationAdapter(
                 //截取年份
                 val yy: Int = e.split("/")[0].toInt()
                 //截取月份
-                val mm: Int = e.split("/")[1].toInt()
+                val mm: Int = e.split("/")[1].toInt() + 1
                 //截取日
                 val dd: Int = e.split("/")[2].toInt()
                 //判断截取数据并在日历设置签到样式
@@ -86,7 +86,7 @@ class RegistrationAdapter(
         } else {
             viewHolder = view.tag as ViewHolder
         }
-        viewHolder?.day?.text = if (dayNumber!![i] == 0) "1" else dayNumber!![i].toString() + ""
+        viewHolder?.day?.text = if (dayNumber!![i] == 0) "" else dayNumber!![i].toString() + ""
 
         //判断签到了的日子并显示样式
         tab = i//记录日期下标

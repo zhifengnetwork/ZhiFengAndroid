@@ -1,18 +1,18 @@
 package com.zf.mart.mvp.presenter
 
 import com.zf.mart.base.BasePresenter
-import com.zf.mart.mvp.contract.MessageContract
-import com.zf.mart.mvp.model.MessageModel
+import com.zf.mart.mvp.contract.MemberOrderContract
+import com.zf.mart.mvp.model.MemberOrderModel
 import com.zf.mart.net.exception.ExceptionHandle
 
-class MessagePresenter : BasePresenter<MessageContract.View>(), MessageContract.Presenter {
-    private val model by lazy { MessageModel() }
+class MemberOrderPresenter : BasePresenter<MemberOrderContract.View>(), MemberOrderContract.Presenter {
+    private val model by lazy { MemberOrderModel() }
     private var mPage = 1
-    override fun requestMessage(page: Int?, num: Int, type: String) {
+    override fun requestMemberOrder(page: Int?, num: Int) {
         checkViewAttached()
         mPage = page ?: mPage
         mRootView?.showLoading()
-        val disposable = model.getMessage(mPage, num, type)
+        val disposable = model.getMemberOrder(mPage, num)
             .subscribe({
                 mRootView?.apply {
                     dismissLoading()
@@ -20,9 +20,10 @@ class MessagePresenter : BasePresenter<MessageContract.View>(), MessageContract.
                         0 -> {
                             if (it.data != null) {
                                 if (mPage == 1) {
+
+                                    getMenberOrder(it.data)
+
                                     if (it.data.list.isNotEmpty()) {
-                                        getMessage(it.data.list)
-                                    } else {
                                         freshEmpty()
                                     }
                                 } else {

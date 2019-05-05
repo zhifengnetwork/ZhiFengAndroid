@@ -231,10 +231,10 @@ class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
                 alpha = 1.0f
             }
             home_title.setBackgroundColor(
-                    changeAlpha(
-                            ContextCompat.getColor(context!!, R.color.head_bg)
-                            , alpha
-                    )
+                changeAlpha(
+                    ContextCompat.getColor(context!!, R.color.head_bg)
+                    , alpha
+                )
             )
         }
 
@@ -259,6 +259,10 @@ class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
         //精选
         choice.setOnClickListener {
             ChoiceActivity.actionStart(context)
+        }
+        //签到
+        sign_btn.setOnClickListener {
+            SignInGiftActivity.actionStart(context)
         }
 
     }
