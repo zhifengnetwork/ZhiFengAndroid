@@ -230,7 +230,6 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         refreshLayout.finishLoadMore()
     }
 
-
     companion object {
         fun getInstance(): ShoppingCartFragment1 {
             return ShoppingCartFragment1()
@@ -238,7 +237,6 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_shoping_cart
-
 
     private var mShopPos = 0
     private var mGoodsPos = 0
@@ -249,7 +247,6 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
     private val cartAdapter by lazy { CartShopAdapter1(context, cartData) }
     private val cartListPresenter by lazy { CartListPresenter() }
     private val cartOperatePresenter by lazy { CartOperatePresenter() }
-
 
     private fun initCart() {
         cartRecyclerView.layoutManager = LinearLayoutManager(context)

@@ -34,7 +34,6 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
         back.setOnClickListener { finish() }
         titleName.text = "确定订单"
         rightLayout.visibility = View.INVISIBLE
-
     }
 
     /** 提交订单成功*/

@@ -14,6 +14,7 @@ import com.zf.mart.livedata.UserInfoLiveData
 import com.zf.mart.mvp.bean.AppSignBean
 import com.zf.mart.mvp.bean.CommendBean
 import com.zf.mart.mvp.bean.CommendList
+import com.zf.mart.mvp.bean.MeBean
 import com.zf.mart.mvp.contract.CommendContract
 import com.zf.mart.mvp.presenter.CommendPresenter
 import com.zf.mart.showToast
@@ -33,6 +34,19 @@ import kotlinx.android.synthetic.main.layout_zhuanlan.*
 import kotlinx.android.synthetic.main.pop_sign_success.view.*
 
 class MeFragment : BaseFragment(), CommendContract.View {
+
+    override fun setMe(bean: MeBean) {
+        goodsNum.text = bean.goods_collect_num
+        shopNum.text = bean.seller_goods_num
+        footNum.text = bean.goods_visit_num
+        waitPayNum.text = bean.waitPay
+        waitSendNum.text = bean.waitSend
+        waitReceiveNum.text = bean.waitReceive
+        waitEvaNum.text = bean.uncomment_count
+        points.text = bean.pay_points
+        discount.text = bean.coupon_num
+    }
+
     //签到
     override fun appSignSuccess(bean: AppSignBean) {
         signData = bean
@@ -108,11 +122,10 @@ class MeFragment : BaseFragment(), CommendContract.View {
     }
 
     override fun lazyLoad() {
-
         refreshLayout.setEnableLoadMore(false)
         refreshLayout.setNoMoreData(false)
         commendPresenter.requestCommend("is_recommend", 1)
-
+        commendPresenter.requestMe()
     }
 
     private val token by Preference(UriConstant.TOKEN, "")
@@ -129,6 +142,7 @@ class MeFragment : BaseFragment(), CommendContract.View {
 
         refreshLayout.setOnRefreshListener {
             lazyLoad()
+
         }
 
         refreshLayout.setOnLoadMoreListener {
@@ -140,8 +154,8 @@ class MeFragment : BaseFragment(), CommendContract.View {
             //请求签到接口
             commendPresenter.requestAppSign()
             window = object : RegionPopupWindow(
-                activity as Activity, R.layout.pop_sign_success,
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                    activity as Activity, R.layout.pop_sign_success,
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 @SuppressLint("SetTextI18n")
                 override fun initView() {

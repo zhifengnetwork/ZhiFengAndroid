@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.classic.common.MultipleStatusView
 import com.zf.mart.api.UriConstant
 import com.zf.mart.utils.Preference
-import com.zf.mart.view.loadingDialog.LoadingDialog
+import com.zf.mart.view.loadingDialog.LoadingDialogKt
 import java.util.*
 
 
@@ -20,7 +20,7 @@ abstract class BaseActivity : AppCompatActivity() {
     /**
      * 多种状态的 View 的切换
      */
-    protected  var mLayoutStatusView: MultipleStatusView? = null
+    protected var mLayoutStatusView: MultipleStatusView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,12 +64,12 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun initToolBar()
 
-    private var loadingDialog: LoadingDialog? = null
+    private var loadingDialog: LoadingDialogKt? = null
 
-    fun showLoadingDialog() {
+    fun showLoadingDialog(isBackDismiss: Boolean? = true) {
         loadingDialog?.close()
         loadingDialog = null
-        loadingDialog = LoadingDialog(this, "")
+        loadingDialog = LoadingDialogKt(this, "", isBackDismiss)
         loadingDialog?.show()
     }
 

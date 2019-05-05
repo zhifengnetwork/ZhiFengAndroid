@@ -18,48 +18,48 @@ class CommendPresenter : BasePresenter<CommendContract.View>(), CommendContract.
         checkViewAttached()
         mRootView?.showLoading()
         val disposable = model.requestCommend(type, mPage)
-            .subscribe({
-                mRootView?.apply {
-                    when (it.status) {
-                        0 -> {
-                            if (mPage == 1) {
-                                if (it.data != null && it.data.goods_list.isNotEmpty()) {
-                                    setRefreshCommend(it.data)
+                .subscribe({
+                    mRootView?.apply {
+                        when (it.status) {
+                            0 -> {
+                                if (mPage == 1) {
+                                    if (it.data != null && it.data.goods_list.isNotEmpty()) {
+                                        setRefreshCommend(it.data)
+                                    } else {
+                                        setEmpty()
+                                    }
                                 } else {
-                                    setEmpty()
+                                    if (it.data != null && it.data.goods_list.isNotEmpty()) {
+                                        setLoadMoreCommend(it.data)
+                                    } else {
+                                        setLoadComplete()
+                                    }
                                 }
+                                if (it.data != null && it.data.goods_list.isNotEmpty()) {
+                                    if (it.data.goods_list.size < UriConstant.PER_PAGE) {
+                                        setLoadComplete()
+                                    }
+                                }
+                                mPage += 1
+                            }
+                            else -> if (mPage == 1) {
+                                showError(it.msg, it.status)
                             } else {
-                                if (it.data != null && it.data.goods_list.isNotEmpty()) {
-                                    setLoadMoreCommend(it.data)
-                                } else {
-                                    setLoadComplete()
-                                }
+                                loadMoreError(it.msg, it.status)
                             }
-                            if (it.data != null && it.data.goods_list.isNotEmpty()) {
-                                if (it.data.goods_list.size < UriConstant.PER_PAGE) {
-                                    setLoadComplete()
-                                }
-                            }
-                            mPage += 1
                         }
-                        else -> if (mPage == 1) {
-                            showError(it.msg, it.status)
+                        dismissLoading()
+                    }
+                }, {
+                    mRootView?.apply {
+                        dismissLoading()
+                        if (mPage == 1) {
+                            showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
                         } else {
-                            loadMoreError(it.msg, it.status)
+                            loadMoreError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
                         }
                     }
-                    dismissLoading()
-                }
-            }, {
-                mRootView?.apply {
-                    dismissLoading()
-                    if (mPage == 1) {
-                        showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
-                    } else {
-                        loadMoreError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
-                    }
-                }
-            })
+                })
         addSubscription(disposable)
     }
 
@@ -68,24 +68,47 @@ class CommendPresenter : BasePresenter<CommendContract.View>(), CommendContract.
         checkViewAttached()
         mRootView?.showLoading()
         val disposable = model.requestAppSign()
-            .subscribe({
-                mRootView?.apply {
-                    dismissLoading()
-                    when (it.status) {
-                        0 -> {
-                            if (it.data != null) {
-                                appSignSuccess(it.data)
+                .subscribe({
+                    mRootView?.apply {
+                        dismissLoading()
+                        when (it.status) {
+                            0 -> {
+                                if (it.data != null) {
+                                    appSignSuccess(it.data)
+                                }
                             }
+                            else -> showError(it.msg, it.status)
                         }
-                        else -> showError(it.msg, it.status)
                     }
-                }
-            }, {
-                mRootView?.apply {
-                    dismissLoading()
-                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
-                }
-            })
+                }, {
+                    mRootView?.apply {
+                        dismissLoading()
+                        showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                    }
+                })
+        addSubscription(disposable)
+    }
+
+    override fun requestMe() {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.requestMe()
+                .subscribe({
+                    mRootView?.apply {
+                        dismissLoading()
+                        when (it.status) {
+                            0 -> if (it.data != null) {
+                                setMe(it.data)
+                            }
+                            else -> showError(it.msg, it.status)
+                        }
+                    }
+                }, {
+                    mRootView?.apply {
+                        dismissLoading()
+                        showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                    }
+                })
         addSubscription(disposable)
     }
 

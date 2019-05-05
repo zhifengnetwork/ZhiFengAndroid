@@ -31,6 +31,9 @@ import kotlinx.android.synthetic.main.layout_seckill.*
 
 class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
 
+    override fun setMe(bean: MeBean) {
+    }
+
     override fun appSignSuccess(bean: AppSignBean) {
 
     }

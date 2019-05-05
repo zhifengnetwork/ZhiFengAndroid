@@ -21,7 +21,6 @@ import com.zf.mart.ui.fragment.HomeFragment
 import com.zf.mart.ui.fragment.MeFragment
 import com.zf.mart.ui.fragment.ShoppingCartFragment1
 import com.zf.mart.utils.Preference
-import com.zf.mart.utils.bus.RxBus
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity(), UserInfoContract.View {
@@ -55,13 +54,14 @@ class MainActivity : BaseActivity(), UserInfoContract.View {
 
     override fun start() {
         requestUserInfo()
-
     }
 
     //退出登录->登录->再次进主页->同样要获取用户信息
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         requestUserInfo()
+        mIndex = intent?.getIntExtra("index", mIndex) ?: mIndex
+        switchFragment(mIndex)
     }
 
     //newIntent()和start()
@@ -72,33 +72,36 @@ class MainActivity : BaseActivity(), UserInfoContract.View {
     }
 
     companion object {
-        fun actionStart(context: Context?) {
-            context?.startActivity(Intent(context, MainActivity::class.java))
+
+        private var mIndex = 0
+
+        fun actionStart(context: Context?, index: Int? = mIndex) {
+            val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra("index", index)
+            context?.startActivity(intent)
         }
     }
 
     override fun initToolBar() {
-
     }
 
     override fun initEvent() {
-
     }
 
     private val mTitles = listOf("首页", "分类", "购物车", "我的")
 
     private val mIconUnSelectIds = listOf(
-        R.drawable.ic_sy,
-        R.drawable.ic_fl,
-        R.drawable.ic_gwc,
-        R.drawable.ic_wo
+            R.drawable.ic_sy,
+            R.drawable.ic_fl,
+            R.drawable.ic_gwc,
+            R.drawable.ic_wo
     )
 
     private val mIconSelectIds = listOf(
-        R.drawable.ic_sy_se,
-        R.drawable.ic_fl_se,
-        R.drawable.ic_gwc_se,
-        R.drawable.ic_wo_se
+            R.drawable.ic_sy_se,
+            R.drawable.ic_fl_se,
+            R.drawable.ic_gwc_se,
+            R.drawable.ic_wo_se
     )
 
     private val mTabEntities = ArrayList<CustomTabEntity>()
@@ -108,7 +111,6 @@ class MainActivity : BaseActivity(), UserInfoContract.View {
     private var mHotFragment: ShoppingCartFragment1? = null
     private var mMineFragment: MeFragment? = null
 
-    private var mIndex = 0
 
     override fun layoutId(): Int = R.layout.activity_main
 
@@ -122,33 +124,32 @@ class MainActivity : BaseActivity(), UserInfoContract.View {
         switchFragment(mIndex)
     }
 
-
     private fun switchFragment(index: Int) {
         val transaction = supportFragmentManager.beginTransaction()
         hideFragments(transaction)
         when (index) {
             0 -> mHomeFragment?.let { transaction.show(it) }
-                ?: HomeFragment.getInstance().let {
-                    mHomeFragment = it
-                    transaction.add(R.id.fl_container, it, "home")
-                }
+                    ?: HomeFragment.getInstance().let {
+                        mHomeFragment = it
+                        transaction.add(R.id.fl_container, it, "home")
+                    }
             1 -> mDiscoveryFragment?.let { transaction.show(it) }
-                ?: ClassifyFragment.getInstance().let {
-                    mDiscoveryFragment = it
-                    transaction.add(R.id.fl_container, it, "discovery")
-                }
+                    ?: ClassifyFragment.getInstance().let {
+                        mDiscoveryFragment = it
+                        transaction.add(R.id.fl_container, it, "discovery")
+                    }
             2 -> mHotFragment?.let { transaction.show(it) }
-                ?: ShoppingCartFragment1.getInstance().let {
-                    mHotFragment = it
-                    transaction.add(R.id.fl_container, it, "hot")
-                }
+                    ?: ShoppingCartFragment1.getInstance().let {
+                        mHotFragment = it
+                        transaction.add(R.id.fl_container, it, "hot")
+                    }
             3 -> mMineFragment?.let {
                 transaction.show(it)
             }
-                ?: MeFragment.getInstance().let {
-                    mMineFragment = it
-                    transaction.add(R.id.fl_container, it, "mine")
-                }
+                    ?: MeFragment.getInstance().let {
+                        mMineFragment = it
+                        transaction.add(R.id.fl_container, it, "mine")
+                    }
             else -> {
             }
         }

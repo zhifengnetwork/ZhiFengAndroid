@@ -6,30 +6,58 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.mvp.bean.OrderGoodsList
 import com.zf.mart.mvp.bean.OrderListBean
 import com.zf.mart.mvp.contract.EvaluateContract
 import com.zf.mart.mvp.presenter.EvaluatePresenter
+import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.EvaluateAdapter
-import com.zf.mart.utils.LogUtils
+import com.zf.mart.utils.bus.RxBus
 import kotlinx.android.synthetic.main.activity_evaluate.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 
 /**
  * 评价订单
  */
 class EvaluateActivity : BaseActivity(), EvaluateContract.View {
-    override fun setEvaluate() {
 
+    //上传图片成功
+    override fun setUploadImg(url: String) {
+        if (adapter.data[mIndex].imgList == null) {
+            adapter.data[mIndex].imgList = ArrayList()
+        }
+        adapter.data[mIndex].imgList?.add(url)
+        adapter.notifyDataSetChanged()
     }
 
+    override fun setEvaluate() {
+        showToast("评价成功")
+        RxBus.getDefault().post(UriConstant.FRESH_ORDER_LIST)
+        finish()
+    }
+
+    private var mDialogNum = 0
+
     override fun showLoading() {
+        mDialogNum += 1
+        showLoadingDialog(false)
     }
 
     override fun dismissLoading() {
+        mDialogNum -= 1
+        if (mDialogNum == 0) {
+            dismissLoadingDialog()
+        }
     }
 
     override fun showError(msg: String, errorCode: Int) {
+        showToast(msg)
     }
 
     override fun initToolBar() {
@@ -54,27 +82,44 @@ class EvaluateActivity : BaseActivity(), EvaluateContract.View {
         mOrderBean = intent.getSerializableExtra("orderBean") as OrderListBean
     }
 
-    private val adapter by lazy { EvaluateAdapter(this, mOrderBean?.goods) }
+    private val adapter by lazy { EvaluateAdapter(this, mOrderBean?.goods as ArrayList<OrderGoodsList>) }
 
     override fun initView() {
         presenter.attachView(this)
         goodsRecyclerView.layoutManager = LinearLayoutManager(this)
         goodsRecyclerView.adapter = adapter
-
     }
 
     private val presenter by lazy { EvaluatePresenter() }
 
+    private var mIndex: Int = 0
 
     override fun initEvent() {
 
+        adapter.onUploadImgListener = { imgPath, index ->
+            mIndex = index
+            val file = File(imgPath)
+            val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+            val imgBody = RequestBody.create(
+                    MediaType.parse("multipart/form-data"),
+                    file
+            )
+            builder.addFormDataPart("image_file", file.name, imgBody)
+            val imageBodyPart = MultipartBody.Part.createFormData(
+                    "pic" //约定key
+                    , System.currentTimeMillis().toString() + ".png" //后台接收的文件名
+                    , imgBody
+            )
+            presenter.requestUploadImg(imageBodyPart)
+        }
+
         confirm.setOnClickListener {
             val list = ArrayList<HashMap<String, Any>>()
-            adapter.data?.forEach {
+            adapter.data.forEach {
                 val map = HashMap<String, Any>()
-                map["id"] = it.goods_id
+                map["goods_id"] = it.goods_id
                 map["content"] = it.evaluateContent
-                map["img"] = it.imgList
+                map["img"] = it.imgList ?: ArrayList<String>()
                 map["deliver_rank"] = it.deliverRank
                 map["goods_rank"] = it.goodsRank
                 map["service_rank"] = it.serviceRank
@@ -82,17 +127,7 @@ class EvaluateActivity : BaseActivity(), EvaluateContract.View {
                 list.add(map)
             }
             //转成json字符串给后台
-            presenter.requestEvaluate(Gson().toJson(list))
-
-            //            val finalData = ArrayList<Map<String, String>>()
-//            val list = HashMap<String, String>()
-//            list["id"] = "12"
-//            list["content"] = "tom"
-//            finalData.add(list)
-//            list["id"] = "14"
-//            list["content"] = "cat"
-//            finalData.add(list)
-//            val gson = Gson().toJson(finalData)
+            presenter.requestEvaluate(Gson().toJson(list), mOrderBean?.order_id ?: "")
 
         }
 

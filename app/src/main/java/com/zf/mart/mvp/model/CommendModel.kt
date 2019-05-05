@@ -4,6 +4,7 @@ import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseBean
 import com.zf.mart.mvp.bean.AppSignBean
 import com.zf.mart.mvp.bean.CommendBean
+import com.zf.mart.mvp.bean.MeBean
 import com.zf.mart.net.RetrofitManager
 import com.zf.mart.scheduler.SchedulerUtils
 import io.reactivex.Observable
@@ -16,5 +17,10 @@ class CommendModel {
 
     fun requestAppSign(): Observable<BaseBean<AppSignBean>> {
         return RetrofitManager.service.requestAppSign().compose(SchedulerUtils.ioToMain())
+    }
+
+    fun requestMe(): Observable<BaseBean<MeBean>> {
+        return RetrofitManager.service.requestMe()
+                .compose(SchedulerUtils.ioToMain())
     }
 }

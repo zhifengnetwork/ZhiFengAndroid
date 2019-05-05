@@ -5,6 +5,7 @@ import com.zf.mart.base.IPresenter
 import com.zf.mart.mvp.bean.AppSignBean
 import com.zf.mart.mvp.bean.CartBean
 import com.zf.mart.mvp.bean.CommendBean
+import com.zf.mart.mvp.bean.MeBean
 
 interface CommendContract {
 
@@ -24,6 +25,10 @@ interface CommendContract {
         fun loadMoreError(msg: String, errorCode: Int)
         //签到
         fun appSignSuccess(bean: AppSignBean)
+
+        //我的页面
+        fun setMe(bean: MeBean)
+
     }
 
     interface Presenter : IPresenter<View> {
@@ -31,6 +36,7 @@ interface CommendContract {
 
         fun requestAppSign()
 
+        fun requestMe()
     }
 
 }

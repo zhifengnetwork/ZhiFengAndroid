@@ -4,14 +4,18 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.mvp.bean.OrderDetailBean
 import com.zf.mart.mvp.bean.OrderGoodsList
+import com.zf.mart.mvp.bean.OrderListBean
 import com.zf.mart.mvp.contract.OrderDetailContract
+import com.zf.mart.mvp.contract.OrderOperateContract
 import com.zf.mart.mvp.presenter.OrderDetailPresenter
+import com.zf.mart.mvp.presenter.OrderOperatePresenter
 import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.OrderGoodsAdapter
 import com.zf.mart.utils.StatusBarUtils
@@ -19,19 +23,30 @@ import com.zf.mart.utils.TimeUtils
 import kotlinx.android.synthetic.main.activity_order_detail.*
 import kotlinx.android.synthetic.main.layout_detail_price.*
 import kotlinx.android.synthetic.main.layout_en_order_address.*
+import kotlinx.android.synthetic.main.layout_order_operation.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 /**
  * 订单详情
  */
-class OrderDetailActivity : BaseActivity(), OrderDetailContract.View {
+class OrderDetailActivity : BaseActivity(), OrderDetailContract.View , OrderOperateContract.View{
+
+    override fun showOperateError(msg: String, errorCode: Int) {
+
+    }
+
+    override fun setCancelOrder() {
+    }
+
+    override fun setConfirmReceipt() {
+    }
 
     override fun showError(msg: String, errorCode: Int) {
         showToast(msg)
     }
 
     @SuppressLint("SetTextI18n")
-    override fun setOrderDetail(bean: OrderDetailBean) {
+    override fun setOrderDetail(bean: OrderListBean) {
         userName.text = bean.consignee
         userPhone.text = bean.mobile
         userAddress.text = "${bean.province}${bean.city}${bean.district}${bean.twon}${bean.address}"
@@ -54,12 +69,105 @@ class OrderDetailActivity : BaseActivity(), OrderDetailContract.View {
 
         orderNum.text = bean.order_sn
         createTime.text = TimeUtils.myOrderTime(bean.add_time)
+
+
+        //订单状态 order_status
+        when (bean.order_status) {
+            //0：后台待确认 1：后台已确认
+            //pay_status 0未支付 1已支付 2部分支付 3已退款 4拒绝退款
+            "0", "1" -> {
+                hideOperation()
+                if (bean.pay_status == "0") {
+//                    status.text = "待付款"
+                    payNow.visibility = View.VISIBLE
+                    cancelOrder.visibility = View.VISIBLE
+                    contactShop.visibility = View.VISIBLE
+                } else if (bean.pay_status == "1") {
+                    if (bean.shipping_status == "0") {
+                        //未发货
+//                        status.text = "待发货"
+                        remindSend.visibility = View.VISIBLE
+                    } else if (bean.shipping_status == "1") {
+                        //已发货
+//                        status.text = "待收货"
+                        shipping.visibility = View.VISIBLE
+                        confirmReceive.visibility = View.VISIBLE
+                    }
+                }
+            }
+            //待评价(已收货)
+            "2" -> {
+                hideOperation()
+//                status.text = "交易成功"
+                afterSale.visibility = View.VISIBLE
+                evaluate.visibility = View.VISIBLE
+            }
+            //已取消
+            "3" -> {
+                hideOperation()
+//                status.text = "已取消"
+            }
+            //已完成
+            "4" -> {
+                hideOperation()
+//                status.text = "交易成功"
+                afterSale.visibility = View.VISIBLE
+            }
+        }
+
+        //确认收货
+        confirmReceive.setOnClickListener {
+            AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("确认收货")
+                    .setNegativeButton("取消", null)
+                    .setPositiveButton("确定") { _, _ ->
+                        orderOperatePresenter.requestConfirmReceipt(mOrderId)
+                    }
+                    .show()
+        }
+
+        //物流
+        shipping.setOnClickListener {
+            ShippingActivity.actionStart(this, mOrderId)
+        }
+
+        //取消订单
+        cancelOrder.setOnClickListener {
+            AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("取消该订单")
+                    .setNegativeButton("取消", null)
+                    .setPositiveButton("确定") { _, _ ->
+
+                        orderOperatePresenter.requestCancelOrder(mOrderId)
+                    }
+                    .show()
+        }
+
+        //去评价
+        evaluate.setOnClickListener {
+            EvaluateActivity.actionStart(this, bean)
+        }
+
     }
 
     override fun showLoading() {
     }
 
     override fun dismissLoading() {
+    }
+
+    private fun hideOperation() {
+        payNow.visibility = View.GONE
+        checkCode.visibility = View.GONE
+        remindSend.visibility = View.GONE
+        contactShop.visibility = View.GONE
+        cancelOrder.visibility = View.GONE
+        payNow.visibility = View.GONE
+        confirmReceive.visibility = View.GONE
+        afterSale.visibility = View.GONE
+        evaluate.visibility = View.GONE
     }
 
     companion object {
@@ -79,6 +187,7 @@ class OrderDetailActivity : BaseActivity(), OrderDetailContract.View {
     }
 
     private val orderDetailPresenter by lazy { OrderDetailPresenter() }
+    private val orderOperatePresenter by lazy { OrderOperatePresenter() }
 
     override fun layoutId(): Int = R.layout.activity_order_detail
 
@@ -91,13 +200,17 @@ class OrderDetailActivity : BaseActivity(), OrderDetailContract.View {
     private val adapter by lazy { OrderGoodsAdapter(this, data) }
 
     override fun initView() {
+        orderOperatePresenter.attachView(this)
         orderDetailPresenter.attachView(this)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
+
+        arrowIcon.visibility = View.INVISIBLE
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        orderOperatePresenter.detachView()
         orderDetailPresenter.detachView()
     }
 
@@ -107,4 +220,5 @@ class OrderDetailActivity : BaseActivity(), OrderDetailContract.View {
     override fun start() {
         orderDetailPresenter.requestOrderDetail(mOrderId)
     }
+
 }

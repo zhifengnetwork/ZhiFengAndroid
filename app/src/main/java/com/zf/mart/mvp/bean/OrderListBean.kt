@@ -3,6 +3,29 @@ package com.zf.mart.mvp.bean
 import java.io.Serializable
 
 data class OrderListBean(
+
+        val order_sn: String,
+        val consignee: String,
+        val country: String,
+        val province: String,
+        val city: String,
+        val district: String,
+        val twon: String,
+        val address: String,
+        val seller_name: String,
+        val order_prom_amount: String,
+        val goods_num: String,
+        val shipping_price: String,
+        val total_amount: String,
+        val integral_money: String,
+        val sign_price: String,
+        val coupon_price: String,
+        val avatar: String,
+        val pay_time: String,
+        val pay_name: String,
+        val mobile: String,
+        val user_money: String,
+
         val order_id: String,
         val order_amount: String,
         val add_time: Long,
@@ -30,7 +53,7 @@ data class OrderGoodsList(
         val spec_key_name: String,
         val goods_num: String,
         var evaluateContent: String, //用户评价的内容 *
-        var imgList: ArrayList<String>,  //用户评价的图片 *
+        var imgList: ArrayList<String>? = ArrayList<String>(),  //用户评价的图片 *
         var deliverRank: String, //配送评分 *
         var goodsRank: String, //商品评分 *
         var serviceRank: String, //服务评分 *

@@ -16,7 +16,9 @@ object UriConstant {
 
     const val UPDATE_USER_INFO = "updateUserInfo"
 
-    const val WX_APP_ID= "wx5647ea6845751495"
+    const val FRESH_ORDER_LIST = "freshOrderList"
+
+    const val WX_APP_ID = "wx5647ea6845751495"
 
     const val CODE_TIME = 60 //验证码时间
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
 import kotlinx.android.synthetic.main.item_grid_img.view.*
 
 class PictureSelectorAdapter(context: Context, val data: ArrayList<String>) : RecyclerView.Adapter<PictureSelectorAdapter.ViewHolder>() {
@@ -66,7 +67,7 @@ class PictureSelectorAdapter(context: Context, val data: ArrayList<String>) : Re
                 mDeleteListener?.deleteClick(position)
             }
             Glide.with(mContext)
-                    .load(data[position])
+                    .load(UriConstant.BASE_URL + data[position])
                     .into(holder.itemView.imgContent2)
 
         }

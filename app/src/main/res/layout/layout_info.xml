@@ -87,6 +87,7 @@
             android:paddingBottom="10dp">
 
             <TextView
+                android:id="@+id/goodsNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -114,6 +115,7 @@
             android:paddingBottom="10dp">
 
             <TextView
+                android:id="@+id/shopNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -141,6 +143,7 @@
             android:paddingBottom="10dp">
 
             <TextView
+                android:id="@+id/footNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

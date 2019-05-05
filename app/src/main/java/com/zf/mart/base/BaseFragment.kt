@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.classic.common.MultipleStatusView
-import com.zf.mart.view.loadingDialog.LoadingDialog
+import com.zf.mart.view.loadingDialog.LoadingDialogKt
 
 abstract class BaseFragment : Fragment() {
 
@@ -56,12 +56,12 @@ abstract class BaseFragment : Fragment() {
         lazyLoad()
     }
 
-    private var loadingDialog: LoadingDialog? = null
+    private var loadingDialog: LoadingDialogKt? = null
 
-    fun showLoadingDialog() {
+    fun showLoadingDialog(isBackDismiss: Boolean? = true) {
         loadingDialog?.close()
         loadingDialog = null
-        loadingDialog = LoadingDialog(context, "")
+        loadingDialog = LoadingDialogKt(context!!, "", isBackDismiss)
         loadingDialog?.show()
     }
 

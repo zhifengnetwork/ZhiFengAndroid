@@ -119,7 +119,7 @@ interface ApiService {
      * 订单详情
      */
     @GET("api/order/order_detail")
-    fun getOrderDetail(@Query("order_id") order_id: String): Observable<BaseBean<OrderDetailBean>>
+    fun getOrderDetail(@Query("order_id") order_id: String): Observable<BaseBean<OrderListBean>>
 
     /**
      * 购物车列表
@@ -411,9 +411,16 @@ interface ApiService {
     @POST("api/order/order_common")
     @FormUrlEncoded
     fun requestEvaluate(
-            @Field("info") info: String
+            @Field("info") info: String,
+            @Field("order_id") order_id: String
     ): Observable<BaseBean<Unit>>
 
+    /**
+     * 评价-> 上传图片
+     */
+    @POST("api/order/common_upload_pic")
+    @Multipart
+    fun uploadCommonImg(@Part partList: MultipartBody.Part): Observable<BaseBean<CommonBean>>
 
     /**
      * 购物车全选或者反选
@@ -611,5 +618,11 @@ interface ApiService {
     fun requestWeChatLogin(
             @Field("code") code: String
     ): Observable<BaseBean<LoginBean>>
+
+    /**
+     * 我的页面
+     */
+    @GET("api/User/myIndex")
+    fun requestMe(): Observable<BaseBean<MeBean>>
 
 }

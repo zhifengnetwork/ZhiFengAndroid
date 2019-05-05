@@ -24,12 +24,12 @@ import kotlinx.android.synthetic.main.pop_order_style.view.*
  * 拼团的选择款式
  */
 abstract class GroupStylePopupWindow(
-    var context: Activity,
-    layoutRes: Int,
-    w: Int,
-    h: Int,
-    private val bean: CartGoodsList,
-    private val specBean: List<SpecCorrect>
+        var context: Activity,
+        layoutRes: Int,
+        w: Int,
+        h: Int,
+        private val bean: CartGoodsList,
+        private val specBean: List<SpecCorrect>
 ) {
     val contentView: View
     val popupWindow: PopupWindow
@@ -72,6 +72,9 @@ abstract class GroupStylePopupWindow(
 
             /** 数量 */
             number.text = bean.goods_num.toString()
+
+            goodsName.text = bean.goods.goods_name
+            goodsPrice.text = "¥ ${bean.goods_price}"
 
             reduce.isSelected = number.text.toString().toInt() < 2
             reduce.setOnClickListener {

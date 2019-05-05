@@ -3,7 +3,8 @@ package com.zf.mart.ui.fragment
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
-import com.zf.mart.base.BaseFragment
+import com.zf.mart.api.UriConstant
+import com.zf.mart.base.NotLazyBaseFragment
 import com.zf.mart.mvp.bean.OrderListBean
 import com.zf.mart.mvp.contract.OrderListContract
 import com.zf.mart.mvp.contract.OrderOperateContract
@@ -12,13 +13,16 @@ import com.zf.mart.mvp.presenter.OrderOperatePresenter
 import com.zf.mart.net.exception.ErrorStatus
 import com.zf.mart.showToast
 import com.zf.mart.ui.activity.EvaluateActivity
+import com.zf.mart.ui.activity.MainActivity
 import com.zf.mart.ui.activity.MyOrderActivity
 import com.zf.mart.ui.activity.ShippingActivity
 import com.zf.mart.ui.adapter.MyOrderAdapter
 import com.zf.mart.utils.LogUtils
+import com.zf.mart.utils.bus.RxBus
 import kotlinx.android.synthetic.main.fragment_myorder.*
+import kotlinx.android.synthetic.main.layout_state_empty_order.*
 
-class MyOrderFragment : BaseFragment(), OrderListContract.View, OrderOperateContract.View {
+class MyOrderFragment : NotLazyBaseFragment(), OrderListContract.View, OrderOperateContract.View {
 
     //订单操作失败
     override fun showOperateError(msg: String, errorCode: Int) {
@@ -53,12 +57,15 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View, OrderOperateCont
     override fun setEmptyOrder() {
         mLayoutStatusView?.showEmpty()
         refreshLayout.setEnableLoadMore(false)
+        emptyOperate.setOnClickListener {
+            MainActivity.actionStart(context, 0)
+            activity?.finish()
+        }
     }
 
     //结束刷新，渲染数据
     override fun setFinishRefresh(bean: List<OrderListBean>) {
         refreshLayout.setEnableLoadMore(true)
-        LogUtils.e(">>>>true")
         mLayoutStatusView?.showContent()
         orderListData.clear()
         orderListData.addAll(bean)
@@ -74,7 +81,6 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View, OrderOperateCont
     //加载完全部
     override fun setLoadComplete() {
         refreshLayout.finishLoadMoreWithNoMoreData()
-
     }
 
     override fun showLoading() {
@@ -121,50 +127,58 @@ class MyOrderFragment : BaseFragment(), OrderListContract.View, OrderOperateCont
         if (orderListData.isEmpty()) {
             mLayoutStatusView?.showLoading()
         }
+        refreshLayout.setNoMoreData(false)
         refreshLayout.setEnableLoadMore(false)
         requestOrderList(1)
     }
 
     override fun initEvent() {
 
+        RxBus.getDefault().subscribe<String>(this) {
+            LogUtils.e(">>>>>rxBus:$it")
+            if (it == UriConstant.FRESH_ORDER_LIST) {
+                LogUtils.e(">>>>刷新列表")
+                lazyLoad()
+            }
+        }
+
         adapter.apply {
             //删除
             deleteListener = {
                 //                DeleteMyOrderDialog.showDialog(childFragmentManager, it)
                 AlertDialog.Builder(context!!)
-                    .setTitle("提示")
-                    .setMessage("删除该订单")
-                    .setNegativeButton("取消", null)
-                    .setPositiveButton("确定") { _, _ ->
+                        .setTitle("提示")
+                        .setMessage("删除该订单")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定") { _, _ ->
 
-                    }
-                    .show()
+                        }
+                        .show()
             }
 
             //取消订单
             onCancelOrderListener = { orderId ->
                 AlertDialog.Builder(context!!)
-                    .setTitle("提示")
-                    .setMessage("取消该订单")
-                    .setNegativeButton("取消", null)
-                    .setPositiveButton("确定") { _, _ ->
+                        .setTitle("提示")
+                        .setMessage("取消该订单")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定") { _, _ ->
 
-                        orderOperatePresenter.requestCancelOrder(orderId)
-                    }
-                    .show()
-
+                            orderOperatePresenter.requestCancelOrder(orderId)
+                        }
+                        .show()
             }
 
             //确认收货
             onConfirmReceiveListener = { orderId ->
                 AlertDialog.Builder(context!!)
-                    .setTitle("提示")
-                    .setMessage("确认收货")
-                    .setNegativeButton("取消", null)
-                    .setPositiveButton("确定") { _, _ ->
-                        orderOperatePresenter.requestConfirmReceipt(orderId)
-                    }
-                    .show()
+                        .setTitle("提示")
+                        .setMessage("确认收货")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定") { _, _ ->
+                            orderOperatePresenter.requestConfirmReceipt(orderId)
+                        }
+                        .show()
             }
 
             //查看物流

@@ -100,9 +100,7 @@ class MyOrderAdapter(val context: Context?, val data: List<OrderListBean>) :
                 }
             }
 
-
-
-
+            //确认收货
             confirmReceive.setOnClickListener {
                 onConfirmReceiveListener?.invoke(data[position].order_id)
             }
@@ -114,11 +112,7 @@ class MyOrderAdapter(val context: Context?, val data: List<OrderListBean>) :
 
             //取消订单
             cancelOrder.setOnClickListener {
-                /**
-                 * 测试换成去评价
-                 */
-                onEvaluateListener?.invoke(data[position])
-//                onCancelOrderListener?.invoke(data[position].order_id)
+                onCancelOrderListener?.invoke(data[position].order_id)
             }
 
             //去评价

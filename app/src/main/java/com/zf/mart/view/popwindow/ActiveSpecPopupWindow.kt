@@ -12,7 +12,7 @@ import android.view.WindowManager
 import android.widget.PopupWindow
 import com.zf.mart.R
 import com.zf.mart.api.UriConstant
-import com.zf.mart.mvp.bean.SpecCorrect
+import com.zf.mart.mvp.bean.GroupDetailBean
 import com.zf.mart.utils.GlideUtils
 import kotlinx.android.synthetic.main.pop_order_style.view.*
 
@@ -24,11 +24,8 @@ abstract class ActiveSpecPopupWindow(
         layoutRes: Int,
         w: Int,
         h: Int,
-//        private val bean: CartGoodsList,
-        private val img: String,
-        private val num: String,
-        private val specId: String, //传进规格id
-        private val specBean: List<SpecCorrect> //规格列表
+        private val bean: GroupDetailBean?
+
 ) {
     val contentView: View
     val popupWindow: PopupWindow
@@ -48,7 +45,7 @@ abstract class ActiveSpecPopupWindow(
     private fun initView() {
         contentView.apply {
 
-            GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + img, goodsIcon)
+            GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + bean?.info?.original_img, goodsIcon)
 
 //            val adapter = CartSpecAdapter(context, specBean, specId)
             //设置规格
@@ -71,7 +68,10 @@ abstract class ActiveSpecPopupWindow(
             }
 
             /** 数量 */
-            number.text = num
+            number.text = "1"
+
+            goodsName.text = bean?.info?.goods_name
+            goodsPrice.text = "¥ ${bean?.info?.group_price}"
 
             reduce.isSelected = number.text.toString().toInt() < 2
             reduce.setOnClickListener {

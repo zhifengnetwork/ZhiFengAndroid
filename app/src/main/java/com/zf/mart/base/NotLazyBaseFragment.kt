@@ -43,7 +43,7 @@ abstract class NotLazyBaseFragment : Fragment() {
         initView()
         lazyLoadDataIfPrepared()
         //多种状态切换的view 重试点击事件
-        mLayoutStatusView?.setOnClickListener(mRetryClickListener)
+        mLayoutStatusView?.setOnRetryClickListener(mRetryClickListener)
         initEvent()
     }
 
