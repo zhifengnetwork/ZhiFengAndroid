@@ -80,50 +80,50 @@
             android:layout_marginTop="5dp"
             android:background="@color/colorLine"/>
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp"
-            android:paddingTop="15dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="15dp">
+    <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:paddingTop="15dp"-->
+            <!--android:paddingRight="10dp"-->
+            <!--android:paddingBottom="15dp">-->
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="5dp"
-                android:text="问大家"
-                android:textColor="@color/colorBlackText"
-                android:textSize="13sp"
-                android:textStyle="bold"/>
+        <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginRight="5dp"-->
+                <!--android:text="问大家"-->
+                <!--android:textColor="@color/colorBlackText"-->
+                <!--android:textSize="13sp"-->
+                <!--android:textStyle="bold"/>-->
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="(84)"
-                android:textColor="@color/colorBlackText"
-                android:textSize="13sp"
-                android:textStyle="bold"/>
+        <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="(84)"-->
+                <!--android:textColor="@color/colorBlackText"-->
+                <!--android:textSize="13sp"-->
+                <!--android:textStyle="bold"/>-->
 
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"/>
+        <!--<Space-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_weight="1"/>-->
 
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/arrow_b"/>
+        <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/arrow_b"/>-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/askRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"/>
+    <!--<androidx.recyclerview.widget.RecyclerView-->
+            <!--android:id="@+id/askRecyclerView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="15dp"-->
+            <!--android:nestedScrollingEnabled="false"-->
+            <!--android:overScrollMode="never"/>-->
 
 </LinearLayout>

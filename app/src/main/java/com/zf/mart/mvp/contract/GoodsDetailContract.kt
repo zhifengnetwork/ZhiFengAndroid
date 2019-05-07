@@ -10,6 +10,9 @@ interface GoodsDetailContract {
         //商品详情
         fun getGoodsDetail(bean: GoodsDetailBean)
 
+        //秒杀商品详情
+        fun setSecKillDetail(bean: SecKillDetailBean)
+
         //商品评论
         fun setGoodEva(bean: List<GoodEvaList>)
 
@@ -53,5 +56,7 @@ interface GoodsDetailContract {
         fun requestGoodsSpec(goods_id: String)
 
         fun requestPricePic(key: String, goods_id: String)
+
+        fun requestSecKillDetail(id: String)
     }
 }

@@ -4,12 +4,9 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <include layout="@layout/layout_toolbar"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="dashid sakld的下级"/>
     <RelativeLayout
             android:padding="10dp"
+            android:background="@color/whit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <TextView

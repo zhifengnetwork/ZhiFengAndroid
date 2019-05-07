@@ -25,22 +25,29 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
  * 我的足迹
  */
 class FootActivity : BaseActivity(), MyFootContract.View {
-    override fun showError(msg: String, errorCode: Int) {
 
+
+    override fun showError(msg: String, errorCode: Int) {
+        refreshLayout.setEnableLoadMore(false)
+        showToast(msg)
     }
 
     //获得足迹列表
     override fun getMyFoot(bean: List<MyFootBean>) {
+        refreshLayout.setEnableLoadMore(true)
+        data.clear()
         mData.clear()
-        mData.addAll(bean)
+        data.addAll(bean)
+        mData.addAll(data)
+
         //刷新初始化数据
         long = 0
-        size = 0
+//        size = 0
         monthData.clear()
         days.clear()
         keys.clear()
         monthData.addAll(getData())
-        size = monthData.size
+//        size = monthData.size
         for (i in 0 until monthData.size) {
             keys[long] = DateHeadEntity(monthData[i].data, "")
             monthData[i].goodsList.let {
@@ -60,15 +67,57 @@ class FootActivity : BaseActivity(), MyFootContract.View {
         adapter.notifyDataSetChanged()
     }
 
+    override fun freshEmpty() {
+        refreshLayout.setEnableLoadMore(false)
+    }
+
+    override fun setLoadMore(bean: List<MyFootBean>) {
+        data.addAll(bean)
+        mData.addAll(data)
+        //刷新初始化数据
+        long = 0
+//        size = 0
+        monthData.clear()
+        days.clear()
+        keys.clear()
+        monthData.addAll(getData())
+//        size = monthData.size
+        for (i in 0 until monthData.size) {
+            keys[long] = DateHeadEntity(monthData[i].data, "")
+            monthData[i].goodsList.let {
+                days.addAll(it)
+                long += it.size
+            }
+        }
+        decoration.setKeys(keys)
+
+        decoration.setmTitleHeight(
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                50f,
+                resources.displayMetrics
+            ).toInt()
+        )
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun setLoadComplete() {
+        refreshLayout.finishLoadMoreWithNoMoreData()
+    }
+
+    override fun loadMoreError(msg: String, errorCode: Int) {
+        showToast(msg)
+    }
+
     //编辑足迹
     override fun setMyFoot() {
-        presenter.requesetMyFoot()
+        start()
         showToast("删除成功")
     }
 
     //清空足迹
     override fun clearMyFoot() {
-        presenter.requesetMyFoot()
+        start()
         showToast("清空成功")
     }
 
@@ -77,7 +126,8 @@ class FootActivity : BaseActivity(), MyFootContract.View {
     }
 
     override fun dismissLoading() {
-
+        refreshLayout.finishRefresh()
+        refreshLayout.finishLoadMore()
     }
 
     companion object {
@@ -130,6 +180,7 @@ class FootActivity : BaseActivity(), MyFootContract.View {
 
     //网络接收数据
     private var mData = ArrayList<MyFootBean>()
+    private var data = ArrayList<MyFootBean>()
 
     private val adapter by lazy { FootAdapter(this, days) }
 
@@ -141,7 +192,7 @@ class FootActivity : BaseActivity(), MyFootContract.View {
     }
 
     private val keys = HashMap<Int, DateHeadEntity>()
-    private var size = 0
+    //    private var size = 0
     private var long = 0
     private val days = ArrayList<MyFootBean>()
     private val monthData = ArrayList<MonthList>()
@@ -157,12 +208,20 @@ class FootActivity : BaseActivity(), MyFootContract.View {
     }
 
     override fun initEvent() {
-
+        /**上拉加载*/
+        refreshLayout.setOnLoadMoreListener {
+            presenter.requesetMyFoot(null, 6)
+        }
+        /**下拉刷新*/
+        refreshLayout.setOnRefreshListener {
+            presenter.requesetMyFoot(1, 6)
+        }
         adapter.setOnClickListener(object : FootAdapter.OnItemClickListener {
             override fun unCheckAll() {
                 //全选
                 allChoose.isChecked = false
             }
+
             override fun checkAll() {
                 //不全选
                 allChoose.isChecked = true
@@ -173,7 +232,7 @@ class FootActivity : BaseActivity(), MyFootContract.View {
 
         allChoose.setOnClickListener {
             adapter.setIfAllChoose(allChoose.isChecked)
-            Log.e("检测","zas="+adapter.checkList)
+
         }
 
 //        //删除按钮
@@ -228,6 +287,7 @@ class FootActivity : BaseActivity(), MyFootContract.View {
     }
 
     override fun start() {
-        presenter.requesetMyFoot()
+        refreshLayout.setEnableLoadMore(false)
+        presenter.requesetMyFoot(1, 6)
     }
 }

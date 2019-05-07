@@ -198,8 +198,10 @@ class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
 
             if (switch) {
                 presenter.requestMyFollow(null, 6)
+            }else{
+                presenter.requsetLoveGoods("is_recommend", null, 6)
             }
-            presenter.requsetLoveGoods("is_recommend", null, 6)
+
         }
         /**下拉刷新*/
         refreshLayout.setOnRefreshListener {

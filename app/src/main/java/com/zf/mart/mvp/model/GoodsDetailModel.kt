@@ -7,6 +7,12 @@ import com.zf.mart.scheduler.SchedulerUtils
 import io.reactivex.Observable
 
 class GoodsDetailModel {
+
+    fun getSecKillDetail(id: String): Observable<BaseBean<SecKillDetailBean>> {
+        return RetrofitManager.service.getSecKillDetail(id)
+            .compose(SchedulerUtils.ioToMain())
+    }
+
     fun getGoodsDetail(goods_id: String): Observable<BaseBean<GoodsDetailBean>> {
         return RetrofitManager.service.getGoodsDetail(goods_id)
             .compose(SchedulerUtils.ioToMain())

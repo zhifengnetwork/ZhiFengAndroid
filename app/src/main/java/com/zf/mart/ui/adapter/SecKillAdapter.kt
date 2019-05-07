@@ -44,9 +44,7 @@ class SecKillAdapter(val context: Context?, val data: List<SecKillList>) :
             loadingView.setPercentage((data[position].order_num / data[position].goods_num).toFloat())
 
             buy.setOnClickListener {
-                GoodsDetailActivity.actionStart(context, data[position].goods_id)
-                //旧的秒杀详情
-//                SecKillDetailActivity.actionStart(context, data[position].id)
+                GoodsDetailActivity.actionStart(context, data[position].goods_id,data[position].id)
             }
         }
 

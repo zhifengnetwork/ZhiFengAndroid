@@ -7,21 +7,39 @@ import com.zf.mart.net.exception.ExceptionHandle
 
 class MyFootPresenter : BasePresenter<MyFootContract.View>(), MyFootContract.Presenter {
     private val model by lazy { MyFootModel() }
-    override fun requesetMyFoot() {
+    private var mPage = 1
+    override fun requesetMyFoot(page: Int?, num: Int) {
         checkViewAttached()
+        mPage = page ?: mPage
         mRootView?.showLoading()
-        val disposable = model.getMyFoot()
+        val disposable = model.getMyFoot(mPage, num)
             .subscribe({
                 mRootView?.apply {
                     dismissLoading()
                     when (it.status) {
                         0 -> {
                             if (it.data != null) {
-                                getMyFoot(it.data)
+                                if (mPage == 1) {
+                                    if (it.data.isNotEmpty()) {
+                                        getMyFoot(it.data)
+                                    } else {
+                                        freshEmpty()
+                                    }
+                                } else {
+                                    setLoadMore(it.data)
+                                }
+                                if (it.data.size < num) {
+                                    setLoadComplete()
+                                }
+                                mPage += 1
                             }
                         }
-                        else -> showError(it.msg, it.status)
+                        -1 -> {
+
+                        }
+                        else -> if (mPage == 1) showError(it.msg, it.status) else loadMoreError(it.msg, it.status)
                     }
+                    dismissLoading()
                 }
             }, {
                 mRootView?.apply {

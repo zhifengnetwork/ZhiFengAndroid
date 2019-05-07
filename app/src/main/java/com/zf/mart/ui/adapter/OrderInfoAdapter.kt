@@ -28,7 +28,9 @@ class OrderInfoAdapter(val context: Context?, val data: List<AttriBute>) :
             attribute.text = data[position].attr_name
 
             if (data[position].attr.isNotEmpty()) {
-                attr.text = data[position].attr[position].attr_value
+                attr.text = data[position].attr[0].attr_value
+            }else{
+                attr.text=""
             }
 
         }

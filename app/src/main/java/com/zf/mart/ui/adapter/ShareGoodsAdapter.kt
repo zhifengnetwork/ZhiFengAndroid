@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import com.zf.mart.mvp.bean.CommendList
+import com.zf.mart.ui.activity.GoodsDetailActivity
 import com.zf.mart.utils.GlideUtils
 import kotlinx.android.synthetic.main.item_share_goods.view.*
 
@@ -31,6 +32,9 @@ class ShareGoodsAdapter(val context: Context?,val data:List<CommendList>) : Recy
                 //分润
                 commission_num.text=data[position].commission_num
             }
+        holder.itemView.setOnClickListener {
+            GoodsDetailActivity.actionStart(context,data[position].goods_id)
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant.BASE_URL
 import com.zf.mart.mvp.bean.GoodEvaList
 import com.zf.mart.utils.GlideUtils
 import kotlinx.android.synthetic.main.item_detail_eva.view.*
@@ -28,6 +29,10 @@ class DetailEvaAdapter(val context: Context,val data :List<GoodEvaList>) : Recyc
             //评论信息
             reply.text=data[position].content
             //晒单图片
+            if (data[position].img!!.isNotEmpty()){
+                GlideUtils.loadUrlImage(context,BASE_URL+ (data[position].img?.get(0)),reply_img)
+            }
+
             //是否为匿名评价
         }
     }

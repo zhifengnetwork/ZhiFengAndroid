@@ -333,6 +333,15 @@ interface ApiService {
     ): Observable<BaseBean<MyFollowShopBean>>
 
     /**
+     * 我关注的店铺 ->猜你喜欢店铺
+     */
+    @FormUrlEncoded
+    @POST("api/seller/GetSellerList")
+    fun getShopList(@Field("page") page: Int,
+                    @Field("num") num: Int,
+                    @Field("goodsnum") goodsnum: Int ): Observable<BaseBean<ShopListBean>>
+
+    /**
      * 添加关注店铺或删除店铺
      */
     @FormUrlEncoded
@@ -380,6 +389,17 @@ interface ApiService {
     ): Observable<BaseBean<GoodsDetailBean>>
 
     /**
+     *  商品详情 -> 相似推荐 同类热销排行
+     */
+    @GET("api/Goods/goodsList")
+    fun getRecommendGoods(
+        @Query("id") id: String,
+        @Query("sort_asc") sort_asc: String,
+        @Query("page") page: Int,
+        @Query("num") num: Int
+    ): Observable<BaseBean<CommendBean>>
+
+    /**
      *  获取商品运费
      */
     @FormUrlEncoded
@@ -413,7 +433,10 @@ interface ApiService {
      * 我的---足迹
      */
     @GET("api/User/visit_log")
-    fun getMyFoot(): Observable<BaseBean<List<MyFootBean>>>
+    fun getMyFoot(
+        @Query("page") page: Int,
+        @Query("num") num: Int
+    ): Observable<BaseBean<List<MyFootBean>>>
 
     /**
      * 我的---足迹编辑
@@ -483,8 +506,8 @@ interface ApiService {
     @POST("api/order/order_common")
     @FormUrlEncoded
     fun requestEvaluate(
-            @Field("info") info: String,
-            @Field("order_id") order_id: String
+        @Field("info") info: String,
+        @Field("order_id") order_id: String
 
     ): Observable<BaseBean<Unit>>
 

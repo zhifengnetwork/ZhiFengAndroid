@@ -21,6 +21,18 @@
             android:text="收藏"
             android:drawableTop="@drawable/selector_collection"/>
 
+    <!--<TextView android:id="@+id/cart"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:button="@null"-->
+    <!--android:gravity="center"-->
+    <!--android:textSize="11sp"-->
+    <!--android:textColor="#666666"-->
+    <!--android:paddingTop="6dp"-->
+    <!--android:paddingBottom="2dp"-->
+    <!--android:text="购物车"-->
+    <!--android:drawableTop="@drawable/selector_car"/>-->
     <CheckBox
             android:id="@+id/cart"
             android:layout_width="0dp"
@@ -41,20 +53,22 @@
     <TextView
             android:id="@+id/shop_cat"
             android:layout_width="140dp"
-              android:gravity="center"
-              android:textColor="@color/whit"
-              android:background="#f3b53f"
-              android:textSize="15dp"
-              android:layout_height="match_parent"
-              android:text="加入购物车"/>
+            android:gravity="center"
+            android:textColor="@color/whit"
+            android:background="#f3b53f"
+            android:textSize="15dp"
+            android:layout_height="match_parent"
+            android:text="加入购物车"/>
 
-    <TextView android:layout_width="140dp"
-              android:layout_height="match_parent"
-              android:textColor="@color/whit"
-              android:textSize="15dp"
-              android:background="#ff5722"
-              android:gravity="center"
-              android:text="立即购买"/>
+    <TextView
+            android:id="@+id/shop_buy"
+            android:layout_width="140dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/whit"
+            android:textSize="15dp"
+            android:background="#ff5722"
+            android:gravity="center"
+            android:text="立即购买"/>
 
 
 </LinearLayout>

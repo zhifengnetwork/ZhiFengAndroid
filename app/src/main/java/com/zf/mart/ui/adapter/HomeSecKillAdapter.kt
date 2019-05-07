@@ -27,9 +27,9 @@ class HomeSecKillAdapter(val context: Context?, val data: List<SecKillList>) : R
             GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + data[position].original_img, image)
             price.text = "¥ ${data[position].price}"
             setOnClickListener {
-                //旧的秒杀详情
-//                SecKillDetailActivity.actionStart(context, data[position].id)
-                GoodsDetailActivity.actionStart(context, data[position].goods_id)
+
+                GoodsDetailActivity.actionStart(context, data[position].goods_id,data[position].id)
+
             }
         }
     }

@@ -9,6 +9,29 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
 
     private val model by lazy { GoodsDetailModel() }
 
+    override fun requestSecKillDetail(id: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.getSecKillDetail(id)
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> if (it.data != null) {
+                            setSecKillDetail(it.data)
+                        }
+                        else -> showError(it.msg, it.status)
+                    }
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
+        addSubscription(disposable)
+    }
+
     override fun requestGoodsDetail(goods_id: String) {
         checkViewAttached()
         mRootView?.showLoading()
@@ -206,7 +229,7 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
                 mRootView?.apply {
                     dismissLoading()
                     when (it.status) {
-                        0 ->{
+                        0 -> {
                             if (it.data != null) {
                                 getPricePic(it.data.info)
                             }

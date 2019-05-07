@@ -7,11 +7,11 @@ import com.zf.mart.scheduler.SchedulerUtils
 import io.reactivex.Observable
 
 class MyFootModel {
-    fun getMyFoot(): Observable<BaseBean<List<MyFootBean>>> {
-        return RetrofitManager.service.getMyFoot().compose(SchedulerUtils.ioToMain())
+    fun getMyFoot(page: Int, num: Int): Observable<BaseBean<List<MyFootBean>>> {
+        return RetrofitManager.service.getMyFoot(page, num).compose(SchedulerUtils.ioToMain())
     }
 
-    fun setMyFoot(visit_ids:String): Observable<BaseBean<Unit>> {
+    fun setMyFoot(visit_ids: String): Observable<BaseBean<Unit>> {
         return RetrofitManager.service.setMyFoot(visit_ids).compose(SchedulerUtils.ioToMain())
     }
 
