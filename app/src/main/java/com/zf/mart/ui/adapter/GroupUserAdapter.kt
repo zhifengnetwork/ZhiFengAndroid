@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import com.zf.mart.mvp.bean.GroupMemberList
 import com.zf.mart.utils.GlideUtils
-import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.TimeUtils
 import kotlinx.android.synthetic.main.item_group_user.view.*
 
@@ -30,7 +29,6 @@ class GroupUserAdapter(val context: Context, val data: List<GroupMemberList>) : 
     private val countDownMap = SparseArray<CountDownTimer>()
 
     fun finishCountDown() {
-        LogUtils.e(">>>>>size1:" + countDownMap.size())
         countDownMap.forEach { _, value ->
             value.cancel()
         }
@@ -42,14 +40,10 @@ class GroupUserAdapter(val context: Context, val data: List<GroupMemberList>) : 
         holder.itemView.apply {
             userName.text = data[position].nickname
             GlideUtils.loadUrlImage(context, data[position].head_pic, userIcon)
-            discount.text = "还差${data[position].need - data[position].join}人拼成"
-
-            LogUtils.e(">>>>>size2:" + countDownMap.size())
-
+            discount.text = "还差${data[position].need}人拼成"
             addGroup.setOnClickListener {
                 onItemClickListener?.invoke(data[position].found_id)
             }
-
 
             //倒计时
             if ((data[position].found_time * 1000 > System.currentTimeMillis())) {
@@ -65,11 +59,9 @@ class GroupUserAdapter(val context: Context, val data: List<GroupMemberList>) : 
 
                     override fun onTick(millisUntilFinished: Long) {
                         downTime.text = "剩余${TimeUtils.getCountTime2(millisUntilFinished)}"
-                        LogUtils.e(">>>>>tick:" + TimeUtils.getCountTime2(millisUntilFinished))
                     }
                 }.start()
                 countDownMap.put(position, holder.countDownTimer)
-                LogUtils.e(">>>>>size3:" + countDownMap.size())
             } else {
                 downTime.text = "活动已结束"
             }

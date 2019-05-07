@@ -217,7 +217,7 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
                 return@setOnClickListener
             }
             if (mPromType == 6) {
-                //拼团
+                //拼团 提交订单
                 presenter.requestGroupOrder("2",
                         mPromId,
                         mGoodNum, mAddressId,
@@ -228,10 +228,10 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
                         num,
                         remark.text.toString(),
                         mFoundId,
-                        0,
+                        1,
                         payPwd.text.toString())
             } else {
-                //单独购买
+                //单独购买 提交订单
                 presenter.requestPostOrder(
                         1, mPromType, mAddressId, head,
                         num, content, "", "",
