@@ -30,6 +30,7 @@ import okhttp3.RequestBody
 
 /**
  * 购物车页面
+ * 区分商家
  */
 class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperateContract.View {
 
@@ -355,8 +356,8 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                  *  如果未勾选到商品，不能删除
                  */
                 var sum = 0
-                cartData.forEach {shop->
-                    shop.list.forEach {goods->
+                cartData.forEach { shop ->
+                    shop.list.forEach { goods ->
                         if (goods.selected == "1") sum += 1
                     }
                 }
@@ -423,53 +424,6 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         cartListPresenter.detachView()
         cartOperatePresenter.detachView()
     }
-
-
-    //支付方式
-//    private fun showPayPopWindow() {
-//        val window = object : OrderPayPopupWindow(
-//            activity as Activity, R.layout.pop_order_pay,
-//            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
-//        ) {}
-//
-//        window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
-//
-//    }
-
-    //新增地址
-//    private fun showAddressPopupWindow() {
-//        val window = object : AddAddressPopupWindow(
-//            activity as Activity, R.layout.pop_push_address,
-//            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
-//        ) {}
-//        window.setOnItemClickListener(object : AddAddressPopupWindow.OnItemClickListener {
-//            override fun onBack(address: String) {
-//                showOrderPopWindow(address)
-//            }
-//        })
-//        window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
-//
-//    }
-
-    //提交订单
-//    private fun showOrderPopWindow(txt: String) {
-//
-//        val window = object : ConfirmOrderPopupWindow(
-//            activity as Activity, R.layout.pop_push_order,
-//            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, txt
-//        ) {}
-//        window.setOnItemClickListener(object : ConfirmOrderPopupWindow.OnItemClickListener {
-//            override fun showPayPop() {
-//                showPayPopWindow()
-//            }
-//
-//            override fun showAddressPop() {
-//                showAddressPopupWindow()
-//            }
-//        })
-//        window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
-//
-//    }
 
 
 }

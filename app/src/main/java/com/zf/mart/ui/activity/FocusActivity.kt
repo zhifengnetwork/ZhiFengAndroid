@@ -52,16 +52,18 @@ class FocusActivity : BaseActivity() {
 
     override fun initView() {
 
-        val titles = arrayListOf("商品", "店铺")
-        val fragments = arrayListOf(
-            FocusGoodsFragment.newInstance() as Fragment,
-            FocusShopFragment.newInstance() as Fragment
-        )
-        val adapter = BaseFragmentAdapter(supportFragmentManager, fragments, titles)
-        viewPager.adapter = adapter
-        tabLayout.setViewPager(viewPager)
-        //设置默认进来哪个页面
-        tabLayout.currentTab = if (currentPage == GOODS) 0 else 1
+//        val titles = arrayListOf("商品"
+////            , "店铺"
+//        )
+//        val fragments = arrayListOf(
+//            FocusGoodsFragment.newInstance() as Fragment
+////            , FocusShopFragment.newInstance() as Fragment
+//        )
+//        val adapter = BaseFragmentAdapter(supportFragmentManager, fragments, titles)
+//        viewPager.adapter = adapter
+//        tabLayout.setViewPager(viewPager)
+//        //设置默认进来哪个页面
+//        tabLayout.currentTab = if (currentPage == GOODS) 0 else 1
     }
 
     override fun initEvent() {

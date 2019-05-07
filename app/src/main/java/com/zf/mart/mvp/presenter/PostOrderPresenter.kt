@@ -12,6 +12,46 @@ class PostOrderPresenter : BasePresenter<PostOrderContract.View>(), PostOrderCon
 
     private val model: PostOrderModel by lazy { PostOrderModel() }
 
+
+    override fun requestGroupOrder(buy_type: String, team_id: String, buy_num: String, address_id: String, user_money: String, invoice_type: String, invoice_identity: String, invoice_title: String, invoice_code: String, user_note: String, found_id: String, act: Int, pay_pwd: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.requestPostGroupOrder(
+                buy_type, team_id, buy_num, address_id, user_money, invoice_type, invoice_identity, invoice_title, invoice_code, user_note, found_id, act, pay_pwd
+        )
+                .subscribe({
+                    mRootView?.apply {
+                        dismissLoading()
+                        when (it.status) {
+                            //status等于1就是余额支付成功，不用在线支付。
+                            //status等于0则是提交订单成功，待在线支付
+                            1 -> {
+                                if (act == 1) {
+                                    //提交订单并且余额支付完成。
+                                    setUserMoneyPay()
+                                }
+                            }
+                            0 -> if (it.data != null) {
+                                if (act == 0) {
+                                    //结算
+                                    setPostOrder(it.data)
+                                } else if (act == 1) {
+                                    //提交订单
+                                    setConfirmOrder(it.data)
+                                }
+                            }
+                            else -> showError(it.msg, it.status)
+                        }
+                    }
+                }, {
+                    mRootView?.apply {
+                        dismissLoading()
+                        showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                    }
+                })
+        addSubscription(disposable)
+    }
+
     override fun requestPostOrder(
             act: Int,
             prom_type: Int,

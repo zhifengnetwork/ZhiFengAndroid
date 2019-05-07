@@ -8,10 +8,6 @@ data class CartBean(
         val selected_flag: CheckAllFlag? = null
 )
 
-data class CheckAllFlag(
-        val all_flag: Int //1全选 2非全选
-)
-
 //商品列表，但是也要有商家的名字
 data class CartGoodsList(
         val seller_id: String,
@@ -37,13 +33,6 @@ data class Goods(
         val goods_id: String
 )
 
-//data class ShopList(
-//        val seller_name: String, //商家名字
-////        var data: List<CartGoodsList>, //该商家的商品列表
-//        var selected: String //商家是否选中
-////        val id: String,  //商品id
-////        val goods_price: String,
-////        val goods_num: String,
-////        val goods: Goods,
-////        val cat_id: String
-//)
+data class CheckAllFlag(
+        val all_flag: Int //1全选 2非全选
+)

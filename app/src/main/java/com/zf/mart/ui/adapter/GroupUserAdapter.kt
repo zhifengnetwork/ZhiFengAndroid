@@ -30,11 +30,13 @@ class GroupUserAdapter(val context: Context, val data: List<GroupMemberList>) : 
     private val countDownMap = SparseArray<CountDownTimer>()
 
     fun finishCountDown() {
-        LogUtils.e(">>>>>size1:"+countDownMap.size())
+        LogUtils.e(">>>>>size1:" + countDownMap.size())
         countDownMap.forEach { _, value ->
             value.cancel()
         }
     }
+
+    var onItemClickListener: ((String) -> Unit)? = null
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
@@ -42,7 +44,12 @@ class GroupUserAdapter(val context: Context, val data: List<GroupMemberList>) : 
             GlideUtils.loadUrlImage(context, data[position].head_pic, userIcon)
             discount.text = "还差${data[position].need - data[position].join}人拼成"
 
-            LogUtils.e(">>>>>size2:"+countDownMap.size())
+            LogUtils.e(">>>>>size2:" + countDownMap.size())
+
+            addGroup.setOnClickListener {
+                onItemClickListener?.invoke(data[position].found_id)
+            }
+
 
             //倒计时
             if ((data[position].found_time * 1000 > System.currentTimeMillis())) {
@@ -58,18 +65,18 @@ class GroupUserAdapter(val context: Context, val data: List<GroupMemberList>) : 
 
                     override fun onTick(millisUntilFinished: Long) {
                         downTime.text = "剩余${TimeUtils.getCountTime2(millisUntilFinished)}"
-                        LogUtils.e(">>>>>tick:"+TimeUtils.getCountTime2(millisUntilFinished))
+                        LogUtils.e(">>>>>tick:" + TimeUtils.getCountTime2(millisUntilFinished))
                     }
                 }.start()
                 countDownMap.put(position, holder.countDownTimer)
-                LogUtils.e(">>>>>size3:"+countDownMap.size())
+                LogUtils.e(">>>>>size3:" + countDownMap.size())
             } else {
                 downTime.text = "活动已结束"
             }
         }
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var countDownTimer: CountDownTimer? = null
     }
 

@@ -108,14 +108,16 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
                         goods_id: String,
                         goods_num: String,
                         item_id: String,
-                        promId: String) {
+                        promId: String,
+                        foundId: String? = "") {
             val intent = Intent(context, ConfirmOrderActivity::class.java)
             intent.putExtra("prom", promType) //prom: 0默认,1秒杀,2团购,3优惠促销,4预售,5虚拟(5其实没用),6拼团,7搭配购,8竞拍
             intent.putExtra("action", action) //立即购买	1或0,1是，0否，默认0
             intent.putExtra("goodId", goods_id) //商品id
             intent.putExtra("goodNum", goods_num) //商品数量
             intent.putExtra("itemId", item_id) //商品规格id	  action=1时必须 //7-12-16
-            intent.putExtra("promId", promId) //活动ID
+            intent.putExtra("promId", promId) //活动ID 拼团id
+            intent.putExtra("foundId", foundId) //团id
             context?.startActivity(intent)
         }
     }
@@ -131,6 +133,27 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
         mGoodNum = intent.getStringExtra("goodNum")
         mGoodItemId = intent.getStringExtra("itemId")
         mPromId = intent.getStringExtra("promId")
+        mFoundId = intent.getStringExtra("foundId")
+    }
+
+
+    override fun start() {
+        if (mPromType == 6) {
+            /** 拼单结算 */
+            presenter.requestGroupOrder("2", mPromId, mGoodNum, "", "",
+                    "", "", "", "",
+                    "", mFoundId, 0, "")
+        } else {
+            /** 普通结算 */
+            presenter.requestPostOrder(
+                    0, mPromType, mAddressId, "", "",
+                    "", "", "", "",
+                    "", "", mGoodId, mGoodNum,
+                    mGoodItemId, mAction, "",
+                    "", "", "", mPromId
+            )
+        }
+
     }
 
     //购物车适配器
@@ -146,17 +169,8 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
     private var mGoodNum = ""
     private var mGoodItemId = ""
     private var mPromId = ""
+    private var mFoundId = ""
 
-    override fun start() {
-        /** 结算 */
-        presenter.requestPostOrder(
-                0, mPromType, mAddressId, "", "",
-                "", "", "", "",
-                "", "", mGoodId, mGoodNum,
-                mGoodItemId, mAction, "",
-                "", "", "", mPromId
-        )
-    }
 
     override fun initEvent() {
 
@@ -202,13 +216,31 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
                 showToast("请输入支付密码")
                 return@setOnClickListener
             }
-            presenter.requestPostOrder(
-                    1, mPromType, mAddressId, head,
-                    num, content, "", "",
-                    if (ifUseMoney.isChecked) mOrderPrice else "0", remark.text.toString(), payPwd.text.toString(),
-                    mGoodId, mGoodNum, mGoodItemId, mAction, "",
-                    "", "", "", mPromId
-            )
+            if (mPromType == 6) {
+                //拼团
+                presenter.requestGroupOrder("2",
+                        mPromId,
+                        mGoodNum, mAddressId,
+                        if (ifUseMoney.isChecked) mOrderPrice else "0",
+                        "",
+                        "",
+                        head,
+                        num,
+                        remark.text.toString(),
+                        mFoundId,
+                        0,
+                        payPwd.text.toString())
+            } else {
+                //单独购买
+                presenter.requestPostOrder(
+                        1, mPromType, mAddressId, head,
+                        num, content, "", "",
+                        if (ifUseMoney.isChecked) mOrderPrice else "0", remark.text.toString(), payPwd.text.toString(),
+                        mGoodId, mGoodNum, mGoodItemId, mAction, "",
+                        "", "", "", mPromId
+                )
+            }
+
         }
     }
 

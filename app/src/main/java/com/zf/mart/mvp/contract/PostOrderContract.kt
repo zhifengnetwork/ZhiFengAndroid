@@ -15,6 +15,7 @@ interface PostOrderContract {
         fun setConfirmOrder(bean: PostOrderBean)
 
         fun setUserMoneyPay()
+
     }
 
     interface Presenter : IPresenter<View> {
@@ -39,6 +40,20 @@ interface PostOrderContract {
                              consignee: String,
                              mobile: String,
                              prom_id: String)
+
+        fun requestGroupOrder(buy_type: String,
+                              team_id: String,
+                              buy_num: String,
+                              address_id: String,
+                              user_money: String,
+                              invoice_type: String,
+                              invoice_identity: String,
+                              invoice_title: String,
+                              invoice_code: String,
+                              user_note: String,
+                              found_id: String,
+                              act: Int,
+                              pay_pwd: String)
 
     }
 
