@@ -11,30 +11,33 @@
                 android:src="@drawable/activity"
                 android:layout_width="60dp"
                 android:layout_height="60dp"/>
-        <TextView
-                android:id="@+id/goodsName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/goods_img"
-                android:layout_marginLeft="10dp"
-                android:text="华为笔记本"/>
+        <!--<TextView-->
+                <!--android:id="@+id/goodsName"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toRightOf="@+id/goods_img"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:text="华为笔记本"/>-->
         <TextView
                 android:id="@+id/goods_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/goodsName"
-                android:layout_below="@+id/goodsName"
+                android:layout_toRightOf="@+id/goods_img"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="3499.00"/>
+                 android:textColor="#e60b30"
+                android:textSize="12sp"
+                android:text="￥3499.00"/>
         <TextView
                 android:id="@+id/goods_stock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/goods_price"
-                android:layout_below="@+id/goods_price"
+                android:layout_alignBottom="@+id/goods_img"
                 android:layout_marginTop="10dp"
-                android:text="剩余库存：20"
-        />
+                android:textColor="@color/contents_text"
+                android:textSize="12sp"
+                android:text="请选择：款式"/>
     </RelativeLayout>
     <TextView
             android:layout_width="wrap_content"
