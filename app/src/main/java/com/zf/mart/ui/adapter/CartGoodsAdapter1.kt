@@ -47,11 +47,11 @@ class CartGoodsAdapter1(val context: Context?, private val goodData: List<CartGo
             }
 
             //商品名字
-            goodsName.text = goodData[position].goods.goods_name
+            goodsName.text = goodData[position].goods_name
             //商品图片
             GlideUtils.loadUrlImage(
                     context,
-                    UriConstant.BASE_URL + goodData[position].goods.original_img,
+                    UriConstant.BASE_URL + goodData[position].original_img,
                     goodsIcon
             )
             //商品价格

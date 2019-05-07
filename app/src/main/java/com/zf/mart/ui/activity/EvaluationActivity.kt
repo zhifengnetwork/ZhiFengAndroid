@@ -3,6 +3,7 @@ package com.zf.mart.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import androidx.fragment.app.Fragment
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.base.BaseFragmentAdapter
@@ -38,15 +39,16 @@ class EvaluationActivity : BaseActivity() {
     }
 
     override fun initView() {
-        val titles = arrayListOf("全部\n10+", "好评\n4", "中评\n2", "差评\n1", "晒单\n0")
-        val fgms = arrayListOf(
-                GroupEvaluationFragment.newInstance(mGoodId, 1),
-                GroupEvaluationFragment.newInstance(mGoodId, 2),
-                GroupEvaluationFragment.newInstance(mGoodId, 3),
-                GroupEvaluationFragment.newInstance(mGoodId, 4),
-                GroupEvaluationFragment.newInstance(mGoodId, 5)
-        )
-        val adapter = BaseFragmentAdapter(supportFragmentManager, fgms, titles)
+        val titles = ArrayList<String>()
+        val fragments = ArrayList<Fragment>()
+        val adapter = BaseFragmentAdapter(supportFragmentManager, fragments, titles)
+        titles.addAll(arrayListOf("全部\n0", "好评\n0", "中评\n0", "差评\n0", "晒单\n0"))
+        fragments.addAll(arrayListOf(GroupEvaluationFragment.newInstance(mGoodId, 1, adapter, tabLayout,viewPager),
+                GroupEvaluationFragment.newInstance(mGoodId, 2, adapter, tabLayout,viewPager),
+                GroupEvaluationFragment.newInstance(mGoodId, 3, adapter, tabLayout,viewPager),
+                GroupEvaluationFragment.newInstance(mGoodId, 4, adapter, tabLayout,viewPager),
+                GroupEvaluationFragment.newInstance(mGoodId, 5, adapter, tabLayout,viewPager)))
+        adapter.notifyDataSetChanged()
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 4
         tabLayout.setupWithViewPager(viewPager)

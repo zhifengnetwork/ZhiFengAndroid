@@ -2,6 +2,7 @@ package com.zf.mart.mvp.contract
 
 import com.zf.mart.base.IBaseView
 import com.zf.mart.base.IPresenter
+import com.zf.mart.mvp.bean.SearchBean
 import com.zf.mart.mvp.bean.SearchList
 
 interface SearchContract {
@@ -11,10 +12,10 @@ interface SearchContract {
         fun showError(msg: String, errorCode: Int)
 
         //搜索结果
-        fun setSearchList(bean: List<SearchList>)
+        fun setSearchList(bean:   SearchBean)
 
         //加载结果
-        fun setLoadMore(bean: List<SearchList>)
+        fun setLoadMore(bean:  SearchBean)
 
         //刷新无结果
         fun freshEmpty()

@@ -1,5 +1,7 @@
 package com.zf.mart.ui.activity
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.Gravity
@@ -34,13 +36,20 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
         back.setOnClickListener { finish() }
         titleName.text = "确定订单"
         rightLayout.visibility = View.INVISIBLE
+
+    }
+
+    /** 余额支付成功 */
+    override fun setUserMoneyPay() {
+        MyOrderActivity.actionStart(this, "")
+        finish()
     }
 
     /** 提交订单成功*/
     override fun setConfirmOrder(bean: PostOrderBean) {
         val window = object : OrderPayPopupWindow(
                 this, R.layout.pop_order_pay,
-                LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(320f), mTotalPrice
+                LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(320f), mOrderPrice
         ) {}
         window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
         window.onDismissListener = {
@@ -49,12 +58,13 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
         }
     }
 
-
     /** 结算 */
     override fun setPostOrder(bean: PostOrderBean) {
         goodsData.clear()
         goodsData.addAll(bean.goodsinfo)
         adapter.notifyDataSetChanged()
+
+        userMoneyTxt.text = bean.user_money
 
         bean.price.let {
             orderAmount.text = "¥ ${it.order_prom_amount}"
@@ -64,7 +74,7 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
             marginPrice.text = "¥ ${it.deposit}"
             userMoney.text = "¥ ${it.user_money}"
             totalPrice.text = "¥ ${it.total_amount}"
-            mTotalPrice = it.total_amount
+            mOrderPrice = it.order_amount
         }
 
         bean.address.let {
@@ -90,17 +100,22 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
 
     companion object {
         const val mRequestCode = 10
+        const val mInvoiceCode = 11
         const val FROM_ORDER = "fromOrder" //选择送货地址标记
-        fun actionStart(context: Context?, promType: Int,
-                        action: String, goods_id: String,
-                        goods_num: String, item_id: String, promId: String) {
+        fun actionStart(context: Context?,
+                        promType: Int,
+                        action: String,
+                        goods_id: String,
+                        goods_num: String,
+                        item_id: String,
+                        promId: String) {
             val intent = Intent(context, ConfirmOrderActivity::class.java)
             intent.putExtra("prom", promType) //prom: 0默认,1秒杀,2团购,3优惠促销,4预售,5虚拟(5其实没用),6拼团,7搭配购,8竞拍
             intent.putExtra("action", action) //立即购买	1或0,1是，0否，默认0
-            intent.putExtra("goodId", goods_id)
-            intent.putExtra("goodNum", goods_num)
-            intent.putExtra("itemId", item_id)
-            intent.putExtra("promId", promId)
+            intent.putExtra("goodId", goods_id) //商品id
+            intent.putExtra("goodNum", goods_num) //商品数量
+            intent.putExtra("itemId", item_id) //商品规格id	  action=1时必须 //7-12-16
+            intent.putExtra("promId", promId) //活动ID
             context?.startActivity(intent)
         }
     }
@@ -124,7 +139,7 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
 
 
     private var mAddressId = ""
-    private var mTotalPrice = ""
+    private var mOrderPrice = ""
     private var mPromType = 0
     private var mAction = ""
     private var mGoodId = ""
@@ -133,6 +148,7 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
     private var mPromId = ""
 
     override fun start() {
+        /** 结算 */
         presenter.requestPostOrder(
                 0, mPromType, mAddressId, "", "",
                 "", "", "", "",
@@ -143,18 +159,53 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
     }
 
     override fun initEvent() {
+
+        ifUseMoney.setOnCheckedChangeListener { _, isChecked ->
+            payPwdLayout.visibility = if (isChecked) View.VISIBLE else View.GONE
+        }
+
+        //发票
+        invoiceActivity.setOnClickListener {
+            val intent = Intent(this, InvoiceActivity::class.java)
+            intent.putExtra("head", mHead)
+            startActivityForResult(intent, mInvoiceCode)
+        }
+
         addressLayout.setOnClickListener {
             val intent = Intent(this, AddressActivity::class.java)
             intent.putExtra(FROM_ORDER, FROM_ORDER)
             startActivityForResult(intent, mRequestCode)
         }
 
-        //提交订单
+
         settle.setOnClickListener {
+            /** 提交订单 */
+            //发票信息
+            var head = ""
+            var num = ""
+            var content = ""
+            when {
+                mHead.startsWith("0") -> {
+                    head = "不开发票"
+                }
+                mHead.startsWith("1") -> {
+                    head = "纸质(个人-${mHead.split("-")[1]})"
+                }
+                mHead.startsWith("2") -> {
+                    head = "纸质(${mHead.split("-")[2]}-${mHead.split("-")[1]})"
+                    num = mHead.split("-")[3]
+                    content = mHead.split("-")[2]
+                }
+            }
+
+            if (ifUseMoney.isChecked && payPwd.text.isEmpty()) {
+                showToast("请输入支付密码")
+                return@setOnClickListener
+            }
             presenter.requestPostOrder(
-                    1, mPromType, mAddressId, "",
-                    "", "", "", "",
-                    "", remark.text.toString(), "",
+                    1, mPromType, mAddressId, head,
+                    num, content, "", "",
+                    if (ifUseMoney.isChecked) mOrderPrice else "0", remark.text.toString(), payPwd.text.toString(),
                     mGoodId, mGoodNum, mGoodItemId, mAction, "",
                     "", "", "", mPromId
             )
@@ -168,9 +219,29 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
         goodsRecyclerView.addItemDecoration(rvDivider)
     }
 
-    //选择地址回调
+    //发票回调的全部信息
+    private var mHead = ""
+
+    @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        //发票回调
+        if (mInvoiceCode == requestCode && Activity.RESULT_OK == resultCode) {
+            mHead = data?.getStringExtra("head") ?: ""
+            when {
+                mHead.startsWith("0") -> {
+                    invoice.text = "不开发票"
+                }
+                mHead.startsWith("1") -> {
+                    invoice.text = "纸质(个人-${mHead.split("-")[1]})"
+                }
+                mHead.startsWith("2") -> {
+                    invoice.text = "纸质(${mHead.split("-")[2]}-${mHead.split("-").get(1)})"
+                }
+            }
+
+        }
+        //选择地址回调
         if (mRequestCode == requestCode && AddressActivity.mResultCode == resultCode) {
             val addressBean = data?.getSerializableExtra(AddressActivity.ADDRESS_FLAG) as AddressBean
             userName.text = addressBean.consignee

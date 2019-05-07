@@ -17,9 +17,9 @@ class ActionActivity : BaseActivity() {
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(
-                this,
-                ContextCompat.getColor(this, R.color.colorSecondText),
-                0.3f
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
         )
     }
 
@@ -44,28 +44,26 @@ class ActionActivity : BaseActivity() {
     }
 
     override fun initView() {
-
         val titles = arrayListOf("竞拍", "拼团", "秒杀")
-        val fragments = arrayListOf<Fragment>(AuctionFragment.newInstance(), GroupFragment.newInstance(), SecKillFragment.newInstance())
+        val fragments = arrayListOf<Fragment>(
+            AuctionFragment.newInstance(),
+            GroupFragment.newInstance(),
+            SecKillFragment.newInstance()
+        )
         val adapter = BaseFragmentAdapter(supportFragmentManager, fragments, titles)
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 3
         tabLayout.setupWithViewPager(viewPager)
-
         viewPager.currentItem = when (mType) {
             AUCTION -> 0
             GROUP -> 1
             SEC_KILL -> 2
             else -> 0
         }
-
     }
 
-
     override fun initEvent() {
-
         close.setOnClickListener { finish() }
-
     }
 
     override fun start() {

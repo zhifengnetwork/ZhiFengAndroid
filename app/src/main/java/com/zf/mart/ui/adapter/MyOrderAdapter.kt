@@ -66,12 +66,12 @@ class MyOrderAdapter(val context: Context?, val data: List<OrderListBean>) :
                         status.text = "待付款"
                         payNow.visibility = View.VISIBLE
                         cancelOrder.visibility = View.VISIBLE
-                        contactShop.visibility = View.VISIBLE
+//                        contactShop.visibility = View.VISIBLE
                     } else if (data[position].pay_status == "1") {
                         if (data[position].shipping_status == "0") {
                             //未发货
                             status.text = "待发货"
-                            remindSend.visibility = View.VISIBLE
+//                            remindSend.visibility = View.VISIBLE
                         } else if (data[position].shipping_status == "1") {
                             //已发货
                             status.text = "待收货"
@@ -84,7 +84,7 @@ class MyOrderAdapter(val context: Context?, val data: List<OrderListBean>) :
                 "2" -> {
                     hintOperation(holder)
                     status.text = "交易成功"
-                    afterSale.visibility = View.VISIBLE
+//                    afterSale.visibility = View.VISIBLE
                     evaluate.visibility = View.VISIBLE
                 }
                 //已取消
@@ -96,7 +96,7 @@ class MyOrderAdapter(val context: Context?, val data: List<OrderListBean>) :
                 "4" -> {
                     hintOperation(holder)
                     status.text = "交易成功"
-                    afterSale.visibility = View.VISIBLE
+//                    afterSale.visibility = View.VISIBLE
                 }
             }
 

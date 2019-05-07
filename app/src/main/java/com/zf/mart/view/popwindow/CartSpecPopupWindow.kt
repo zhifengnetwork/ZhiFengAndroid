@@ -21,9 +21,9 @@ import com.zf.mart.utils.GlideUtils
 import kotlinx.android.synthetic.main.pop_order_style.view.*
 
 /**
- * 拼团的选择款式
+ * 购物车的选择款式
  */
-abstract class GroupStylePopupWindow(
+abstract class CartSpecPopupWindow(
         var context: Activity,
         layoutRes: Int,
         w: Int,
@@ -49,7 +49,7 @@ abstract class GroupStylePopupWindow(
     private fun initView() {
         contentView.apply {
 
-            GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + bean.goods.original_img, goodsIcon)
+            GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + bean.original_img, goodsIcon)
 
             val adapter = CartSpecAdapter(context, specBean, bean.spec_key)
             //设置规格
@@ -73,7 +73,7 @@ abstract class GroupStylePopupWindow(
             /** 数量 */
             number.text = bean.goods_num.toString()
 
-            goodsName.text = bean.goods.goods_name
+            goodsName.text = bean.goods_name
             goodsPrice.text = "¥ ${bean.goods_price}"
 
             reduce.isSelected = number.text.toString().toInt() < 2

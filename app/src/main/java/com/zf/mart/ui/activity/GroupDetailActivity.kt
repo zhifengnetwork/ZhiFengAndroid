@@ -225,7 +225,8 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View, ActiveSpec
                 R.layout.pop_order_style,
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                mGroupBean
+                mGroupBean,
+                promType
         ) {}
         popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
         popWindow.onConfirmListener = { _, num ->

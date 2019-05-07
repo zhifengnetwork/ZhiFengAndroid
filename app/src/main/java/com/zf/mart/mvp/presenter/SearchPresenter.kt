@@ -37,13 +37,13 @@ class SearchPresenter : BasePresenter<SearchContract.View>(), SearchContract.Pre
                                     0 -> {
                                         if (mPage == 1) {
                                             if (it.data?.goods_list != null && it.data.goods_list.isNotEmpty()) {
-                                                setSearchList(it.data.goods_list)
+                                                setSearchList(it.data )
                                             } else {
                                                 freshEmpty()
                                             }
                                         } else {
                                             if (it.data?.goods_list != null && it.data.goods_list.isNotEmpty()) {
-                                                setLoadMore(it.data.goods_list)
+                                                setLoadMore(it.data )
                                             } else {
                                                 loadComplete()
                                             }

@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.TextView
 import com.zf.mart.R
+import com.zf.mart.mvp.bean.FilterPrice
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.pop_search_filter.view.*
@@ -16,7 +17,10 @@ import kotlinx.android.synthetic.main.pop_search_filter.view.*
 /**
  * 搜索订单列表筛选
  */
-abstract class SearchFilterPopupWindow(var context: Activity, layoutRes: Int, w: Int, h: Int, val chooseSel: String) {
+abstract class SearchFilterPopupWindow(var context: Activity, layoutRes: Int, w: Int, h: Int,
+                                       val chooseSel: String,
+                                       val choosePrice: String,
+                                       val filterPrice: List<FilterPrice>) {
     val contentView: View
     val popupWindow: PopupWindow
     private var isShowing = false
@@ -29,9 +33,50 @@ abstract class SearchFilterPopupWindow(var context: Activity, layoutRes: Int, w:
     }
 
     var onConfirmListener: ((String) -> Unit)? = null
+    var onPriceListener: ((String) -> Unit)? = null
 
     private fun initView() {
         contentView.apply {
+            priceView.visibility = if (filterPrice.isNotEmpty()) View.VISIBLE else View.GONE
+            val priceList = ArrayList<String>()
+            for (price in filterPrice) {
+                priceList.add(price.value)
+            }
+
+            priceLayout.adapter = object : TagAdapter<String>(priceList) {
+                override fun getView(parent: FlowLayout?, position: Int, t: String?): View {
+                    val tv: TextView = LayoutInflater.from(context).inflate(
+                            R.layout.layout_textview_style, hotLayout, false
+                    ) as TextView
+                    tv.text = t
+                    return tv
+                }
+            }
+
+            if (choosePrice.isNotEmpty()) {
+                var mIndex: Int? = null
+                if (filterPrice.isNotEmpty()) {
+                    for (i in 0 until filterPrice.size) {
+                        if (choosePrice == filterPrice[i].href) {
+                            mIndex = i
+                        }
+                    }
+                    if (mIndex != null) {
+                        priceLayout.adapter.setSelectedList(setOf(mIndex))
+                    }
+                }
+            }
+
+            priceLayout.setOnSelectListener {
+                if (it.toIntArray().isNotEmpty()) {
+                    onPriceListener?.invoke(
+                            filterPrice[it.toIntArray()[0]].href
+                    )
+                } else {
+                    onPriceListener?.invoke("")
+                }
+            }
+
 
             val filterName = arrayOf("显示全部", "仅看包邮", "仅看有货", "促销商品")
             hotLayout.adapter = object : TagAdapter<String>(filterName) {

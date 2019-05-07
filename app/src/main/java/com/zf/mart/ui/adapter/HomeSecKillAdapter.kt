@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import com.zf.mart.api.UriConstant
 import com.zf.mart.mvp.bean.SecKillList
+import com.zf.mart.ui.activity.GoodsDetailActivity
 import com.zf.mart.ui.activity.SecKillDetailActivity
 import com.zf.mart.utils.GlideUtils
 import kotlinx.android.synthetic.main.home_item_seckill.view.*
@@ -26,7 +27,9 @@ class HomeSecKillAdapter(val context: Context?, val data: List<SecKillList>) : R
             GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + data[position].original_img, image)
             price.text = "¥ ${data[position].price}"
             setOnClickListener {
-                SecKillDetailActivity.actionStart(context, data[position].id)
+                //旧的秒杀详情
+//                SecKillDetailActivity.actionStart(context, data[position].id)
+                GoodsDetailActivity.actionStart(context, data[position].goods_id)
             }
         }
     }

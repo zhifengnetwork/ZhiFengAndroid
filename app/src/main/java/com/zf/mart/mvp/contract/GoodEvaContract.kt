@@ -2,6 +2,7 @@ package com.zf.mart.mvp.contract
 
 import com.zf.mart.base.IBaseView
 import com.zf.mart.base.IPresenter
+import com.zf.mart.mvp.bean.GoodEvaBean
 import com.zf.mart.mvp.bean.GoodEvaList
 
 interface GoodEvaContract {
@@ -9,9 +10,9 @@ interface GoodEvaContract {
     interface View : IBaseView {
 
 
-        fun setGoodEva(bean: List<GoodEvaList>)
+        fun setGoodEva(bean: GoodEvaBean)
 
-        fun setLoadMore(bean: List<GoodEvaList>)
+        fun setLoadMore(bean: GoodEvaBean)
 
         fun setEmpty()
 
@@ -23,7 +24,7 @@ interface GoodEvaContract {
     }
 
     interface Presenter : IPresenter<View> {
-        fun requestGoodEva(goodId:String,type:Int,page: Int?)
+        fun requestGoodEva(goodId: String, type: Int, page: Int?)
 
     }
 

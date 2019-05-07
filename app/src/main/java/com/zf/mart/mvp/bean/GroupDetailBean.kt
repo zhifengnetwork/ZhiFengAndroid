@@ -34,7 +34,7 @@ data class GroupDetailInfo(
         val goods_id: String,
         val cluster_type: String,
         val end_time: Long,
-        val buy_limit: String,
+        val buy_limit: Int,
         val original_img: String,
         val goods_item_id: String,
         val shop_price: String,

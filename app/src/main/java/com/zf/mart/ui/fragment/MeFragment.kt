@@ -159,7 +159,6 @@ class MeFragment : BaseFragment(), CommendContract.View {
 
         refreshLayout.setOnRefreshListener {
             lazyLoad()
-
         }
 
         refreshLayout.setOnLoadMoreListener {

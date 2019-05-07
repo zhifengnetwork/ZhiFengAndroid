@@ -3,9 +3,14 @@ package com.zf.mart.ui.fragment.action
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
+import com.zf.mart.base.BaseFragmentAdapter
+import com.zf.mart.mvp.bean.CommentNum
+import com.zf.mart.mvp.bean.GoodEvaBean
 import com.zf.mart.mvp.bean.GoodEvaList
 import com.zf.mart.mvp.contract.GoodEvaContract
 import com.zf.mart.mvp.presenter.GoodEvaPresenter
@@ -20,16 +25,31 @@ import kotlinx.android.synthetic.main.fragment_evaluation.*
  */
 class GroupEvaluationFragment : BaseFragment(), GoodEvaContract.View {
 
-    override fun setGoodEva(bean: List<GoodEvaList>) {
+    //刷新数量
+    private fun freshTitleNum(numBean: CommentNum) {
+        mTitleAdapter?.let { it ->
+            for (i in 0 until it.count) {
+                it.setPageTitle(0, "全部\n" + numBean.total_sum)
+                it.setPageTitle(1, "好评\n" + numBean.high_sum)
+                it.setPageTitle(2, "中评\n" + numBean.center_sum)
+                it.setPageTitle(3, "差评\n" + numBean.low_sum)
+                it.setPageTitle(4, "晒单\n" + numBean.img_sum)
+            }
+            mTitleAdapter?.notifyDataSetChanged()
+        }
+    }
+
+    override fun setGoodEva(bean: GoodEvaBean) {
         mLayoutStatusView?.showContent()
         refreshLayout.setEnableLoadMore(true)
         data.clear()
-        data.addAll(bean)
+        data.addAll(bean.commentlist)
         adapter.notifyDataSetChanged()
+        freshTitleNum(bean.comment_fr)
     }
 
-    override fun setLoadMore(bean: List<GoodEvaList>) {
-        data.addAll(bean)
+    override fun setLoadMore(bean: GoodEvaBean) {
+        data.addAll(bean.commentlist)
         adapter.notifyDataSetChanged()
     }
 
@@ -66,12 +86,18 @@ class GroupEvaluationFragment : BaseFragment(), GoodEvaContract.View {
 
     private var mGoodId = ""
     private var mType = 0
+    private var mTitleAdapter: BaseFragmentAdapter? = null
+    private var mTabLayout: TabLayout? = null
+    private var mViewPager: ViewPager? = null
 
     companion object {
-        fun newInstance(goodId: String, type: Int): GroupEvaluationFragment {
+        fun newInstance(goodId: String, type: Int, titleAdapter: BaseFragmentAdapter, tabLayout: TabLayout, viewPager: ViewPager): GroupEvaluationFragment {
             val fragment = GroupEvaluationFragment()
             fragment.mGoodId = goodId
             fragment.mType = type
+            fragment.mTitleAdapter = titleAdapter
+            fragment.mTabLayout = tabLayout
+            fragment.mViewPager = viewPager
             return fragment
         }
     }

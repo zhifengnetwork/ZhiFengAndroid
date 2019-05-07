@@ -168,6 +168,7 @@ class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
         homePresenter.attachView(this)
         commendPresenter.attachView(this)
 
+
         homeArticle.setText(14f, 5, Color.RED)
         homeArticle.setTextStillTime(4000) //停留时长
         homeArticle.setAnimTime(400) //进出间隔时间

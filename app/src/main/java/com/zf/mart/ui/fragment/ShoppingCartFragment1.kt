@@ -21,7 +21,7 @@ import com.zf.mart.ui.activity.ConfirmOrderActivity
 import com.zf.mart.ui.adapter.CartShopAdapter1
 import com.zf.mart.view.dialog.DeleteCartDialog
 import com.zf.mart.view.dialog.InputNumDialog
-import com.zf.mart.view.popwindow.GroupStylePopupWindow
+import com.zf.mart.view.popwindow.CartSpecPopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.fragment_shoping_cart.*
 import okhttp3.MediaType
@@ -51,7 +51,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                 specList.add(SpecCorrect(it[0].name, it, ""))
             }
         }
-        val popWindow = object : GroupStylePopupWindow(
+        val popWindow = object : CartSpecPopupWindow(
                 activity as Activity,
                 R.layout.pop_order_style,
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -352,11 +352,13 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
             if (management.isSelected) {
                 /**
                  *  删除
-                 *  如果未勾选到商品，不能结算
+                 *  如果未勾选到商品，不能删除
                  */
                 var sum = 0
-                cartData.forEach {
-                    if (it.selected == "1") sum += 1
+                cartData.forEach {shop->
+                    shop.list.forEach {goods->
+                        if (goods.selected == "1") sum += 1
+                    }
                 }
                 if (sum < 1) {
                     showToast("请先选择商品")
@@ -385,8 +387,10 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                  * 如果未勾选到商品，不能结算
                  */
                 var sum = 0
-                cartData.forEach {
-                    if (it.selected == "1") sum += 1
+                cartData.forEach { shop ->
+                    shop.list.forEach { goods ->
+                        if (goods.selected == "1") sum += 1
+                    }
                 }
                 if (sum > 0) {
                     ConfirmOrderActivity.actionStart(context, 0, "", "", "", "", "")

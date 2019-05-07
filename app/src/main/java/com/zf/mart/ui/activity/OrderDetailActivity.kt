@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 /**
  * 订单详情
  */
-class OrderDetailActivity : BaseActivity(), OrderDetailContract.View , OrderOperateContract.View{
+class OrderDetailActivity : BaseActivity(), OrderDetailContract.View, OrderOperateContract.View {
 
     override fun showOperateError(msg: String, errorCode: Int) {
 
@@ -59,7 +59,7 @@ class OrderDetailActivity : BaseActivity(), OrderDetailContract.View , OrderOper
 
         goodsPrice.text = "¥${bean.goods_price}" //商品总价
         shippingPrice.text = "¥${bean.shipping_price}" //运费
-        orderPrice.text = "¥${bean.order_amount}" //订单总价
+        orderPrice.text = "¥${bean.total_amount}" //订单总价
 
         shopDiscount.text = "-¥${bean.order_prom_amount}"
         creditPrice.text = "-¥${bean.integral_money}"
@@ -70,6 +70,7 @@ class OrderDetailActivity : BaseActivity(), OrderDetailContract.View , OrderOper
         orderNum.text = bean.order_sn
         createTime.text = TimeUtils.myOrderTime(bean.add_time)
 
+        payType.text = bean.pay_name
 
         //订单状态 order_status
         when (bean.order_status) {
@@ -81,12 +82,12 @@ class OrderDetailActivity : BaseActivity(), OrderDetailContract.View , OrderOper
 //                    status.text = "待付款"
                     payNow.visibility = View.VISIBLE
                     cancelOrder.visibility = View.VISIBLE
-                    contactShop.visibility = View.VISIBLE
+//                    contactShop.visibility = View.VISIBLE
                 } else if (bean.pay_status == "1") {
                     if (bean.shipping_status == "0") {
                         //未发货
 //                        status.text = "待发货"
-                        remindSend.visibility = View.VISIBLE
+//                        remindSend.visibility = View.VISIBLE
                     } else if (bean.shipping_status == "1") {
                         //已发货
 //                        status.text = "待收货"
@@ -99,7 +100,7 @@ class OrderDetailActivity : BaseActivity(), OrderDetailContract.View , OrderOper
             "2" -> {
                 hideOperation()
 //                status.text = "交易成功"
-                afterSale.visibility = View.VISIBLE
+//                afterSale.visibility = View.VISIBLE
                 evaluate.visibility = View.VISIBLE
             }
             //已取消
@@ -111,7 +112,7 @@ class OrderDetailActivity : BaseActivity(), OrderDetailContract.View , OrderOper
             "4" -> {
                 hideOperation()
 //                status.text = "交易成功"
-                afterSale.visibility = View.VISIBLE
+//                afterSale.visibility = View.VISIBLE
             }
         }
 

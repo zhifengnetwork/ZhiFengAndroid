@@ -13,6 +13,8 @@ interface PostOrderContract {
         fun setPostOrder(bean: PostOrderBean)
 
         fun setConfirmOrder(bean: PostOrderBean)
+
+        fun setUserMoneyPay()
     }
 
     interface Presenter : IPresenter<View> {

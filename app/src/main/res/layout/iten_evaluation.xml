@@ -70,14 +70,14 @@
             android:textColor="@color/colorSecondText"
             android:textSize="12sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:text="|"
-            android:textColor="@color/colorSecondText"
-            android:textSize="15sp" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="3dp"-->
+            <!--android:layout_marginRight="3dp"-->
+            <!--android:text="|"-->
+            <!--android:textColor="@color/colorSecondText"-->
+            <!--android:textSize="15sp" />-->
 
         <!--<TextView-->
         <!--android:id="@+id/spec"-->

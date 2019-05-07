@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import com.zf.mart.api.UriConstant
 import com.zf.mart.mvp.bean.SecKillList
+import com.zf.mart.ui.activity.GoodsDetailActivity
 import com.zf.mart.ui.activity.SecKillDetailActivity
 import com.zf.mart.utils.GlideUtils
 import kotlinx.android.synthetic.main.item_seckill.view.*
 
 class SecKillAdapter(val context: Context?, val data: List<SecKillList>) :
-    RecyclerView.Adapter<SecKillAdapter.ViewHolder>() {
+        RecyclerView.Adapter<SecKillAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_seckill, parent, false)
@@ -29,7 +30,6 @@ class SecKillAdapter(val context: Context?, val data: List<SecKillList>) :
             loadingView.setBgColor(ContextCompat.getColor(context, R.color.colorBackground))
             loadingView.setPercentage(60f)
 
-
             GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + data[position].original_img, icon)
             name.text = data[position].title
             content.text = data[position].goods_name
@@ -37,14 +37,16 @@ class SecKillAdapter(val context: Context?, val data: List<SecKillList>) :
 //            discount.text = "${data[position].disc}折"
 
             discount.text =
-                "${((data[position].price.toDouble() / data[position].shop_price.toDouble()) * 10).toInt()}折"
+                    "${((data[position].price.toDouble() / data[position].shop_price.toDouble()) * 10).toInt()}折"
 
             price.text = "¥ ${data[position].shop_price}"
             number.text = "仅剩${(data[position].goods_num - data[position].order_num)}件"
             loadingView.setPercentage((data[position].order_num / data[position].goods_num).toFloat())
 
             buy.setOnClickListener {
-                SecKillDetailActivity.actionStart(context, data[position].id)
+                GoodsDetailActivity.actionStart(context, data[position].goods_id)
+                //旧的秒杀详情
+//                SecKillDetailActivity.actionStart(context, data[position].id)
             }
         }
 

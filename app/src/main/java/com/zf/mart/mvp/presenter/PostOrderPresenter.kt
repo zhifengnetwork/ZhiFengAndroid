@@ -62,6 +62,14 @@ class PostOrderPresenter : BasePresenter<PostOrderContract.View>(), PostOrderCon
                     mRootView?.apply {
                         dismissLoading()
                         when (it.status) {
+                            //status等于1就是余额支付成功，不用在线支付。
+                            //status等于0则是提交订单成功，待在线支付
+                            1 -> {
+                                if (act == 1) {
+                                    //提交订单并且余额支付完成。
+                                    setUserMoneyPay()
+                                }
+                            }
                             0 -> if (it.data != null) {
                                 if (act == 0) {
                                     //结算

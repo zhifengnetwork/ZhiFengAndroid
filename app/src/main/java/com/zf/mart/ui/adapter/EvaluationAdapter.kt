@@ -37,14 +37,6 @@ class EvaluationAdapter(val context: Context?, val data: List<GoodEvaList>) : Re
             manager.orientation = LinearLayoutManager.HORIZONTAL
             recyclerView.layoutManager = manager
             recyclerView.adapter = adapter
-            recyclerView.addItemDecoration(
-                    RecyclerViewDivider(
-                            context,
-                            LinearLayout.VERTICAL,
-                            DensityUtil.dp2px(1f),
-                            ContextCompat.getColor(context, R.color.colorBackground)
-                    )
-            )
 
         }
     }

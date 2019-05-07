@@ -39,7 +39,7 @@ class SearchActivity : BaseActivity(), HotSearchContract.View {
             }
         }
         hotLayout.setOnTagClickListener { _, position, _ ->
-            SearchOrderActivity.actionStart(this, words[position])
+            SearchGoodsActivity.actionStart(this, words[position])
             return@setOnTagClickListener true
         }
     }
@@ -123,7 +123,7 @@ class SearchActivity : BaseActivity(), HotSearchContract.View {
 //        })
 
         searchLayout.setOnClickListener {
-            SearchOrderActivity.actionStart(this, inputText.text.toString())
+            SearchGoodsActivity.actionStart(this, inputText.text.toString())
         }
     }
 

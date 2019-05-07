@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.PopupWindow
+import android.widget.Toast
 import com.zf.mart.R
 import com.zf.mart.api.UriConstant
 import com.zf.mart.mvp.bean.GroupDetailBean
@@ -24,7 +25,8 @@ abstract class ActiveSpecPopupWindow(
         layoutRes: Int,
         w: Int,
         h: Int,
-        private val bean: GroupDetailBean?
+        private val bean: GroupDetailBean?,
+        val promType: Int
 
 ) {
     val contentView: View
@@ -71,9 +73,12 @@ abstract class ActiveSpecPopupWindow(
             number.text = "1"
 
             goodsName.text = bean?.info?.goods_name
-            goodsPrice.text = "¥ ${bean?.info?.group_price}"
+            //0单独买 6拼单
+            goodsPrice.text = if (promType == 6) "¥ ${bean?.info?.group_price}" else "¥ ${bean?.info?.shop_price}"
 
             reduce.isSelected = number.text.toString().toInt() < 2
+
+
             reduce.setOnClickListener {
                 if (number.text.toString().toInt() > 1) {
                     number.text = (number.text.toString().toInt() - 1).toString()
@@ -81,7 +86,11 @@ abstract class ActiveSpecPopupWindow(
             }
 
             increase.setOnClickListener {
-                number.text = (number.text.toString().toInt() + 1).toString()
+                if (number.text.toString().toInt() < bean?.info?.buy_limit ?: Int.MAX_VALUE) {
+                    number.text = (number.text.toString().toInt() + 1).toString()
+                } else {
+                    Toast.makeText(context, "限购数量:${bean?.info?.buy_limit}", Toast.LENGTH_SHORT).show()
+                }
             }
 
             number.addTextChangedListener(object : TextWatcher {

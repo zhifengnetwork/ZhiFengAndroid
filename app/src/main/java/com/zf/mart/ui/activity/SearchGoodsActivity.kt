@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
+import com.zf.mart.mvp.bean.FilterPrice
+import com.zf.mart.mvp.bean.SearchBean
 import com.zf.mart.mvp.bean.SearchList
 import com.zf.mart.mvp.contract.SearchContract
 import com.zf.mart.mvp.presenter.SearchPresenter
@@ -20,19 +22,19 @@ import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.RecDecoration
 import com.zf.mart.view.popwindow.SearchFilterPopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
-import kotlinx.android.synthetic.main.activity_search_order.*
+import kotlinx.android.synthetic.main.activity_search_goods.*
 
 /**
  * 搜索的订单结果
  */
-class SearchOrderActivity : BaseActivity(), SearchContract.View {
+class SearchGoodsActivity : BaseActivity(), SearchContract.View {
 
     override fun loadMoreError(msg: String, status: Int) {
         showToast(msg)
     }
 
-    override fun setLoadMore(bean: List<SearchList>) {
-        data.addAll(bean)
+    override fun setLoadMore(bean: SearchBean) {
+        data.addAll(bean.goods_list ?: ArrayList())
         mAdapter.notifyDataSetChanged()
     }
 
@@ -57,13 +59,17 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
     }
 
     //刷新结果
-    override fun setSearchList(bean: List<SearchList>) {
+    override fun setSearchList(bean: SearchBean) {
         mLayoutStatusView?.showContent()
         refreshLayout.setEnableLoadMore(true)
         data.clear()
-        data.addAll(bean)
+        data.addAll(bean.goods_list ?: ArrayList())
         mAdapter.notifyDataSetChanged()
+        mFilterPrice.clear()
+        mFilterPrice.addAll(bean.filter_price)
     }
+
+    private var mFilterPrice = ArrayList<FilterPrice>()
 
     override fun showLoading() {
     }
@@ -90,14 +96,14 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
 
     companion object {
         fun actionStart(context: Context?, keyWord: String) {
-            val intent = Intent(context, SearchOrderActivity::class.java)
+            val intent = Intent(context, SearchGoodsActivity::class.java)
             intent.putExtra("key", keyWord)
             context?.startActivity(intent)
 
         }
     }
 
-    override fun layoutId(): Int = R.layout.activity_search_order
+    override fun layoutId(): Int = R.layout.activity_search_goods
 
     override fun initData() {
         mKeyWord = intent.getStringExtra("key")
@@ -135,6 +141,7 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
     private var mSort: String = ""
     private var mPriceSort: String = ""
     private var mSel: String = ""
+    private var mPrice: String = ""
     /** 请求数据 */
     private fun initRequest(page: Int?) {
         if (page == 1) {
@@ -144,7 +151,7 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
         //判断是选中的哪个？
         searchPresenter.requestSearch(
                 searchInput.text.toString(), "", "", mSort, mSel,
-                "", "", "", mPriceSort, page
+                mPrice, "", "", mPriceSort, page
         )
     }
 
@@ -218,17 +225,23 @@ class SearchOrderActivity : BaseActivity(), SearchContract.View {
 
         //筛选 如果有
         filterBtn.setOnClickListener {
-
             val popWindow = object : SearchFilterPopupWindow(
                     this, R.layout.pop_search_filter, DensityUtil.dp2px(280f),
-                    LinearLayout.LayoutParams.MATCH_PARENT, mSel
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    mSel,
+                    mPrice,
+                    mFilterPrice
             ) {}
             popWindow.showAtLocation(parentLayout, Gravity.RIGHT, 0, 0)
             popWindow.onConfirmListener = {
                 //判断it是否为空，否则选中状态
-                filterBtn.isSelected = it.isNotEmpty()
-
+                filterBtn.isSelected = it.isNotEmpty() || mPrice.isNotEmpty()
                 mSel = it
+                initRequest(1)
+            }
+            popWindow.onPriceListener = {
+                filterBtn.isSelected = it.isNotEmpty() || mSel.isNotEmpty()
+                mPrice = it
                 initRequest(1)
             }
         }

@@ -1,6 +1,7 @@
 package com.zf.mart.mvp.bean
 
 data class PostOrderBean(
+        val user_money: String,
         val price: PostOrderPrice,
         val address: PostOrderAddress,
         val goodsinfo: List<Goods>

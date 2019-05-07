@@ -25,13 +25,13 @@ class GoodEvaPresenter : BasePresenter<GoodEvaContract.View>(), GoodEvaContract.
                             0 -> {
                                 if (mPage == 1) {
                                     if (it.data != null && it.data.commentlist.isNotEmpty()) {
-                                        setGoodEva(it.data.commentlist)
+                                        setGoodEva(it.data)
                                     } else {
                                         setEmpty()
                                     }
                                 } else {
                                     if (it.data != null && it.data.commentlist.isNotEmpty()) {
-                                        setLoadMore(it.data.commentlist)
+                                        setLoadMore(it.data)
                                     } else {
                                         setLoadComplete()
                                     }

@@ -121,30 +121,28 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
     /**要传一个商品ID过来*/
     companion object {
-
         fun actionStart(context: Context?, goods_id: String) {
             val intent = Intent(context, GoodsDetailActivity::class.java)
             intent.putExtra("id", goods_id)
             context?.startActivity(intent)
         }
-
     }
 
     override fun initToolBar() {
 
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
 
 
         //分享
         shareLayout.setOnClickListener {
             val popUpWindow = object : ServicePopupWindow(
-                this, R.layout.pop_detail_share,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    this, R.layout.pop_detail_share,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
                     contentView.apply {
@@ -249,8 +247,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
         val titles = arrayOf("图文详情", "答疑")
         val fgms = arrayListOf(
-            GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
-            OrderAnswerFragment.newInstance() as Fragment)
+                GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
+                OrderAnswerFragment.newInstance() as Fragment)
         segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
     }
 
@@ -285,8 +283,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     private fun initSame() {
 
         val fgms = arrayListOf(
-            DetailSameFragment.newInstance() as Fragment
-            , DetailSameFragment.newInstance() as Fragment
+                DetailSameFragment.newInstance() as Fragment
+                , DetailSameFragment.newInstance() as Fragment
         )
         val entitys = ArrayList<CustomTabEntity>()
         entitys.add(TabEntity("相似推荐", 0, 0))
@@ -335,10 +333,10 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                 alpha = 1.0f
             }
             orderDetailHead.setBackgroundColor(
-                changeAlpha(
-                    ContextCompat.getColor(this, R.color.whit)
-                    , alpha
-                )
+                    changeAlpha(
+                            ContextCompat.getColor(this, R.color.whit)
+                            , alpha
+                    )
             )
             //回到顶部按钮
             if (scrollY - oldScrollY > 0) {
@@ -359,9 +357,9 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
             presenter.requestAddress()
 
             addressPopWindow = object : RegionPopupWindow(
-                this, R.layout.pop_detail_address,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    this, R.layout.pop_detail_address,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
 
@@ -396,9 +394,9 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         //加入购物车
         shop_cat.setOnClickListener {
             specsPopWindow = object : RegionPopupWindow(
-                this, R.layout.pop_detail_specs,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    this, R.layout.pop_detail_specs,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
 
@@ -428,9 +426,9 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                         if (no_off) {
                             //图片
                             GlideUtils.loadUrlImage(
-                                context,
-                                "https://mobile.zhifengwangluo.c3w.cc" + mData?.goods?.original_img,
-                                goods_img
+                                    context,
+                                    "https://mobile.zhifengwangluo.c3w.cc" + mData?.goods?.original_img,
+                                    goods_img
                             )
                             //名称
                             goodsName.text = mData?.goods?.goods_name

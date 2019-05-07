@@ -2,6 +2,7 @@ package com.zf.mart.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import androidx.core.content.ContextCompat
 import com.zf.mart.R
 import com.zf.mart.base.BaseActivity
@@ -10,6 +11,7 @@ import com.zf.mart.ui.fragment.MyOrderFragment
 import com.zf.mart.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_myorder.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
+
 /**
  * 待付款的状态：
  *  联系卖家 取消订单 立即付款
@@ -35,6 +37,7 @@ class MyOrderActivity : BaseActivity() {
                 0.3f
         )
         titleName.text = "我的订单"
+        rightLayout.visibility = View.INVISIBLE
     }
 
     companion object {

@@ -1,7 +1,19 @@
 package com.zf.mart.mvp.bean
 
 data class GoodEvaBean(
-        val commentlist: List<GoodEvaList>
+        val commentlist: List<GoodEvaList>,
+        val comment_fr: CommentNum
+)
+
+data class CommentNum(
+        val img_sum: String,
+        val high_sum: String,
+        val high_rate: String,
+        val center_sum: String,
+        val center_rate: String,
+        val low_sum: String,
+        val low_rate: String,
+        val total_sum: String
 )
 
 data class GoodEvaList(
