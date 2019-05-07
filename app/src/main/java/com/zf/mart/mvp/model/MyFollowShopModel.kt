@@ -2,11 +2,16 @@ package com.zf.mart.mvp.model
 
 import com.zf.mart.base.BaseBean
 import com.zf.mart.mvp.bean.MyFollowShopBean
+import com.zf.mart.mvp.bean.ShopListBean
 import com.zf.mart.net.RetrofitManager
 import com.zf.mart.scheduler.SchedulerUtils
 import io.reactivex.Observable
 
 class MyFollowShopModel {
+    fun getShopList(page: Int, num: Int, goodsnum: Int): Observable<BaseBean<ShopListBean>> {
+        return RetrofitManager.service.getShopList(page, num, goodsnum).compose(SchedulerUtils.ioToMain())
+    }
+
     fun getMyFollowShop(page: Int, num: Int): Observable<BaseBean<MyFollowShopBean>> {
         return RetrofitManager.service.getMyFollowShop(page, num).compose(SchedulerUtils.ioToMain())
     }

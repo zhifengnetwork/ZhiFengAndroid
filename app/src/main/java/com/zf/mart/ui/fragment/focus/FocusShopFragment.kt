@@ -9,6 +9,7 @@ import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.mvp.bean.FollowShopList
 import com.zf.mart.mvp.bean.MyFollowShopBean
+import com.zf.mart.mvp.bean.ShopList
 import com.zf.mart.mvp.contract.MyFollowShopContract
 import com.zf.mart.mvp.presenter.MyFollowShopPresenter
 import com.zf.mart.net.exception.ErrorStatus
@@ -20,6 +21,10 @@ import com.zf.mart.view.recyclerview.SwipeItemLayout
 import kotlinx.android.synthetic.main.fragment_focus_shop.*
 
 class FocusShopFragment : BaseFragment(), MyFollowShopContract.View {
+    override fun setLoadShopComplete() {
+        refreshLayout.finishLoadMoreWithNoMoreData()
+    }
+
 
     override fun showError(msg: String, errorCode: Int) {
         refreshLayout.setEnableLoadMore(false)
@@ -45,6 +50,19 @@ class FocusShopFragment : BaseFragment(), MyFollowShopContract.View {
         mData.addAll(bean.list)
         shopSum.text = bean.count
         shopAdapter.notifyDataSetChanged()
+        love_shop_ly.visibility = View.GONE
+    }
+
+    //猜你喜欢店铺列表
+    override fun getShopList(bean: List<ShopList>) {
+        shopData.clear()
+        shopData.addAll(bean)
+        loveAdapter.notifyDataSetChanged()
+    }
+
+    override fun setLoadShopMore(bean: List<ShopList>) {
+        shopData.addAll(bean)
+        loveAdapter.notifyDataSetChanged()
     }
 
     //当第一页数据为空时
@@ -56,16 +74,17 @@ class FocusShopFragment : BaseFragment(), MyFollowShopContract.View {
     }
 
     //获得之后页数据
-    override fun setLoadMore(bean: List<FollowShopList>) {
+    override fun setLoadFollowShopMore(bean: List<FollowShopList>) {
         mData.addAll(bean)
         shopAdapter.notifyDataSetChanged()
     }
 
     //实际获得数据小于一页最大数据时  加载完成
-    override fun setLoadComplete() {
-        refreshLayout.finishLoadMoreWithNoMoreData()
+    override fun setLoadFollowShopComplete() {
+        switch = false
         //显示推荐店铺布局
-        love_shop_ly.visibility=View.VISIBLE
+        love_shop_ly.visibility = View.VISIBLE
+        presenter.requsetShopList(1, 6, 6)
     }
 
     //下拉加载错误
@@ -98,10 +117,14 @@ class FocusShopFragment : BaseFragment(), MyFollowShopContract.View {
     private val shopAdapter by lazy { FocusShopAdapter(context, mData) }
 
     // 推荐的店铺
-    private val loveAdapter by lazy { LoveShopAdapter(context) }
+    private val loveAdapter by lazy { LoveShopAdapter(context, shopData) }
 
     //网络接收数据
     private var mData = ArrayList<FollowShopList>()
+
+    private var shopData = ArrayList<ShopList>()
+    //判断是否还需要请求关注列表
+    private var switch = true
 
     private val presenter by lazy { MyFollowShopPresenter() }
 
@@ -128,15 +151,26 @@ class FocusShopFragment : BaseFragment(), MyFollowShopContract.View {
     override fun initEvent() {
         /**上拉加载*/
         refreshLayout.setOnLoadMoreListener {
-            presenter.requestMyFollowShop(null, 6)
+            if (switch) {
+                presenter.requestMyFollowShop(null, 6)
+            } else {
+                presenter.requsetShopList(null, 6, 6)
+            }
+
+
         }
         /**下拉刷新*/
         refreshLayout.setOnRefreshListener {
+            switch = true
             lazyLoad()
         }
         //删除店铺
         shopAdapter.mClickListener = {
             presenter.requestDelMyFollowShop(it.seller_id, "0", it.collect_id)
+        }
+        //关注店铺
+        loveAdapter.mClickListener={
+            presenter.requestDelMyFollowShop(it,"1","")
         }
     }
 

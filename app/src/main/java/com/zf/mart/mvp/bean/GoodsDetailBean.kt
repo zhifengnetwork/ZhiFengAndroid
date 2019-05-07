@@ -58,8 +58,11 @@ data class GoodsInfo(
 
 )
 data class Shop(
+    val store_id:String,
     val store_name:String,
-    val num:String
+    val avatar:String,
+    val num:String,
+    val goods:List<GoodsList>
 )
 data class Comment(
     val img_sum:String,
@@ -70,4 +73,10 @@ data class Comment(
     val low_sum:String,
     val low_rate:String,
     val total_sum:String
+)
+data class GoodsList(
+    val goods_id:String,
+    val goods_name:String,
+    val shop_price:String,
+    val original_img:String
 )
