@@ -466,7 +466,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                                 goods_img
                             )
                             //名称
-                            goodsName.text = mData?.goods?.goods_name
+//                            goodsName.text = mData?.goods?.goods_name
                             //价格
                             goods_price.text = mData?.goods?.shop_price
                             //库存
@@ -475,7 +475,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                             //图片
                             GlideUtils.loadUrlImage(context, mPrice?.spec_img, goods_img)
                             //名称
-                            goodsName.text = mData?.goods?.goods_name
+//                            goodsName.text = mData?.goods?.goods_name
                             //价格
                             goods_price.text = mPrice?.price
                             //库存
