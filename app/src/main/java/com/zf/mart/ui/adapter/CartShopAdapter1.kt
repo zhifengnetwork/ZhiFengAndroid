@@ -65,7 +65,7 @@ class CartShopAdapter1(val context: Context?, val data: List<CartBean>) :
                 }
                 //输入数量
                 onInputListener = {
-                    onShopNumListener?.invoke(CartCountBean(it.id, it.sum, position, it.goodsPosition))
+//                    onShopNumListener?.invoke(CartCountBean(it.id, it.sum, position, it.goodsPosition))
                 }
                 //规格
                 onSpecListener = {

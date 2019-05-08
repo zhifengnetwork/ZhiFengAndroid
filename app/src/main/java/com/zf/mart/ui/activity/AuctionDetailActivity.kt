@@ -3,9 +3,7 @@ package com.zf.mart.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.CountDownTimer
-import android.view.Gravity
 import android.view.View
-import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
@@ -22,10 +20,8 @@ import com.zf.mart.utils.GlideUtils
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.utils.TimeUtils
 import com.zf.mart.view.dialog.AuctionSuccessDialog
-import com.zf.mart.view.popwindow.ServicePopupWindow
 import kotlinx.android.synthetic.main.activity_auction_detail.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
-import kotlinx.android.synthetic.main.pop_push_order.view.*
 import java.math.BigDecimal
 import java.text.DecimalFormat
 
@@ -40,9 +36,28 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
 
     private var countDownTimer: CountDownTimer? = null
 
-    //出价成功
+    //出价成功，
     override fun setBid() {
+        showToast("出价成功")
+        presenter.requestAuctionPrice(mId)
+    }
 
+    //成交
+    private fun bargain() {
+        AuctionSuccessDialog.showDialog(supportFragmentManager)
+                .setOnItemClickListener(object : AuctionSuccessDialog.OnItemClickListener {
+                    override fun onItemClick() {
+                        //去支付（结算）
+                        ConfirmOrderActivity.actionStart(this@AuctionDetailActivity,
+                                8,
+                                "0",
+                                "",
+                                "",
+                                "",
+                                mBean?.auction?.id ?: "",
+                                "")
+                    }
+                })
     }
 
     //出价列表
@@ -52,7 +67,28 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
             highPriceLayout.visibility = View.VISIBLE
             GlideUtils.loadUrlImage(this, bean.max_price[0].head_pic, avatar)
             name.text = bean.max_price[0].user_name
-            highPrice.text = "¥" + bean.max_price[0].offer_price
+            highPrice.text = "¥${bean.max_price[0].offer_price}"
+
+            /**
+             * 竞拍成功，去支付（也就是订单结算） is_out 2 成交
+             */
+            if (bean.max_price[0].isnowuser == "1") {
+                if (bean.max_price[0].is_out == "2") {
+                    if (bean.max_price[0].pay_status == "2") {
+                        operationLayout.visibility = View.VISIBLE
+                        reduce.visibility = View.INVISIBLE
+                        bid.visibility = View.INVISIBLE
+                        increase.visibility = View.INVISIBLE
+                        confirm.text = "付款购买"
+                        confirm.setOnClickListener {
+                            bargain()
+                        }
+                        bargain()
+                    } else if (bean.max_price[0].pay_status == "1") {
+                        //成交，已支付
+                    }
+                }
+            }
         } else {
             highPriceLayout.visibility = View.INVISIBLE
         }
@@ -63,6 +99,8 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
     }
 
     private var mBean: AuctionDetailBean? = null
+
+    private var mFreshTime: Long = 0L
 
     //竞拍详情
     override fun setAuctionDetail(bean: AuctionDetailBean) {
@@ -77,10 +115,21 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
             val time: Long = (bean.auction.end_time * 1000) - System.currentTimeMillis()
             countDownTimer = object : CountDownTimer((time), 1000) {
                 override fun onFinish() {
+                    startTime.text = "已经结束"
+                    operationLayout.visibility = View.GONE
                 }
 
                 override fun onTick(millisUntilFinished: Long) {
                     startTime.text = "距离结束还有${TimeUtils.getCountTime2(millisUntilFinished)}"
+                    if (mFreshTime == 0L) {
+                        mFreshTime = millisUntilFinished
+                    }
+                    if (mFreshTime - millisUntilFinished > 4000) {
+                        //每5s获取最新竞拍结果
+                        mFreshTime = millisUntilFinished
+                        presenter.requestAuctionPrice(mId)
+                    }
+
                 }
             }.start()
         } else {
@@ -88,7 +137,6 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
             operationLayout.visibility = View.GONE
         }
 
-        //other
         goodsName.text = bean.auction.goods_name
         price.text = "¥${bean.auction.start_price}"
         GlideUtils.loadUrlImage(this, UriConstant.BASE_URL + bean.auction.original_img, goodsIcon)
@@ -97,14 +145,24 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
         confirm.isEnabled = true
         increase.isEnabled = true
         reduce.isEnabled = true
+
+        //保证金
+        if (bean.auction.isBond == "1") {
+            confirm.text = "确认出价"
+            confirm.setOnClickListener {
+                presenter.requestBid(mId, bid.text.toString())
+            }
+        } else {
+            confirm.text = "立即参拍\n保证金(¥${bean.auction.deposit})"
+        }
     }
 
     override fun showLoading() {
-        showLoadingDialog()
+
     }
 
     override fun dismissLoading() {
-        dismissLoadingDialog()
+
     }
 
     private var mId = ""
@@ -152,42 +210,18 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
                 if (bid.text.toString().toDouble() <= it.auction.start_price.toDouble()) {
                     return@setOnClickListener
                 }
-                bid.text = DecimalFormat("#.00").format(BigDecimal(bid.text.toString()).subtract(BigDecimal(it.auction.increase_price)))
+                bid.text = DecimalFormat("#,##0.00").format(BigDecimal(bid.text.toString()).subtract(BigDecimal(it.auction.increase_price)))
             }
         }
 
         //加价
         increase.setOnClickListener {
             mBean?.let {
-                bid.text = DecimalFormat("#.00").format(BigDecimal(bid.text.toString()).add(BigDecimal(it.auction.increase_price)))
+                bid.text = DecimalFormat("#,##0.00").format(BigDecimal(bid.text.toString()).add(BigDecimal(it.auction.increase_price)))
             }
         }
 
 
-        /** 出价 */
-        confirm.setOnClickListener {
-
-            presenter.requestBid(mId, bid.text.toString())
-
-            AuctionSuccessDialog.showDialog(supportFragmentManager)
-                    .setOnItemClickListener(object : AuctionSuccessDialog.OnItemClickListener {
-                        override fun onItemClick() {
-                            val window = object : ServicePopupWindow(
-                                    this@AuctionDetailActivity, R.layout.pop_push_order,
-                                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
-                            ) {
-                                override fun initView() {
-                                    contentView.apply {
-                                        submit.setOnClickListener {
-                                            onDismiss()
-                                        }
-                                    }
-                                }
-                            }
-                            window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
-                        }
-                    })
-        }
     }
 
     override fun onDestroy() {

@@ -18,7 +18,7 @@ import com.zf.mart.mvp.presenter.CartOperatePresenter
 import com.zf.mart.net.exception.ErrorStatus
 import com.zf.mart.showToast
 import com.zf.mart.ui.activity.ConfirmOrderActivity
-import com.zf.mart.ui.adapter.CartShopAdapter1
+import com.zf.mart.ui.adapter.CartGoodsAdapter1
 import com.zf.mart.view.dialog.DeleteCartDialog
 import com.zf.mart.view.dialog.InputNumDialog
 import com.zf.mart.view.popwindow.CartSpecPopupWindow
@@ -36,11 +36,11 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
 
     //根据规格获取商品信息
     override fun setSpecInfo(bean: GoodsSpecInfo) {
-        cartData[mShopPos].list[mGoodsPos].goods_price = bean.price
+        cartData[mGoodsPos].goods_price = bean.price
         bean.spec_img?.let {
-            cartData[mShopPos].list[mGoodsPos].goods.original_img = bean.spec_img
+            cartData[mGoodsPos].goods.original_img = bean.spec_img
         }
-        cartData[mShopPos].list[mGoodsPos].spec_key_name = bean.key_name
+        cartData[mGoodsPos].spec_key_name = bean.key_name
         cartAdapter.notifyDataSetChanged()
     }
 
@@ -57,20 +57,20 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                 R.layout.pop_order_style,
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                cartData[mShopPos].list[mGoodsPos],
+                cartData[mGoodsPos],
                 specList
         ) {}
         popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
         popWindow.onNumberListener = {
-            cartData[mShopPos].list[mGoodsPos].goods_num = it
+            cartData[mGoodsPos].goods_num = it
             cartAdapter.notifyDataSetChanged()
-            cartOperatePresenter.requestCount(cartData[mShopPos].list[mGoodsPos].id, it)
+            cartOperatePresenter.requestCount(cartData[mGoodsPos].id, it)
         }
         popWindow.onSpecListener = { specId ->
             //规格回调
             mSpecId = specId
-            cartData[mShopPos].list[mGoodsPos].spec_key = specId
-            cartOperatePresenter.requestChangeSpec(cartData[mShopPos].list[mGoodsPos].id, specId)
+            cartData[mGoodsPos].spec_key = specId
+            cartOperatePresenter.requestChangeSpec(cartData[mGoodsPos].id, specId)
         }
     }
 
@@ -80,29 +80,21 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
     /** 修改商品规格 */
     override fun setChangeSpec(bean: CartPrice) {
         price.text = "¥${bean.total_fee}"
-        cartOperatePresenter.requestSpecInfo(mSpecId, cartData[mShopPos].list[mGoodsPos].goods.goods_id)
+        cartOperatePresenter.requestSpecInfo(mSpecId, cartData[mGoodsPos].goods.goods_id)
     }
 
     /** 删除购物车 */
     override fun setDeleteCart(bean: CartPrice) {
         price.text = "¥${bean.total_fee}"
         //重组数据
-        val shopList = ArrayList<CartBean>()
+        val goodsList = ArrayList<CartGoodsList>()
         for (shop in cartData) {
             if (shop.selected == "0") {
-                val goodsList = ArrayList<CartGoodsList>()
-                for (goods in shop.list) {
-                    if (goods.selected == "0") {
-                        goodsList.add(goods)
-                    }
-                }
-                shop.list.clear()
-                shop.list.addAll(goodsList)
-                shopList.add(shop)
+                goodsList.add(shop)
             }
         }
         cartData.clear()
-        cartData.addAll(shopList)
+        cartData.addAll(goodsList)
         cartAdapter.notifyDataSetChanged()
         if (cartData.isEmpty()) {
             mLayoutStatusView?.showEmpty()
@@ -163,29 +155,8 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         settleLayout.visibility = View.VISIBLE
         mLayoutStatusView?.showContent()
         refreshLayout.setEnableLoadMore(true)
-        /** 重组数据 */
-        val result = bean.list.groupBy {
-            val key = it.seller_name
-            if (key == it.seller_name) it.seller_name else it.seller_name
-        }
-        val shopList = ArrayList<CartBean>()
-
-        result.forEach {
-            shopList.add(CartBean(it.value as ArrayList<CartGoodsList>, it.key ?: ""))
-        }
-
-        /**
-         * 对商家选中状态进行赋值
-         */
-        shopList.forEach { shop ->
-            var size = 0
-            shop.list.forEach { goods ->
-                if (goods.selected == "1") size += 1
-            }
-            shop.selected = if (size == shop.list.size) "1" else "0"
-        }
         cartData.clear()
-        cartData.addAll(shopList)
+        cartData.addAll(bean.list)
         cartAdapter.notifyDataSetChanged()
 
         price.text = "¥${bean.cart_price_info?.total_fee}"
@@ -194,28 +165,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
 
     //加载下一页成功
     override fun setLoadMoreCart(bean: CartBean) {
-        /** 重组数据 */
-        val result = bean.list.groupBy {
-            val key = it.seller_name
-            if (key == it.seller_name) it.seller_name else it.seller_name
-        }
-        val shopList = ArrayList<CartBean>()
-        result.forEach {
-            shopList.add(CartBean(it.value as ArrayList<CartGoodsList>, it.key ?: ""))
-        }
-
-        /**
-         * 对商家选中状态进行赋值
-         */
-        shopList.forEach { shop ->
-            var size = 0
-            shop.list.forEach { goods ->
-                if (goods.selected == "1") size += 1
-            }
-            shop.selected = if (size == shop.list.size) "1" else "0"
-        }
-
-        cartData.addAll(shopList)
+        cartData.addAll(bean.list)
         cartAdapter.notifyDataSetChanged()
 
         price.text = "¥${bean.cart_price_info?.total_fee}"
@@ -239,13 +189,12 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
 
     override fun getLayoutId(): Int = R.layout.fragment_shoping_cart
 
-    private var mShopPos = 0
     private var mGoodsPos = 0
 
     //购物车适配器
-    private var cartData = ArrayList<CartBean>()
+    private var cartData = ArrayList<CartGoodsList>()
 
-    private val cartAdapter by lazy { CartShopAdapter1(context, cartData) }
+    private val cartAdapter by lazy { CartGoodsAdapter1(context, cartData) }
     private val cartListPresenter by lazy { CartListPresenter() }
     private val cartOperatePresenter by lazy { CartOperatePresenter() }
 
@@ -256,7 +205,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                 RecyclerViewDivider(
                         context,
                         LinearLayoutManager.VERTICAL,
-                        DensityUtil.dp2px(12f),
+                        DensityUtil.dp2px(5f),
                         ContextCompat.getColor(context!!, R.color.colorBackground)
                 )
         )
@@ -284,26 +233,21 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         allChoose.setOnClickListener {
             cartData.forEach { shopList ->
                 shopList.selected = if (allChoose.isChecked) "1" else "0"
-                shopList.list.forEach { goodsList ->
-                    goodsList.selected = if (allChoose.isChecked) "1" else "0"
-                }
             }
             cartAdapter.notifyDataSetChanged()
             cartOperatePresenter.requestCheckAll(if (allChoose.isChecked) 1 else 2)
         }
 
         /** 选中商品回调 */
-        cartAdapter.onGoodsCheckListener = {
+        cartAdapter.checkListener = {
             val json = ArrayList<CartCheckBean>()
             var sum = 0
-            cartData.forEach { shop ->
-                shop.list.forEach {
-                    val cartBean = CartCheckBean()
-                    cartBean.id = it.id
-                    cartBean.selected = it.selected
-                    json.add(cartBean)
-                }
-                if (shop.selected == "1") sum += 1
+            cartData.forEach { it ->
+                val cartBean = CartCheckBean()
+                cartBean.id = it.id
+                cartBean.selected = it.selected
+                json.add(cartBean)
+                if (it.selected == "1") sum += 1
             }
             allChoose.isChecked = sum == cartData.size
             val body =
@@ -320,32 +264,30 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         }
 
         /** 更改商品数量加减*/
-        cartAdapter.onGoodsCount = {
+        cartAdapter.onCountListener = {
             cartOperatePresenter.requestCount(it.id, it.sum)
         }
 
         /** 商品数量*/
-        cartAdapter.onShopNumListener = { bean ->
+        cartAdapter.onInputListener = { bean ->
             InputNumDialog.showDialog(childFragmentManager, bean.sum)
                     .onNumListener = { num ->
                 cartOperatePresenter.requestCount(bean.id, num)
-                bean.shopPosition?.let { shopPos ->
-                    bean.goodsPosition?.let { goodsPos ->
-                        cartData[shopPos].list.let {
-                            it[goodsPos].goods_num = num
-                        }
-
+                bean.goodsPosition?.let { goodsPos ->
+                    cartData[goodsPos].let {
+                        it.goods_num = num
                     }
+
                 }
                 cartAdapter.notifyDataSetChanged()
             }
         }
 
         /** 商品规格 */
-        cartAdapter.onShopSpecListener = { shopPos, goodsPos ->
-            mShopPos = shopPos
+        cartAdapter.onSpecListener = { goodsPos ->
+            //            mShopPos = shopPos
             mGoodsPos = goodsPos
-            cartOperatePresenter.requestGoodsSpec(cartData[shopPos].list[goodsPos].goods.goods_id)
+            cartOperatePresenter.requestGoodsSpec(cartData[goodsPos].goods.goods_id)
         }
 
         settle.setOnClickListener { _ ->
@@ -357,9 +299,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                  */
                 var sum = 0
                 cartData.forEach { shop ->
-                    shop.list.forEach { goods ->
-                        if (goods.selected == "1") sum += 1
-                    }
+                    if (shop.selected == "1") sum += 1
                 }
                 if (sum < 1) {
                     showToast("请先选择商品")
@@ -368,13 +308,11 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                 DeleteCartDialog.showDialog(childFragmentManager, 1)
                         .onConfirmListener = {
                     val deleteList = ArrayList<HashMap<String, String>>()
-                    cartData.forEach { shop ->
-                        shop.list.forEach { goods ->
-                            if (goods.selected == "1") {
-                                val map = HashMap<String, String>()
-                                map["id"] = goods.id
-                                deleteList.add(map)
-                            }
+                    cartData.forEach { goods ->
+                        if (goods.selected == "1") {
+                            val map = HashMap<String, String>()
+                            map["id"] = goods.id
+                            deleteList.add(map)
                         }
                     }
                     val body =
@@ -388,10 +326,8 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                  * 如果未勾选到商品，不能结算
                  */
                 var sum = 0
-                cartData.forEach { shop ->
-                    shop.list.forEach { goods ->
-                        if (goods.selected == "1") sum += 1
-                    }
+                cartData.forEach { goods ->
+                    if (goods.selected == "1") sum += 1
                 }
                 if (sum > 0) {
                     ConfirmOrderActivity.actionStart(context, 0, "", "", "", "", "")

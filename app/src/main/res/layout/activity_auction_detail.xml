@@ -146,13 +146,11 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:overScrollMode="never" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="10dp"
                 android:background="@color/colorBackground" />
 
             <LinearLayout
@@ -201,12 +199,16 @@
 
                     <TextView
                         android:id="@+id/confirm"
-                        android:layout_width="95dp"
-                        android:layout_height="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/shape_button_small"
                         android:enabled="false"
                         android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp"
                         android:text="确认出价"
                         android:textColor="@color/whit"
                         android:textSize="15sp" />

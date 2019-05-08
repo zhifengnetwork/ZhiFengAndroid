@@ -16,6 +16,7 @@ interface AuctionDetailContract {
         fun setAuctionPrice(bean: AuctionPriceBean)
 
         fun setBid()
+
     }
 
     interface Presenter : IPresenter<View> {

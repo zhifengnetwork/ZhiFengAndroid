@@ -7,12 +7,13 @@ data class AuctionDetailBean(
 )
 
 data class AuctionDetail(
-        val id: String,
+        val id: String, //活动id
         val goods_id: String,
         val activity_name: String,
         val goods_name: String,
         val start_price: String,
         val start_time: Long,
+        val deposit: String,
         val end_time: Long,
         val increase_price: String,
         val auction_status: String,
@@ -20,7 +21,7 @@ data class AuctionDetail(
         val delay_num: String,
         val original_img: String,
         val delay_end_time: String,
-        val isBond: String
+        val isBond: String //1已交保证金 0未交保证金
 )
 
 data class BondUser(

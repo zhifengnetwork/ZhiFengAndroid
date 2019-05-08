@@ -44,7 +44,11 @@ object TimeUtils {
         /** 时分秒从下面打印语句取 */
 //        LogUtils.e(">>>>>>时间相差：" + day + "天" + (hour - day * 24) + "小时"
 //                + (min - day * 24 * 60) + "分钟" + sec + "秒。")
-        return (hour - day * 24).toString() + ":" + (min - day * 24 * 60).toString() + ":" + sec
+        return if (day == 0L) {
+            (hour - day * 24).toString() + ":" + (min - day * 24 * 60).toString() + ":" + sec
+        } else {
+            day.toString() + "天" + (hour - day * 24).toString() + ":" + (min - day * 24 * 60).toString() + ":" + sec
+        }
     }
 
     fun getYmd(time: Long): String {
