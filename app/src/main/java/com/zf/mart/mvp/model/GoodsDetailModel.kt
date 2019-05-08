@@ -43,7 +43,7 @@ class GoodsDetailModel {
             .compose(SchedulerUtils.ioToMain())
     }
 
-    fun addCart(goods_id: String, goods_num: String, item_id: String): Observable<BaseBean<Unit>> {
+    fun addCart(goods_id: String, goods_num: Int, item_id: String): Observable<BaseBean<Unit>> {
         return RetrofitManager.service.addCart(goods_id, goods_num, item_id)
             .compose(SchedulerUtils.ioToMain())
     }

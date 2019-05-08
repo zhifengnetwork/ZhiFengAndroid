@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/parentLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/parentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorBackground"
+                android:fitsSystemWindows="true"
+                android:orientation="vertical">
 
 
     <!-- 收缩布局 -->
@@ -29,60 +29,60 @@
 
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottomLayout"
-        android:focusableInTouchMode="true">
-
-        <LinearLayout
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:descendantFocusability="blocksDescendants"
-            android:orientation="vertical">
+            android:layout_above="@+id/bottomLayout"
+            android:focusableInTouchMode="true">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/bannerLayout"
-                android:layout_width="match_parent"
-                android:layout_height="380dp">
+                    android:id="@+id/bannerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="380dp">
 
                 <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/bannerViewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                        android:id="@+id/bannerViewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
 
                 <TextView
-                    android:id="@+id/bannerNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginRight="12dp"
-                    android:layout_marginBottom="7dp"
-                    android:background="@drawable/shape_detail_num"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="3dp"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="3dp"
-                    android:text="1/2"
-                    android:textColor="@color/whit"
-                    android:textSize="12sp" />
+                        android:id="@+id/bannerNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginBottom="7dp"
+                        android:background="@drawable/shape_detail_num"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="3dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="3dp"
+                        android:text="1/2"
+                        android:textColor="@color/whit"
+                        android:textSize="12sp"/>
 
             </RelativeLayout>
 
             <!-- 商品简介 -->
             <include
-                android:id="@+id/briefLayout"
-                layout="@layout/layout_detail_goods" />
+                    android:id="@+id/briefLayout"
+                    layout="@layout/layout_detail_goods"/>
 
             <!-- 评价 -->
-            <include layout="@layout/layout_detail_eva" />
+            <include layout="@layout/layout_detail_eva"/>
 
-            <!-- 店铺品牌 -->
-            <include layout="@layout/layout_detail_brand" />
+             <!--店铺品牌-->
+            <!--<include layout="@layout/layout_detail_brand" />-->
 
             <!-- 相似推荐 同类热销排行 -->
-            <include layout="@layout/layout_detail_same" />
+            <include layout="@layout/layout_detail_same"/>
 
             <!-- 图文详情 -->
             <!--<include layout="@layout/layout_order_graphic"/>-->
@@ -97,42 +97,42 @@
             <!--</com.google.android.material.appbar.CollapsingToolbarLayout>-->
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@color/whit"
-                android:orientation="vertical">
-
-                <com.flyco.tablayout.SegmentTabLayout
-                    android:id="@+id/segmentTabLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="20dp"
-                    app:tl_bar_color="#ffffff"
-                    app:tl_indicator_color="#151514"
-                    app:tl_indicator_corner_radius="5dp"
-                    app:tl_tab_padding="20dp" />
-
-                <FrameLayout
-                    android:id="@+id/graphicFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:background="@color/whit"
-                    android:paddingBottom="100dp" />
+                    android:orientation="vertical">
+
+                <com.flyco.tablayout.SegmentTabLayout
+                        android:id="@+id/segmentTabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        app:tl_bar_color="#ffffff"
+                        app:tl_indicator_color="#151514"
+                        app:tl_indicator_corner_radius="1dp"
+                        app:tl_tab_padding="20dp"/>
+
+                <FrameLayout
+                        android:id="@+id/graphicFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/whit"
+                        android:paddingBottom="100dp"/>
 
             </LinearLayout>
 
 
             <!-- 授权品牌 -->
-            <include
-                layout="@layout/layout_order_brand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp" />
+            <!--<include-->
+                    <!--layout="@layout/layout_order_brand"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="20dp"/>-->
 
             <!--</com.google.android.material.appbar.AppBarLayout>-->
 
@@ -153,29 +153,29 @@
 
     <!-- 滑到图文详情会被顶上去，固定在上边，将状态栏改为白色？ -->
     <include
-        layout="@layout/layout_detail_head"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        app:layout_collapseMode="pin" />
+            layout="@layout/layout_detail_head"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            app:layout_collapseMode="pin"/>
 
     <include
-        android:id="@+id/bottomLayout"
-        layout="@layout/layout_buy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+            android:id="@+id/bottomLayout"
+            layout="@layout/layout_buy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottomLayout"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="12dp"
-        android:layout_marginBottom="12dp"
-        android:elevation="0dp"
-        android:src="@drawable/shangjiantou"
-        app:fabSize="mini" />
+            android:id="@+id/floatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bottomLayout"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="12dp"
+            android:elevation="0dp"
+            android:src="@drawable/shangjiantou"
+            app:fabSize="mini"/>
 
 </RelativeLayout>
 

@@ -82,7 +82,7 @@ class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
         switch = false
         //显示推荐商品布局
         love_goods_ly.visibility = View.VISIBLE
-        presenter.requsetLoveGoods("is_recommend", 1, 6)
+        presenter.requsetLoveGoods("is_recommend", 1)
     }
 
     override fun setLoadGoodsComplete() {
@@ -170,7 +170,7 @@ class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
 
     override fun lazyLoad() {
 //        refreshLayout.setEnableLoadMore(false)
-        presenter.requestMyFollow(1, 6)
+        presenter.requestMyFollow(1)
     }
 
     override fun initEvent() {
@@ -197,9 +197,9 @@ class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
         refreshLayout.setOnLoadMoreListener {
 
             if (switch) {
-                presenter.requestMyFollow(null, 6)
+                presenter.requestMyFollow(null)
             }else{
-                presenter.requsetLoveGoods("is_recommend", null, 6)
+                presenter.requsetLoveGoods("is_recommend", null)
             }
 
         }

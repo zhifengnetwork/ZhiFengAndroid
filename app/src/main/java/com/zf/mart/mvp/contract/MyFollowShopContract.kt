@@ -35,10 +35,10 @@ interface MyFollowShopContract {
     }
 
     interface Presenter : IPresenter<View> {
-        fun requestMyFollowShop(page: Int?, num: Int)
+        fun requestMyFollowShop(page: Int?)
 
         fun requestDelMyFollowShop(seller_id: String, type: String, collect_id: String)
         
-        fun requsetShopList(page: Int?, num: Int,goodsnum:Int)
+        fun requsetShopList(page: Int?,goodsnum:Int)
     }
 }

@@ -1,5 +1,6 @@
 package com.zf.mart.ui.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.util.Log
@@ -14,17 +15,20 @@ import com.zf.mart.R
 import com.zf.mart.mvp.bean.GoodsSpecBean
 import com.zf.mart.ui.activity.GoodsDetailActivity
 import kotlinx.android.synthetic.main.item_pop_goodsspecs.view.*
+import kotlinx.android.synthetic.main.layout_info.view.*
 
 class GoodsSpecsAdapter(val context: Context, val mData: List<List<GoodsSpecBean>>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     //记录用户选中规格ID
     private val signID = Array(mData.size) { "" }
+    //记录用户选中规格名
+    private val signName = Array(mData.size) { "" }
     //记录用户选中项
     private val selectID = Array(mData.size) { 0 }
 
     var itemId = ""
-
-    var mClickListener: ((String) -> Unit)? = null
+    var itemName = ""
+    var mClickListener: ((String, String) -> Unit)? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -52,17 +56,18 @@ class GoodsSpecsAdapter(val context: Context, val mData: List<List<GoodsSpecBean
                     lp.setMargins(20, 0, 20, 0)//设置边距
                     tempButton.setBackgroundResource(R.drawable.selector_radiobutton_background)    // 设置RadioButton的背景图片
 //                tempButton.setButtonDrawable(R.drawable.xxx)			// 设置按钮的样式
-                    tempButton.setPadding(10, 0, 10, 0) // 设置文字距离按钮四周的距离
+                    tempButton.setPadding(20, 0, 20, 0) // 设置文字距离按钮四周的距离
                     tempButton.buttonDrawable = null
-                    tempButton.setTextColor(Color.rgb(38, 38, 38))
+                    tempButton.setTextColor(resources.getColorStateList(R.color.selector_pop_text_color))
                     tempButton.text = mData[position][i].item
                     specs_group.addView(tempButton, lp)
                 }
 
-                //设置默认值
+                //设置默认值 id 名字
                 for (i in 0 until mData.size) {
                     if (position == i) {
                         signID[position] = mData[position][selectID[position]].id
+                        signName[position] = mData[position][selectID[position]].item
                     }
                 }
 //                if (position == 0) {
@@ -82,10 +87,14 @@ class GoodsSpecsAdapter(val context: Context, val mData: List<List<GoodsSpecBean
                     //获得所选ID
                     for (i in 0 until mData.size) {
                         if (position == i) {
+
                             signID[position] = mData[position][checkedId].id
+
+                            signName[position] = mData[position][checkedId].item
+
                         }
                     }
-                    //获得选中的id
+                    //获得选中的id 名字
 
                     //组ID
                     for ((i, index) in signID.withIndex()) {
@@ -96,11 +105,13 @@ class GoodsSpecsAdapter(val context: Context, val mData: List<List<GoodsSpecBean
                             itemId = itemId + "_" + index
                         }
 
+                        itemName += signName[i]
                     }
                     //监听回调
-                    mClickListener?.invoke(itemId)
+                    mClickListener?.invoke(itemId,itemName)
 
                     itemId = ""
+                    itemName=""
                 }
 
             }

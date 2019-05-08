@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.flyco.tablayout.listener.CustomTabEntity
+import com.google.gson.Gson
 import com.zf.mart.MyApplication.Companion.context
 import com.zf.mart.R
 import com.zf.mart.api.UriConstant.BASE_URL
@@ -37,6 +39,7 @@ import com.zf.mart.utils.bus.RxBus
 import com.zf.mart.view.dialog.ShareSuccessDialog
 import com.zf.mart.view.popwindow.RegionPopupWindow
 import com.zf.mart.view.popwindow.ServicePopupWindow
+import com.zzhoujay.richtext.RichText
 import kotlinx.android.synthetic.main.activity_goods_detail2.*
 import kotlinx.android.synthetic.main.layout_buy.*
 import kotlinx.android.synthetic.main.layout_detail_brand.*
@@ -71,10 +74,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         initSame()
         //图文详情
         initGraphic()
-
-
 //        initBrand()
-        brandAdapter.notifyDataSetChanged()
+//        brandAdapter.notifyDataSetChanged()
     }
 
     //秒杀商品详情
@@ -124,6 +125,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     //加入购物车
     override fun addCartSuccess(msg: String) {
         showToast(msg)
+        specsPopWindow.onDismiss()
         cart.isChecked = true
     }
 
@@ -229,7 +231,11 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     //接收传递过来的id
     private var goodsID = ""
     //传递过来的规格ID
-    private var item_id = ""
+    private var itemId = ""
+    //传递过来的规格名字
+    private var itemName = ""
+    //判断是点击加入购物车还是立即购买
+    private var isChoice = true
 
     override fun initData() {
         goodsID = intent.getStringExtra("id")
@@ -238,6 +244,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
     override fun initView() {
         presenter.attachView(this)
+
 
         floatingButton.hide()
 
@@ -256,7 +263,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 //        initAsk()
 
         //商家品牌推荐
-        initBrand()
+//        initBrand()
 
 //        //相似推荐
 //        initSame()
@@ -277,12 +284,16 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
     private fun initGraphic() {
 
-        val titles = arrayOf("图文详情", "答疑")
-        val fgms = arrayListOf(
+//        val titles = arrayOf("图文详情", "答疑")
+//        val fgms = arrayListOf(
+//            GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
+//            OrderAnswerFragment.newInstance() as Fragment
+//        )
 
-            GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
-            OrderAnswerFragment.newInstance() as Fragment
-        )
+
+
+        val titles = arrayOf("图文详情")
+        val fgms = arrayListOf(GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment)
         segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
     }
 
@@ -300,15 +311,15 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 //        askRecyclerView.layoutManager = LinearLayoutManager(this)
 //        askRecyclerView.adapter = askAdapter
 //    }
-
-    private val brandAdapter by lazy { DetailBrandAdapter(this, loveGoods) }
-    /**店铺商品列表*/
-    private fun initBrand() {
-        val manager = LinearLayoutManager(this)
-        manager.orientation = LinearLayoutManager.HORIZONTAL
-        brandRecyclerView.layoutManager = manager
-        brandRecyclerView.adapter = brandAdapter
-    }
+//
+//    private val brandAdapter by lazy { DetailBrandAdapter(this, loveGoods) }
+//    /**店铺商品列表*/
+//    private fun initBrand() {
+//        val manager = LinearLayoutManager(this)
+//        manager.orientation = LinearLayoutManager.HORIZONTAL
+//        brandRecyclerView.layoutManager = manager
+//        brandRecyclerView.adapter = brandAdapter
+//    }
 
     /**
      * 相似推荐
@@ -428,113 +439,13 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
         /**加入购物车*/
         shop_cat.setOnClickListener {
-            specsPopWindow = object : RegionPopupWindow(
-                this, R.layout.pop_detail_specs,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ) {
-                override fun initView() {
-
-                    var sum = contentView?.card_number?.text.toString().toInt()
-                    //第一次打开默认请求第一个
-                    if (no_off) {
-                        //重组ID
-                        for (i in 0 until mSpec.size) {
-                            item_id = if (i == 0) {
-                                mSpec[i][0].id
-                            } else {
-                                item_id + "_" + mSpec[i][0].id
-                            }
-                        }
-                        no_off = if (item_id != "") {
-                            presenter.requestPricePic(item_id, mData?.goods?.goods_id.toString())
-                            false
-                        } else {
-                            true
-                        }
-                    }
-
-                    contentView?.apply {
-                        specs_rl.layoutManager = LinearLayoutManager(context)
-                        specs_rl.adapter = specsAdapter
-                        //没有规格的商品 根据no_off判断
-                        if (no_off) {
-                            //图片
-                            GlideUtils.loadUrlImage(
-                                context,
-                                "https://mobile.zhifengwangluo.c3w.cc" + mData?.goods?.original_img,
-                                goods_img
-                            )
-                            //名称
-//                            goodsName.text = mData?.goods?.goods_name
-                            //价格
-                            goods_price.text = mData?.goods?.shop_price
-                            //库存
-                            goods_stock.text = "剩余库存:" + mData?.goods?.store_count
-                        } else {
-                            //图片
-                            GlideUtils.loadUrlImage(context, mPrice?.spec_img, goods_img)
-                            //名称
-//                            goodsName.text = mData?.goods?.goods_name
-                            //价格
-                            goods_price.text = mPrice?.price
-                            //库存
-                            goods_stock.text = "剩余库存:" + mPrice?.store_count
-                        }
-                        //输入文本框
-                        card_number.addTextChangedListener {
-                            val text = it.toString()
-                            val len = it.toString().length
-                            if (len > 1 && text.startsWith("0")) {
-                                it?.replace(0, 1, "")
-                            }
-                            sum = if (text == "") {
-                                card_number.setText("1")
-                                1
-                            } else {
-                                text.toInt()
-                            }
-
-
-                        }
-                        //点击减少数量
-                        del_btn.setOnClickListener {
-
-                            sum -= 1
-                            if (sum <= 0) {
-                                sum = 1
-                            }
-                            card_number.setText(sum.toString())
-
-                        }
-                        //点击增加数量
-                        add_btn.setOnClickListener {
-                            sum += 1
-                            card_number.setText(sum.toString())
-
-                        }
-                        //点击加入购物车
-                        specs_btn.setOnClickListener {
-                            //商品ID 数量（默认1） 规格ID
-                            presenter.requestAddCart(mData?.goods?.goods_id.toString(), sum.toString(), item_id)
-                        }
-
-                    }
-                    //适配器监听回调
-                    specsAdapter.mClickListener = {
-                        item_id = it
-                        presenter.requestPricePic(item_id, mData?.goods?.goods_id.toString())
-                    }
-                }
-
-            }
-            specsPopWindow.updata()
-            specsPopWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
-
+            isChoice = true
+            popWindow()
         }
         /**立即购买*/
         shop_buy.setOnClickListener {
-
+            isChoice = false
+            popWindow()
         }
         //购物车复选框
         cart.setOnClickListener {
@@ -589,15 +500,15 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         //商品评论数
         comments.text = "(${mData?.goods?.comment_count})"
         //好评率
-        high_rate.text = mData?.goods?.comment_fr?.high_rate
+        high_rate.text = mData?.goods?.comment_fr?.high_rate + "%"
         //问大家数
 
         //店铺名字
-        shopName.text = mData?.goods?.seller_info?.store_name
-        //店铺在售件数
-        inSellNum.text = mData?.goods?.seller_info?.num
-        //店铺图片avatar
-        GlideUtils.loadUrlImage(this, mData?.goods?.seller_info?.avatar, shopIcon)
+//        shopName.text = mData?.goods?.seller_info?.store_name
+//        //店铺在售件数
+//        inSellNum.text = mData?.goods?.seller_info?.num
+//        //店铺图片avatar
+//        GlideUtils.loadUrlImage(this, mData?.goods?.seller_info?.avatar, shopIcon)
         //是否已收藏
         collect.isChecked = mData?.goods?.is_collect != "0"
         //是否在购物车
@@ -612,6 +523,148 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         initBanner()
 
 
+    }
+
+    /**pop弹窗 加入购物车 立即购买*/
+    private fun popWindow() {
+        specsPopWindow = object : RegionPopupWindow(
+            this, R.layout.pop_detail_specs,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        ) {
+            override fun initView() {
+
+                var sum = contentView?.card_number?.text.toString().toInt()
+                //第一次打开默认请求第一个
+                if (no_off) {
+                    //重组ID
+                    for (i in 0 until mSpec.size) {
+                        itemId = if (i == 0) {
+                            mSpec[i][0].id
+                        } else {
+                            itemId + "_" + mSpec[i][0].id
+                        }
+                        //名字
+                        itemName += mSpec[i][0].item
+                    }
+                    no_off = if (itemId != "") {
+                        itemName = "已选择:$itemName"
+                        presenter.requestPricePic(itemId, mData?.goods?.goods_id.toString())
+                        false
+                    } else {
+                        true
+                    }
+                }
+
+                contentView?.apply {
+                    specs_rl.layoutManager = LinearLayoutManager(context)
+                    specs_rl.adapter = specsAdapter
+
+                    del_btn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.reduce))
+
+                    //没有规格的商品 根据no_off判断
+                    if (no_off) {
+                        //图片
+                        GlideUtils.loadUrlImage(
+                            context,
+                            "https://mobile.zhifengwangluo.c3w.cc" + mData?.goods?.original_img,
+                            goods_img
+                        )
+                        //名称
+//                            goodsName.text = mData?.goods?.goods_name
+                        //价格
+                        goods_price.text = mData?.goods?.shop_price
+                        //规格
+                        goods_stock.text = "请选择:数量"
+                        pop_view.visibility = View.INVISIBLE
+                    } else {
+                        //图片
+                        GlideUtils.loadUrlImage(context, mPrice?.spec_img, goods_img)
+                        //名称
+//                            goodsName.text = mData?.goods?.goods_name
+                        //价格
+                        goods_price.text = mPrice?.price
+                        //规格
+                        goods_stock.text = itemName
+
+                        pop_view.visibility = View.VISIBLE
+                    }
+                    //输入文本框
+                    card_number.addTextChangedListener {
+                        val text = it.toString()
+                        val len = it.toString().length
+                        if (len > 1 && text.startsWith("0")) {
+                            it?.replace(0, 1, "")
+                        }
+                        sum = if (text == "") {
+                            card_number.setText("1")
+                            1
+                        } else {
+                            text.toInt()
+                        }
+                        if (sum > 1) {
+                            del_btn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.reduce_b))
+                        }
+
+                    }
+                    //点击减少数量
+                    del_btn.setOnClickListener {
+                        sum -= 1
+                        if (sum <= 0) {
+                            sum = 1
+                        }
+                        if (sum == 1) {
+                            del_btn.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    applicationContext,
+                                    R.drawable.reduce
+                                )
+                            )
+                        }
+                        card_number.setText(sum.toString())
+
+                    }
+                    //点击增加数量
+                    add_btn.setOnClickListener {
+                        sum += 1
+                        card_number.setText(sum.toString())
+                        del_btn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.reduce_b))
+                    }
+                    /**确认按钮 加入购物车 立即购买*/
+                    specs_btn.setOnClickListener {
+                        if (isChoice) {
+                            //商品ID 数量（默认1） 规格ID
+                            presenter.requestAddCart(mData?.goods?.goods_id.toString(), sum, itemId)
+                        } else {
+                            ConfirmOrderActivity.actionStart(
+                                context,
+                                0,
+                                "1",
+                                mData?.goods?.goods_id.toString(),
+                                sum.toString(),
+                                itemId,
+                                ""
+                            )
+                        }
+
+                    }
+                    //关闭弹窗
+                    close_btn.setOnClickListener {
+                        specsPopWindow.onDismiss()
+                    }
+
+                }
+                //适配器监听回调
+                specsAdapter.mClickListener = { id: String, name: String ->
+                    itemId = id
+                    itemName = "已选择:$name"
+                    presenter.requestPricePic(itemId, mData?.goods?.goods_id.toString())
+                }
+            }
+
+        }
+        specsPopWindow.updata()
+        specsPopWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
     }
 
     /**判断是否为秒杀商品*/

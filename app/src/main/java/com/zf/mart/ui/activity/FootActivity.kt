@@ -210,11 +210,11 @@ class FootActivity : BaseActivity(), MyFootContract.View {
     override fun initEvent() {
         /**上拉加载*/
         refreshLayout.setOnLoadMoreListener {
-            presenter.requesetMyFoot(null, 6)
+            presenter.requesetMyFoot(null)
         }
         /**下拉刷新*/
         refreshLayout.setOnRefreshListener {
-            presenter.requesetMyFoot(1, 6)
+            presenter.requesetMyFoot(1)
         }
         adapter.setOnClickListener(object : FootAdapter.OnItemClickListener {
             override fun unCheckAll() {
@@ -288,6 +288,6 @@ class FootActivity : BaseActivity(), MyFootContract.View {
 
     override fun start() {
         refreshLayout.setEnableLoadMore(false)
-        presenter.requesetMyFoot(1, 6)
+        presenter.requesetMyFoot(1)
     }
 }

@@ -1,5 +1,6 @@
 package com.zf.mart.mvp.presenter
 
+import com.zf.mart.api.UriConstant.PER_PAGE
 import com.zf.mart.base.BasePresenter
 import com.zf.mart.mvp.contract.MyFootContract
 import com.zf.mart.mvp.model.MyFootModel
@@ -8,11 +9,11 @@ import com.zf.mart.net.exception.ExceptionHandle
 class MyFootPresenter : BasePresenter<MyFootContract.View>(), MyFootContract.Presenter {
     private val model by lazy { MyFootModel() }
     private var mPage = 1
-    override fun requesetMyFoot(page: Int?, num: Int) {
+    override fun requesetMyFoot(page: Int?) {
         checkViewAttached()
         mPage = page ?: mPage
         mRootView?.showLoading()
-        val disposable = model.getMyFoot(mPage, num)
+        val disposable = model.getMyFoot(mPage, PER_PAGE)
             .subscribe({
                 mRootView?.apply {
                     dismissLoading()
@@ -28,7 +29,7 @@ class MyFootPresenter : BasePresenter<MyFootContract.View>(), MyFootContract.Pre
                                 } else {
                                     setLoadMore(it.data)
                                 }
-                                if (it.data.size < num) {
+                                if (it.data.size < PER_PAGE) {
                                     setLoadComplete()
                                 }
                                 mPage += 1

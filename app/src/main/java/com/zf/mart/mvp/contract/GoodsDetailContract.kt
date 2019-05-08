@@ -51,7 +51,7 @@ interface GoodsDetailContract {
 
         fun requestDelCollectGoods(goods_id: String)
 
-        fun requestAddCart(goods_id: String, goods_num: String, item_id: String)
+        fun requestAddCart(goods_id: String, goods_num: Int, item_id: String)
 
         fun requestGoodsSpec(goods_id: String)
 

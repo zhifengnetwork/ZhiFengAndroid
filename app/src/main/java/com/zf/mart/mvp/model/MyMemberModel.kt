@@ -7,7 +7,7 @@ import com.zf.mart.scheduler.SchedulerUtils
 import io.reactivex.Observable
 
 class MyMemberModel {
-    fun getMyMember(): Observable<BaseBean<List<MyMemberBean>>> {
-        return RetrofitManager.service.getMyMember().compose(SchedulerUtils.ioToMain())
+    fun getMyMember(page: Int, num: Int, next_user_id: String): Observable<BaseBean<List<MyMemberBean>>> {
+        return RetrofitManager.service.getMyMember(page, num, next_user_id).compose(SchedulerUtils.ioToMain())
     }
 }

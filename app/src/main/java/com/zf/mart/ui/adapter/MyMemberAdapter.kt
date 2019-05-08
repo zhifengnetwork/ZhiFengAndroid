@@ -11,6 +11,9 @@ import kotlinx.android.synthetic.main.item_my_member.view.*
 
 class MyMemberAdapter(val context: Context, val data: List<MyMemberBean>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    var mClickListener: ((String) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_my_member, parent, false)
         return ViewHolder(view)
@@ -28,6 +31,9 @@ class MyMemberAdapter(val context: Context, val data: List<MyMemberBean>) :
             look_btn.setOnClickListener {
 
             }
+        }
+        holder.itemView.setOnClickListener {
+            mClickListener?.invoke(data[position].user_id)
         }
     }
 

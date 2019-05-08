@@ -1,5 +1,7 @@
 package com.zf.mart.mvp.presenter
 
+import com.zf.mart.api.UriConstant
+import com.zf.mart.api.UriConstant.PER_PAGE
 import com.zf.mart.base.BasePresenter
 import com.zf.mart.mvp.contract.MyFollowContract
 import com.zf.mart.mvp.model.MyFollowModel
@@ -33,11 +35,11 @@ class MyFollowPresenter : BasePresenter<MyFollowContract.View>(), MyFollowContra
         addSubscription(disposable)
     }
 
-    override fun requestMyFollow(page: Int?, num: Int) {
+    override fun requestMyFollow(page: Int? ) {
         checkViewAttached()
         mPage = page ?: mPage
         mRootView?.showLoading()
-        val disposable = model.getMyFollow(mPage, num)
+        val disposable = model.getMyFollow(mPage,PER_PAGE)
             .subscribe({
                 mRootView?.apply {
                     dismissLoading()
@@ -53,7 +55,7 @@ class MyFollowPresenter : BasePresenter<MyFollowContract.View>(), MyFollowContra
                                 } else {
                                     setFollowLoadMore(it.data.list)
                                 }
-                                if (it.data.list.size < num) {
+                                if (it.data.list.size < PER_PAGE) {
                                     setLoadFollowComplete()
                                 }
                                 mPage += 1
@@ -75,11 +77,11 @@ class MyFollowPresenter : BasePresenter<MyFollowContract.View>(), MyFollowContra
         addSubscription(disposable)
     }
 
-    override fun requsetLoveGoods(type: String, page: Int?, num: Int) {
+    override fun requsetLoveGoods(type: String, page: Int?) {
         checkViewAttached()
         nPage = page ?: nPage
         mRootView?.showLoading()
-        val disposable = model.getLoveGoods(type, nPage, num)
+        val disposable = model.getLoveGoods(type, nPage, PER_PAGE)
             .subscribe({
                 mRootView?.apply {
                     dismissLoading()
@@ -95,7 +97,7 @@ class MyFollowPresenter : BasePresenter<MyFollowContract.View>(), MyFollowContra
                                 } else {
                                     setGoodsLoadMore(it.data.goods_list)
                                 }
-                                if (it.data.goods_list.size < num) {
+                                if (it.data.goods_list.size < PER_PAGE) {
                                     setLoadGoodsComplete()
                                 }
                                 nPage += 1
