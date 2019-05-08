@@ -53,7 +53,6 @@ class AuctionAdapter(val context: Context?, val data: List<AuctionList>) :
 
                     override fun onTick(millisUntilFinished: Long) {
                         startTime.text = "距离结束还有${TimeUtils.getCountTime2(millisUntilFinished)}"
-                        LogUtils.e(">>>>>tick:" + TimeUtils.getCountTime2(millisUntilFinished))
                     }
                 }.start()
                 countDownMap.put(position, holder.countDownTimer)

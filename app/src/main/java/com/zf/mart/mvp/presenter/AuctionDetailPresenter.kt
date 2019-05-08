@@ -9,6 +9,7 @@ class AuctionDetailPresenter : BasePresenter<AuctionDetailContract.View>(), Auct
 
     private val model: AuctionDetailModel by lazy { AuctionDetailModel() }
 
+    //竞拍出价
     override fun requestBid(id: String, price: String) {
         checkViewAttached()
         mRootView?.showLoading()

@@ -112,7 +112,8 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:paddingTop="5dp"
-            android:paddingBottom="10dp">
+            android:paddingBottom="10dp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/shopNum"
@@ -162,7 +163,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </RelativeLayout>
 

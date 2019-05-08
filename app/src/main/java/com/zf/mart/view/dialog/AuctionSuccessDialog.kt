@@ -35,7 +35,6 @@ class AuctionSuccessDialog : DialogFragment() {
             receiveDialog.isCancelable = true
             return receiveDialog
         }
-
     }
 
     override fun onStart() {

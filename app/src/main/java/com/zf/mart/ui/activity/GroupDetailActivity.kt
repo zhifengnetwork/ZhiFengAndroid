@@ -212,7 +212,9 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View, ActiveSpec
 
     private var mNum = "1"
 
-    private fun initBuy(promType: Int) {
+    private fun initBuy(promType: Int, foundId: String? = "") {
+        //promType 6拼团 0单独购买
+        //foundId 参团的id
         val specList = ArrayList<SpecCorrect>()
         mSpecBean.forEach {
             if (it.isNotEmpty()) {
@@ -233,13 +235,21 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View, ActiveSpec
             mNum = num
             /** 去结算 */
             ConfirmOrderActivity.actionStart(this,
-                    promType, "1", mGroupBean?.info?.goods_id ?: "",
-                    mNum, mGroupBean?.info?.goods_item_id ?: "",
-                    mGroupBean?.info?.team_id ?: "")
+                    promType, "1",
+                    mGroupBean?.info?.goods_id ?: "",
+                    mNum,
+                    mGroupBean?.info?.goods_item_id ?: "", //规格
+                    mGroupBean?.info?.team_id ?: "", //活动id
+                    foundId //团id
+            )
         }
     }
 
     override fun initEvent() {
+
+        userAdapter.onItemClickListener = { foundId ->
+            initBuy(6, foundId)
+        }
 
         collect.setOnClickListener {
             when {

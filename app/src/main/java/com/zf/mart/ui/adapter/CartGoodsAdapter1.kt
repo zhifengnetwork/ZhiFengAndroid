@@ -72,7 +72,6 @@ class CartGoodsAdapter1(val context: Context?, private val goodData: List<CartGo
                 onSpecListener?.invoke(position)
             }
 
-
             /**
              * 商品数量
              */
@@ -126,8 +125,6 @@ class CartGoodsAdapter1(val context: Context?, private val goodData: List<CartGo
                         )
                 )
             }
-
-
         }
     }
 
