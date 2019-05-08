@@ -175,7 +175,7 @@ class GoodsDetailPresenter : BasePresenter<GoodsDetailContract.View>(), GoodsDet
         addSubscription(disposable)
     }
 
-    override fun requestAddCart(goods_id: String, goods_num: String, item_id: String) {
+    override fun requestAddCart(goods_id: String, goods_num: Int, item_id: String) {
         checkViewAttached()
         mRootView?.showLoading()
         val disposable = model.addCart(goods_id, goods_num, item_id)

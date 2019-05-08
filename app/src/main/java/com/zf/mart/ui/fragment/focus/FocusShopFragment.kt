@@ -84,7 +84,7 @@ class FocusShopFragment : BaseFragment(), MyFollowShopContract.View {
         switch = false
         //显示推荐店铺布局
         love_shop_ly.visibility = View.VISIBLE
-        presenter.requsetShopList(1, 6, 6)
+        presenter.requsetShopList(1, 6)
     }
 
     //下拉加载错误
@@ -145,16 +145,16 @@ class FocusShopFragment : BaseFragment(), MyFollowShopContract.View {
     }
 
     override fun lazyLoad() {
-        presenter.requestMyFollowShop(1, 6)
+        presenter.requestMyFollowShop(1)
     }
 
     override fun initEvent() {
         /**上拉加载*/
         refreshLayout.setOnLoadMoreListener {
             if (switch) {
-                presenter.requestMyFollowShop(null, 6)
+                presenter.requestMyFollowShop(null)
             } else {
-                presenter.requsetShopList(null, 6, 6)
+                presenter.requsetShopList(null, 6)
             }
 
 

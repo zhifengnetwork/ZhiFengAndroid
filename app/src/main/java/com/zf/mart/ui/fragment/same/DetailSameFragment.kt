@@ -140,9 +140,9 @@ class DetailSameFragment : BaseFragment(), RecommendGoodsContract.View {
 
     override fun lazyLoad() {
         if (mType == BUY) {
-            presenter.requestRecommendGoods(mId.toString(), "", 1, 20)
+            presenter.requestRecommendGoods(mId.toString(), "", 1)
         } else {
-            presenter.requestRecommendGoods(mId.toString(), "asc", 1, 20)
+            presenter.requestRecommendGoods(mId.toString(), "asc", 1)
         }
 
 

@@ -337,9 +337,12 @@ interface ApiService {
      */
     @FormUrlEncoded
     @POST("api/seller/GetSellerList")
-    fun getShopList(@Field("page") page: Int,
-                    @Field("num") num: Int,
-                    @Field("goodsnum") goodsnum: Int): Observable<BaseBean<ShopListBean>>
+    fun getShopList(
+        @Field("page") page: Int,
+        @Field("num") num: Int,
+        @Field("goodsnum") goodsnum: Int
+    ): Observable<BaseBean<ShopListBean>>
+
 
     /**
      * 添加关注店铺或删除店铺
@@ -460,8 +463,14 @@ interface ApiService {
     /**
      * 我的--会员
      */
+    @FormUrlEncoded
     @POST("api/User/team_list")
-    fun getMyMember(): Observable<BaseBean<List<MyMemberBean>>>
+    fun getMyMember(
+        @Field("page") page: Int,
+        @Field("num") num: Int,
+        @Field("next_user_id") next_user_id: String
+
+    ): Observable<BaseBean<List<MyMemberBean>>>
 
     /**
      * 我的--团队成员订单列表
@@ -540,9 +549,9 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/cart/add_cart")
     fun addCart(
-            @Field("goods_id") goods_id: String,
-            @Field("goods_num") goods_num: String,
-            @Field("item_id") item_id: String
+        @Field("goods_id") goods_id: String,
+        @Field("goods_num") goods_num: Int,
+        @Field("item_id") item_id: String
     ): Observable<BaseBean<Unit>>
 
     /**

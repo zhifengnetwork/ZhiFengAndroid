@@ -26,7 +26,7 @@ interface MyFootContract {
     }
 
     interface Presenter : IPresenter<View> {
-        fun requesetMyFoot(page: Int?, num: Int)
+        fun requesetMyFoot(page: Int?)
 
         fun requestsetMyFoot(visit_ids: String)
 

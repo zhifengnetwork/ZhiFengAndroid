@@ -34,11 +34,11 @@ interface MyFollowContract {
     }
 
     interface Presenter : IPresenter<View> {
-        fun requestMyFollow(page: Int?, num: Int)
+        fun requestMyFollow(page: Int?)
 
         fun requestDelCollectGoods(goods_id: String)
 
-        fun requsetLoveGoods(type: String, page: Int?, num: Int)
+        fun requsetLoveGoods(type: String, page: Int?)
 
     }
 }

@@ -5,15 +5,18 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.mvp.bean.AttriBute
 import com.zf.mart.mvp.contract.GoodsAttrContract
 import com.zf.mart.mvp.presenter.GoodsAttrPresenter
 import com.zf.mart.ui.adapter.OrderInfoAdapter
+import com.zf.mart.utils.LogUtils
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import com.zzhoujay.richtext.RichText
 import kotlinx.android.synthetic.main.fragment_graphic.*
+
 class GraphicFragment : BaseFragment(), GoodsAttrContract.View {
 
     override fun showError(msg: String, errorCode: Int) {
@@ -106,10 +109,8 @@ class GraphicFragment : BaseFragment(), GoodsAttrContract.View {
         presenter.detachView()
 
     }
-
     override fun onStart() {
         super.onStart()
         presenter.requestGoodsAttr(id)
     }
-
 }

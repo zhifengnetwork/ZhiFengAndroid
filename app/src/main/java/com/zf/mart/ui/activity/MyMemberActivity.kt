@@ -2,6 +2,7 @@ package com.zf.mart.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.view.KeyEvent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
@@ -9,7 +10,9 @@ import com.zf.mart.base.BaseActivity
 import com.zf.mart.mvp.bean.MyMemberBean
 import com.zf.mart.mvp.contract.MyMemberContract
 import com.zf.mart.mvp.presenter.MyMemberPresenter
+import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.MyMemberAdapter
+import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.activity_my_member.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
@@ -18,12 +21,31 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
  */
 class MyMemberActivity : BaseActivity(), MyMemberContract.View {
     override fun showError(msg: String, errorCode: Int) {
-
+        refreshLayout.setEnableLoadMore(false)
+        showToast(msg)
     }
 
     override fun getMyMember(bean: List<MyMemberBean>) {
+        mData.clear()
         mData.addAll(bean)
         mAdapter.notifyDataSetChanged()
+    }
+
+    override fun freshEmpty() {
+        refreshLayout.setEnableLoadMore(false)
+    }
+
+    override fun setLoadMore(bean: List<MyMemberBean>) {
+        mData.addAll(bean)
+        mAdapter.notifyDataSetChanged()
+    }
+
+    override fun setLoadComplete() {
+        refreshLayout.finishLoadMoreWithNoMoreData()
+    }
+
+    override fun loadMoreError(msg: String, errorCode: Int) {
+        showToast(msg)
     }
 
     override fun showLoading() {
@@ -31,8 +53,10 @@ class MyMemberActivity : BaseActivity(), MyMemberContract.View {
     }
 
     override fun dismissLoading() {
-
+        refreshLayout.finishRefresh()
+        refreshLayout.finishLoadMore()
     }
+
 
     companion object {
         fun actionStart(context: Context?) {
@@ -50,7 +74,23 @@ class MyMemberActivity : BaseActivity(), MyMemberContract.View {
 
     override fun layoutId(): Int = R.layout.activity_my_member
 
-    private val mAdapter by lazy { MyMemberAdapter(this,mData) }
+    private val mAdapter by lazy { MyMemberAdapter(this, mData) }
+
+    private var userList = ArrayList<String>()
+
+    private var userId = ""
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            userList.remove(userId)
+            if (userList.size == 0) {
+                return super.onKeyDown(keyCode, event)
+            } else {
+                presenter.requestMyMember(1, userList[userList.size - 1])
+            }
+
+        }
+        return false
+    }
 
     //网络接收数据
     private var mData = ArrayList<MyMemberBean>()
@@ -69,7 +109,30 @@ class MyMemberActivity : BaseActivity(), MyMemberContract.View {
     }
 
     override fun initEvent() {
+        /**上拉加载*/
+        refreshLayout.setOnLoadMoreListener {
+            if (userList.isNotEmpty()) {
+                presenter.requestMyMember(null, userList[userList.size - 1])
+            } else {
+                presenter.requestMyMember(null, "")
+            }
 
+        }
+        /**下拉刷新*/
+        refreshLayout.setOnRefreshListener {
+            if (userList.isNotEmpty()) {
+                presenter.requestMyMember(1, userList[userList.size - 1])
+            } else {
+                presenter.requestMyMember(1, "")
+            }
+        }
+
+        mAdapter.mClickListener = {
+            userList.add(it)
+            userId = it
+            LogUtils.e(">>>>>>>>>"+it)
+            presenter.requestMyMember(1, it)
+        }
     }
 
     override fun onDestroy() {
@@ -78,7 +141,7 @@ class MyMemberActivity : BaseActivity(), MyMemberContract.View {
     }
 
     override fun start() {
-        presenter.requestMyMember()
+        presenter.requestMyMember(1, "")
 
     }
 

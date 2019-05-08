@@ -1,5 +1,7 @@
 package com.zf.mart.mvp.presenter
 
+import com.zf.mart.api.UriConstant
+import com.zf.mart.api.UriConstant.PER_PAGE
 import com.zf.mart.base.BasePresenter
 import com.zf.mart.mvp.contract.MyFollowShopContract
 import com.zf.mart.mvp.model.MyFollowShopModel
@@ -13,11 +15,11 @@ class MyFollowShopPresenter : BasePresenter<MyFollowShopContract.View>(), MyFoll
     private var mPage = 1
     private var nPage = 1
 
-    override fun requsetShopList(page: Int?, num: Int, goodsnum: Int) {
+    override fun requsetShopList(page: Int?, goodsnum: Int) {
         checkViewAttached()
         nPage = page ?: nPage
         mRootView?.showLoading()
-        val disposable = model.getShopList(nPage, num, goodsnum)
+        val disposable = model.getShopList(nPage,PER_PAGE, goodsnum)
             .subscribe({
                 mRootView?.apply {
                     dismissLoading()
@@ -33,7 +35,7 @@ class MyFollowShopPresenter : BasePresenter<MyFollowShopContract.View>(), MyFoll
                                 } else {
                                     setLoadShopMore(it.data.list)
                                 }
-                                if (it.data.list.size < num) {
+                                if (it.data.list.size < PER_PAGE) {
                                     setLoadShopComplete()
                                 }
                                 nPage += 1
@@ -55,11 +57,11 @@ class MyFollowShopPresenter : BasePresenter<MyFollowShopContract.View>(), MyFoll
         addSubscription(disposable)
     }
 
-    override fun requestMyFollowShop(page: Int?, num: Int) {
+    override fun requestMyFollowShop(page: Int?) {
         checkViewAttached()
         mPage = page ?: mPage
         mRootView?.showLoading()
-        val disposable = model.getMyFollowShop(mPage, num)
+        val disposable = model.getMyFollowShop(mPage, PER_PAGE)
             .subscribe({
                 mRootView?.apply {
                     dismissLoading()
@@ -75,7 +77,7 @@ class MyFollowShopPresenter : BasePresenter<MyFollowShopContract.View>(), MyFoll
                                 } else {
                                     setLoadFollowShopMore(it.data.list)
                                 }
-                                if (it.data.list.size < num) {
+                                if (it.data.list.size < PER_PAGE) {
                                     setLoadFollowShopComplete()
                                 }
                                 mPage += 1
