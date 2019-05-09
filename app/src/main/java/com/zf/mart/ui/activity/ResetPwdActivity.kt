@@ -47,7 +47,7 @@ class ResetPwdActivity : BaseActivity(), ForgetPwdContract.View {
 
     //第一步通过
     override fun setContract() {
-        InputPwdActivity.actionStart(this, phone.text.toString())
+        InputPwdActivity.actionStart(this, phone.text.toString(),InputPwdActivity.SELL)
     }
 
     override fun setChangePwd() {

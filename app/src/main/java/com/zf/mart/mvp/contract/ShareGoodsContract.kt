@@ -20,6 +20,6 @@ interface ShareGoodsContract {
     }
 
     interface Presenter : IPresenter<View> {
-        fun requestShareGoods(is_distribut: Int, page: Int?, num: Int)
+        fun requestShareGoods(is_distribut: Int, page: Int?)
     }
 }

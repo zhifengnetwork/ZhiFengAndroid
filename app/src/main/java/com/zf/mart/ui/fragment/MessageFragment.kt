@@ -101,9 +101,9 @@ class MessageFragment : BaseFragment(), MessageContract.View {
         /**上拉加载*/
         refreshLayout.setOnLoadMoreListener {
             if (mType == BUY) {
-                presenter.requestMessage(null, 6, "2")
+                presenter.requestMessage(null, "2")
             } else {
-                presenter.requestMessage(null, 6, "1")
+                presenter.requestMessage(null, "1")
             }
         }
         /**下拉刷新*/
@@ -115,7 +115,7 @@ class MessageFragment : BaseFragment(), MessageContract.View {
 
     override fun lazyLoad() {
         refreshLayout.setEnableLoadMore(false)
-        presenter.requestMessage(1, 6, if (mType == BUY) "2" else "1")
+        presenter.requestMessage(1, if (mType == BUY) "2" else "1")
     }
 
     override fun onDestroy() {

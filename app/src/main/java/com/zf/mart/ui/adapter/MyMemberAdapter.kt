@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import com.zf.mart.mvp.bean.MyMemberBean
+import com.zf.mart.ui.activity.SeeOrderActivity
+import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.item_my_member.view.*
 
 class MyMemberAdapter(val context: Context, val data: List<MyMemberBean>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var mClickListener: ((String) -> Unit)? = null
+    var mClickListener: ((String,String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_my_member, parent, false)
@@ -29,11 +31,11 @@ class MyMemberAdapter(val context: Context, val data: List<MyMemberBean>) :
             user_name.text=data[position].nickname
             //点击查看按钮
             look_btn.setOnClickListener {
-
+                SeeOrderActivity.actionStart(context,data[position].user_id)
             }
         }
         holder.itemView.setOnClickListener {
-            mClickListener?.invoke(data[position].user_id)
+            mClickListener?.invoke(data[position].user_id,data[position].nickname)
         }
     }
 

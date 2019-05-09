@@ -1,5 +1,6 @@
 package com.zf.mart.mvp.presenter
 
+import com.zf.mart.api.UriConstant.PER_PAGE
 import com.zf.mart.base.BasePresenter
 import com.zf.mart.mvp.contract.MessageContract
 import com.zf.mart.mvp.model.MessageModel
@@ -8,14 +9,13 @@ import com.zf.mart.net.exception.ExceptionHandle
 class MessagePresenter : BasePresenter<MessageContract.View>(), MessageContract.Presenter {
     private val model by lazy { MessageModel() }
     private var mPage = 1
-    override fun requestMessage(page: Int?, num: Int, type: String) {
+    override fun requestMessage(page: Int?,type: String) {
         checkViewAttached()
         mPage = page ?: mPage
         mRootView?.showLoading()
-        val disposable = model.getMessage(mPage, num, type)
+        val disposable = model.getMessage(mPage, PER_PAGE, type)
             .subscribe({
                 mRootView?.apply {
-                    dismissLoading()
                     when (it.status) {
                         0 -> {
                             if (it.data != null) {
@@ -28,7 +28,7 @@ class MessagePresenter : BasePresenter<MessageContract.View>(), MessageContract.
                                 } else {
                                     setLoadMore(it.data.list)
                                 }
-                                if (it.data.list.size < num) {
+                                if (it.data.list.size < PER_PAGE) {
                                     setLoadComplete()
                                 }
                                 mPage += 1

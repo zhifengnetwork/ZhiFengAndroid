@@ -21,6 +21,6 @@ interface MessageContract{
         fun setBuyError(msg: String)
     }
     interface Presenter:IPresenter<View>{
-          fun requestMessage(page:Int?,num:Int,type:String)
+          fun requestMessage(page:Int?,type:String)
     }
 }

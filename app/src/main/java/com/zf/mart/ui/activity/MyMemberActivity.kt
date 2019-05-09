@@ -2,6 +2,7 @@ package com.zf.mart.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,12 +27,16 @@ class MyMemberActivity : BaseActivity(), MyMemberContract.View {
     }
 
     override fun getMyMember(bean: List<MyMemberBean>) {
+        refreshLayout.setEnableLoadMore(true)
         mData.clear()
         mData.addAll(bean)
         mAdapter.notifyDataSetChanged()
+
     }
 
     override fun freshEmpty() {
+        mData.clear()
+        mAdapter.notifyDataSetChanged()
         refreshLayout.setEnableLoadMore(false)
     }
 
@@ -77,17 +82,29 @@ class MyMemberActivity : BaseActivity(), MyMemberContract.View {
     private val mAdapter by lazy { MyMemberAdapter(this, mData) }
 
     private var userList = ArrayList<String>()
+    private var userName = ArrayList<String>()
+    private var userSum = 1
 
-    private var userId = ""
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            userList.remove(userId)
-            if (userList.size == 0) {
-                return super.onKeyDown(keyCode, event)
-            } else {
-                presenter.requestMyMember(1, userList[userList.size - 1])
+            userSum -= 1
+            if (userSum == 1) {
+                userList.clear()
+                userName.clear()
+                user_name.text = "我的下级"
+                refreshLayout.resetNoMoreData()
+                presenter.requestMyMember(1, "")
             }
-
+            if (userSum >= 2) {
+                userList.remove(userList[userSum - 1])
+                userName.remove(userName[userSum -1])
+                user_name.text = userName[userSum -2]+"的下级"
+                refreshLayout.resetNoMoreData()
+                presenter.requestMyMember(1, userList[userSum - 2])
+            }
+            if (userSum == 0) {
+                return super.onKeyDown(keyCode, event)
+            }
         }
         return false
     }
@@ -127,11 +144,13 @@ class MyMemberActivity : BaseActivity(), MyMemberContract.View {
             }
         }
 
-        mAdapter.mClickListener = {
-            userList.add(it)
-            userId = it
-            LogUtils.e(">>>>>>>>>"+it)
-            presenter.requestMyMember(1, it)
+        mAdapter.mClickListener = { id: String, name: String ->
+            userList.add(id)
+            userName.add(name)
+            userSum += 1
+            user_name.text = name + "的下级"
+            refreshLayout.resetNoMoreData()
+            presenter.requestMyMember(1, id)
         }
     }
 
@@ -141,6 +160,7 @@ class MyMemberActivity : BaseActivity(), MyMemberContract.View {
     }
 
     override fun start() {
+        refreshLayout.setEnableLoadMore(false)
         presenter.requestMyMember(1, "")
 
     }

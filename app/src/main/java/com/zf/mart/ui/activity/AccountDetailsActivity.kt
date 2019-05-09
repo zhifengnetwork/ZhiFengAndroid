@@ -25,6 +25,7 @@ class AccountDetailsActivity : BaseActivity() {
     }
 
     override fun initToolBar() {
+
         back.setOnClickListener {
             finish()
         }

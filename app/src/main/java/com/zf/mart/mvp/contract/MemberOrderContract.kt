@@ -23,6 +23,6 @@ interface MemberOrderContract {
     }
 
     interface Presenter : IPresenter<View> {
-        fun requestMemberOrder(page: Int?, num: Int)
+        fun requestMemberOrder(page: Int?, next_user_id: String)
     }
 }

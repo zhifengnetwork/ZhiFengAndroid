@@ -46,7 +46,7 @@ abstract class CartSpecPopupWindow(
     var onNumberListener: ((num: Int) -> Unit)? = null
     var onSpecListener: ((String) -> Unit)? = null
 
-    fun update(){
+    fun update() {
         initView()
     }
 
@@ -64,15 +64,17 @@ abstract class CartSpecPopupWindow(
             //每点击一个规格就刷新
             adapter.onItemClickListener = {
                 var chooseSpec = ""
+                var num = 0
                 repeat(adapter.data.size) {
                     chooseSpec = (chooseSpec + "_" + adapter.data[it].chooseId)
-                    if (adapter.data[it].chooseId.isEmpty()) {
-//                        Toast.makeText(context, "请选择规格", Toast.LENGTH_SHORT).show()
-                        return@repeat
+                    if (adapter.data[it].chooseId.isNotEmpty()) {
+                        num += 1
                     }
                 }
-                chooseSpec = chooseSpec.replaceFirst("_", "")
-                onSpecListener?.invoke(chooseSpec)
+                if (num == adapter.data.size) {
+                    chooseSpec = chooseSpec.replaceFirst("_", "")
+                    onSpecListener?.invoke(chooseSpec)
+                }
             }
 
 

@@ -16,7 +16,6 @@ class MyMemberPresenter : BasePresenter<MyMemberContract.View>(), MyMemberContra
         val disposable = model.getMyMember(mPage, PER_PAGE, next_user_id)
             .subscribe({
                 mRootView?.apply {
-                    dismissLoading()
                     when (it.status) {
                         0 -> {
                             if (it.data != null) {

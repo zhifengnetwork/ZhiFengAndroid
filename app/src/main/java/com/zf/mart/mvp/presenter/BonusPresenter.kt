@@ -2,7 +2,7 @@ package com.zf.mart.mvp.presenter
 
 import com.zf.mart.base.BasePresenter
 import com.zf.mart.mvp.contract.BonusContract
-import com.zf.mart.mvp.modelz.BonusModel
+import com.zf.mart.mvp.model.BonusModel
 import com.zf.mart.net.exception.ExceptionHandle
 
 class BonusPresenter : BasePresenter<BonusContract.View>(), BonusContract.Presenter {

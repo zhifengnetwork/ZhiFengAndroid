@@ -1,4 +1,4 @@
-package com.zf.mart.mvp.modelz
+package com.zf.mart.mvp.model
 
 import com.zf.mart.base.BaseBean
 import com.zf.mart.mvp.bean.BonusBean

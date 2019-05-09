@@ -154,16 +154,16 @@ class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
 
 
         /** 动态添加筛选按钮 */
-        repeat(8) {
-            val radioButton = layoutInflater.inflate(R.layout.radiobutton_tag, null) as RadioButton
-            radioButton.text = "有券$it"
-            radioButton.tag = it
-            radioGroup.addView(radioButton)
-            val spaceView = Space(context)
-            val lp = LinearLayout.LayoutParams(DensityUtil.dp2px(18f), 1)
-            spaceView.layoutParams = lp
-            radioGroup.addView(spaceView)
-        }
+//        repeat(8) {
+//            val radioButton = layoutInflater.inflate(R.layout.radiobutton_tag, null) as RadioButton
+//            radioButton.text = "有券$it"
+//            radioButton.tag = it
+//            radioGroup.addView(radioButton)
+//            val spaceView = Space(context)
+//            val lp = LinearLayout.LayoutParams(DensityUtil.dp2px(18f), 1)
+//            spaceView.layoutParams = lp
+//            radioGroup.addView(spaceView)
+//        }
 
 
     }
@@ -174,21 +174,21 @@ class FocusGoodsFragment : BaseFragment(), MyFollowContract.View {
     }
 
     override fun initEvent() {
-        //分类
-        classify.setOnClickListener {
-            val popWindow = object : FocusClassifyPopupWindow(
-                activity as Activity, R.layout.pop_focus_classify,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ) {}
-            popWindow.showBashOfAnchor(classifyLayout, LayoutGravity(LayoutGravity.ALIGN_RIGHT), 0, 0)
-
-        }
-        /** 筛选按钮点击事件 */
-        radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            val radioBtn = group.findViewById<RadioButton>(checkedId)
-            LogUtils.e("tag:" + radioBtn.tag)
-        }
+//        //分类
+//        classify.setOnClickListener {
+//            val popWindow = object : FocusClassifyPopupWindow(
+//                activity as Activity, R.layout.pop_focus_classify,
+//                LinearLayout.LayoutParams.MATCH_PARENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT
+//            ) {}
+//            popWindow.showBashOfAnchor(classifyLayout, LayoutGravity(LayoutGravity.ALIGN_RIGHT), 0, 0)
+//
+//        }
+//        /** 筛选按钮点击事件 */
+//        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+//            val radioBtn = group.findViewById<RadioButton>(checkedId)
+//            LogUtils.e("tag:" + radioBtn.tag)
+//        }
         //删除商品点击事件
         goodsAdapter.mClickListener = {
             presenter.requestDelCollectGoods(it)

@@ -59,6 +59,7 @@
 
 
         <ImageView
+                android:id="@+id/news_btn"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_marginRight="16dp"

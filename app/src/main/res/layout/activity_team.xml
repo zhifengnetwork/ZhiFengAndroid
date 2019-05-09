@@ -25,7 +25,7 @@
                 android:gravity="center"
                 android:textColor="#0060fe"
                 android:textSize="12sp"
-                android:text="用户"/>
+                android:text="订单号"/>
 
         <View android:layout_width="1.5px"
               android:layout_height="match_parent"
@@ -37,7 +37,7 @@
                   android:gravity="center"
                   android:textColor="#0060fe"
                   android:textSize="12sp"
-                  android:text="累计业绩"/>
+                  android:text="金额"/>
 
 
         <View android:layout_width="1.5px"
@@ -50,49 +50,23 @@
                   android:textSize="12sp"
                   android:gravity="center"
                   android:textColor="#0060fe"
-                  android:text="详细业绩"/>
+                  android:text="备注"/>
 
     </LinearLayout>
 
     <View android:layout_width="match_parent"
           android:layout_height="1.5px"
           android:background="#0060fe"/>
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/refreshLayout"
+    <TextView
+            android:text="只显示最近50条记录"
+            android:layout_gravity="center_horizontal"
+            android:textSize="9sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srlEnableAutoLoadMore="true"
-            app:srlEnableFooterFollowWhenLoadFinished="true">
+            android:id="@+id/recyclerView"
+            android:layout_height="wrap_content"/>
 
-        <com.scwang.smartrefresh.layout.header.ClassicsHeader
-                android:layout_width="match_parent"
-                app:srlPrimaryColor="@color/colorBackground"
-                app:srlAccentColor="@color/colorSecondText"
-                app:srlTextPulling="@string/refresh_pulling"
-                app:srlTextRelease="@string/refresh_release"
-                app:srlTextRefreshing="@string/refresh_refreshing"
-                app:srlTextFinish="@string/refresh_finish"
-                app:srlTextFailed="@string/refresh_failed"
-                app:srlEnableLastTime="false"
-                app:srlDrawableProgress="@drawable/ic_progress_puzzle"
-                android:layout_height="wrap_content"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:id="@+id/recyclerView"
-                android:layout_height="match_parent"/>
-
-        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srlDrawableProgress="@drawable/ic_progress_puzzle"
-                app:srlFinishDuration="0"
-                app:srlTextFailed="@string/load_failed"
-                app:srlTextFinish="@string/load_finish"
-                app:srlTextLoading="@string/load_loading"
-                app:srlTextNothing="@string/load_noting"
-                app:srlTextPulling="@string/load_pulling"
-                app:srlTextRelease="@string/load_release"/>
-
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

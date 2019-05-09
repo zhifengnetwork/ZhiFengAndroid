@@ -1,6 +1,7 @@
 package com.zf.mart.ui.fragment.classify
 
 import android.os.Bundle
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
 import com.zf.mart.base.BaseFragment
@@ -10,6 +11,7 @@ import com.zf.mart.mvp.contract.ClassifyContract
 import com.zf.mart.mvp.contract.ClassifyProductContract
 import com.zf.mart.mvp.presenter.ClassifyPresenter
 import com.zf.mart.mvp.presenter.ClassifyProductPresenter
+import com.zf.mart.ui.activity.SearchGoodsActivity
 import com.zf.mart.ui.adapter.ClassifyRightAdapter
 import com.zf.mart.utils.LogUtils
 import kotlinx.android.synthetic.main.frament_classify_recommend.*
@@ -21,7 +23,7 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
     }
 
     override fun setProduct(bean: List<ClassifyProductBean>) {
-        LogUtils.e(">>>>:"+bean)
+        classifyProductData.clear()
         classifyProductData.addAll(bean)
         rightAdapter.notifyDataSetChanged()
     }
@@ -50,13 +52,13 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
 
     //接收分类ID
     private var id: String = "110"
-
     //接收分类名字
     private var classifyname: String = ""
-    private val rightAdapter by lazy { ClassifyRightAdapter(context, classifyProductData, classifyname) }
 
+    private val rightAdapter by lazy { ClassifyRightAdapter(context, classifyProductData) }
     //接收数据
     private val classifyProductData = ArrayList<ClassifyProductBean>()
+
     private val classifyProductPrediction by lazy { ClassifyProductPresenter() }
 
     override fun getLayoutId(): Int = R.layout.frament_classify_recommend
@@ -67,8 +69,8 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
         id = arguments?.getString("id").toString()
 
         classifyname = arguments?.getString("name").toString()
-
-        rightRecyclerView.layoutManager = LinearLayoutManager(context)
+        itemtitle.text = classifyname
+        rightRecyclerView.layoutManager = GridLayoutManager(context, 3)
         rightRecyclerView.adapter = rightAdapter
     }
 
@@ -79,8 +81,9 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
     }
 
     override fun initEvent() {
+        //查看更多
         see_more.setOnClickListener {
-
+            SearchGoodsActivity.actionStart(context, classifyname)
         }
 
     }
