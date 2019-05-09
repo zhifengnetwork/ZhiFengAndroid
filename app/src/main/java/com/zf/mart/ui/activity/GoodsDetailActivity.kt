@@ -283,7 +283,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     }
 
     private fun initGraphic() {
-        
+
 //        val titles = arrayOf("图文详情", "答疑")
 //        val fgms = arrayListOf(
 //            GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
