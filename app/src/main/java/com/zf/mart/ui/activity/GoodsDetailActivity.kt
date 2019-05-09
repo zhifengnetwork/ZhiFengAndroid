@@ -125,7 +125,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     //加入购物车
     override fun addCartSuccess(msg: String) {
         showToast(msg)
-        specsPopWindow.onDismiss()
+//        specsPopWindow.onDismiss()
         cart.isChecked = true
     }
 
@@ -258,15 +258,15 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
         //商品评价
         initEvaluation()
-
-        //问大家
+//
+//        问大家
 //        initAsk()
 
-        //商家品牌推荐
+////        商家品牌推荐
 //        initBrand()
 
-        //相似推荐
-//        initSame()
+//        相似推荐
+        initSame()
 
         //图文详情
 //        initGraphic()
@@ -284,15 +284,14 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
     private fun initGraphic() {
 
-//        val titles = arrayOf("图文详情", "答疑")
-//        val fgms = arrayListOf(
-//            GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
-//            OrderAnswerFragment.newInstance() as Fragment
-//        )
-//        segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
         val titles = arrayOf("图文详情")
-        val fgms = arrayListOf(GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment)
+        val fgms = arrayListOf(
+            GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment
+        )
         segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
+//        val titles = arrayOf("图文详情")
+//        val fgms = arrayListOf(GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment)
+//        segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
     }
 
 
@@ -306,18 +305,18 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 //    private val askAdapter by lazy { DetailAskAdapter(this) }
 //
 //    private fun initAsk() {
-//        askRecyclerView.layoutManager = LinearLayoutManager(this)
-//        askRecyclerView.adapter = askAdapter
+////        askRecyclerView.layoutManager = LinearLayoutManager(this)
+////        askRecyclerView.adapter = askAdapter
 //    }
 //
 //    private val brandAdapter by lazy { DetailBrandAdapter(this, loveGoods) }
 //    /**店铺商品列表*/
-//    private fun initBrand() {
-//        val manager = LinearLayoutManager(this)
-//        manager.orientation = LinearLayoutManager.HORIZONTAL
-//        brandRecyclerView.layoutManager = manager
-//        brandRecyclerView.adapter = brandAdapter
-//    }
+////    private fun initBrand() {
+////        val manager = LinearLayoutManager(this)
+////        manager.orientation = LinearLayoutManager.HORIZONTAL
+////        brandRecyclerView.layoutManager = manager
+////        brandRecyclerView.adapter = brandAdapter
+////    }
 
     /**
      * 相似推荐
@@ -451,16 +450,16 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         }
 
         /**商品详情-相似推荐*/
-        RxBus.getDefault().subscribe<String>(this, FRESH_ORDER) {
-            //请求商品详情
-            presenter.requestGoodsDetail(it)
-            //请求评论
-            presenter.requestGoodEva(it, 1, 1, 6)
-            //请求规格
-            presenter.requestGoodsSpec(it)
-            //回到顶部
-            scrollView.fullScroll(ScrollView.SCROLL_INDICATOR_TOP)
-        }
+//        RxBus.getDefault().subscribe<String>(this, FRESH_ORDER) {
+//            //请求商品详情
+//            presenter.requestGoodsDetail(it)
+//            //请求评论
+//            presenter.requestGoodEva(it, 1, 1, 6)
+//            //请求规格
+//            presenter.requestGoodsSpec(it)
+//            //回到顶部
+//            scrollView.fullScroll(ScrollView.SCROLL_INDICATOR_TOP)
+//        }
 
 
     }

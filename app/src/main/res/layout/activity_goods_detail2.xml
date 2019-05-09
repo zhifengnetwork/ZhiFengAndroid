@@ -78,7 +78,7 @@
             <!-- 评价 -->
             <include layout="@layout/layout_detail_eva"/>
 
-             <!--店铺品牌-->
+             <!--&lt;!&ndash;店铺品牌&ndash;&gt;-->
             <!--<include layout="@layout/layout_detail_brand" />-->
 
             <!-- 相似推荐 同类热销排行 -->
@@ -121,8 +121,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:background="@color/whit"
-                        android:paddingBottom="100dp"/>
+                        android:background="@color/whit"/>
 
             </LinearLayout>
 

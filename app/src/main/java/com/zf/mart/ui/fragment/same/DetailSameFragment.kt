@@ -146,8 +146,8 @@ class DetailSameFragment : BaseFragment(), RecommendGoodsContract.View {
     override fun initEvent() {
 
         adapter.mClickListener = {
-            RxBus.getDefault().post(it,GoodsDetailActivity.FRESH_ORDER)
-
+            //RxBus.getDefault().post(it,GoodsDetailActivity.FRESH_ORDER)
+            GoodsDetailActivity.actionStart(context, it)
         }
     }
 }
