@@ -16,6 +16,8 @@ interface PostOrderContract {
 
         fun setUserMoneyPay()
 
+        fun setCompleteAddress()
+
     }
 
     interface Presenter : IPresenter<View> {

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
@@ -18,31 +17,34 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.flyco.tablayout.listener.CustomTabEntity
-import com.google.gson.Gson
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.zf.mart.MyApplication.Companion.context
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
 import com.zf.mart.api.UriConstant.BASE_URL
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.mvp.bean.*
 import com.zf.mart.mvp.contract.GoodsDetailContract
 import com.zf.mart.mvp.presenter.GoodsDetailPresenter
 import com.zf.mart.showToast
-import com.zf.mart.ui.adapter.*
+import com.zf.mart.ui.adapter.DetailEvaAdapter
+import com.zf.mart.ui.adapter.GoodsDetailAdapter
+import com.zf.mart.ui.adapter.GoodsSpecsAdapter
+import com.zf.mart.ui.adapter.GuideAdapter
 import com.zf.mart.ui.fragment.graphic.GraphicFragment
-import com.zf.mart.ui.fragment.graphic.OrderAnswerFragment
 import com.zf.mart.ui.fragment.same.DetailSameFragment
 import com.zf.mart.utils.GlideUtils
 import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.utils.TimeUtils
 import com.zf.mart.utils.bus.RxBus
-import com.zf.mart.view.dialog.ShareSuccessDialog
 import com.zf.mart.view.popwindow.RegionPopupWindow
 import com.zf.mart.view.popwindow.ServicePopupWindow
-import com.zzhoujay.richtext.RichText
 import kotlinx.android.synthetic.main.activity_goods_detail2.*
 import kotlinx.android.synthetic.main.layout_buy.*
-import kotlinx.android.synthetic.main.layout_detail_brand.*
 import kotlinx.android.synthetic.main.layout_detail_eva.*
 import kotlinx.android.synthetic.main.layout_detail_goods.*
 import kotlinx.android.synthetic.main.layout_detail_head.*
@@ -157,28 +159,55 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         }
     }
 
+    private var mTargetScene = SendMessageToWX.Req.WXSceneSession
+
+    private fun buildTransaction(type: String?): String {
+        return if (type == null) System.currentTimeMillis().toString() else type + System.currentTimeMillis()
+    }
+
+
     override fun initToolBar() {
 
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
-
 
         //分享
         shareLayout.setOnClickListener {
+
             val popUpWindow = object : ServicePopupWindow(
-                this, R.layout.pop_detail_share,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    this, R.layout.pop_detail_share,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
                     contentView.apply {
-
                         weChat.setOnClickListener {
+                            val api = WXAPIFactory.createWXAPI(this@GoodsDetailActivity, UriConstant.WX_APP_ID, true)
+                            // 将应用的appId注册到微信
+                            api.registerApp(UriConstant.WX_APP_ID)
+                            if (!api.isWXAppInstalled) {
+                                showToast("未安装微信")
+                            } else {
+                                /** 发送文字类型 */
+                                val webObj = WXWebpageObject()
+                                webObj.webpageUrl = "https://mobile.zhifengwangluo.c3w.cc/Mobile/Goods/goodsInfo/id/" + mData?.goods?.goods_id + ".html"
+
+                                val msg = WXMediaMessage()
+                                msg.mediaObject = webObj //消息对象
+                                msg.title = "智丰商城" //标题
+                                msg.description = "" //描述
+
+                                val req = SendMessageToWX.Req()
+                                req.transaction = buildTransaction("text")
+                                req.message = msg
+                                req.scene = mTargetScene
+                                api.sendReq(req)
+                            }
                             onDismiss()
-                            ShareSuccessDialog.showDialog(supportFragmentManager)
+
                         }
 
                         cancel.setOnClickListener {
@@ -291,7 +320,6 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 //        )
 
 
-
         val titles = arrayOf("图文详情")
         val fgms = arrayListOf(GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment)
         segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
@@ -328,8 +356,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     private fun initSame() {
 
         val fgms = arrayListOf(
-            DetailSameFragment.newInstance(mData?.goods?.cat_id, DetailSameFragment.BUY) as Fragment
-            , DetailSameFragment.newInstance(mData?.goods?.cat_id, DetailSameFragment.SELL) as Fragment
+                DetailSameFragment.newInstance(mData?.goods?.cat_id, DetailSameFragment.BUY) as Fragment
+                , DetailSameFragment.newInstance(mData?.goods?.cat_id, DetailSameFragment.SELL) as Fragment
         )
         val entitys = ArrayList<CustomTabEntity>()
         entitys.add(TabEntity("相似推荐", 0, 0))
@@ -379,10 +407,10 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                 alpha = 1.0f
             }
             orderDetailHead.setBackgroundColor(
-                changeAlpha(
-                    ContextCompat.getColor(this, R.color.whit)
-                    , alpha
-                )
+                    changeAlpha(
+                            ContextCompat.getColor(this, R.color.whit)
+                            , alpha
+                    )
             )
             //回到顶部按钮
             if (scrollY - oldScrollY > 0) {
@@ -403,9 +431,9 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
             presenter.requestAddress()
 
             addressPopWindow = object : RegionPopupWindow(
-                this, R.layout.pop_detail_address,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    this, R.layout.pop_detail_address,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
 
@@ -464,8 +492,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
             presenter.requestGoodsSpec(it)
         }
 
-
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -479,6 +507,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         presenter.requestGoodEva(goodsID, 1, 1, 6)
         //请求规格
         presenter.requestGoodsSpec(goodsID)
+
+
     }
 
     /**将网络请求到的数据赋值到页面上*/
@@ -528,9 +558,9 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     /**pop弹窗 加入购物车 立即购买*/
     private fun popWindow() {
         specsPopWindow = object : RegionPopupWindow(
-            this, R.layout.pop_detail_specs,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+                this, R.layout.pop_detail_specs,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
         ) {
             override fun initView() {
 
@@ -566,9 +596,9 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                     if (no_off) {
                         //图片
                         GlideUtils.loadUrlImage(
-                            context,
-                            "https://mobile.zhifengwangluo.c3w.cc" + mData?.goods?.original_img,
-                            goods_img
+                                context,
+                                "https://mobile.zhifengwangluo.c3w.cc" + mData?.goods?.original_img,
+                                goods_img
                         )
                         //名称
 //                            goodsName.text = mData?.goods?.goods_name
@@ -615,10 +645,10 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                         }
                         if (sum == 1) {
                             del_btn.setImageDrawable(
-                                ContextCompat.getDrawable(
-                                    applicationContext,
-                                    R.drawable.reduce
-                                )
+                                    ContextCompat.getDrawable(
+                                            applicationContext,
+                                            R.drawable.reduce
+                                    )
                             )
                         }
                         card_number.setText(sum.toString())
@@ -637,13 +667,13 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                             presenter.requestAddCart(mData?.goods?.goods_id.toString(), sum, itemId)
                         } else {
                             ConfirmOrderActivity.actionStart(
-                                context,
-                                0,
-                                "1",
-                                mData?.goods?.goods_id.toString(),
-                                sum.toString(),
-                                itemId,
-                                ""
+                                    context,
+                                    0,
+                                    "1",
+                                    mData?.goods?.goods_id.toString(),
+                                    sum.toString(),
+                                    itemId,
+                                    ""
                             )
                         }
 

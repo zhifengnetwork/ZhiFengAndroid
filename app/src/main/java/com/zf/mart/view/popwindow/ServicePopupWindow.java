@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
+
 import com.zf.mart.R;
 
 public abstract class ServicePopupWindow {
@@ -41,58 +42,6 @@ public abstract class ServicePopupWindow {
         /** 设置出入动画 */
         mInstance.setAnimationStyle(R.style.pop_translate);
     }
-
-    public void setFocusable(boolean focusable) {
-        mInstance.setFocusable(focusable);
-    }
-
-    public void setOutsideTouchable(boolean outsideTouchable) {
-        mInstance.setOutsideTouchable(outsideTouchable);
-    }
-
-//    public void showBashOfAnchor(View anchor, LayoutGravity layoutGravity, int xmerge, int ymerge) {
-//        int[] offset = layoutGravity.getOffset(anchor, mInstance);
-//        mInstance.showAsDropDown(anchor, offset[0] + xmerge, offset[1] + ymerge);
-//        isShowing = true;
-//
-//        mInstance.setOnDismissListener(new PopupWindow.OnDismissListener() {
-//            @Override
-//            public void onDismiss() {
-//                //隐藏后显示背景为透明
-//                WindowManager.LayoutParams lp = context.getWindow().getAttributes();
-//                lp.alpha = 1.0f;
-//                context.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//                context.getWindow().setAttributes(lp);
-//            }
-//        });
-//
-//        //显示时候设置背景为灰色
-//        WindowManager.LayoutParams lp = context.getWindow().getAttributes();
-//        lp.alpha = 0.7f;
-//        context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//        context.getWindow().setAttributes(lp);
-//    }
-
-//    public void showAsDropDown(View anchor, int xoff, int yoff) {
-//        mInstance.showAsDropDown(anchor, xoff, yoff);
-//        isShowing = true;
-//        mInstance.setOnDismissListener(new PopupWindow.OnDismissListener() {
-//            @Override
-//            public void onDismiss() {
-//                //隐藏后显示背景为透明
-//                WindowManager.LayoutParams lp = context.getWindow().getAttributes();
-//                lp.alpha = 1.0f;
-//                context.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//                context.getWindow().setAttributes(lp);
-//            }
-//        });
-//
-//        //显示时候设置背景为灰色
-//        WindowManager.LayoutParams lp = context.getWindow().getAttributes();
-//        lp.alpha = 0.3f;
-//        context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//        context.getWindow().setAttributes(lp);
-//    }
 
     public void showAtLocation(View parent, int gravity, int x, int y) {
         mInstance.showAtLocation(parent, gravity, x, y);

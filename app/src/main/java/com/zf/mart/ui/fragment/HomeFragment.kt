@@ -218,6 +218,10 @@ class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
 
     override fun initEvent() {
 
+        actionLayout.setOnClickListener {
+            ActionActivity.actionStart(context, ActionActivity.AUCTION)
+        }
+
         refreshLayout.setOnRefreshListener {
             lazyLoad()
         }

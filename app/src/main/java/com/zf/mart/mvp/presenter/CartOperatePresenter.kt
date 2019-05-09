@@ -76,7 +76,9 @@ class CartOperatePresenter : BasePresenter<CartOperateContract.View>(), CartOper
                                     setChangeSpec(it.data.cart_price_info)
                                 }
                             }
-                            else -> cartOperateError(it.msg, it.status)
+                            else -> {
+//                                cartOperateError(it.msg, it.status)
+                            }
                         }
                     }
                 }, {

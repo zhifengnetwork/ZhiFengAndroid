@@ -15,6 +15,7 @@ import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
 import kotlinx.android.synthetic.main.dialog_share_success.view.*
 
+
 /**
  * 分享成功
  */

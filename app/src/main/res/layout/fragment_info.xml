@@ -134,7 +134,9 @@
               android:layout_height="1dp"
               android:background="@color/colorLine"/>
 
-        <TextView android:layout_width="match_parent"
+        <TextView
+                android:id="@+id/aboutApp"
+                android:layout_width="match_parent"
                   android:text="关于APP"
                   android:drawableRight="@drawable/arrow"
                   android:textSize="14sp"

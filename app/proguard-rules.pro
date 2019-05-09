@@ -24,6 +24,10 @@
 # 在开发的时候我们可以将所有的实体类放在一个包内，这样写一次混淆就行了。
 -keep class com.zf.mart.mvp.bean.**{ *; }
 
+#----------- 阿里云点播  ----------------
+-keep class com.alibaba.livecloud.** { *;}
+-keep class com.alivc.** { *;}
+
 #-----------腾讯sdk混淆---------------
 -keep class com.tencent.mm.opensdk.** { *; }
 -keep class com.tencent.wxop.** { *; }

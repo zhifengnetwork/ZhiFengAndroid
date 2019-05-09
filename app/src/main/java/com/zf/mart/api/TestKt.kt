@@ -1,5 +1,6 @@
 package com.zf.mart.api
 
+import com.zf.mart.utils.LogUtils
 import java.util.*
 
 
@@ -19,12 +20,21 @@ fun main(args: Array<String>) {
      */
 
 
-    /**
-     *
-     */
+    initWhen()
 
-    linkListTest()
+}
 
+private fun initWhen(){
+    val a = "c"
+    when(a){
+        "c"->{
+            println(">>>a")
+        }
+        "b"->{
+            println(">>>b")
+        }
+    }
+    println(">>>?")
 }
 
 /**

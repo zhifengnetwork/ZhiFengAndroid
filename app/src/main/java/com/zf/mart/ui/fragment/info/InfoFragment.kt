@@ -7,6 +7,7 @@ import com.zf.mart.R
 import com.zf.mart.api.UriConstant
 import com.zf.mart.base.NotLazyBaseFragment
 import com.zf.mart.livedata.UserInfoLiveData
+import com.zf.mart.ui.activity.AboutActivity
 import com.zf.mart.ui.activity.AddressActivity
 import com.zf.mart.ui.activity.MainActivity
 import com.zf.mart.ui.activity.UserActivity
@@ -34,6 +35,10 @@ class InfoFragment : NotLazyBaseFragment() {
     }
 
     override fun initEvent() {
+
+        aboutApp.setOnClickListener {
+            AboutActivity.actionStart(context)
+        }
 
         logOut.setOnClickListener {
             //退出登录->清空token、删除用户信息缓存

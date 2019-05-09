@@ -22,6 +22,8 @@ object UriConstant {
 
     const val CODE_TIME = 60 //验证码时间
 
+    const val WX_SHARE = "WX_SHARE" //微信分享成功
+
     //http://www.dchqzg1688.com/api/upload/add
 
 //    const  val BASE_URL = "http://api.zhifeng.c3w.cc"

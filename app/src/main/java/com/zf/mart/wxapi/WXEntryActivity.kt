@@ -39,19 +39,34 @@ class WXEntryActivity : Activity(), IWXAPIEventHandler {
         api?.handleIntent(intent, this)
     }
 
+    /**
+     * 微信支付回调  //0	成功	展示成功页面
+     *               //-1	错误	可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。
+     *               //-2	用户取消	无需处理。发生场景：用户不支付了，点击取消，返回APP。
+     */
     //应用请求微信的相应回调
     override fun onResp(resp: BaseResp?) {
-        LogUtils.e(">>>>>>WX登录回调结果:" + resp?.errCode)
+        LogUtils.e(">>>>>>WX登录回调结果:" + resp?.errCode + "  类型：" + resp?.type)
         when (resp?.errCode) {
             BaseResp.ErrCode.ERR_OK -> {
+                when (resp.type) {
+                    ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX -> {
+                        showToast("分享成功")
+                        finish()
+                    }
+                    ConstantsAPI.COMMAND_PAY_BY_WX -> {
+                        showToast("支付成功")
+                        finish()
+                    }
+                }
+                /** 除了登录才能成功往下执行，否则到这里就抛错跳出了。 */
                 val code = (resp as SendAuth.Resp).code
-                LogUtils.e(">>>>>code:$code")
-                //登录成功，清除全部活动，跳转到首页
-                val intent = Intent(this, LoginActivity::class.java)
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                intent.putExtra("code", code)
-                startActivity(intent)
+                if (code.isNotEmpty()) {
+                    //登录成功，清除全部活动，跳转到首页
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.putExtra("code", code)
+                    startActivity(intent)
+                }
                 finish()
             }
             BaseResp.ErrCode.ERR_USER_CANCEL -> {
@@ -67,23 +82,10 @@ class WXEntryActivity : Activity(), IWXAPIEventHandler {
                 finish()
             }
         }
-
-        /**
-         * 微信支付回调
-         */
-        if (resp?.type == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            //errCode如果是0支付成功，否则支付失败
-            //0	成功	展示成功页面
-            //-1	错误	可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。
-            //-2	用户取消	无需处理。发生场景：用户不支付了，点击取消，返回APP。
-            LogUtils.e(">>>>>>支付结果：" + resp.errCode)
-        }
     }
 
     //微信发送请求到应用的回调
     override fun onReq(p0: BaseReq?) {
-        //直接finish?
-        LogUtils.e(">>>>>:onReq？")
         finish()
     }
 

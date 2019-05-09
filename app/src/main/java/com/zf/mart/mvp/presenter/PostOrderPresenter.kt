@@ -4,6 +4,7 @@ import com.zf.mart.base.BasePresenter
 import com.zf.mart.mvp.contract.PostOrderContract
 import com.zf.mart.mvp.model.PostOrderModel
 import com.zf.mart.net.exception.ExceptionHandle
+import com.zf.mart.utils.LogUtils
 
 /**
  * 结算订单 提交订单
@@ -12,12 +13,40 @@ class PostOrderPresenter : BasePresenter<PostOrderContract.View>(), PostOrderCon
 
     private val model: PostOrderModel by lazy { PostOrderModel() }
 
-
-    override fun requestGroupOrder(buy_type: String, team_id: String, buy_num: String, address_id: String, user_money: String, invoice_type: String, invoice_identity: String, invoice_title: String, invoice_code: String, user_note: String, found_id: String, act: Int, pay_pwd: String) {
+    /**
+     * 拼团订单
+     */
+    override fun requestGroupOrder(
+            buy_type: String,
+            team_id: String,
+            buy_num: String,
+            address_id: String,
+            user_money: String,
+            invoice_type: String,
+            invoice_identity: String,
+            invoice_title: String,
+            invoice_code: String,
+            user_note: String,
+            found_id: String,
+            act: Int,
+            pay_pwd: String
+    ) {
         checkViewAttached()
         mRootView?.showLoading()
         val disposable = model.requestPostGroupOrder(
-                buy_type, team_id, buy_num, address_id, user_money, invoice_type, invoice_identity, invoice_title, invoice_code, user_note, found_id, act, pay_pwd
+                buy_type,
+                team_id,
+                buy_num,
+                address_id,
+                user_money,
+                invoice_type,
+                invoice_identity,
+                invoice_title,
+                invoice_code,
+                user_note,
+                found_id,
+                act,
+                pay_pwd
         )
                 .subscribe({
                     mRootView?.apply {
@@ -52,6 +81,9 @@ class PostOrderPresenter : BasePresenter<PostOrderContract.View>(), PostOrderCon
         addSubscription(disposable)
     }
 
+    /**
+     * 普通购买订单
+     */
     override fun requestPostOrder(
             act: Int,
             prom_type: Int,
@@ -116,8 +148,13 @@ class PostOrderPresenter : BasePresenter<PostOrderContract.View>(), PostOrderCon
                                     setPostOrder(it.data)
                                 } else if (act == 1) {
                                     //提交订单
+                                    LogUtils.e(">>>>:" + it.data)
                                     setConfirmOrder(it.data)
                                 }
+                            }
+                            -5 -> {
+                                //未添加收货信息
+                                setCompleteAddress()
                             }
                             else -> showError(it.msg, it.status)
                         }

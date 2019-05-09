@@ -45,7 +45,9 @@
             <include layout="@layout/layout_wallet" />
 
             <!-- 公益 -->
-            <include layout="@layout/layout_benefit" />
+            <include
+                layout="@layout/layout_benefit"
+                android:visibility="gone" />
 
             <!--我的专栏-->
             <include layout="@layout/layout_zhuanlan" />

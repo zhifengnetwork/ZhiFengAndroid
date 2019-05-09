@@ -42,7 +42,12 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         }
         cartData[mGoodsPos].spec_key_name = bean.key_name
         cartAdapter.notifyDataSetChanged()
+
+        //更新popWindow
+        popWindow?.update()
     }
+
+    private var popWindow: CartSpecPopupWindow? = null
 
     /** 获取商品规格 */
     override fun setGoodsSpec(specBean: List<List<SpecBean>>) {
@@ -52,7 +57,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                 specList.add(SpecCorrect(it[0].name, it, ""))
             }
         }
-        val popWindow = object : CartSpecPopupWindow(
+        popWindow = object : CartSpecPopupWindow(
                 activity as Activity,
                 R.layout.pop_order_style,
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -60,14 +65,14 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                 cartData[mGoodsPos],
                 specList
         ) {}
-        popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
-        popWindow.onNumberListener = {
+        popWindow?.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+        popWindow?.onNumberListener = {
             cartData[mGoodsPos].goods_num = it
             cartAdapter.notifyDataSetChanged()
             cartOperatePresenter.requestCount(cartData[mGoodsPos].id, it)
         }
-        popWindow.onSpecListener = { specId ->
-            //规格回调
+        popWindow?.onSpecListener = { specId ->
+            //确定 (规格回调)
             mSpecId = specId
             cartData[mGoodsPos].spec_key = specId
             cartOperatePresenter.requestChangeSpec(cartData[mGoodsPos].id, specId)

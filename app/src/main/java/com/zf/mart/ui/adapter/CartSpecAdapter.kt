@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
 import com.zf.mart.mvp.bean.SpecCorrect
+import com.zf.mart.utils.LogUtils
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.item_cart_spec.view.*
@@ -20,6 +21,8 @@ class CartSpecAdapter(val context: Context, val data: List<SpecCorrect>, private
     }
 
     override fun getItemCount(): Int = data.size
+
+    var onItemClickListener: (() -> Unit)? = null
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
@@ -54,6 +57,8 @@ class CartSpecAdapter(val context: Context, val data: List<SpecCorrect>, private
                 data[position].chooseId = if (it.toMutableList().isNotEmpty()) {
                     data[position].list[it.toMutableList()[0]].id
                 } else ""
+                LogUtils.e(">>>>>?" + data[position].chooseId)
+                onItemClickListener?.invoke()
             }
 
         }

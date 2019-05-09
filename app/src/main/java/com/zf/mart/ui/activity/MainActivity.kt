@@ -54,6 +54,7 @@ class MainActivity : BaseActivity(), UserInfoContract.View {
 
     override fun start() {
         requestUserInfo()
+
     }
 
     //退出登录->登录->再次进主页->同样要获取用户信息

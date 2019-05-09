@@ -46,6 +46,10 @@ abstract class CartSpecPopupWindow(
     var onNumberListener: ((num: Int) -> Unit)? = null
     var onSpecListener: ((String) -> Unit)? = null
 
+    fun update(){
+        initView()
+    }
+
     private fun initView() {
         contentView.apply {
 
@@ -56,17 +60,33 @@ abstract class CartSpecPopupWindow(
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = adapter
 
-            confirm.setOnClickListener {
+
+            //每点击一个规格就刷新
+            adapter.onItemClickListener = {
                 var chooseSpec = ""
                 repeat(adapter.data.size) {
                     chooseSpec = (chooseSpec + "_" + adapter.data[it].chooseId)
                     if (adapter.data[it].chooseId.isEmpty()) {
-                        Toast.makeText(context, "请选择规格", Toast.LENGTH_SHORT).show()
-                        return@setOnClickListener
+//                        Toast.makeText(context, "请选择规格", Toast.LENGTH_SHORT).show()
+                        return@repeat
                     }
                 }
                 chooseSpec = chooseSpec.replaceFirst("_", "")
                 onSpecListener?.invoke(chooseSpec)
+            }
+
+
+            confirm.setOnClickListener {
+                //                var chooseSpec = ""
+//                repeat(adapter.data.size) {
+//                    chooseSpec = (chooseSpec + "_" + adapter.data[it].chooseId)
+//                    if (adapter.data[it].chooseId.isEmpty()) {
+//                        Toast.makeText(context, "请选择规格", Toast.LENGTH_SHORT).show()
+//                        return@setOnClickListener
+//                    }
+//                }
+//                chooseSpec = chooseSpec.replaceFirst("_", "")
+//                onSpecListener?.invoke(chooseSpec)
                 onDismiss()
             }
 

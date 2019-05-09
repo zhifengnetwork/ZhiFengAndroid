@@ -4,9 +4,15 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.base.BaseFragmentAdapter
+import com.zf.mart.showToast
 import com.zf.mart.ui.fragment.action.AuctionFragment
 import com.zf.mart.ui.fragment.action.GroupFragment
 import com.zf.mart.ui.fragment.action.SecKillFragment
@@ -17,9 +23,9 @@ class ActionActivity : BaseActivity() {
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(
-            this,
-            ContextCompat.getColor(this, R.color.colorSecondText),
-            0.3f
+                this,
+                ContextCompat.getColor(this, R.color.colorSecondText),
+                0.3f
         )
     }
 
@@ -46,9 +52,9 @@ class ActionActivity : BaseActivity() {
     override fun initView() {
         val titles = arrayListOf("竞拍", "拼团", "秒杀")
         val fragments = arrayListOf<Fragment>(
-            AuctionFragment.newInstance(),
-            GroupFragment.newInstance(),
-            SecKillFragment.newInstance()
+                AuctionFragment.newInstance(),
+                GroupFragment.newInstance(),
+                SecKillFragment.newInstance()
         )
         val adapter = BaseFragmentAdapter(supportFragmentManager, fragments, titles)
         viewPager.adapter = adapter
@@ -63,7 +69,39 @@ class ActionActivity : BaseActivity() {
     }
 
     override fun initEvent() {
+
+        //分享
+        shareLayout.setOnClickListener {
+            val api = WXAPIFactory.createWXAPI(this, UriConstant.WX_APP_ID, true)
+            // 将应用的appId注册到微信
+            api.registerApp(UriConstant.WX_APP_ID)
+            if (!api.isWXAppInstalled) {
+                showToast("未安装微信")
+            } else {
+                /** 发送文字类型 */
+                val webObj = WXWebpageObject()
+                webObj.webpageUrl = "https://mobile.zhifengwangluo.c3w.cc/index.php/shop/Activity/auction_list.html"
+
+                val msg = WXMediaMessage()
+                msg.mediaObject = webObj //消息对象
+                msg.title = "智丰商城" //标题
+                msg.description = "" //描述
+
+                val req = SendMessageToWX.Req()
+                req.transaction = buildTransaction("text")
+                req.message = msg
+                req.scene = mTargetScene
+                api.sendReq(req)
+            }
+        }
+
         close.setOnClickListener { finish() }
+    }
+
+    private var mTargetScene = SendMessageToWX.Req.WXSceneSession
+
+    private fun buildTransaction(type: String?): String {
+        return if (type == null) System.currentTimeMillis().toString() else type + System.currentTimeMillis()
     }
 
     override fun start() {

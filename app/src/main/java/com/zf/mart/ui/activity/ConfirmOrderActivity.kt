@@ -19,6 +19,7 @@ import com.zf.mart.mvp.contract.PostOrderContract
 import com.zf.mart.mvp.presenter.PostOrderPresenter
 import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.EnGoodsAdapter
+import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.view.popwindow.OrderPayPopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
@@ -30,6 +31,12 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
 
+    //去添加收货信息
+    override fun setCompleteAddress() {
+        showToast("请先添加收货信息")
+        AddressActivity.actionStart(this)
+        finish()
+    }
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(this, ContextCompat.getColor(this, R.color.colorSecondText), 0.3f)
@@ -47,14 +54,20 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
 
     /** 提交订单成功*/
     override fun setConfirmOrder(bean: PostOrderBean) {
+        LogUtils.e(">>>>>:" + bean.order_sn + "   " + bean)
         val window = object : OrderPayPopupWindow(
                 this, R.layout.pop_order_pay,
                 LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dp2px(320f), mOrderPrice
         ) {}
         window.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
+        //取消支付
         window.onDismissListener = {
             MyOrderActivity.actionStart(this, "")
             finish()
+        }
+        //确认支付
+        window.onConfirmPayListener = {
+            LogUtils.e(">>>>:" + bean.order_sn)
         }
     }
 
@@ -77,7 +90,7 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
             mOrderPrice = it.order_amount
         }
 
-        bean.address.let {
+        bean.address?.let {
             userName.text = it.consignee
             userPhone.text = it.mobile
             userAddress.text = "${it.province_name}${it.city_name}${it.district_name}${it.address}"
@@ -102,14 +115,16 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
         const val mRequestCode = 10
         const val mInvoiceCode = 11
         const val FROM_ORDER = "fromOrder" //选择送货地址标记
-        fun actionStart(context: Context?,
-                        promType: Int,
-                        action: String,
-                        goods_id: String,
-                        goods_num: String,
-                        item_id: String,
-                        promId: String,
-                        foundId: String? = "") {
+        fun actionStart(
+                context: Context?,
+                promType: Int,
+                action: String,
+                goods_id: String,
+                goods_num: String,
+                item_id: String,
+                promId: String,
+                foundId: String? = ""
+        ) {
             val intent = Intent(context, ConfirmOrderActivity::class.java)
             intent.putExtra("prom", promType) //prom: 0默认,1秒杀,2团购,3优惠促销,4预售,5虚拟(5其实没用),6拼团,7搭配购,8竞拍
             intent.putExtra("action", action) //立即购买	1或0,1是，0否，默认0
@@ -140,9 +155,11 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
     override fun start() {
         if (mPromType == 6) {
             /** 拼单结算 */
-            presenter.requestGroupOrder("2", mPromId, mGoodNum, "", "",
+            presenter.requestGroupOrder(
+                    "2", mPromId, mGoodNum, "", "",
                     "", "", "", "",
-                    "", mFoundId, 0, "")
+                    "", mFoundId, 0, ""
+            )
         } else {
             /** 普通结算 */
             presenter.requestPostOrder(
@@ -218,7 +235,8 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
             }
             if (mPromType == 6) {
                 //拼团 提交订单
-                presenter.requestGroupOrder("2",
+                presenter.requestGroupOrder(
+                        "2",
                         mPromId,
                         mGoodNum, mAddressId,
                         if (ifUseMoney.isChecked) mOrderPrice else "0",
@@ -229,7 +247,8 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
                         remark.text.toString(),
                         mFoundId,
                         1,
-                        payPwd.text.toString())
+                        payPwd.text.toString()
+                )
             } else {
                 //单独购买 提交订单
                 presenter.requestPostOrder(
