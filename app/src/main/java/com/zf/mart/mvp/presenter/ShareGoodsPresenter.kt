@@ -1,5 +1,6 @@
 package com.zf.mart.mvp.presenter
 
+import com.zf.mart.api.UriConstant.PER_PAGE
 import com.zf.mart.base.BasePresenter
 import com.zf.mart.mvp.contract.ShareGoodsContract
 import com.zf.mart.mvp.model.ShareGoodsModel
@@ -8,14 +9,13 @@ import com.zf.mart.net.exception.ExceptionHandle
 class ShareGoodsPresenter : BasePresenter<ShareGoodsContract.View>(), ShareGoodsContract.Presenter {
     private val model by lazy { ShareGoodsModel() }
     private var mPage = 1
-    override fun requestShareGoods(is_distribut: Int, page: Int?, num: Int) {
+    override fun requestShareGoods(is_distribut: Int, page: Int?) {
         checkViewAttached()
         mPage = page ?: mPage
         mRootView?.showLoading()
-        val disposable = model.getShareGoods(is_distribut, mPage, num)
+        val disposable = model.getShareGoods(is_distribut, mPage, PER_PAGE)
             .subscribe({
                 mRootView?.apply {
-                    dismissLoading()
                     when (it.status) {
                         0 -> {
                             if (it.data != null) {
@@ -28,7 +28,7 @@ class ShareGoodsPresenter : BasePresenter<ShareGoodsContract.View>(), ShareGoods
                                 } else {
                                     setLoadMore(it.data.goods_list)
                                 }
-                                if (it.data.goods_list.size < num) {
+                                if (it.data.goods_list.size < PER_PAGE) {
                                     setLoadComplete()
                                 }
                                 mPage += 1

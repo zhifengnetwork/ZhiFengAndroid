@@ -42,7 +42,6 @@ class MyFollowPresenter : BasePresenter<MyFollowContract.View>(), MyFollowContra
         val disposable = model.getMyFollow(mPage,PER_PAGE)
             .subscribe({
                 mRootView?.apply {
-                    dismissLoading()
                     when (it.status) {
                         0 -> {
                             if (it.data != null) {
@@ -84,7 +83,6 @@ class MyFollowPresenter : BasePresenter<MyFollowContract.View>(), MyFollowContra
         val disposable = model.getLoveGoods(type, nPage, PER_PAGE)
             .subscribe({
                 mRootView?.apply {
-                    dismissLoading()
                     when (it.status) {
                         0 -> {
                             if (it.data != null) {

@@ -36,18 +36,24 @@ class InputPwdActivity : BaseActivity(), ForgetPwdContract.View {
 
     private var mPhone = ""
 
+    private var mType = ""
+
     companion object {
-        fun actionStart(context: Context?, phone: String) {
+        //重置支付密码  修改登入密码
+        const val BUY = "BUY"
+        const val SELL = "SELL"
+        fun actionStart(context: Context?, phone: String, mType: String) {
             val intent = Intent(context, InputPwdActivity::class.java)
             intent.putExtra("phone", phone)
+            intent.putExtra("mType", mType)
             context?.startActivity(intent)
         }
     }
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(
-                this,
-                ContextCompat.getColor(this, R.color.colorSecondText), 0.3f
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText), 0.3f
         )
     }
 
@@ -56,6 +62,7 @@ class InputPwdActivity : BaseActivity(), ForgetPwdContract.View {
 
     override fun initData() {
         mPhone = intent.getStringExtra("phone")
+        mType = intent.getStringExtra("mType")
     }
 
     override fun initView() {
@@ -73,7 +80,12 @@ class InputPwdActivity : BaseActivity(), ForgetPwdContract.View {
                 else -> {
                     pwdError.visibility = View.GONE
                     pwdEnError.visibility = View.GONE
-                    presenter.requestChangePwd(mPhone, pwd.text.toString(), pwdEn.text.toString())
+                    if (mType == SELL) {
+                        presenter.requestChangePwd(mPhone, pwd.text.toString(), pwdEn.text.toString(), 2)
+                    } else {
+                        presenter.requestChangePwd(mPhone, pwd.text.toString(), pwdEn.text.toString(), 6)
+                    }
+
                 }
             }
         }

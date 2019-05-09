@@ -14,7 +14,7 @@ import com.zf.mart.mvp.bean.User
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.item_team.view.*
 
-class TeamAdapter(val context: Context, val user: User?, val data: List<MemberOrderList>) :
+class TeamAdapter(val context: Context, private val user: User?, val data: List<MemberOrderList>) :
     RecyclerView.Adapter<TeamAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_team, parent, false)
@@ -39,9 +39,9 @@ class TeamAdapter(val context: Context, val user: User?, val data: List<MemberOr
                 }
             }
 
-            val adapter = TeamDetailAdapter(context, data)
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = adapter
+//            val adapter = TeamDetailAdapter(context, data)
+//            recyclerView.layoutManager = LinearLayoutManager(context)
+//            recyclerView.adapter = adapter
             recyclerView.addItemDecoration(
                 RecyclerViewDivider(
                     context,

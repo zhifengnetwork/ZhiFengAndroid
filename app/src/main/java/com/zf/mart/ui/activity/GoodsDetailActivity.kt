@@ -63,6 +63,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     //获得商品详情
     override fun getGoodsDetail(bean: GoodsDetailBean) {
         mData = bean
+        images.clear()
         loveGoods.clear()
         loveGoods.addAll(bean.goods.seller_info.goods)
         //判断是否为秒杀商品
@@ -74,8 +75,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         initSame()
         //图文详情
         initGraphic()
-//        initBrand()
-//        brandAdapter.notifyDataSetChanged()
+
     }
 
     //秒杀商品详情
@@ -265,7 +265,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         //商家品牌推荐
 //        initBrand()
 
-//        //相似推荐
+        //相似推荐
 //        initSame()
 
         //图文详情
@@ -283,15 +283,13 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     }
 
     private fun initGraphic() {
-
+        
 //        val titles = arrayOf("图文详情", "答疑")
 //        val fgms = arrayListOf(
 //            GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
 //            OrderAnswerFragment.newInstance() as Fragment
 //        )
-
-
-
+//        segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
         val titles = arrayOf("图文详情")
         val fgms = arrayListOf(GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment)
         segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
@@ -326,7 +324,6 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
      * pageRecyclerView
      */
     private fun initSame() {
-
         val fgms = arrayListOf(
             DetailSameFragment.newInstance(mData?.goods?.cat_id, DetailSameFragment.BUY) as Fragment
             , DetailSameFragment.newInstance(mData?.goods?.cat_id, DetailSameFragment.SELL) as Fragment
@@ -341,7 +338,6 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     private fun initBanner() {
 
         val imageViews = ArrayList<ImageView>()
-        imageViews.clear()
         repeat(images.size) { pos ->
             val img = ImageView(this)
 
@@ -447,7 +443,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
             isChoice = false
             popWindow()
         }
-        //购物车复选框
+        /**购物车复选框*/
         cart.setOnClickListener {
             //选中亮图标 未选中在购物车删除该商品
             cart.isChecked = !cart.isChecked
@@ -462,6 +458,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
             presenter.requestGoodEva(it, 1, 1, 6)
             //请求规格
             presenter.requestGoodsSpec(it)
+            //回到顶部
+            scrollView.fullScroll(ScrollView.SCROLL_INDICATOR_TOP)
         }
 
 

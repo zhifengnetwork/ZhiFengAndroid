@@ -16,7 +16,6 @@ class MyFootPresenter : BasePresenter<MyFootContract.View>(), MyFootContract.Pre
         val disposable = model.getMyFoot(mPage, PER_PAGE)
             .subscribe({
                 mRootView?.apply {
-                    dismissLoading()
                     when (it.status) {
                         0 -> {
                             if (it.data != null) {

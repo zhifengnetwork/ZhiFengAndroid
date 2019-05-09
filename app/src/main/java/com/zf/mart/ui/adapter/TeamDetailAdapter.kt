@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.zf.mart.R
+import com.zf.mart.mvp.bean.AchievementList
 import com.zf.mart.mvp.bean.MemberOrderList
 import com.zf.mart.utils.TimeUtils
 import kotlinx.android.synthetic.main.item_team_detail.view.*
 
-class TeamDetailAdapter(val context: Context, val mData: List<MemberOrderList>) :
+class TeamDetailAdapter(val context: Context, val mData: List<AchievementList>) :
     RecyclerView.Adapter<TeamDetailAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_team_detail, parent, false)
@@ -21,9 +22,9 @@ class TeamDetailAdapter(val context: Context, val mData: List<MemberOrderList>) 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
-            user_name.text = mData[position].consignee
-            order_time.text = TimeUtils.getYmd(mData[position].add_time)
-            order_money.text=mData[position].total_amount
+            order_id.text = mData[position].order_id
+            order_money.text = mData[position].money
+            order_note.text=mData[position].note
         }
     }
 

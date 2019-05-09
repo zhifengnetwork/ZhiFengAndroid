@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.zf.mart.mvp.bean.ClassifyBean
 import com.zf.mart.ui.fragment.classify.ClassifyRightFragment
 
-class ClassifyPagerAdapter(fm: FragmentManager, titleList: ArrayList<ClassifyBean>): FragmentPagerAdapter(fm) {
+class ClassifyPagerAdapter(fm: FragmentManager, titleList: List<ClassifyBean>): FragmentPagerAdapter(fm) {
     private var list = titleList
    private var fragmentList = arrayOfNulls<Fragment>(list.size)
 

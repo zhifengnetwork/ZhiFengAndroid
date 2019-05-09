@@ -89,10 +89,6 @@ class DetailSameFragment : BaseFragment(), RecommendGoodsContract.View {
 
     override fun getLayoutId(): Int = R.layout.fragment_detail_same
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        LogUtils.e(">>>>>>>DetailSameFragment::onDestroyView")
-    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -113,7 +109,6 @@ class DetailSameFragment : BaseFragment(), RecommendGoodsContract.View {
         scrollHelper.setUpRecycleView(recyclerView)
         scrollHelper.updateLayoutManger()
         scrollHelper.setOnPageChangeListener { pos ->
-
             indicatorLayout?.apply {
                 repeat(this.childCount) {
                     //indicatorLayout可能出现空
@@ -149,12 +144,10 @@ class DetailSameFragment : BaseFragment(), RecommendGoodsContract.View {
     }
 
     override fun initEvent() {
+
         adapter.mClickListener = {
             RxBus.getDefault().post(it,GoodsDetailActivity.FRESH_ORDER)
 
-
-//            ChoiceActivity.actionStart(context)
-//            GoodsDetailActivity.actionStart(context, it)
         }
     }
 }

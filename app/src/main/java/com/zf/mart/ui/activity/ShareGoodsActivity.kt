@@ -91,17 +91,17 @@ class ShareGoodsActivity : BaseActivity(), ShareGoodsContract.View {
     override fun initEvent() {
         /**上拉加载*/
         refreshLayout.setOnLoadMoreListener {
-            presenter.requestShareGoods(1, null, 6)
+            presenter.requestShareGoods(1, null)
         }
         /**下拉刷新*/
         refreshLayout.setOnRefreshListener {
-            start()
+            presenter.requestShareGoods(1, 1)
 
         }
     }
 
     override fun start() {
-        presenter.requestShareGoods(1, 1, 6)
+        presenter.requestShareGoods(1, 1)
     }
 
 }

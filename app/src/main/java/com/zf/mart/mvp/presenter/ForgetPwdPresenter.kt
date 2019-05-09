@@ -13,21 +13,21 @@ class ForgetPwdPresenter : BasePresenter<ForgetPwdContract.View>(), ForgetPwdCon
         checkViewAttached()
         mRootView?.showLoading()
         val disposable = model.requestCode(scene, mobile)
-                .subscribe({
-                    mRootView?.apply {
-                        dismissLoading()
-                        when (it.status) {
-                            0 -> setCode(it.msg)
-                            else -> showError(it.msg, it.status)
-                        }
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> setCode(it.msg)
+                        else -> showError(it.msg, it.status)
                     }
+                }
 
-                }, {
-                    mRootView?.apply {
-                        dismissLoading()
-                        showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
-                    }
-                })
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
 
         addSubscription(disposable)
     }
@@ -37,41 +37,41 @@ class ForgetPwdPresenter : BasePresenter<ForgetPwdContract.View>(), ForgetPwdCon
         checkViewAttached()
         mRootView?.showLoading()
         val disposable = model.requestContract(mobile, code)
-                .subscribe({
-                    mRootView?.apply {
-                        dismissLoading()
-                        when (it.status) {
-                            0 -> setContract()
-                            else -> showError(it.msg, it.status)
-                        }
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> setContract()
+                        else -> showError(it.msg, it.status)
                     }
-                }, {
-                    mRootView?.apply {
-                        dismissLoading()
-                        showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
-                    }
-                })
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
         addSubscription(disposable)
     }
 
-    override fun requestChangePwd(mobile: String, password: String, password2: String) {
+    override fun requestChangePwd(mobile: String, password: String, password2: String, scene: Int) {
         checkViewAttached()
         mRootView?.showLoading()
-        val disposable = model.requestChangePwd(mobile, password, password2)
-                .subscribe({
-                    mRootView?.apply {
-                        dismissLoading()
-                        when (it.status) {
-                            0 -> setChangePwd()
-                            else -> showError(it.msg, it.status)
-                        }
+        val disposable = model.requestChangePwd(mobile, password, password2, scene)
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> setChangePwd()
+                        else -> showError(it.msg, it.status)
                     }
-                }, {
-                    mRootView?.apply {
-                        dismissLoading()
-                        showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
-                    }
-                })
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
         addSubscription(disposable)
     }
 

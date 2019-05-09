@@ -1,24 +1,21 @@
 package com.zf.mart.mvp.presenter
 
 import com.zf.mart.base.BasePresenter
-import com.zf.mart.mvp.contract.BonusContract
-import com.zf.mart.mvp.model.BonusModel
+import com.zf.mart.mvp.contract.BindZfbContract
+import com.zf.mart.mvp.model.BindZfbModel
 import com.zf.mart.net.exception.ExceptionHandle
 
-class BonusPresenter : BasePresenter<BonusContract.View>(), BonusContract.Presenter {
-    private val model by lazy { BonusModel() }
-    override fun requestBonus() {
+class BindZfbPresenter : BasePresenter<BindZfbContract.View>(), BindZfbContract.Presenter {
+    private val model by lazy { BindZfbModel() }
+    override fun requestBindZfb(zfb_account: String, realname: String) {
         checkViewAttached()
         mRootView?.showLoading()
-        val disposable = model.getBonus()
+        val disposable = model.setBindZfb(zfb_account, realname)
             .subscribe({
                 mRootView?.apply {
+                    dismissLoading()
                     when (it.status) {
-                        0 -> {
-                            if (it.data != null) {
-                                getBonus(it.data)
-                            }
-                        }
+                        0 -> bindZfbSuccess(it.msg)
                         else -> showError(it.msg, it.status)
                     }
                 }
@@ -30,4 +27,5 @@ class BonusPresenter : BasePresenter<BonusContract.View>(), BonusContract.Presen
             })
         addSubscription(disposable)
     }
+
 }
