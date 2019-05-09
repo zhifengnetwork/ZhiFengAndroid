@@ -530,6 +530,16 @@ interface ApiService {
     ): Observable<BaseBean<AccountDetailBean>>
 
     /**
+     * 提现记录
+     */
+    @FormUrlEncoded
+    @POST("api/user/withdrawals_list")
+    fun getCashOutList(
+        @Field("page") page: Int,
+        @Field("num") num: Int
+    ): Observable<BaseBean<CashOutBean>>
+
+    /**
      * 购物车选中状态
      */
     @Headers("Content-type:application/json")

@@ -78,6 +78,11 @@ class WalletActivity : BaseActivity(), MyWalletContract.View {
         accountState.setOnClickListener {
             AccountDetailsActivity.actionStart(this)
         }
+        //提现明细
+        cash_out.setOnClickListener {
+            CashOutRecordActivity.actionStart(this)
+        }
+
         //支付宝绑定
         aliPay.setOnClickListener {
             BindZfbActivity.actionStart(this, mData?.alipay, mData?.realname)

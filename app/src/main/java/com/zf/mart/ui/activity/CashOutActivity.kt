@@ -221,16 +221,29 @@ class CashOutActivity : BaseActivity(), CashOutContract.View {
         count_cash.text = "当日总额度:" + mData?.count_cash
         //用户金额
         user_money.text = mData?.user_money
-        if (mData?.alipay == null) {
-            //提现方式名称
-            cash_name.text = ""
-            //提现方式id
-            cash_id.text = "未绑定支付宝账号"
-        } else {
+
+        if (aliPay.isChecked) {
+            if (mData?.alipay == null) {
+                //提现方式名称
+                cash_name.text = ""
+                //提现方式id
+                cash_id.text = "未绑定支付宝账号"
+            } else {
+                //提现方式名称
+                cash_name.text = mData?.realname
+                //提现方式id
+                cash_id.text = mData?.alipay
+            }
+        }
+        if (weChat.isChecked) {
             //提现方式名称
             cash_name.text = mData?.realname
-            //提现方式id
-            cash_id.text = mData?.alipay
+            if (mData?.openid != null) {
+                //提现方式id
+                cash_id.text = "微信账号已绑定"
+            } else {
+                cash_id.text = "微信账号未绑定"
+            }
         }
 
         //单笔最高提现额度

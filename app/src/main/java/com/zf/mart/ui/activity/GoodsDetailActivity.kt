@@ -125,7 +125,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     //加入购物车
     override fun addCartSuccess(msg: String) {
         showToast(msg)
-//        specsPopWindow.onDismiss()
+        specsPopWindow.onDismiss()
         cart.isChecked = true
     }
 
@@ -642,6 +642,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                                 itemId,
                                 ""
                             )
+                            specsPopWindow.onDismiss()
                         }
 
                     }
