@@ -702,6 +702,24 @@ interface ApiService {
         @Query("num") num: Int
     ): Observable<BaseBean<CommendBean>>
 
+
+    /**
+     * 搜索分类
+     */
+    @GET("api/Goods/goodsList")
+    fun requestClassifySearch(
+        @Query("id") id: String,
+        @Query("brand_id") brand_id: String,
+        @Query("sort") sort: String,
+        @Query("sel") sel: String,
+        @Query("price") price: String,
+        @Query("start_price") start_price: String,
+        @Query("end_price") end_price: String,
+        @Query("sort_asc") sort_asc: String,
+        @Query("page") page: Int, //第几页
+        @Query("num") num: Int //每页多少条
+    ): Observable<BaseBean<SearchBean>>
+
     /**
      * 购物车
      * 根据规格获取商品信息
@@ -794,4 +812,10 @@ interface ApiService {
     @GET("api/User/myIndex")
     fun requestMe(): Observable<BaseBean<MeBean>>
 
+    /**
+     * 获取广告列表
+     */
+    @POST("api/index/GetAdList")
+    @FormUrlEncoded
+    fun getAdList(@Field("pid") pid: String): Observable<BaseBean<AdvertBean>>
 }

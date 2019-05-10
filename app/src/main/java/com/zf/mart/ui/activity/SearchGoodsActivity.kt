@@ -2,6 +2,7 @@ package com.zf.mart.ui.activity
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.Gravity
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
@@ -67,6 +68,7 @@ class SearchGoodsActivity : BaseActivity(), SearchContract.View {
         mAdapter.notifyDataSetChanged()
         mFilterPrice.clear()
         mFilterPrice.addAll(bean.filter_price)
+
     }
 
     private var mFilterPrice = ArrayList<FilterPrice>()
@@ -85,19 +87,22 @@ class SearchGoodsActivity : BaseActivity(), SearchContract.View {
         }
 
         StatusBarUtils.darkMode(
-                this,
-                ContextCompat.getColor(this, R.color.colorSecondText),
-                0.3f
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
         )
     }
 
     //搜索关键词
     var mKeyWord = ""
+    //该分类id
+    var mClassifyId = ""
 
     companion object {
-        fun actionStart(context: Context?, keyWord: String) {
+        fun actionStart(context: Context?, keyWord: String, classifyId: String? = "") {
             val intent = Intent(context, SearchGoodsActivity::class.java)
             intent.putExtra("key", keyWord)
+            intent.putExtra("classifyId", classifyId)
             context?.startActivity(intent)
 
         }
@@ -107,6 +112,7 @@ class SearchGoodsActivity : BaseActivity(), SearchContract.View {
 
     override fun initData() {
         mKeyWord = intent.getStringExtra("key")
+        mClassifyId = intent.getStringExtra("classifyId")
     }
 
     private val searchPresenter by lazy { SearchPresenter() }
@@ -128,10 +134,10 @@ class SearchGoodsActivity : BaseActivity(), SearchContract.View {
 
     private val oneDivider by lazy {
         RecyclerViewDivider(
-                this,
-                LinearLayoutManager.VERTICAL,
-                1,
-                ContextCompat.getColor(this, R.color.colorLine)
+            this,
+            LinearLayoutManager.VERTICAL,
+            1,
+            ContextCompat.getColor(this, R.color.colorLine)
         )
     }
 
@@ -149,10 +155,17 @@ class SearchGoodsActivity : BaseActivity(), SearchContract.View {
             refreshLayout.setNoMoreData(false)
         }
         //判断是选中的哪个？
-        searchPresenter.requestSearch(
+        if (mClassifyId != "") {
+            searchPresenter.requestClassifySearch(
+                mClassifyId, "", mSort, mSel,
+                mPrice, "", "", mPriceSort, page
+            )
+        } else {
+            searchPresenter.requestSearch(
                 searchInput.text.toString(), "", "", mSort, mSel,
                 mPrice, "", "", mPriceSort, page
-        )
+            )
+        }
     }
 
     override fun start() {
@@ -226,11 +239,11 @@ class SearchGoodsActivity : BaseActivity(), SearchContract.View {
         //筛选 如果有
         filterBtn.setOnClickListener {
             val popWindow = object : SearchFilterPopupWindow(
-                    this, R.layout.pop_search_filter, DensityUtil.dp2px(280f),
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    mSel,
-                    mPrice,
-                    mFilterPrice
+                this, R.layout.pop_search_filter, DensityUtil.dp2px(280f),
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                mSel,
+                mPrice,
+                mFilterPrice
             ) {}
             popWindow.showAtLocation(parentLayout, Gravity.RIGHT, 0, 0)
             popWindow.onConfirmListener = {
@@ -272,6 +285,9 @@ class SearchGoodsActivity : BaseActivity(), SearchContract.View {
         }
 
         searchInput.setOnClickListener {
+            if (mClassifyId != "") {
+                finish()
+            }
             SearchActivity.actionStart(this, searchInput.text.toString())
         }
     }

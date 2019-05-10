@@ -2,22 +2,22 @@ package com.zf.mart.ui.fragment.classify
 
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant.BASE_URL
 import com.zf.mart.base.BaseFragment
-import com.zf.mart.mvp.bean.ClassifyBean
+import com.zf.mart.mvp.bean.AdvertList
 import com.zf.mart.mvp.bean.ClassifyProductBean
-import com.zf.mart.mvp.contract.ClassifyContract
 import com.zf.mart.mvp.contract.ClassifyProductContract
-import com.zf.mart.mvp.presenter.ClassifyPresenter
 import com.zf.mart.mvp.presenter.ClassifyProductPresenter
+import com.zf.mart.ui.activity.GoodsDetailActivity
 import com.zf.mart.ui.activity.SearchGoodsActivity
 import com.zf.mart.ui.adapter.ClassifyRightAdapter
-import com.zf.mart.utils.LogUtils
+import com.zf.mart.utils.GlideUtils
 import kotlinx.android.synthetic.main.frament_classify_recommend.*
 
 
 class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
+
     override fun showError(msg: String, errorCode: Int) {
 
     }
@@ -26,6 +26,17 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
         classifyProductData.clear()
         classifyProductData.addAll(bean)
         rightAdapter.notifyDataSetChanged()
+    }
+
+    override fun getAdList(bean: List<AdvertList>) {
+        if (bean.isNotEmpty()) {
+            GlideUtils.loadUrlImage(context, BASE_URL + bean[0].ad_code, classify_ad_img)
+            classify_ad_img.setOnClickListener {
+                if (bean[0].goods_id.isNotEmpty()) {
+                    GoodsDetailActivity.actionStart(context, bean[0].goods_id)
+                }
+            }
+        }
     }
 
     override fun showLoading() {
@@ -51,7 +62,7 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
     }
 
     //接收分类ID
-    private var id: String = "110"
+    private var id: String = ""
     //接收分类名字
     private var classifyname: String = ""
 
@@ -59,12 +70,12 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
     //接收数据
     private val classifyProductData = ArrayList<ClassifyProductBean>()
 
-    private val classifyProductPrediction by lazy { ClassifyProductPresenter() }
+    private val presenter by lazy { ClassifyProductPresenter() }
 
     override fun getLayoutId(): Int = R.layout.frament_classify_recommend
 
     override fun initView() {
-        classifyProductPrediction.attachView(this)
+        presenter.attachView(this)
 
         id = arguments?.getString("id").toString()
 
@@ -77,20 +88,27 @@ class ClassifyRightFragment : BaseFragment(), ClassifyProductContract.View {
     /**懒加载*/
     override fun lazyLoad() {
 
-        classifyProductPrediction.requestClassifyProduct(id)
+        presenter.requestClassifyProduct(id)
+
+        presenter.requestAdList("9")
     }
 
     override fun initEvent() {
         //查看更多
         see_more.setOnClickListener {
-            SearchGoodsActivity.actionStart(context, classifyname)
+            SearchGoodsActivity.actionStart(context, classifyname, id)
         }
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        lazyLoad()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        classifyProductPrediction.detachView()
+        presenter.detachView()
     }
 
 

@@ -1,6 +1,9 @@
 package com.zf.mart.ui.activity
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.CountDownTimer
@@ -72,6 +75,13 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         if (mData?.goods?.prom_type == "1" || mActionId != "") {
             presenter.requestSecKillDetail(mActionId)
         }
+        //轮播图获取 给图片加头部
+        for (i in 0 until bean.goods.goods_images.size) {
+            images.add(BASE_URL + bean.goods.goods_images[i])
+        }
+        //加载轮播图
+        initBanner()
+        //加载界面数据
         loadData()
         //相似推荐
         initSame()
@@ -95,10 +105,21 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     }
 
     //获得地址列表
+    @SuppressLint("SetTextI18n")
     override fun getAddress(bean: List<AddressBean>) {
         mAddress.clear()
         mAddress.addAll(bean)
         popAdapter.notifyDataSetChanged()
+        //默认地址 邮费
+        for (i in 0 until mAddress.size) {
+            if (mAddress[i].is_default == "1") {
+                goods_address.text = mAddress[i].province_name + mAddress[i].city_name + mAddress[i].district_name
+                addressId = mAddress[i].address_id
+                //邮费请求
+                presenter.requestGoodsFreight(goodsID, mAddress[i].city, "1")
+            }
+        }
+
     }
 
     //获得商品运费
@@ -169,18 +190,18 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     override fun initToolBar() {
 
         StatusBarUtils.darkMode(
-                this,
-                ContextCompat.getColor(this, R.color.colorSecondText),
-                0.3f
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
         )
 
         //分享
         shareLayout.setOnClickListener {
 
             val popUpWindow = object : ServicePopupWindow(
-                    this, R.layout.pop_detail_share,
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                this, R.layout.pop_detail_share,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
                     contentView.apply {
@@ -193,7 +214,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                             } else {
                                 /** 发送文字类型 */
                                 val webObj = WXWebpageObject()
-                                webObj.webpageUrl = "https://mobile.zhifengwangluo.c3w.cc/Mobile/Goods/goodsInfo/id/" + mData?.goods?.goods_id + ".html"
+                                webObj.webpageUrl =
+                                    "https://mobile.zhifengwangluo.c3w.cc/Mobile/Goods/goodsInfo/id/" + mData?.goods?.goods_id + ".html"
 
                                 val msg = WXMediaMessage()
                                 msg.mediaObject = webObj //消息对象
@@ -265,6 +287,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     private var itemName = ""
     //判断是点击加入购物车还是立即购买
     private var isChoice = true
+    //记录用户选择的地址ID
+    private var addressId = ""
 
     override fun initData() {
         goodsID = intent.getStringExtra("id")
@@ -283,7 +307,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         }
 
         //banner
-        initBanner()
+//        initBanner()
 
         //商品评价
         initEvaluation()
@@ -359,8 +383,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
      */
     private fun initSame() {
         val fgms = arrayListOf(
-                DetailSameFragment.newInstance(mData?.goods?.cat_id, DetailSameFragment.BUY) as Fragment
-                , DetailSameFragment.newInstance(mData?.goods?.cat_id, DetailSameFragment.SELL) as Fragment
+            DetailSameFragment.newInstance(mData?.goods?.cat_id, DetailSameFragment.BUY) as Fragment
+            , DetailSameFragment.newInstance(mData?.goods?.cat_id, DetailSameFragment.SELL) as Fragment
         )
         val entitys = ArrayList<CustomTabEntity>()
         entitys.add(TabEntity("相似推荐", 0, 0))
@@ -409,10 +433,10 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                 alpha = 1.0f
             }
             orderDetailHead.setBackgroundColor(
-                    changeAlpha(
-                            ContextCompat.getColor(this, R.color.whit)
-                            , alpha
-                    )
+                changeAlpha(
+                    ContextCompat.getColor(this, R.color.whit)
+                    , alpha
+                )
             )
             //回到顶部按钮
             if (scrollY - oldScrollY > 0) {
@@ -429,13 +453,10 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
         /**选择配送地址*/
         goods_address.setOnClickListener {
-            //请求地址列表
-            presenter.requestAddress()
-
             addressPopWindow = object : RegionPopupWindow(
-                    this, R.layout.pop_detail_address,
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                this, R.layout.pop_detail_address,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
             ) {
                 override fun initView() {
 
@@ -445,9 +466,16 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                         //将所选的的地址信息传递过来/计算出邮费
                         popAdapter.mClickListener = {
                             goods_address.text = it.province_name + it.city_name + it.district_name
+                            //记录所选地址id
+                            addressId = it.address_id
                             //邮费请求
                             presenter.requestGoodsFreight(goodsID, it.city, "1")
+                            //关闭弹窗
                             addressPopWindow.onDismiss()
+                        }
+                        //新增地址
+                        add_tv.setOnClickListener {
+                            AddressEditActivity.actionStart(context, null)
                         }
                     }
                 }
@@ -498,6 +526,11 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        //请求地址列表
+        presenter.requestAddress()
+    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -511,7 +544,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         presenter.requestGoodEva(goodsID, 1, 1, 6)
         //请求规格
         presenter.requestGoodsSpec(goodsID)
-
+        //请求地址列表
+        presenter.requestAddress()
 
     }
 
@@ -547,24 +581,15 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         collect.isChecked = mData?.goods?.is_collect != "0"
         //是否在购物车
         cart.isChecked = mData?.goods?.is_cart != "0"
-        //轮播图获取
-        if (mData?.goods?.goods_images != null && mData != null) {
-            for (i in 0 until mData?.goods?.goods_images?.size!!) {
-                images.add(BASE_URL + mData?.goods?.goods_images!![i])
-            }
-        }
-        //banner
-        initBanner()
-
 
     }
 
     /**pop弹窗 加入购物车 立即购买*/
     private fun popWindow() {
         specsPopWindow = object : RegionPopupWindow(
-                this, R.layout.pop_detail_specs,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+            this, R.layout.pop_detail_specs,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
         ) {
             override fun initView() {
 
@@ -589,7 +614,6 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                         true
                     }
                 }
-
                 contentView?.apply {
                     specs_rl.layoutManager = LinearLayoutManager(context)
                     specs_rl.adapter = specsAdapter
@@ -600,9 +624,9 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                     if (no_off) {
                         //图片
                         GlideUtils.loadUrlImage(
-                                context,
-                                "https://mobile.zhifengwangluo.c3w.cc" + mData?.goods?.original_img,
-                                goods_img
+                            context,
+                            "https://mobile.zhifengwangluo.c3w.cc" + mData?.goods?.original_img,
+                            goods_img
                         )
                         //名称
 //                            goodsName.text = mData?.goods?.goods_name
@@ -649,10 +673,10 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                         }
                         if (sum == 1) {
                             del_btn.setImageDrawable(
-                                    ContextCompat.getDrawable(
-                                            applicationContext,
-                                            R.drawable.reduce
-                                    )
+                                ContextCompat.getDrawable(
+                                    applicationContext,
+                                    R.drawable.reduce
+                                )
                             )
                         }
                         card_number.setText(sum.toString())
@@ -670,15 +694,31 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
                             //商品ID 数量（默认1） 规格ID
                             presenter.requestAddCart(mData?.goods?.goods_id.toString(), sum, itemId)
                         } else {
-                            ConfirmOrderActivity.actionStart(
+                            /**判断用户是否已选配送地址*/
+                            if (addressId == "") {
+                                val builder = AlertDialog.Builder(context)
+                                builder.setTitle("你还没有选择收货地址")
+                                builder.setMessage("是否去添加收货地址")
+                                builder.setPositiveButton("是") { dialog, which ->
+                                    AddressEditActivity.actionStart(context, null)
+                                    dialog.dismiss()
+                                }
+                                builder.setNegativeButton("否") { dialog, which ->
+                                    dialog.dismiss()
+                                }
+                                builder.show()
+                            } else {
+                                ConfirmOrderActivity.actionStart(
                                     context,
                                     0,
                                     "1",
                                     mData?.goods?.goods_id.toString(),
                                     sum.toString(),
                                     itemId,
-                                    ""
-                            )
+                                    "",
+                                    addressId = addressId
+                                )
+                            }
                             specsPopWindow.onDismiss()
                         }
 

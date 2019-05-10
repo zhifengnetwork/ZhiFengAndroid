@@ -19,48 +19,72 @@ class SecKillListPresenter : BasePresenter<SecKillListContract.View>(), SecKillL
         checkViewAttached()
         mRootView?.showLoading()
         val disposable = model.getSecKillList(startTime, endTime, mPage)
-                .subscribe({
-                    mRootView?.apply {
-                        dismissLoading()
-                        when (it.status) {
-                            0 -> {
-                                if (mPage == 1) {
-                                    if (it.data != null && it.data.flash_sale_goods.isNotEmpty()) {
-                                        setSecKillList(it.data.flash_sale_goods)
-                                    } else {
-                                        setEmpty()
-                                    }
-                                } else {
-                                    if (it.data != null && it.data.flash_sale_goods.isNotEmpty()) {
-                                        setLoadMore(it.data.flash_sale_goods)
-                                    } else {
-                                        setLoadComplete()
-                                    }
-                                }
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> {
+                            if (mPage == 1) {
                                 if (it.data != null && it.data.flash_sale_goods.isNotEmpty()) {
-                                    if (it.data.flash_sale_goods.size < UriConstant.PER_PAGE) {
-                                        setLoadComplete()
-                                    }
+                                    setSecKillList(it.data.flash_sale_goods)
+                                } else {
+                                    setEmpty()
+                                }
+                            } else {
+                                if (it.data != null && it.data.flash_sale_goods.isNotEmpty()) {
+                                    setLoadMore(it.data.flash_sale_goods)
+                                } else {
+                                    setLoadComplete()
                                 }
                             }
-                            else -> if (mPage == 1) {
-                                showError(it.msg, it.status)
-                            } else {
-                                loadMoreError(it.msg, it.status)
+                            if (it.data != null && it.data.flash_sale_goods.isNotEmpty()) {
+                                if (it.data.flash_sale_goods.size < UriConstant.PER_PAGE) {
+                                    setLoadComplete()
+                                }
                             }
                         }
-                    }
-                }, {
-                    mRootView?.apply {
-                        dismissLoading()
-                        if (mPage == 1) {
-                            showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                        else -> if (mPage == 1) {
+                            showError(it.msg, it.status)
                         } else {
-                            loadMoreError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                            loadMoreError(it.msg, it.status)
                         }
                     }
-                })
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    if (mPage == 1) {
+                        showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                    } else {
+                        loadMoreError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                    }
+                }
+            })
         addSubscription(disposable)
     }
 
+    override fun requestAdList(pid: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.getAdList(pid)
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> {
+                            if (it.data != null) {
+                                getAdList(it.data.list)
+                            }
+                        }
+                        else -> showError(it.msg, it.status)
+                    }
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
+        addSubscription(disposable)
+    }
 }
