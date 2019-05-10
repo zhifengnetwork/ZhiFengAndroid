@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
@@ -13,16 +14,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="15dp"
+                    android:paddingLeft="10dp"
                     android:paddingRight="16dp"
                     android:orientation="vertical">
 
                 <com.makeramen.roundedimageview.RoundedImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/classify_content_top_item_iv"
+                    android:id="@+id/classify_ad_img"
                     android:layout_width="match_parent"
                     android:layout_height="106dp"
-                    android:src="@mipmap/banner"
                     android:scaleType="fitXY"
                     app:riv_corner_radius="5dp"
                     app:riv_mutate_background="true"
@@ -48,6 +47,7 @@
                              android:id="@+id/rightRecyclerView"
                              android:layout_marginTop="20dp"
                              android:paddingLeft="3dp"
+                             android:paddingRight="3dp"
                              android:layout_width="match_parent"
                              android:layout_height="wrap_content"/>
              </LinearLayout>

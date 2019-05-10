@@ -25,7 +25,11 @@ class GraphicFragment : BaseFragment(), GoodsAttrContract.View {
 
     override fun getGoodsAttr(bean: List<AttriBute>) {
         mData.clear()
-        mData.addAll(bean)
+        for(i in 0..bean.size){
+            if (bean[i].attr.isNotEmpty()){
+                mData.add(bean[i])
+            }
+        }
         adapter.notifyDataSetChanged()
 
     }

@@ -7,8 +7,14 @@
 >
     <include layout="@layout/layout_toolbar"/>
 
-    <androidx.viewpager.widget.ViewPager
-            android:id="@+id/bonusViewPager"
+
+    <!--<androidx.viewpager.widget.ViewPager-->
+            <!--android:id="@+id/bonusViewPager"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="150dp"/>-->
+    <ImageView
+            android:id="@+id/bonus_ad_img"
+            android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="150dp"/>
     <LinearLayout

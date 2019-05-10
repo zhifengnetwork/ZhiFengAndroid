@@ -50,12 +50,14 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/goods_remark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="10dp"
             android:text="商品介绍"
+            android:textColor="@color/colorPrice"
             android:textSize="13sp" />
 
         <LinearLayout
@@ -265,45 +267,38 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="15dp"
-        android:background="@color/colorLine" />
+    <!--<View android:layout_width="match_parent" android:layout_height="1px"-->
+    <!--android:layout_marginTop="15dp"-->
+    <!--android:background="@color/colorLine"/>-->
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+    <!--<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"-->
+    <!--android:paddingLeft="10dp"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:paddingRight="10dp"-->
+    <!--android:orientation="horizontal">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="说明"
-            android:textColor="@color/colorBlackText"
-            android:textSize="13sp"
-            android:textStyle="bold" />
+    <!--<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+    <!--android:textSize="13sp"-->
+    <!--android:textStyle="bold"-->
+    <!--android:textColor="@color/colorBlackText"-->
+    <!--android:text="说明"/>-->
 
 
-        <TextView
-            android:id="@+id/goods_remark"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="23dp"
-            android:layout_weight="1"
-            android:drawableRight="@drawable/arrow_b"
-            android:drawablePadding="15dp"
-            android:lineSpacingExtra="2dp"
-            android:maxLines="2"
-            android:text="假一赔十 | 7天退还| 7天退还| 7天退还| 7天退还| 7天退还| 7天退还| 7天退还"
-            android:textColor="#7c7c7c"
-            android:textSize="11sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+    <!--<TextView-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:drawableRight="@drawable/arrow_b"-->
+    <!--android:textSize="11sp"-->
+    <!--android:textStyle="bold"-->
+    <!--android:lineSpacingExtra="2dp"-->
+    <!--android:textColor="#7c7c7c"-->
+    <!--android:maxLines="2"-->
+    <!--android:drawablePadding="15dp"-->
+    <!--android:layout_marginLeft="23dp"-->
+    <!--android:text="假一赔十 | 7天退还| 7天退还| 7天退还| 7天退还| 7天退还| 7天退还| 7天退还"/>-->
+    <!--</LinearLayout>-->
 
 
 </LinearLayout>

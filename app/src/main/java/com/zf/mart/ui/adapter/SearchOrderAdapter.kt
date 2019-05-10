@@ -1,6 +1,7 @@
 package com.zf.mart.ui.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.item_search_order.view.*
  *            2 是2列排版
  */
 class SearchOrderAdapter(val context: Context, val data: List<SearchList>) :
-        RecyclerView.Adapter<SearchOrderAdapter.ViewHolder>() {
+    RecyclerView.Adapter<SearchOrderAdapter.ViewHolder>() {
 
     private var mType = 1
 
@@ -43,8 +44,12 @@ class SearchOrderAdapter(val context: Context, val data: List<SearchList>) :
         holder.itemView.apply {
             if (mType == 1) {
                 goodsName.text = data[position].goods_name
-                data[position].goods_images?.let {
-                    GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + it[0].image_url, goodsIcon)
+                if (data[position].original_img == null) {
+                    data[position].goods_images?.let {
+                        GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + it[0].image_url, goodsIcon)
+                    }
+                } else {
+                    GlideUtils.loadUrlImage(context, UriConstant.BASE_URL + data[position].original_img, goodsIcon)
                 }
                 price.text = data[position].shop_price
                 sellNum.text = "销量: ${data[position].sales_sum}"

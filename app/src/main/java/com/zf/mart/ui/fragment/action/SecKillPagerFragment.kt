@@ -2,12 +2,15 @@ package com.zf.mart.ui.fragment.action
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant.BASE_URL
 import com.zf.mart.base.NotLazyBaseFragment
+import com.zf.mart.mvp.bean.AdvertList
 import com.zf.mart.mvp.bean.SecKillList
 import com.zf.mart.mvp.contract.SecKillListContract
 import com.zf.mart.mvp.presenter.SecKillListPresenter
 import com.zf.mart.net.exception.ErrorStatus
 import com.zf.mart.showToast
+import com.zf.mart.ui.activity.GoodsDetailActivity
 import com.zf.mart.ui.adapter.SecKillAdapter
 import com.zf.mart.utils.GlideImageLoader
 import kotlinx.android.synthetic.main.fragment_seckill_page.*
@@ -16,6 +19,9 @@ import kotlinx.android.synthetic.main.fragment_seckill_page.*
  * 秒杀页面多个布局
  */
 class SecKillPagerFragment : NotLazyBaseFragment(), SecKillListContract.View {
+    override fun getAdList(bean: List<AdvertList>) {
+        initBanner(bean)
+    }
 
     override fun setSecKillList(bean: List<SecKillList>) {
         mLayoutStatusView?.showContent()
@@ -81,7 +87,7 @@ class SecKillPagerFragment : NotLazyBaseFragment(), SecKillListContract.View {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-        initBanner()
+//        initBanner()
     }
 
     private val data = ArrayList<SecKillList>()
@@ -96,6 +102,7 @@ class SecKillPagerFragment : NotLazyBaseFragment(), SecKillListContract.View {
         if (data.isEmpty()) {
             mLayoutStatusView?.showLoading()
         }
+        presenter.requestAdList("9")
         presenter.requestSecKillList(mStartTime, mEndTime, 1)
     }
 
@@ -113,11 +120,19 @@ class SecKillPagerFragment : NotLazyBaseFragment(), SecKillListContract.View {
 
     }
 
-    private fun initBanner() {
-        val images = arrayListOf(R.mipmap.v1, R.mipmap.v2, R.mipmap.v3, R.mipmap.v4)
+    private fun initBanner(bean: List<AdvertList>) {
+        // 在最后需要start, start()在点击事件之后
+        val images = ArrayList<String>()
+        for (img in bean) {
+            images.add(BASE_URL + img.ad_code)
+        }
         banner.setImageLoader(GlideImageLoader())
         banner.setImages(images)
         banner.start()
-
+        banner.setOnBannerListener {
+            if (bean[it].goods_id.isNotEmpty()) {
+                GoodsDetailActivity.actionStart(context, bean[it].goods_id)
+            }
+        }
     }
 }

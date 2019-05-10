@@ -13,6 +13,7 @@ class BonusPresenter : BasePresenter<BonusContract.View>(), BonusContract.Presen
         val disposable = model.getBonus()
             .subscribe({
                 mRootView?.apply {
+                    dismissLoading()
                     when (it.status) {
                         0 -> {
                             if (it.data != null) {
@@ -30,4 +31,31 @@ class BonusPresenter : BasePresenter<BonusContract.View>(), BonusContract.Presen
             })
         addSubscription(disposable)
     }
+
+    override fun requestAdList(pid: String) {
+        checkViewAttached()
+        mRootView?.showLoading()
+        val disposable = model.getAdList(pid)
+            .subscribe({
+                mRootView?.apply {
+                    dismissLoading()
+                    when (it.status) {
+                        0 -> {
+                            if (it.data != null) {
+                                getAdList(it.data.list)
+                            }
+                        }
+                        else -> showError(it.msg, it.status)
+                    }
+                }
+            }, {
+                mRootView?.apply {
+                    dismissLoading()
+                    showError(ExceptionHandle.handleException(it), ExceptionHandle.errorCode)
+                }
+            })
+        addSubscription(disposable)
+    }
+
+
 }
