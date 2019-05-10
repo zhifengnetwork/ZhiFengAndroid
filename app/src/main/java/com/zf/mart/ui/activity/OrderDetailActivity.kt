@@ -7,19 +7,25 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tencent.mm.opensdk.modelpay.PayReq
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseActivity
-import com.zf.mart.mvp.bean.OrderDetailBean
 import com.zf.mart.mvp.bean.OrderGoodsList
 import com.zf.mart.mvp.bean.OrderListBean
+import com.zf.mart.mvp.bean.WXPayBean
 import com.zf.mart.mvp.contract.OrderDetailContract
 import com.zf.mart.mvp.contract.OrderOperateContract
+import com.zf.mart.mvp.contract.WXPayContract
 import com.zf.mart.mvp.presenter.OrderDetailPresenter
 import com.zf.mart.mvp.presenter.OrderOperatePresenter
+import com.zf.mart.mvp.presenter.WXPayPresenter
 import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.OrderGoodsAdapter
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.utils.TimeUtils
+import com.zf.mart.utils.bus.RxBus
 import kotlinx.android.synthetic.main.activity_order_detail.*
 import kotlinx.android.synthetic.main.layout_detail_price.*
 import kotlinx.android.synthetic.main.layout_en_order_address.*
@@ -29,7 +35,27 @@ import kotlinx.android.synthetic.main.layout_toolbar.*
 /**
  * 订单详情
  */
-class OrderDetailActivity : BaseActivity(), OrderDetailContract.View, OrderOperateContract.View {
+class OrderDetailActivity : BaseActivity(), OrderDetailContract.View, OrderOperateContract.View, WXPayContract.View {
+
+
+    //获取支付信息
+    override fun setWXPay(bean: WXPayBean) {
+        val api = WXAPIFactory.createWXAPI(this, UriConstant.WX_APP_ID, true)
+        api.registerApp(UriConstant.WX_APP_ID)
+        if (!api.isWXAppInstalled) {
+            showToast("未安装微信")
+        } else {
+            val req = PayReq()
+            req.appId = bean.appid
+            req.partnerId = bean.partnerid
+            req.prepayId = bean.prepayid
+            req.packageValue = bean.packageValue
+            req.nonceStr = bean.noncestr
+            req.timeStamp = bean.timestamp
+            req.sign = bean.sign
+            api.sendReq(req)
+        }
+    }
 
     override fun showOperateError(msg: String, errorCode: Int) {
 
@@ -45,8 +71,14 @@ class OrderDetailActivity : BaseActivity(), OrderDetailContract.View, OrderOpera
         showToast(msg)
     }
 
+    private var mOrderBean: OrderListBean? = null
+    private val wxPayPresenter by lazy { WXPayPresenter() }
+
     @SuppressLint("SetTextI18n")
     override fun setOrderDetail(bean: OrderListBean) {
+
+        mOrderBean = bean
+
         userName.text = bean.consignee
         userPhone.text = bean.mobile
         userAddress.text = "${bean.province}${bean.city}${bean.district}${bean.twon}${bean.address}"
@@ -114,6 +146,11 @@ class OrderDetailActivity : BaseActivity(), OrderDetailContract.View, OrderOpera
 //                status.text = "交易成功"
 //                afterSale.visibility = View.VISIBLE
             }
+        }
+
+        //立即付款
+        payNow.setOnClickListener {
+            wxPayPresenter.requestWXPay(mOrderBean?.order_sn ?: "")
         }
 
         //确认收货
@@ -201,6 +238,7 @@ class OrderDetailActivity : BaseActivity(), OrderDetailContract.View, OrderOpera
     private val adapter by lazy { OrderGoodsAdapter(this, data) }
 
     override fun initView() {
+        wxPayPresenter.attachView(this)
         orderOperatePresenter.attachView(this)
         orderDetailPresenter.attachView(this)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -210,12 +248,16 @@ class OrderDetailActivity : BaseActivity(), OrderDetailContract.View, OrderOpera
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         orderOperatePresenter.detachView()
         orderDetailPresenter.detachView()
+        wxPayPresenter.detachView()
+        super.onDestroy()
     }
 
     override fun initEvent() {
+        RxBus.getDefault().subscribe<String>(this, UriConstant.WX_PAY_SUCCESS) {
+            start()
+        }
     }
 
     override fun start() {

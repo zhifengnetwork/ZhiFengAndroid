@@ -24,7 +24,6 @@ class WXEntryActivity : Activity(), IWXAPIEventHandler {
      *    获取用户个人信息:
      *    "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID"
      */
-
     private var api: IWXAPI? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,23 +38,15 @@ class WXEntryActivity : Activity(), IWXAPIEventHandler {
         api?.handleIntent(intent, this)
     }
 
-    /**
-     * 微信支付回调  //0	成功	展示成功页面
-     *               //-1	错误	可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等。
-     *               //-2	用户取消	无需处理。发生场景：用户不支付了，点击取消，返回APP。
-     */
     //应用请求微信的相应回调
     override fun onResp(resp: BaseResp?) {
-        LogUtils.e(">>>>>>WX登录回调结果:" + resp?.errCode + "  类型：" + resp?.type)
+        LogUtils.e(">>>>>>微信普通回调？")
+        LogUtils.e(">>>>>>WX登录普通回调结果:" + resp?.errCode + "  类型：" + resp?.type)
         when (resp?.errCode) {
             BaseResp.ErrCode.ERR_OK -> {
                 when (resp.type) {
                     ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX -> {
                         showToast("分享成功")
-                        finish()
-                    }
-                    ConstantsAPI.COMMAND_PAY_BY_WX -> {
-                        showToast("支付成功")
                         finish()
                     }
                 }
@@ -78,7 +69,7 @@ class WXEntryActivity : Activity(), IWXAPIEventHandler {
                 finish()
             }
             else -> {
-                showToast("登录失败")
+                showToast("失败")
                 finish()
             }
         }

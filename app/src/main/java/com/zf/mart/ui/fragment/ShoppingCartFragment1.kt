@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.util.DensityUtil
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseFragment
 import com.zf.mart.mvp.bean.*
 import com.zf.mart.mvp.contract.CartListContract
@@ -19,6 +20,7 @@ import com.zf.mart.net.exception.ErrorStatus
 import com.zf.mart.showToast
 import com.zf.mart.ui.activity.ConfirmOrderActivity
 import com.zf.mart.ui.adapter.CartGoodsAdapter1
+import com.zf.mart.utils.bus.RxBus
 import com.zf.mart.view.dialog.DeleteCartDialog
 import com.zf.mart.view.dialog.InputNumDialog
 import com.zf.mart.view.popwindow.CartSpecPopupWindow
@@ -58,12 +60,12 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
             }
         }
         popWindow = object : CartSpecPopupWindow(
-                activity as Activity,
-                R.layout.pop_order_style,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                cartData[mGoodsPos],
-                specList
+            activity as Activity,
+            R.layout.pop_order_style,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            cartData[mGoodsPos],
+            specList
         ) {}
         popWindow?.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
         popWindow?.onNumberListener = {
@@ -207,12 +209,12 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         cartRecyclerView.layoutManager = LinearLayoutManager(context)
         cartRecyclerView.adapter = cartAdapter
         cartRecyclerView.addItemDecoration(
-                RecyclerViewDivider(
-                        context,
-                        LinearLayoutManager.VERTICAL,
-                        DensityUtil.dp2px(5f),
-                        ContextCompat.getColor(context!!, R.color.colorBackground)
-                )
+            RecyclerViewDivider(
+                context,
+                LinearLayoutManager.VERTICAL,
+                DensityUtil.dp2px(5f),
+                ContextCompat.getColor(context!!, R.color.colorBackground)
+            )
         )
     }
 
@@ -233,6 +235,10 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
     }
 
     override fun initEvent() {
+
+        RxBus.getDefault().subscribe<String>(this, UriConstant.FRESH_CART) {
+            lazyLoad()
+        }
 
         /** 全选反选按钮 */
         allChoose.setOnClickListener {
@@ -256,7 +262,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
             }
             allChoose.isChecked = sum == cartData.size
             val body =
-                    RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(json))
+                RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(json))
             cartOperatePresenter.requestSelect(body)
         }
 
@@ -276,7 +282,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
         /** 商品数量*/
         cartAdapter.onInputListener = { bean ->
             InputNumDialog.showDialog(childFragmentManager, bean.sum)
-                    .onNumListener = { num ->
+                .onNumListener = { num ->
                 cartOperatePresenter.requestCount(bean.id, num)
                 bean.goodsPosition?.let { goodsPos ->
                     cartData[goodsPos].let {
@@ -311,7 +317,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                     return@setOnClickListener
                 }
                 DeleteCartDialog.showDialog(childFragmentManager, 1)
-                        .onConfirmListener = {
+                    .onConfirmListener = {
                     val deleteList = ArrayList<HashMap<String, String>>()
                     cartData.forEach { goods ->
                         if (goods.selected == "1") {
@@ -321,7 +327,7 @@ class ShoppingCartFragment1 : BaseFragment(), CartListContract.View, CartOperate
                         }
                     }
                     val body =
-                            RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(deleteList))
+                        RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), Gson().toJson(deleteList))
                     cartOperatePresenter.requestDeleteCart(body)
                 }
 

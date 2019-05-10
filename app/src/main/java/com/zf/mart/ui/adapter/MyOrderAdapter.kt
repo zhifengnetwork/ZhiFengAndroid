@@ -29,6 +29,7 @@ class MyOrderAdapter(val context: Context?, val data: List<OrderListBean>) :
     var onConfirmReceiveListener: ((String) -> Unit)? = null
     var onShippingListener: ((String) -> Unit)? = null
     var onEvaluateListener: ((OrderListBean) -> Unit)? = null
+    var onPayListener: ((OrderListBean) -> Unit)? = null
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -98,6 +99,11 @@ class MyOrderAdapter(val context: Context?, val data: List<OrderListBean>) :
                     status.text = "交易成功"
 //                    afterSale.visibility = View.VISIBLE
                 }
+            }
+
+            //立即支付
+            payNow.setOnClickListener {
+                onPayListener?.invoke(data[position])
             }
 
             //确认收货

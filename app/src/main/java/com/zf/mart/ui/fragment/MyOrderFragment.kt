@@ -2,27 +2,48 @@ package com.zf.mart.ui.fragment
 
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tencent.mm.opensdk.modelpay.PayReq
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.zf.mart.R
 import com.zf.mart.api.UriConstant
 import com.zf.mart.base.NotLazyBaseFragment
 import com.zf.mart.mvp.bean.OrderListBean
+import com.zf.mart.mvp.bean.WXPayBean
 import com.zf.mart.mvp.contract.OrderListContract
 import com.zf.mart.mvp.contract.OrderOperateContract
+import com.zf.mart.mvp.contract.WXPayContract
 import com.zf.mart.mvp.presenter.OrderListPresenter
 import com.zf.mart.mvp.presenter.OrderOperatePresenter
+import com.zf.mart.mvp.presenter.WXPayPresenter
 import com.zf.mart.net.exception.ErrorStatus
 import com.zf.mart.showToast
-import com.zf.mart.ui.activity.EvaluateActivity
-import com.zf.mart.ui.activity.MainActivity
-import com.zf.mart.ui.activity.MyOrderActivity
-import com.zf.mart.ui.activity.ShippingActivity
+import com.zf.mart.ui.activity.*
 import com.zf.mart.ui.adapter.MyOrderAdapter
 import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.bus.RxBus
 import kotlinx.android.synthetic.main.fragment_myorder.*
 import kotlinx.android.synthetic.main.layout_state_empty_order.*
 
-class MyOrderFragment : NotLazyBaseFragment(), OrderListContract.View, OrderOperateContract.View {
+class MyOrderFragment : NotLazyBaseFragment(), OrderListContract.View, OrderOperateContract.View, WXPayContract.View {
+
+    //获取微信支付参数
+    override fun setWXPay(bean: WXPayBean) {
+        val api = WXAPIFactory.createWXAPI(context, UriConstant.WX_APP_ID, true)
+        api.registerApp(UriConstant.WX_APP_ID)
+        if (!api.isWXAppInstalled) {
+            showToast("未安装微信")
+        } else {
+            val req = PayReq()
+            req.appId = bean.appid
+            req.partnerId = bean.partnerid
+            req.prepayId = bean.prepayid
+            req.packageValue = bean.packageValue
+            req.nonceStr = bean.noncestr
+            req.timeStamp = bean.timestamp
+            req.sign = bean.sign
+            api.sendReq(req)
+        }
+    }
 
     //订单操作失败
     override fun showOperateError(msg: String, errorCode: Int) {
@@ -113,10 +134,14 @@ class MyOrderFragment : NotLazyBaseFragment(), OrderListContract.View, OrderOper
 
     private val orderOperatePresenter by lazy { OrderOperatePresenter() }
 
+    private val wxPayPresenter by lazy { WXPayPresenter() }
+
+
     override fun initView() {
         mLayoutStatusView = multipleStatusView
         orderListPresenter.attachView(this)
         orderOperatePresenter.attachView(this)
+        wxPayPresenter.attachView(this)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
@@ -132,7 +157,16 @@ class MyOrderFragment : NotLazyBaseFragment(), OrderListContract.View, OrderOper
         requestOrderList(1)
     }
 
+    private var mOrderId = ""
+
     override fun initEvent() {
+
+        RxBus.getDefault().subscribe<String>(this, UriConstant.WX_PAY_SUCCESS) {
+            //微信支付成功
+            //刷新列表并且进入订单详情
+            lazyLoad()
+            OrderDetailActivity.actionStart(context, mOrderId)
+        }
 
         RxBus.getDefault().subscribe<String>(this) {
             LogUtils.e(">>>>>rxBus:$it")
@@ -143,6 +177,13 @@ class MyOrderFragment : NotLazyBaseFragment(), OrderListContract.View, OrderOper
         }
 
         adapter.apply {
+
+            //立即付款
+            onPayListener = { orderBean ->
+                wxPayPresenter.requestWXPay(orderBean.order_sn)
+                mOrderId = orderBean.order_id
+            }
+
             //删除
             deleteListener = {
                 //                DeleteMyOrderDialog.showDialog(childFragmentManager, it)
@@ -232,6 +273,7 @@ class MyOrderFragment : NotLazyBaseFragment(), OrderListContract.View, OrderOper
         super.onDestroy()
         orderListPresenter.detachView()
         orderOperatePresenter.detachView()
+        wxPayPresenter.detachView()
     }
 
 }

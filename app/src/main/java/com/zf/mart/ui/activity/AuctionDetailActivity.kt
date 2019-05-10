@@ -6,19 +6,25 @@ import android.os.CountDownTimer
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tencent.mm.opensdk.modelpay.PayReq
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.zf.mart.R
 import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.mvp.bean.AuctionDetailBean
 import com.zf.mart.mvp.bean.AuctionPriceBean
 import com.zf.mart.mvp.bean.PriceList
+import com.zf.mart.mvp.bean.WXPayBean
+import com.zf.mart.mvp.contract.AuctionDepositContract
 import com.zf.mart.mvp.contract.AuctionDetailContract
+import com.zf.mart.mvp.presenter.AuctionDepositPresenter
 import com.zf.mart.mvp.presenter.AuctionDetailPresenter
 import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.AuctionPeopleAdapter
 import com.zf.mart.utils.GlideUtils
 import com.zf.mart.utils.StatusBarUtils
 import com.zf.mart.utils.TimeUtils
+import com.zf.mart.utils.bus.RxBus
 import com.zf.mart.view.dialog.AuctionSuccessDialog
 import kotlinx.android.synthetic.main.activity_auction_detail.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -28,7 +34,26 @@ import java.text.DecimalFormat
 /**
  * 竞拍详情页
  */
-class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
+class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View, AuctionDepositContract.View {
+
+    //提交保证金
+    override fun setWXPay(bean: WXPayBean) {
+        val api = WXAPIFactory.createWXAPI(this, UriConstant.WX_APP_ID, true)
+        api.registerApp(UriConstant.WX_APP_ID)
+        if (!api.isWXAppInstalled) {
+            showToast("未安装微信")
+        } else {
+            val req = PayReq()
+            req.appId = bean.appid
+            req.partnerId = bean.partnerid
+            req.prepayId = bean.prepayid
+            req.packageValue = bean.packageValue
+            req.nonceStr = bean.noncestr
+            req.timeStamp = bean.timestamp
+            req.sign = bean.sign
+            api.sendReq(req)
+        }
+    }
 
     override fun showError(msg: String, errorCode: Int) {
         showToast(msg)
@@ -154,6 +179,9 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
             }
         } else {
             confirm.text = "立即参拍\n保证金(¥${bean.auction.deposit})"
+            confirm.setOnClickListener {
+                depositPresenter.requestDeposit(mId)
+            }
         }
     }
 
@@ -194,7 +222,10 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
 
     private val presenter by lazy { AuctionDetailPresenter() }
 
+    private val depositPresenter by lazy { AuctionDepositPresenter() }
+
     override fun initView() {
+        depositPresenter.attachView(this)
         presenter.attachView(this)
         val manager = LinearLayoutManager(this)
         manager.orientation = LinearLayoutManager.HORIZONTAL
@@ -203,6 +234,10 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
     }
 
     override fun initEvent() {
+
+        RxBus.getDefault().subscribe<String>(this, UriConstant.WX_PAY_SUCCESS) {
+            presenter.requestAuctionDetail(mId)
+        }
 
         //减价
         reduce.setOnClickListener { _ ->
@@ -225,9 +260,10 @@ class AuctionDetailActivity : BaseActivity(), AuctionDetailContract.View {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         countDownTimer?.cancel()
         presenter.detachView()
+        depositPresenter.detachView()
+        super.onDestroy()
     }
 
     override fun start() {

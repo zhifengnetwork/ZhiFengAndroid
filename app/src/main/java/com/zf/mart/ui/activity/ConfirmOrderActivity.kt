@@ -1,6 +1,5 @@
 package com.zf.mart.ui.activity
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -10,17 +9,24 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.util.DensityUtil
+import com.tencent.mm.opensdk.modelpay.PayReq
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.zf.mart.R
+import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseActivity
 import com.zf.mart.mvp.bean.AddressBean
 import com.zf.mart.mvp.bean.Goods
 import com.zf.mart.mvp.bean.PostOrderBean
+import com.zf.mart.mvp.bean.WXPayBean
 import com.zf.mart.mvp.contract.PostOrderContract
+import com.zf.mart.mvp.contract.WXPayContract
 import com.zf.mart.mvp.presenter.PostOrderPresenter
+import com.zf.mart.mvp.presenter.WXPayPresenter
 import com.zf.mart.showToast
 import com.zf.mart.ui.adapter.EnGoodsAdapter
 import com.zf.mart.utils.LogUtils
 import com.zf.mart.utils.StatusBarUtils
+import com.zf.mart.utils.bus.RxBus
 import com.zf.mart.view.popwindow.OrderPayPopupWindow
 import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import kotlinx.android.synthetic.main.activity_confirm_order.*
@@ -29,7 +35,26 @@ import kotlinx.android.synthetic.main.layout_order_other.*
 import kotlinx.android.synthetic.main.layout_order_price.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
-class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
+class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View, WXPayContract.View {
+
+    //获取微信支付参数
+    override fun setWXPay(bean: WXPayBean) {
+        val api = WXAPIFactory.createWXAPI(this, UriConstant.WX_APP_ID, true)
+        api.registerApp(UriConstant.WX_APP_ID)
+        if (!api.isWXAppInstalled) {
+            showToast("未安装微信")
+        } else {
+            val req = PayReq()
+            req.appId = bean.appid
+            req.partnerId = bean.partnerid
+            req.prepayId = bean.prepayid
+            req.packageValue = bean.packageValue
+            req.nonceStr = bean.noncestr
+            req.timeStamp = bean.timestamp
+            req.sign = bean.sign
+            api.sendReq(req)
+        }
+    }
 
     //去添加收货信息
     override fun setCompleteAddress() {
@@ -43,7 +68,6 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
         back.setOnClickListener { finish() }
         titleName.text = "确定订单"
         rightLayout.visibility = View.INVISIBLE
-
     }
 
     /** 余额支付成功 */
@@ -68,6 +92,7 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
         //确认支付
         window.onConfirmPayListener = {
             LogUtils.e(">>>>:" + bean.order_sn)
+            wxPayPresenter.requestWXPay(bean.order_sn)
         }
     }
 
@@ -140,6 +165,7 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
     override fun layoutId(): Int = R.layout.activity_confirm_order
 
     private val presenter by lazy { PostOrderPresenter() }
+    private val wxPayPresenter by lazy { WXPayPresenter() }
 
     override fun initData() {
         mPromType = intent.getIntExtra("prom", 0)
@@ -190,6 +216,13 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
 
 
     override fun initEvent() {
+
+        RxBus.getDefault().subscribe<String>(this, UriConstant.WX_PAY_SUCCESS) {
+            LogUtils.e(">>>>>:支付成功后订阅刷新")
+            MyOrderActivity.actionStart(this, MyOrderActivity.all)
+            finish()
+        }
+
 
         ifUseMoney.setOnCheckedChangeListener { _, isChecked ->
             payPwdLayout.visibility = if (isChecked) View.VISIBLE else View.GONE
@@ -264,6 +297,7 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
     }
 
     override fun initView() {
+        wxPayPresenter.attachView(this)
         presenter.attachView(this)
         goodsRecyclerView.layoutManager = LinearLayoutManager(this)
         goodsRecyclerView.adapter = adapter
@@ -273,7 +307,6 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
     //发票回调的全部信息
     private var mHead = ""
 
-    @SuppressLint("SetTextI18n")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //发票回调
@@ -313,8 +346,9 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         presenter.detachView()
+        wxPayPresenter.detachView()
+        super.onDestroy()
     }
 
 }

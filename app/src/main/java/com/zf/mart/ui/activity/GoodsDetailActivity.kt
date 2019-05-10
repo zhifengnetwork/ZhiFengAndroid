@@ -129,6 +129,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         showToast(msg)
         specsPopWindow.onDismiss()
         cart.isChecked = true
+        RxBus.getDefault().post(UriConstant.FRESH_CART, UriConstant.FRESH_CART)
     }
 
     //根据规格key获取图片，库存
@@ -321,7 +322,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 
         val titles = arrayOf("图文详情")
         val fgms = arrayListOf(
-            GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment
+                GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment
         )
         segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
 //        val titles = arrayOf("图文详情")

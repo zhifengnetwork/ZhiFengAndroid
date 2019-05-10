@@ -794,4 +794,19 @@ interface ApiService {
     @GET("api/User/myIndex")
     fun requestMe(): Observable<BaseBean<MeBean>>
 
+    /**
+     * 订单支付
+     */
+    @POST("api/payment/GetWxAppPaySign")
+    @FormUrlEncoded
+    fun requestWXPay(@Field("order_sn") order_sn: String): Observable<BaseBean<WXPayBean>>
+
+    /**
+     * 竞拍提交保证金
+     */
+    @POST("api/payment/payBond")
+    @FormUrlEncoded
+    fun requestDeposit(@Field("id") id: String): Observable<BaseBean<WXPayBean>>
+
+
 }

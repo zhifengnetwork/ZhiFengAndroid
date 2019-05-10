@@ -24,6 +24,10 @@ object UriConstant {
 
     const val WX_SHARE = "WX_SHARE" //微信分享成功
 
+    const val WX_PAY_SUCCESS = "WX_PAY_SUCCESS" //微信支付成功
+
+    const val FRESH_CART = "FRESH_CART" //刷新购物车
+
     //http://www.dchqzg1688.com/api/upload/add
 
 //    const  val BASE_URL = "http://api.zhifeng.c3w.cc"
