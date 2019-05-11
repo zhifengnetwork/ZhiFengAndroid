@@ -111,6 +111,7 @@ class GraphicFragment : BaseFragment(), GoodsAttrContract.View {
     override fun onDestroy() {
         super.onDestroy()
         presenter.detachView()
+        RichText.clear(activity)
 
     }
     override fun onStart() {

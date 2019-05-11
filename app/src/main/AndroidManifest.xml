@@ -391,6 +391,18 @@
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity
+                android:name=".ui.activity.MaterialActivity"
+                android:launchMode="singleTask"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+                android:name=".ui.activity.MaterialDetailActivity"
+                android:launchMode="singleTask"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"/>
+
     </application>
 
 </manifest>

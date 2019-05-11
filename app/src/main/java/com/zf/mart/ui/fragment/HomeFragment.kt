@@ -269,6 +269,10 @@ class HomeFragment : BaseFragment(), HomeContract.View, CommendContract.View {
         sign_btn.setOnClickListener {
             SignInGiftActivity.actionStart(context)
         }
+        //素材
+        material.setOnClickListener {
+           MaterialActivity.actionStart(context)
+        }
 
     }
 
