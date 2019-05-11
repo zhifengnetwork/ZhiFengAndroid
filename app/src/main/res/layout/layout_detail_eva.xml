@@ -70,14 +70,12 @@
             android:id="@+id/evaRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:nestedScrollingEnabled="false"
             android:overScrollMode="never"/>
 
     <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_marginTop="5dp"
             android:background="@color/colorLine"/>
 
     <!--<LinearLayout-->

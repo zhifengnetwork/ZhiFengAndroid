@@ -78,6 +78,7 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View, WXPayContra
 
     /** 提交订单成功*/
     override fun setConfirmOrder(bean: PostOrderBean) {
+        RxBus.getDefault().post(UriConstant.FRESH_CART, UriConstant.FRESH_CART)
         LogUtils.e(">>>>>:" + bean.order_sn + "   " + bean)
         val window = object : OrderPayPopupWindow(
                 this, R.layout.pop_order_pay,
@@ -149,7 +150,7 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View, WXPayContra
                 item_id: String,
                 promId: String,
                 foundId: String? = "",
-                addressId:String? = ""
+                addressId: String? = ""
         ) {
             val intent = Intent(context, ConfirmOrderActivity::class.java)
             intent.putExtra("prom", promType) //prom: 0默认,1秒杀,2团购,3优惠促销,4预售,5虚拟(5其实没用),6拼团,7搭配购,8竞拍
@@ -159,7 +160,7 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View, WXPayContra
             intent.putExtra("itemId", item_id) //商品规格id	  action=1时必须 //7-12-16
             intent.putExtra("promId", promId) //活动ID 拼团id
             intent.putExtra("foundId", foundId) //团id
-            intent.putExtra("addressId",addressId)
+            intent.putExtra("addressId", addressId)
             context?.startActivity(intent)
         }
     }
@@ -221,7 +222,6 @@ class ConfirmOrderActivity : BaseActivity(), PostOrderContract.View, WXPayContra
     override fun initEvent() {
 
         RxBus.getDefault().subscribe<String>(this, UriConstant.WX_PAY_SUCCESS) {
-            LogUtils.e(">>>>>:支付成功后订阅刷新")
             MyOrderActivity.actionStart(this, MyOrderActivity.all)
             finish()
         }

@@ -41,7 +41,7 @@ class ColumnAdapter(val context: Context?) : RecyclerView.Adapter<ColumnAdapter.
                 1 -> BonusActivity.actionStart(context)
                 9 -> PickupActivity.actionStart(context)
                 4 -> TeamActivity.actionStart(context)
-                5 -> LiveActivity.actionStart(context)
+//                5 -> LiveActivity.actionStart(context)
                 11 -> AccountDetailsActivity.actionStart(context)
             }
         }
