@@ -17,6 +17,7 @@ import com.zf.mart.view.recyclerview.RecyclerViewDivider
 import com.zzhoujay.richtext.RichText
 import kotlinx.android.synthetic.main.fragment_graphic.*
 
+/**没用 之前的商品图文详情*/
 class GraphicFragment : BaseFragment(), GoodsAttrContract.View {
 
     override fun showError(msg: String, errorCode: Int) {
