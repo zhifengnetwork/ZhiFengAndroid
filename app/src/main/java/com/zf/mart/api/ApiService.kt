@@ -826,7 +826,7 @@ interface ApiService {
     @POST("api/payment/payBond")
     @FormUrlEncoded
     fun requestDeposit(@Field("id") id: String): Observable<BaseBean<WXPayBean>>
-    
+
     /**
      *  获取广告列表
      */

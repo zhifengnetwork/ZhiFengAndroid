@@ -13,6 +13,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.zf.mart.R
 import com.zf.mart.api.UriConstant
 import com.zf.mart.base.BaseActivity
@@ -107,7 +111,7 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View, ActiveSpec
         if ((bean.info.start_time * 1000 > System.currentTimeMillis())) {
             countDownTime.text = "${TimeUtils.auctionTime(bean.info.start_time)}准时开始"
         } else if ((bean.info.start_time * 1000 < System.currentTimeMillis())
-                && (bean.info.end_time * 1000 > System.currentTimeMillis())
+            && (bean.info.end_time * 1000 > System.currentTimeMillis())
         ) {
             val time: Long = (bean.info.end_time * 1000) - System.currentTimeMillis()
             countTime = object : CountDownTimer((time), 1000) {
@@ -168,9 +172,9 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View, ActiveSpec
 
     override fun initToolBar() {
         StatusBarUtils.darkMode(
-                this,
-                ContextCompat.getColor(this, R.color.colorSecondText),
-                0.3f
+            this,
+            ContextCompat.getColor(this, R.color.colorSecondText),
+            0.3f
         )
     }
 
@@ -223,29 +227,60 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View, ActiveSpec
         }
 
         val popWindow = object : ActiveSpecPopupWindow(
-                this,
-                R.layout.pop_order_style,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                mGroupBean,
-                promType
+            this,
+            R.layout.pop_order_style,
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            mGroupBean,
+            promType
         ) {}
         popWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0)
         popWindow.onConfirmListener = { _, num ->
             mNum = num
             /** 去结算 */
-            ConfirmOrderActivity.actionStart(this,
-                    promType, "1",
-                    mGroupBean?.info?.goods_id ?: "",
-                    mNum,
-                    mGroupBean?.info?.goods_item_id ?: "", //规格
-                    mGroupBean?.info?.team_id ?: "", //活动id
-                    foundId //团id
+            ConfirmOrderActivity.actionStart(
+                this,
+                promType, "1",
+                mGroupBean?.info?.goods_id ?: "",
+                mNum,
+                mGroupBean?.info?.goods_item_id ?: "", //规格
+                mGroupBean?.info?.team_id ?: "", //活动id
+                foundId //团id
             )
         }
     }
 
+    private var mTargetScene = SendMessageToWX.Req.WXSceneSession
+
+    private fun buildTransaction(type: String?): String {
+        return if (type == null) System.currentTimeMillis().toString() else type + System.currentTimeMillis()
+    }
+
     override fun initEvent() {
+
+        //分享
+        shareLayout.setOnClickListener {
+            val api = WXAPIFactory.createWXAPI(this, UriConstant.WX_APP_ID, true)
+            // 将应用的appId注册到微信
+            api.registerApp(UriConstant.WX_APP_ID)
+            if (!api.isWXAppInstalled) {
+                showToast("未安装微信")
+            } else {
+                /** 发送文字类型 */
+                val webObj = WXWebpageObject()
+                webObj.webpageUrl =
+                    "https://mobile.zhifengwangluo.c3w.cc/shop/Groupbuy/detail?team_id=" + mGroupBean?.info?.team_id + "&goods_id=" + mGroupBean?.info?.goods_id
+                val msg = WXMediaMessage()
+                msg.mediaObject = webObj //消息对象
+                msg.title = "智丰商城" //标题
+                msg.description = "拼团" //描述
+                val req = SendMessageToWX.Req()
+                req.transaction = buildTransaction("text")
+                req.message = msg
+                req.scene = mTargetScene
+                api.sendReq(req)
+            }
+        }
 
         userAdapter.onItemClickListener = { foundId ->
             initBuy(6, foundId)
@@ -253,8 +288,10 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View, ActiveSpec
 
         collect.setOnClickListener {
             when {
-                collect.isChecked -> groupDetailPresenter.requestAddCollect(mGroupBean?.info?.goods_id
-                        ?: "")
+                collect.isChecked -> groupDetailPresenter.requestAddCollect(
+                    mGroupBean?.info?.goods_id
+                        ?: ""
+                )
                 else -> groupDetailPresenter.requestDelCollect(mGroupBean?.info?.goods_id ?: "")
             }
         }
@@ -280,8 +317,10 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View, ActiveSpec
     }
 
     private val divider by lazy {
-        RecyclerViewDivider(this, LinearLayoutManager.VERTICAL,
-                1, ContextCompat.getColor(this, R.color.colorBackground))
+        RecyclerViewDivider(
+            this, LinearLayoutManager.VERTICAL,
+            1, ContextCompat.getColor(this, R.color.colorBackground)
+        )
     }
 
     private fun initGroup() {
@@ -324,10 +363,10 @@ class GroupDetailActivity : BaseActivity(), GroupDetailContract.View, ActiveSpec
                 alpha = 1.0f
             }
             orderDetailHead.setBackgroundColor(
-                    changeAlpha(
-                            ContextCompat.getColor(this, R.color.whit)
-                            , alpha
-                    )
+                changeAlpha(
+                    ContextCompat.getColor(this, R.color.whit)
+                    , alpha
+                )
             )
         }
     }

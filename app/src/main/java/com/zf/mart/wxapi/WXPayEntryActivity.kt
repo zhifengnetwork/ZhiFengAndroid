@@ -45,7 +45,6 @@ class WXPayEntryActivity : Activity(), IWXAPIEventHandler {
                     ConstantsAPI.COMMAND_PAY_BY_WX -> {
                         showToast("支付成功")
                         finish()
-                        RxBus.getDefault().post(UriConstant.FRESH_CART, UriConstant.FRESH_CART)
                         RxBus.getDefault().post(UriConstant.WX_PAY_SUCCESS, UriConstant.WX_PAY_SUCCESS)
                     }
                 }

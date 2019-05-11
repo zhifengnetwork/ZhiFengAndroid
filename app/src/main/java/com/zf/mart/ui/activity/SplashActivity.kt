@@ -30,7 +30,7 @@ class SplashActivity : BaseActivity() {
 
         val animation = AlphaAnimation(1.0f, 1.0f)
         imageView.startAnimation(animation)
-        animation.duration = 1000
+        animation.duration = 100
         animation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationRepeat(animation: Animation?) {
             }
