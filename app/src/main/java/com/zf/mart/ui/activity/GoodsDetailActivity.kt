@@ -33,10 +33,7 @@ import com.zf.mart.mvp.bean.*
 import com.zf.mart.mvp.contract.GoodsDetailContract
 import com.zf.mart.mvp.presenter.GoodsDetailPresenter
 import com.zf.mart.showToast
-import com.zf.mart.ui.adapter.DetailEvaAdapter
-import com.zf.mart.ui.adapter.GoodsDetailAdapter
-import com.zf.mart.ui.adapter.GoodsSpecsAdapter
-import com.zf.mart.ui.adapter.GuideAdapter
+import com.zf.mart.ui.adapter.*
 import com.zf.mart.ui.fragment.graphic.GraphicFragment
 import com.zf.mart.ui.fragment.same.DetailSameFragment
 import com.zf.mart.utils.GlideUtils
@@ -46,7 +43,10 @@ import com.zf.mart.utils.TimeUtils
 import com.zf.mart.utils.bus.RxBus
 import com.zf.mart.view.popwindow.RegionPopupWindow
 import com.zf.mart.view.popwindow.ServicePopupWindow
+import com.zf.mart.view.recyclerview.RecyclerViewDivider
+import com.zzhoujay.richtext.RichText
 import kotlinx.android.synthetic.main.activity_goods_detail2.*
+import kotlinx.android.synthetic.main.fragment_graphic.*
 import kotlinx.android.synthetic.main.layout_buy.*
 import kotlinx.android.synthetic.main.layout_detail_eva.*
 import kotlinx.android.synthetic.main.layout_detail_goods.*
@@ -82,12 +82,23 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         //加载轮播图
         initBanner()
         //加载界面数据
-        loadData()
+        loadData(bean)
         //相似推荐
         initSame()
-        //图文详情
-        initGraphic()
+        //商品属性请求
+        presenter.requestGoodsAttr(bean.goods.goods_id)
 
+    }
+
+    //商品属性
+    override fun getGoodsAttr(bean: List<AttriBute>) {
+        mAttr.clear()
+        for (i in 0 until bean.size) {
+            if (bean[i].attr.isNotEmpty()) {
+                mAttr.add(bean[i])
+            }
+        }
+        attrAdapter.notifyDataSetChanged()
     }
 
     //秒杀商品详情
@@ -256,6 +267,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     private var mData: GoodsDetailBean? = null
     //秒杀商品详情
     private var nData: SecKillInfo? = null
+    //商品属性
+    private var mAttr = ArrayList<AttriBute>()
     //商品评论
     private var mEva = ArrayList<GoodEvaList>()
     //商品规格
@@ -278,6 +291,8 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     private var mAddress = ArrayList<AddressBean>()
     //商品评价adapter
     private val evaAdapter by lazy { DetailEvaAdapter(this, mEva) }
+    //商品属性adapter
+    private val attrAdapter by lazy { OrderInfoAdapter(context, mAttr) }
     //Banner轮播图
     private var images = ArrayList<String>()
     //接收传递过来的id
@@ -323,7 +338,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
         initSame()
 
         //图文详情
-//        initGraphic()
+        initGraphic()
 
     }
 
@@ -337,18 +352,29 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     }
 
     private fun initGraphic() {
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.addItemDecoration(
+            RecyclerViewDivider(
+                context,
+                LinearLayoutManager.VERTICAL,
+                2,
+                ContextCompat.getColor(context!!, R.color.colorLine)
+            )
+        )
+        recyclerView.adapter = attrAdapter
 
+        RichText.initCacheDir(this)
 //        val titles = arrayOf("图文详情", "答疑")
 //        val fgms = arrayListOf(
 //            GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment,
 //            OrderAnswerFragment.newInstance() as Fragment
 //        )
 
-        val titles = arrayOf("图文详情")
-        val fgms = arrayListOf(
-                GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment
-        )
-        segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
+//        val titles = arrayOf("图文详情")
+//        val fgms = arrayListOf(
+//                GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment
+//        )
+//        segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
 //        val titles = arrayOf("图文详情")
 //        val fgms = arrayListOf(GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment)
 //        segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
@@ -513,7 +539,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
             MainActivity.actionStart(this, 2)
         }
 
-        /**商品详情-相似推荐*/
+        /**图文详情*/
 //        RxBus.getDefault().subscribe<String>(this, FRESH_ORDER) {
 //            //请求商品详情
 //            presenter.requestGoodsDetail(it)
@@ -524,6 +550,18 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 //            //回到顶部
 //            scrollView.fullScroll(ScrollView.SCROLL_INDICATOR_TOP)
 //        }
+        show.setOnClickListener {
+            show.isSelected = !show.isSelected
+            if (show.isSelected) {
+                show.text = "收起"
+                textR.visibility = View.VISIBLE
+                //图文详情
+                RichText.from(mData?.goods_content).into(textR)
+            } else {
+                show.text = "展开"
+                textR.visibility = View.GONE
+            }
+        }
 
     }
 
@@ -536,6 +574,7 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     override fun onDestroy() {
         super.onDestroy()
         presenter.detachView()
+        RichText.clear(this)
     }
 
     override fun start() {
@@ -551,25 +590,25 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
     }
 
     /**将网络请求到的数据赋值到页面上*/
-    private fun loadData() {
+    private fun loadData(data: GoodsDetailBean) {
         //商品名字
-        goods_name.text = mData?.goods?.goods_name
+        goods_name.text = data.goods.goods_name
         //商品价格
-        shop_price.text = mData?.goods?.shop_price
+        shop_price.text = data.goods.shop_price
         //市场价格
-        market_price.text = "￥" + mData?.goods?.market_price
+        market_price.text = "￥" + data.goods.market_price
         //销量
-        virtual_sales_sum.text = mData?.goods?.virtual_collect_sum
+        virtual_sales_sum.text = data.goods.virtual_collect_sum
         //库存
-        store_count.text = mData?.goods?.store_count + "件"
+        store_count.text = data.goods.store_count + "件"
         //运费
-        if (mData?.goods?.is_free_shipping == "1") fare.text = "免运费" else fare.text = "按实际地区收费"
+        if (data.goods.is_free_shipping == "1") fare.text = "免运费" else fare.text = "按实际地区收费"
         //说明
-        goods_remark.text = mData?.goods?.goods_remark
+        goods_remark.text = data.goods.goods_remark
         //商品评论数
-        comments.text = "(${mData?.goods?.comment_count})"
+        comments.text = "(${data.goods.comment_count})"
         //好评率
-        high_rate.text = mData?.goods?.comment_fr?.high_rate + "%"
+        high_rate.text = data.goods.comment_fr.high_rate + "%"
         //问大家数
 
         //店铺名字
@@ -579,9 +618,10 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 //        //店铺图片avatar
 //        GlideUtils.loadUrlImage(this, mData?.goods?.seller_info?.avatar, shopIcon)
         //是否已收藏
-        collect.isChecked = mData?.goods?.is_collect != "0"
+        collect.isChecked = data.goods.is_collect != "0"
         //是否在购物车
-        cart.isChecked = mData?.goods?.is_cart != "0"
+        cart.isChecked = data.goods.is_cart != "0"
+
 
     }
 

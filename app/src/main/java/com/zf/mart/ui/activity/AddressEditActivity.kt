@@ -164,9 +164,7 @@ class AddressEditActivity : BaseActivity(), AddressEditContract.View {
 
 
     companion object {
-
         fun actionStart(context: Context?, addressData: AddressBean?) {
-
             val intent = Intent(context, AddressEditActivity::class.java)
             intent.putExtra("address", addressData)
             context?.startActivity(intent)
