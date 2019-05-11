@@ -344,11 +344,11 @@ class GoodsDetailActivity : BaseActivity(), GoodsDetailContract.View {
 //            OrderAnswerFragment.newInstance() as Fragment
 //        )
 
-        val titles = arrayOf("图文详情")
-        val fgms = arrayListOf(
-                GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment
-        )
-        segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
+//        val titles = arrayOf("图文详情")
+//        val fgms = arrayListOf(
+//                GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment
+//        )
+//        segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
 //        val titles = arrayOf("图文详情")
 //        val fgms = arrayListOf(GraphicFragment.newInstance(mData?.goods_content, mData?.goods?.goods_id) as Fragment)
 //        segmentTabLayout.setTabData(titles, this, R.id.graphicFragment, fgms)
